@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Mogra-Regular.ttf",
+      "sha1": "b3bc3a6cfa93d0f92fd5a22e7ded0a3f4f5ab6ff"
+    },
+    {
+      "path": "assets/fonts/Mogra.zip",
+      "sha1": "2b7ce18bf7976677ef5d8b3954aec6c39425b749"
+    }
+  ]
+}
