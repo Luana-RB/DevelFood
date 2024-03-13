@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
-import {colors} from '../../globalStyles';
+import {colors, screenHeight, screenWidth} from '../../globalStyles';
 
 interface BotaoProps {
   texto: string;
@@ -16,12 +16,14 @@ const Botao: React.FC<BotaoProps> = ({texto, handleSubmit}) => {
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        width: 295,
-        height: 50,
-        marginVertical: 22,
+        width: screenWidth * 0.75,
+        height: screenHeight * 0.06,
+        marginVertical: screenHeight * 0.02,
       }}
       onPress={handleSubmit}>
-      <Text style={{fontSize: 14, color: colors.white}}>{texto}</Text>
+      <Text style={{fontSize: 14, color: colors.white, fontWeight: 'bold'}}>
+        {texto}
+      </Text>
     </TouchableOpacity>
   );
 };

@@ -15,31 +15,31 @@ export const BackGroundImagesContainer = styled.View`
 
 export const Sandwich = styled.Image`
   align-self: flex-start;
-  width: 180px;
-  height: 323px;
-  margin-left: -80px;
-  margin-top: -47px;
+  width: ${screenWidth * 0.65}px;
+  height: ${screenHeight * 0.45}px;
+  margin-left: -${screenWidth * 0.3}px;
+  margin-top: -${screenHeight * 0.07}px;
 `;
 export const Pizza = styled.Image`
   align-self: flex-start;
-  width: 300px;
-  height: 409px;
-  margin-left: 97px;
-  margin-top: -56px;
+  width: ${screenWidth * 0.7}px;
+  height: ${screenHeight * 0.57}px;
+  margin-left: ${screenWidth * 0.2}px;
+  margin-top: -${screenHeight * 0.08}px;
 `;
 
 export const LogoContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: -90px;
-  margin-bottom: 8px;
-  gap: 10px;
+  margin-top: -${screenHeight * 0.11}px;
+  margin-bottom: ${screenHeight * 0.01}px;
   padding: 5px;
 `;
 export const LogoImage = styled.Image`
-  width: 52px;
-  height: 50px;
+  width: ${screenWidth * 0.16}px;
+  height: ${screenHeight * 0.075}px;
+  margin-right: ${screenWidth * 0.015}px;
 `;
 
 export const LogoText = styled.Text`
@@ -51,12 +51,12 @@ export const LogoText = styled.Text`
 export const InputContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  width: 295px;
-  height: 45px;
+  width: ${screenWidth * 0.75}px;
+  height: ${screenHeight * 0.06}px;
   border-width: 1px;
   border-color: ${colors.gray};
   border-radius: 10px;
-  margin-bottom: 12px;
+  margin-bottom: ${screenWidth * 0.02}px;
 `;
 
 export const InputIcon = styled.Image`
@@ -77,10 +77,10 @@ export const ForgotPassText = styled.Text`
 `;
 
 export const Pepper = styled.ImageBackground`
-  width: 670px;
-  height: 446px;
+  width: ${screenWidth * 1.3}px;
+  height: ${screenHeight * 0.4}px;
   margin-top: -${screenHeight * 0.02}px;
-  margin-left: -148px;
+  margin-left: -${screenWidth * 0.18}px;
 `;
 
 export const SignInContainer = styled.View`

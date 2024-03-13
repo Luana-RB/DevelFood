@@ -18,14 +18,10 @@ export function MyStack() {
 
   const initialLoginState = {
     isLoading: true,
-    userName: null,
     userToken: null,
   };
 
-  const loginReducer = (
-    prevState: any,
-    action: {type: any; id: any; name: any},
-  ) => {
+  const loginReducer = (prevState: any, action: {type: any; id: any}) => {
     switch (action.type) {
       case 'RETRIEVE_TOKEN':
         return {
@@ -36,21 +32,21 @@ export function MyStack() {
       case 'LOGIN':
         return {
           ...prevState,
-          userName: action.name,
+
           userToken: action.id,
           isLoading: false,
         };
       case 'LOGOUT':
         return {
           ...prevState,
-          userName: null,
+
           userToken: null,
           isLoading: false,
         };
       case 'REGISTER':
         return {
           ...prevState,
-          userName: action.name,
+
           userToken: action.id,
           isLoading: false,
         };
@@ -66,18 +62,16 @@ export function MyStack() {
     () => ({
       signIn: async (foundUser: UsersData) => {
         const userToken = String(foundUser.id);
-        const userName = foundUser.nome;
 
         setUserData(foundUser);
 
         try {
           await AsyncStorage.setItem('userToken', userToken);
-          await AsyncStorage.setItem('userName', userName);
         } catch (e) {
           console.log(e);
         }
 
-        dispatch({type: 'LOGIN', name: userName, id: userToken});
+        dispatch({type: 'LOGIN', id: userToken});
       },
 
       signOut: async () => {
@@ -89,7 +83,7 @@ export function MyStack() {
           console.log(e);
         }
 
-        dispatch({type: 'LOGOUT', id: undefined, name: undefined});
+        dispatch({type: 'LOGOUT', id: undefined});
       },
 
       userData: userData,
@@ -112,7 +106,7 @@ export function MyStack() {
         console.log(e);
       }
 
-      dispatch({type: 'RETRIEVE_TOKEN', id: userToken, name: undefined});
+      dispatch({type: 'RETRIEVE_TOKEN', id: userToken});
     }, 1000);
   }, []);
 
@@ -129,7 +123,7 @@ export function MyStack() {
         <Text
           style={{
             fontFamily: 'Mogra-Regular',
-            fontSize: 18,
+            fontSize: 24,
             color: colors.white,
           }}>
           DEVELFOOD
