@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
+import {colors, screenHeight, screenWidth} from '../../globalStyles';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
-  background-color: #ffffff;
+  background-color: ${colors.white};
 `;
 
 export const BackGroundImagesContainer = styled.View`
@@ -44,7 +45,7 @@ export const LogoImage = styled.Image`
 export const LogoText = styled.Text`
   font-family: Mogra-Regular;
   font-size: 18px;
-  color: #c20c18;
+  color: ${colors.red};
 `;
 
 export const InputContainer = styled.View`
@@ -53,7 +54,7 @@ export const InputContainer = styled.View`
   width: 295px;
   height: 45px;
   border-width: 1px;
-  border-color: #bfbaba;
+  border-color: ${colors.gray};
   border-radius: 10px;
   margin-bottom: 12px;
 `;
@@ -71,31 +72,33 @@ export const InputText = styled.TextInput`
 export const ForgotPassText = styled.Text`
   font-family: Roboto-Bold;
   font-weight: bold;
-  color: #68484a;
+  color: ${colors.brown};
   font-size: 12px;
 `;
 
 export const Pepper = styled.ImageBackground`
-  width: 400px;
-  height: 300px;
-  margin-top: -35px;
+  width: 670px;
+  height: 446px;
+  margin-top: -${screenHeight * 0.02}px;
+  margin-left: -148px;
 `;
 
 export const SignInContainer = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 35px;
+  margin-top: ${screenHeight * 0.01}px;
+  margin-left: ${screenWidth * 0.1}px;
 `;
 
 export const SignInText = styled.Text`
-  color: #000;
+  color: ${colors.black};
   font-family: Roboto-Bold;
   font-size: 12px;
   font-weight: bold;
 `;
 
 export const SignInButtonText = styled.Text`
-  color: #c20c18;
+  color: ${colors.red};
   font-family: Roboto-Bold;
   font-weight: bold;
   font-size: 12px;

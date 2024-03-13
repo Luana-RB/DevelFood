@@ -1,17 +1,17 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
+import {colors} from '../../globalStyles';
 
-// Define an interface for the props
 interface BotaoProps {
   texto: string;
+  handleSubmit: () => void;
 }
 
-// Use the interface in your component definition
-const Botao: React.FC<BotaoProps> = ({texto}) => {
+const Botao: React.FC<BotaoProps> = ({texto, handleSubmit}) => {
   return (
     <TouchableOpacity
       style={{
-        backgroundColor: '#c20c18',
+        backgroundColor: colors.red,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
@@ -19,8 +19,9 @@ const Botao: React.FC<BotaoProps> = ({texto}) => {
         width: 295,
         height: 50,
         marginVertical: 22,
-      }}>
-      <Text style={{fontSize: 14, color: '#ffffff'}}>{texto}</Text>
+      }}
+      onPress={handleSubmit}>
+      <Text style={{fontSize: 14, color: colors.white}}>{texto}</Text>
     </TouchableOpacity>
   );
 };

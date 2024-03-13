@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {StatusBar, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import Botao from '../../components/Botao';
 import {
   BackGroundImagesContainer,
@@ -18,13 +18,107 @@ import {
   SignInContainer,
   SignInText,
 } from './styles';
+import {colors} from '../../globalStyles';
+import {getUserById, getUserToken, getUsers} from '../../services/users';
+import {useToken} from '../../services/tokenContext';
+import {AuthContext} from '../../services/authContext';
 
-const Login: React.FC = () => {
+interface Errors {
+  email?: string;
+  senha?: string;
+}
+
+export interface UsersData {
+  id?: string;
+  nome: string;
+  email: string;
+  senha: string;
+}
+
+const Login: React.FC = ({navigation}: any) => {
   const [olhoIcone, setOlhoIcone] = useState(true);
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [errors, setErrors] = useState<Errors>({});
+  const [users, setUsers] = useState<UsersData[]>([]);
+
+  const {storeToken} = useToken();
+
+  useEffect(() => {
+    const fetchUsers = () => {
+      const usersFetched: UsersData[] | undefined = getUsers();
+      if (usersFetched) {
+        setUsers(usersFetched);
+      } else {
+        console.log('Falha ao buscar users');
+      }
+    };
+    fetchUsers();
+  }, []);
 
   function handleSecureSenha() {
     setOlhoIcone(!olhoIcone);
   }
+
+  function validateForm() {
+    let errors: Errors = {};
+
+    const user = findUserbyId();
+    if (user) {
+      const senhaError = validateSenha(user!);
+      if (senhaError) {
+        errors.senha = senhaError;
+      }
+    } else {
+      errors.email = 'E-mail inválido';
+    }
+    return errors;
+  }
+
+  function findUserByEmail() {
+    const user = users.find(user => user.email === email);
+    return user ? user.id : undefined;
+  }
+
+  function findUserbyId() {
+    const userId = findUserByEmail();
+    if (userId) {
+      const user = getUserById(userId);
+      return user;
+    }
+  }
+
+  function validateSenha(user: UsersData) {
+    if (user!.senha === senha) {
+      return undefined;
+    }
+    return 'Senha inválida';
+  }
+
+  async function handleSubmit() {
+    const newErrors = validateForm();
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      const isTokenStored = await handleToken();
+      if (isTokenStored) {
+        const user = findUserbyId();
+        if (user) {
+          signIn(user);
+        }
+      }
+    }
+  }
+
+  async function handleToken() {
+    const token = getUserToken(email);
+    if (token) {
+      const result = await storeToken(token);
+      return result;
+    }
+  }
+
+  const signIn = React.useContext(AuthContext)?.signIn ?? (() => {});
 
   return (
     <Container>
@@ -40,11 +134,25 @@ const Login: React.FC = () => {
       <View style={{alignItems: 'center'}}>
         <InputContainer>
           <InputIcon source={require('../../../assets/images/email.png')} />
-          <InputText placeholder="Email" />
+          <InputText
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
         </InputContainer>
+        {errors.email && (
+          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+            {errors.email}
+          </Text>
+        )}
         <InputContainer>
           <InputIcon source={require('../../../assets/images/senha.png')} />
-          <InputText placeholder="Senha" secureTextEntry={olhoIcone} />
+          <InputText
+            placeholder="Senha"
+            secureTextEntry={olhoIcone}
+            value={senha}
+            onChangeText={setSenha}
+          />
           <TouchableOpacity onPress={handleSecureSenha}>
             {olhoIcone ? (
               <InputIcon
@@ -55,17 +163,29 @@ const Login: React.FC = () => {
             )}
           </TouchableOpacity>
         </InputContainer>
-        <TouchableOpacity style={{alignSelf: 'flex-end', marginRight: 50}}>
+        {errors.senha && (
+          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+            {errors.senha}
+          </Text>
+        )}
+        <TouchableOpacity
+          style={{alignSelf: 'flex-end', marginRight: 60}}
+          onPress={() => {
+            navigation.navigate('Recuperar Senha');
+          }}>
           <ForgotPassText>Esqueci minha senha</ForgotPassText>
         </TouchableOpacity>
       </View>
-      <Botao texto={'Entrar'} />
+      <Botao texto={'Entrar'} handleSubmit={handleSubmit} />
       <Pepper
-        source={require('../../../assets/images/login3.png')}
+        source={require('../../../assets/images/login3.jpeg')}
         resizeMode="contain">
         <SignInContainer>
           <SignInText>Não possui cadastro?</SignInText>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Cadastro');
+            }}>
             <SignInButtonText>Cadastre-se aqui!</SignInButtonText>
           </TouchableOpacity>
         </SignInContainer>
