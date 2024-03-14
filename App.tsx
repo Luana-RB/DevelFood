@@ -1,7 +1,9 @@
+import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
-import {Text, View} from 'react-native';
-
 import SplashScreen from 'react-native-splash-screen';
+import {TokenProvider} from './src/services/tokenContext';
+import {MyStack} from './src/routes/stack.routes';
+import {NavigationContainer} from '@react-navigation/native';
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -9,9 +11,9 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
-      <Text>HomePage</Text>
-    </View>
+    <TokenProvider>
+      <MyStack />
+    </TokenProvider>
   );
 }
 
