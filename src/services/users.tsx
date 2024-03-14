@@ -1,4 +1,5 @@
 import {users} from '../mocks/users';
+import {UsersData} from '../views/Login';
 
 export function getUsers() {
   try {
@@ -7,6 +8,19 @@ export function getUsers() {
     console.log(e);
   }
 }
+
+export function postUser(user: UsersData) {
+  try {
+    const userData = {
+      ...user,
+      id: user.id || String(Math.random()),
+    };
+    users.push(userData);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export function getUserById(id: string) {
   try {
     const user = users.find(user => user.id === id);

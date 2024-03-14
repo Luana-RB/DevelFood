@@ -1,14 +1,8 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-
-// import { Container } from './styles';
+import CadastroStack from '../../routes/cadastro.routes';
 
 const Cadastro: React.FC = () => {
-  return (
-    <View>
-      <Text>CadastroPage</Text>
-    </View>
-  );
+  return <CadastroStack />;
 };
 
 export default Cadastro;

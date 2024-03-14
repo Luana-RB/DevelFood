@@ -5,9 +5,6 @@ import {
   BackGroundImagesContainer,
   Container,
   ForgotPassText,
-  InputContainer,
-  InputIcon,
-  InputText,
   LogoContainer,
   LogoImage,
   LogoText,
@@ -22,10 +19,23 @@ import {colors} from '../../globalStyles';
 import {getUserById, getUserToken, getUsers} from '../../services/users';
 import {useToken} from '../../services/tokenContext';
 import {AuthContext} from '../../services/authContext';
+import {InputContainer, InputIcon, InputText} from '../../components/Input';
 
-interface Errors {
+export interface Errors {
   email?: string;
   senha?: string;
+  senhaConfirma?: string;
+  nome?: string;
+  sobrenome?: string;
+  cpf?: string;
+  telefone?: string;
+  apelido?: string;
+  cep?: string;
+  rua?: string;
+  cidade?: string;
+  bairro?: string;
+  estado?: string;
+  num?: string;
 }
 
 export interface UsersData {
@@ -122,7 +132,7 @@ const Login: React.FC = ({navigation}: any) => {
 
   return (
     <Container>
-      <StatusBar />
+      <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
       <BackGroundImagesContainer>
         <Sandwich source={require('../../../assets/images/login1.jpeg')} />
         <Pizza source={require('../../../assets/images/login2.jpeg')} />

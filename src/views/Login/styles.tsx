@@ -48,27 +48,6 @@ export const LogoText = styled.Text`
   color: ${colors.red};
 `;
 
-export const InputContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  width: ${screenWidth * 0.75}px;
-  height: ${screenHeight * 0.06}px;
-  border-width: 1px;
-  border-color: ${colors.gray};
-  border-radius: 10px;
-  margin-bottom: ${screenWidth * 0.02}px;
-`;
-
-export const InputIcon = styled.Image`
-  padding: 10px;
-  margin: 10px;
-`;
-
-export const InputText = styled.TextInput`
-  flex: 1;
-  font-size: 14px;
-`;
-
 export const ForgotPassText = styled.Text`
   font-family: Roboto-Bold;
   font-weight: bold;

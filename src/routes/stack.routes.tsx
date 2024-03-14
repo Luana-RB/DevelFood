@@ -144,7 +144,13 @@ export function MyStack() {
                 component={Login}
                 options={{headerShown: false}}
               />
-              <Stack.Screen name="Cadastro" component={Cadastro} />
+              <Stack.Screen
+                name="Cadastro"
+                component={Cadastro}
+                options={{
+                  headerShown: false,
+                }}
+              />
               <Stack.Screen name="Recuperar Senha" component={RecuperarSenha} />
             </>
           )}

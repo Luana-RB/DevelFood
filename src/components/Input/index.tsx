@@ -1,13 +1,22 @@
 import styled from 'styled-components/native';
-export const Input = styled.TextInput`
-  width: 295px;
-  height: 30px;
-  padding: 0px 10px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  background-color: rgb(255, 255, 255);
+import {colors, screenHeight, screenWidth} from '../../globalStyles';
+export const InputContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  width: ${screenWidth * 0.75}px;
+  height: ${screenHeight * 0.06}px;
   border-width: 1px;
-  border-color: #bfbaba;
-  color: #bfbaba;
+  border-color: ${colors.gray};
+  border-radius: 10px;
+  margin-bottom: ${screenWidth * 0.02}px;
+`;
+
+export const InputIcon = styled.Image`
+  padding: 10px;
+  margin: 10px;
+`;
+
+export const InputText = styled.TextInput`
+  flex: 1;
   font-size: 14px;
 `;
