@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {StatusBar, Text, TouchableOpacity, View} from 'react-native';
-import Botao from '../../components/Botao';
+import {StatusBar, TouchableOpacity, View} from 'react-native';
+import Botao from '../../components/Button';
 import {
   BackGroundImagesContainer,
   Container,
+  ErrorText,
+  ForgotPassContainer,
   ForgotPassText,
   InputContainer,
   InputIcon,
@@ -18,27 +20,26 @@ import {
   SignInContainer,
   SignInText,
 } from './styles';
-import {colors} from '../../globalStyles';
 import {getUserById, getUserToken, getUsers} from '../../services/users';
 import {useToken} from '../../services/tokenContext';
 import {AuthContext} from '../../services/authContext';
 
 interface Errors {
   email?: string;
-  senha?: string;
+  password?: string;
 }
 
 export interface UsersData {
   id?: string;
-  nome: string;
+  name: string;
   email: string;
-  senha: string;
+  password: string;
 }
 
 const Login: React.FC = ({navigation}: any) => {
   const [olhoIcone, setOlhoIcone] = useState(true);
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Errors>({});
   const [users, setUsers] = useState<UsersData[]>([]);
 
@@ -56,7 +57,7 @@ const Login: React.FC = ({navigation}: any) => {
     fetchUsers();
   }, []);
 
-  function handleSecureSenha() {
+  function handleSecurePassword() {
     setOlhoIcone(!olhoIcone);
   }
 
@@ -65,9 +66,9 @@ const Login: React.FC = ({navigation}: any) => {
 
     const user = findUserbyId();
     if (user) {
-      const senhaError = validateSenha(user!);
-      if (senhaError) {
-        errors.senha = senhaError;
+      const passwordError = validatePassword(user!);
+      if (passwordError) {
+        errors.password = passwordError;
       }
     } else {
       errors.email = 'E-mail inválido';
@@ -88,8 +89,8 @@ const Login: React.FC = ({navigation}: any) => {
     }
   }
 
-  function validateSenha(user: UsersData) {
-    if (user!.senha === senha) {
+  function validatePassword(user: UsersData) {
+    if (user!.password === password) {
       return undefined;
     }
     return 'Senha inválida';
@@ -140,20 +141,16 @@ const Login: React.FC = ({navigation}: any) => {
             onChangeText={setEmail}
           />
         </InputContainer>
-        {errors.email && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.email}
-          </Text>
-        )}
+        {errors.email && <ErrorText>{errors.email}</ErrorText>}
         <InputContainer>
-          <InputIcon source={require('../../../assets/images/senha.png')} />
+          <InputIcon source={require('../../../assets/images/password.png')} />
           <InputText
             placeholder="Senha"
             secureTextEntry={olhoIcone}
-            value={senha}
-            onChangeText={setSenha}
+            value={password}
+            onChangeText={setPassword}
           />
-          <TouchableOpacity onPress={handleSecureSenha}>
+          <TouchableOpacity onPress={handleSecurePassword}>
             {olhoIcone ? (
               <InputIcon
                 source={require('../../../assets/images/eye-slashed.png')}
@@ -163,20 +160,15 @@ const Login: React.FC = ({navigation}: any) => {
             )}
           </TouchableOpacity>
         </InputContainer>
-        {errors.senha && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.senha}
-          </Text>
-        )}
-        <TouchableOpacity
-          style={{alignSelf: 'flex-end', marginRight: 60}}
+        {errors.password && <ErrorText>{errors.password}</ErrorText>}
+        <ForgotPassContainer
           onPress={() => {
             navigation.navigate('Recuperar Senha');
           }}>
           <ForgotPassText>Esqueci minha senha</ForgotPassText>
-        </TouchableOpacity>
+        </ForgotPassContainer>
       </View>
-      <Botao texto={'Entrar'} handleSubmit={handleSubmit} />
+      <Botao text={'Entrar'} handleSubmit={handleSubmit} />
       <Pepper
         source={require('../../../assets/images/login3.jpeg')}
         resizeMode="contain">

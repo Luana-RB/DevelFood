@@ -1,14 +1,14 @@
 export const users = [
   {
     id: '1',
-    nome: 'Luana',
+    name: 'Luana',
     email: 'email@gmail.com',
-    senha: '123456',
+    password: '123456',
   },
   {
     id: '2',
-    nome: 'Gustavo',
+    name: 'Gustavo',
     email: 'email2@gmail.com',
-    senha: '123456',
+    password: '123456',
   },
 ];

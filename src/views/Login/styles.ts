@@ -69,6 +69,11 @@ export const InputText = styled.TextInput`
   font-size: 14px;
 `;
 
+export const ForgotPassContainer = styled.TouchableOpacity`
+  align-self: flex-end;
+  margin-right: 60px;
+`;
+
 export const ForgotPassText = styled.Text`
   font-family: Roboto-Bold;
   font-weight: bold;
@@ -103,4 +108,10 @@ export const SignInButtonText = styled.Text`
   font-weight: bold;
   font-size: 12px;
   margin-left: 5px;
+`;
+
+export const ErrorText = styled.Text`
+  font-size: 12px;
+  color: ${colors.red};
+  margin-top: -10px;
 `;
