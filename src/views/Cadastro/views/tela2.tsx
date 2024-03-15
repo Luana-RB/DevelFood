@@ -1,12 +1,20 @@
 import React, {useState} from 'react';
-import {Image, StatusBar, Text, View} from 'react-native';
-import {InputContainer, InputIcon, InputText} from '../../../components/Input';
+import {StatusBar} from 'react-native';
+import {ErrorText, InputContainer, InputText} from '../../../components/Input';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
 import {Errors} from '../../Login';
 import {useCadastro} from '../../../services/cadastroContext';
-
-// import { Container } from './styles';
+import {
+  CellphoneIcon,
+  CheckContainer,
+  CheckImage,
+  Container,
+  DocumentIcon,
+  FormContainer,
+  LadyImage,
+  PersonIcon,
+} from './styles';
 
 const Tela2: React.FC = ({navigation}: any) => {
   const [nome, setNome] = useState('');
@@ -82,73 +90,31 @@ const Tela2: React.FC = ({navigation}: any) => {
   }
 
   return (
-    <View style={{backgroundColor: colors.white, flex: 1}}>
+    <Container automaticallyAdjustKeyboardInsets={true}>
       <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 70,
-          marginTop: 22,
-        }}>
-        <Image
-          source={require('../../../../assets/images/checkFull.png')}
-          style={{width: 46, height: 47}}
-        />
-        <Image
-          source={require('../../../../assets/images/checkEmpty.png')}
-          style={{width: 46, height: 47}}
-        />
-        <Image
-          source={require('../../../../assets/images/checkEmpty.png')}
-          style={{width: 46, height: 47}}
-        />
-      </View>
-      <Image
-        source={require('../../../../assets/images/cadastro2.png')}
-        style={{
-          alignSelf: 'center',
-          width: 80,
-          height: 180,
-          marginTop: 6,
-          marginBottom: 26,
-        }}
-      />
-      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <CheckContainer>
+        <CheckImage source={require('./assets/checkFull.png')} />
+        <CheckImage source={require('./assets/checkEmpty.png')} />
+        <CheckImage source={require('./assets/checkEmpty.png')} />
+      </CheckContainer>
+      <LadyImage source={require('./assets/cadastro2.png')} />
+      <FormContainer>
         <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/person.png')}
-            style={{width: 20, height: 20, marginLeft: 15, marginRight: 14}}
-          />
+          <PersonIcon source={require('./assets/person.png')} />
           <InputText placeholder="Nome" value={nome} onChangeText={setNome} />
         </InputContainer>
-        {errors.name && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.name}
-          </Text>
-        )}
+        {errors.name && <ErrorText>{errors.name}</ErrorText>}
         <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/person.png')}
-            style={{width: 20, height: 20, marginLeft: 15, marginRight: 14}}
-          />
+          <PersonIcon source={require('./assets/person.png')} />
           <InputText
             placeholder="Sobrenome"
             value={sobrenome}
             onChangeText={setSobrenome}
           />
         </InputContainer>
-        {errors.surname && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.surname}
-          </Text>
-        )}
+        {errors.surname && <ErrorText>{errors.surname}</ErrorText>}
         <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/document.png')}
-            style={{width: 29, height: 1}}
-          />
+          <DocumentIcon source={require('./assets/document.png')} />
           <InputText
             placeholder="CPF"
             value={cpf}
@@ -156,30 +122,20 @@ const Tela2: React.FC = ({navigation}: any) => {
             keyboardType="numeric"
           />
         </InputContainer>
-        {errors.cpf && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.cpf}
-          </Text>
-        )}
+        {errors.cpf && <ErrorText>{errors.cpf}</ErrorText>}
         <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/cellphone.png')}
-            style={{width: 21, height: 25, marginLeft: 14, marginRight: 14}}
-          />
+          <CellphoneIcon source={require('./assets/cellphone.png')} />
           <InputText
             placeholder="Telefone"
             value={telefone}
             onChangeText={setTelefone}
+            keyboardType="numeric"
           />
         </InputContainer>
-        {errors.cellphone && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.cellphone}
-          </Text>
-        )}
-      </View>
+        {errors.cellphone && <ErrorText>{errors.cellphone}</ErrorText>}
+      </FormContainer>
       <Button text="Continuar" handleSubmit={handleSubmit} />
-    </View>
+    </Container>
   );
 };
 

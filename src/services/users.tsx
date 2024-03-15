@@ -11,9 +11,8 @@ export function getUsers() {
 
 export function postUser(user: UsersData) {
   try {
-    users.push(user);
-    const result = getUsers();
-    console.log(result);
+    const result = users.push(user);
+    return result;
   } catch (e) {
     console.log(e);
   }

@@ -3,9 +3,9 @@ import {UsersData} from '../types/userData';
 export const users: UsersData[] = [
   {
     credentials: {
-      id: 'user123',
-      email: 'john.doe@example.com',
-      password: 'password123',
+      id: '1',
+      email: 'email@gmail.com',
+      password: '123456',
     },
     info: {
       name: 'John',
@@ -25,8 +25,9 @@ export const users: UsersData[] = [
   },
   {
     credentials: {
-      email: 'jane.doe@example.com',
-      password: 'securepass123',
+      id: '2',
+      email: 'email2@gmail.com',
+      password: '123456',
     },
     info: {
       name: 'Jane',

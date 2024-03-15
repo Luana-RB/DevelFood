@@ -1,44 +1,61 @@
 import React from 'react';
-import {Image, Text, View} from 'react-native';
-import {colors} from '../../../globalStyles';
 import Button from '../../../components/Button';
 import {useCadastro} from '../../../services/cadastroContext';
-import {postUser} from '../../../services/users';
+import {getUserToken, postUser} from '../../../services/users';
 import {AuthContext} from '../../../services/authContext';
-
-// import { Container } from './styles';
+import {
+  BigLadyImage,
+  CadastroContainer,
+  CadastroText,
+  CadastroTitle,
+  Container,
+} from './styles';
+import {UsersData} from '../../../types/userData';
+import {useToken} from '../../../services/tokenContext';
+import {View} from 'react-native';
 
 const TelaFinal: React.FC = () => {
   const {returnsCadastro} = useCadastro();
-  function handleSubmit() {
+  const {storeToken} = useToken();
+
+  async function handleSubmit() {
     const user = returnsCadastro();
-    postUser(user);
-    signIn(user);
+    const posted = postUser(user);
+    if (posted) {
+      const isTokenStored = await handleToken(user);
+      if (isTokenStored) {
+        signIn(user);
+      }
+    }
   }
+
+  async function handleToken(user: UsersData) {
+    const token = getUserToken(user.credentials.email);
+    if (token) {
+      const result = await storeToken(token);
+      return result;
+    }
+  }
+
   const signIn = React.useContext(AuthContext)?.signIn ?? (() => {});
   return (
-    <View
-      style={{
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        backgroundColor: colors.white,
-        flex: 1,
-      }}>
-      <Image
-        source={require('../../../../assets/images/cadastro4.png')}
-        style={{width: 212, height: 232, marginTop: 80, marginBottom: 35}}
-      />
-      <View style={{width: 275}}>
-        <Text style={{fontSize: 28, color: colors.black, marginBottom: 5}}>
-          Cadastro Finalizado!
-        </Text>
-        <Text style={{fontSize: 12, color: colors.gray, marginBottom: 110}}>
-          Parabéns! Agora você pode aproveitar nossas ofertas e serviços e
-          economizar com super cupons Develfood.
-        </Text>
+    <Container>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}>
+        <BigLadyImage source={require('./assets/cadastro4.png')} />
+        <CadastroContainer>
+          <CadastroTitle>Cadastro Finalizado!</CadastroTitle>
+          <CadastroText>
+            Parabéns! Agora você pode aproveitar nossas ofertas e serviços e
+            economizar com super cupons Develfood.
+          </CadastroText>
+        </CadastroContainer>
+        <Button text="Concluir" handleSubmit={handleSubmit} />
       </View>
-      <Button text="Concluir" handleSubmit={handleSubmit} />
-    </View>
+    </Container>
   );
 };
 

@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StatusBar, Text, TouchableOpacity, View} from 'react-native';
-import {InputContainer, InputIcon, InputText} from '../../../components/Input';
+import {StatusBar, TouchableOpacity} from 'react-native';
+import {
+  ErrorText,
+  InputContainer,
+  InputIcon,
+  InputText,
+} from '../../../components/Input';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
 import {Errors} from '../../Login';
@@ -8,8 +13,13 @@ import {getUserById, getUsers} from '../../../services/users';
 import validator from 'validator';
 import {useCadastro} from '../../../services/cadastroContext';
 import {UsersData} from '../../../types/userData';
-
-// import { Container } from './styles';
+import {
+  CheckContainer,
+  CheckImage,
+  Container,
+  FormContainer,
+  LadyImage,
+} from './styles';
 
 const Tela1: React.FC = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -56,7 +66,6 @@ const Tela1: React.FC = ({navigation}: any) => {
         }
       }
     }
-
     return errors;
   }
 
@@ -121,40 +130,15 @@ const Tela1: React.FC = ({navigation}: any) => {
   }
 
   return (
-    <View style={{backgroundColor: colors.white, flex: 1}}>
+    <Container>
       <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 70,
-          marginTop: 22,
-        }}>
-        <Image
-          source={require('../../../../assets/images/checkEmpty.png')}
-          style={{width: 46, height: 47}}
-        />
-        <Image
-          source={require('../../../../assets/images/checkEmpty.png')}
-          style={{width: 46, height: 47}}
-        />
-        <Image
-          source={require('../../../../assets/images/checkEmpty.png')}
-          style={{width: 46, height: 47}}
-        />
-      </View>
-      <Image
-        source={require('../../../../assets/images/cadastro1.png')}
-        style={{
-          alignSelf: 'center',
-          width: 80,
-          height: 180,
-          marginTop: 6,
-          marginBottom: 26,
-        }}
-      />
-      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <CheckContainer>
+        <CheckImage source={require('./assets/checkEmpty.png')} />
+        <CheckImage source={require('./assets/checkEmpty.png')} />
+        <CheckImage source={require('./assets/checkEmpty.png')} />
+      </CheckContainer>
+      <LadyImage source={require('./assets/cadastro1.png')} />
+      <FormContainer>
         <InputContainer>
           <InputIcon source={require('../../../../assets/images/email.png')} />
           <InputText
@@ -163,13 +147,11 @@ const Tela1: React.FC = ({navigation}: any) => {
             onChangeText={setEmail}
           />
         </InputContainer>
-        {errors.email && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.email}
-          </Text>
-        )}
+        {errors.email && <ErrorText>{errors.email}</ErrorText>}
         <InputContainer>
-          <InputIcon source={require('../../../../assets/images/senha.png')} />
+          <InputIcon
+            source={require('../../../../assets/images/password.png')}
+          />
           <InputText
             placeholder="senha"
             secureTextEntry={olhoIcone}
@@ -188,13 +170,11 @@ const Tela1: React.FC = ({navigation}: any) => {
             )}
           </TouchableOpacity>
         </InputContainer>
-        {errors.password && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.password}
-          </Text>
-        )}
+        {errors.password && <ErrorText>{errors.password}</ErrorText>}
         <InputContainer>
-          <InputIcon source={require('../../../../assets/images/senha.png')} />
+          <InputIcon
+            source={require('../../../../assets/images/password.png')}
+          />
           <InputText
             placeholder="confirmar senha"
             secureTextEntry={olhoIconeConfirma}
@@ -214,13 +194,11 @@ const Tela1: React.FC = ({navigation}: any) => {
           </TouchableOpacity>
         </InputContainer>
         {errors.passwordConfirm && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.passwordConfirm}
-          </Text>
+          <ErrorText>{errors.passwordConfirm}</ErrorText>
         )}
-      </View>
+      </FormContainer>
       <Button text="Continuar" handleSubmit={handleSubmit} />
-    </View>
+    </Container>
   );
 };
 

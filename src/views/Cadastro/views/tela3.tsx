@@ -1,12 +1,19 @@
 import React, {useState} from 'react';
-import {Image, StatusBar, Text, View} from 'react-native';
-import {InputContainer, InputIcon, InputText} from '../../../components/Input';
+import {StatusBar, View} from 'react-native';
+import {ErrorText, InputContainer, InputText} from '../../../components/Input';
 import {colors} from '../../../globalStyles';
 import {Errors} from '../../Login';
 import {useCadastro} from '../../../services/cadastroContext';
 import Button from '../../../components/Button';
-
-// import { Container } from './styles';
+import {
+  CheckContainer,
+  CheckImage,
+  Container,
+  FormContainer,
+  LadyImage,
+  PinIcon,
+  RowContainer,
+} from './styles';
 
 const Tela3: React.FC = ({navigation}: any) => {
   const [apelido, setApelido] = useState('');
@@ -26,9 +33,10 @@ const Tela3: React.FC = ({navigation}: any) => {
   }
 
   function validateCep() {
-    if (!cep) {
-      return 'Insira um CEP';
+    if (/^[0-9]+$/.test(cep)) {
+      return undefined;
     }
+    return 'Insira um CEP';
   }
 
   function validateRua() {
@@ -56,9 +64,10 @@ const Tela3: React.FC = ({navigation}: any) => {
   }
 
   function validateNum() {
-    if (!num) {
-      return 'Insira um número';
+    if (/^[0-9]+$/.test(num)) {
+      return undefined;
     }
+    return 'Insira um número';
   }
 
   function validateForm() {
@@ -128,159 +137,85 @@ const Tela3: React.FC = ({navigation}: any) => {
   }
 
   return (
-    <View style={{backgroundColor: colors.white, flex: 1}}>
+    <Container automaticallyAdjustKeyboardInsets={true}>
       <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 70,
-          marginTop: 22,
-        }}>
-        <Image
-          source={require('../../../../assets/images/checkFull.png')}
-          style={{width: 46, height: 47}}
-        />
-        <Image
-          source={require('../../../../assets/images/checkFull.png')}
-          style={{width: 46, height: 47}}
-        />
-        <Image
-          source={require('../../../../assets/images/checkEmpty.png')}
-          style={{width: 46, height: 47}}
-        />
-      </View>
-      <Image
-        source={require('../../../../assets/images/cadastro3.png')}
-        style={{
-          alignSelf: 'center',
-          width: 80,
-          height: 180,
-          marginTop: 6,
-          marginBottom: 26,
-        }}
-      />
-      <View style={{alignItems: 'center', justifyContent: 'center'}}>
-        <View style={{flexDirection: 'row', gap: 15}}>
+      <CheckContainer>
+        <CheckImage source={require('./assets/checkFull.png')} />
+        <CheckImage source={require('./assets/checkFull.png')} />
+        <CheckImage source={require('./assets/checkEmpty.png')} />
+      </CheckContainer>
+      <LadyImage source={require('./assets/cadastro3.png')} />
+      <FormContainer>
+        <RowContainer>
           <View>
             <InputContainer style={{width: 160}}>
-              <InputIcon
-                source={require('../../../../assets/images/endereco.png')}
-                style={{width: 11, height: 30}}
-              />
+              <PinIcon source={require('./assets/pin.png')} />
               <InputText
                 placeholder="Apelido do End."
                 value={apelido}
                 onChangeText={setApelido}
               />
             </InputContainer>
-            {errors.apelido && (
-              <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-                {errors.apelido}
-              </Text>
-            )}
+            {errors.apelido && <ErrorText>{errors.apelido}</ErrorText>}
           </View>
           <View>
             <InputContainer style={{width: 120}}>
-              <InputIcon
-                source={require('../../../../assets/images/endereco.png')}
-                style={{width: 11, height: 30}}
-              />
+              <PinIcon source={require('./assets/pin.png')} />
               <InputText placeholder="CEP" value={cep} onChangeText={setCep} />
             </InputContainer>
-            {errors.cep && (
-              <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-                {errors.cep}
-              </Text>
-            )}
+            {errors.cep && <ErrorText>{errors.cep}</ErrorText>}
           </View>
-        </View>
+        </RowContainer>
         <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/endereco.png')}
-            style={{width: 11, height: 30}}
-          />
+          <PinIcon source={require('./assets/pin.png')} />
           <InputText placeholder="Rua" value={rua} onChangeText={setRua} />
         </InputContainer>
-        {errors.rua && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.rua}
-          </Text>
-        )}
+        {errors.rua && <ErrorText>{errors.rua}</ErrorText>}
         <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/endereco.png')}
-            style={{width: 11, height: 30}}
-          />
+          <PinIcon source={require('./assets/pin.png')} />
           <InputText
             placeholder="Cidade"
             value={cidade}
             onChangeText={setCidade}
           />
         </InputContainer>
-        {errors.cidade && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.cidade}
-          </Text>
-        )}
+        {errors.cidade && <ErrorText>{errors.cidade}</ErrorText>}
         <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/endereco.png')}
-            style={{width: 11, height: 30}}
-          />
+          <PinIcon source={require('./assets/pin.png')} />
           <InputText
             placeholder="Bairro"
             value={bairro}
             onChangeText={setBairro}
           />
         </InputContainer>
-        {errors.bairro && (
-          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.bairro}
-          </Text>
-        )}
-        <View style={{flexDirection: 'row', gap: 15}}>
+        {errors.bairro && <ErrorText>{errors.bairro}</ErrorText>}
+        <RowContainer>
           <View>
             <InputContainer style={{width: 140}}>
-              <InputIcon
-                source={require('../../../../assets/images/endereco.png')}
-                style={{width: 11, height: 30}}
-              />
+              <PinIcon source={require('./assets/pin.png')} />
               <InputText
                 placeholder="Estado"
                 value={estado}
                 onChangeText={setEstado}
               />
             </InputContainer>
-            {errors.estado && (
-              <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-                {errors.estado}
-              </Text>
-            )}
+            {errors.estado && <ErrorText>{errors.estado}</ErrorText>}
           </View>
           <View>
             <InputContainer style={{width: 140}}>
-              <InputIcon
-                source={require('../../../../assets/images/endereco.png')}
-                style={{width: 11, height: 30}}
-              />
+              <PinIcon source={require('./assets/pin.png')} />
               <InputText
                 placeholder="Número"
                 value={num}
                 onChangeText={setNum}
               />
             </InputContainer>
-            {errors.num && (
-              <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-                {errors.num}
-              </Text>
-            )}
+            {errors.num && <ErrorText>{errors.num}</ErrorText>}
           </View>
-        </View>
-      </View>
+        </RowContainer>
+      </FormContainer>
       <Button text="Continuar" handleSubmit={handleSubmit} />
-    </View>
+    </Container>
   );
 };
 

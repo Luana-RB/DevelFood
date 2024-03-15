@@ -7,7 +7,6 @@ import {
 } from '../types/userData';
 
 type CadastroContextType = {
-  cadastro: UsersData | null | undefined;
   storeCredentials: (newEmail: string, newSenha: string) => Promise<unknown>;
   storeInfo: (
     newNome: string,
@@ -44,7 +43,6 @@ export const useCadastro = () => {
 };
 
 export const CadastroProvider = ({children}: any) => {
-  const [cadastro, setCadastro] = useState<UsersData>();
   const [id, setId] = useState('');
   const [credentials, setCredentials] = useState<UserCredentials>({
     id: '',
@@ -103,7 +101,6 @@ export const CadastroProvider = ({children}: any) => {
       estado: '',
       num: '',
     });
-    setCadastro(undefined);
   };
 
   const storeCredentials = async (newEmail: string, newPassword: string) => {
@@ -165,7 +162,6 @@ export const CadastroProvider = ({children}: any) => {
   return (
     <CadastroContext.Provider
       value={{
-        cadastro,
         storeCredentials,
         storeInfo,
         storeEndereco,

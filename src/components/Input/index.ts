@@ -20,3 +20,10 @@ export const InputText = styled.TextInput`
   flex: 1;
   font-size: 14px;
 `;
+
+export const ErrorText = styled.Text`
+  font-size: 12px;
+  color: ${colors.red};
+  margin-top: -8px;
+  margin-bottom: 2px;
+`;

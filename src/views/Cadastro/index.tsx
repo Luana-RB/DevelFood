@@ -1,7 +1,7 @@
 import React from 'react';
 import CadastroStack from '../../routes/cadastro.routes';
 
-const Cadastro: React.FC = ({navigation}: any) => {
+const Cadastro: React.FC = () => {
   return <CadastroStack />;
 };
 

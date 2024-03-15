@@ -4,12 +4,8 @@ import Botao from '../../components/Button';
 import {
   BackGroundImagesContainer,
   Container,
-  ErrorText,
   ForgotPassContainer,
   ForgotPassText,
-  InputContainer,
-  InputIcon,
-  InputText,
   LogoContainer,
   LogoImage,
   LogoText,
@@ -25,6 +21,12 @@ import {useToken} from '../../services/tokenContext';
 import {AuthContext} from '../../services/authContext';
 import {colors} from '../../globalStyles';
 import {UsersData} from '../../types/userData';
+import {
+  ErrorText,
+  InputContainer,
+  InputIcon,
+  InputText,
+} from '../../components/Input';
 
 export interface Errors {
   email?: string;
@@ -56,7 +58,6 @@ const Login: React.FC = ({navigation}: any) => {
     const fetchUsers = () => {
       const usersFetched: UsersData[] | undefined = getUsers();
       if (usersFetched) {
-        console.log(usersFetched);
         setUsers(usersFetched);
       } else {
         console.log('Falha ao buscar users');
