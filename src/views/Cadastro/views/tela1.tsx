@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {InputContainer, InputIcon, InputText} from '../../../components/Input';
-import Botao from '../../../components/Botao';
+import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
 import {Errors} from '../../Login';
 import {getUserById, getUsers} from '../../../services/users';
@@ -219,7 +219,7 @@ const Tela1: React.FC = ({navigation}: any) => {
           </Text>
         )}
       </View>
-      <Botao texto="Continuar" handleSubmit={handleSubmit} />
+      <Button text="Continuar" handleSubmit={handleSubmit} />
     </View>
   );
 };

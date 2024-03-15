@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, Text, View} from 'react-native';
 import {colors} from '../../../globalStyles';
-import Botao from '../../../components/Botao';
+import Button from '../../../components/Button';
 import {useCadastro} from '../../../services/cadastroContext';
 import {postUser} from '../../../services/users';
 import {AuthContext} from '../../../services/authContext';
@@ -37,7 +37,7 @@ const TelaFinal: React.FC = () => {
           economizar com super cupons Develfood.
         </Text>
       </View>
-      <Botao texto="Concluir" handleSubmit={handleSubmit} />
+      <Button text="Concluir" handleSubmit={handleSubmit} />
     </View>
   );
 };

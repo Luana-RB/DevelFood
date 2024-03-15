@@ -4,8 +4,8 @@ export const users: UsersData[] = [
   {
     credentials: {
       id: 'user123',
-      email: 'email@gmail.com',
-      password: '123456',
+      email: 'john.doe@example.com',
+      password: 'password123',
     },
     info: {
       name: 'John',
@@ -25,8 +25,8 @@ export const users: UsersData[] = [
   },
   {
     credentials: {
-      email: 'email2@gmail.com',
-      password: '123456',
+      email: 'jane.doe@example.com',
+      password: 'securepass123',
     },
     info: {
       name: 'Jane',

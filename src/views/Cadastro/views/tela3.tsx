@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Image, StatusBar, Text, View} from 'react-native';
 import {InputContainer, InputIcon, InputText} from '../../../components/Input';
-import Botao from '../../../components/Botao';
 import {colors} from '../../../globalStyles';
 import {Errors} from '../../Login';
 import {useCadastro} from '../../../services/cadastroContext';
+import Button from '../../../components/Button';
 
 // import { Container } from './styles';
 
@@ -279,7 +279,7 @@ const Tela3: React.FC = ({navigation}: any) => {
           </View>
         </View>
       </View>
-      <Botao texto="Continuar" handleSubmit={handleSubmit} />
+      <Button text="Continuar" handleSubmit={handleSubmit} />
     </View>
   );
 };
