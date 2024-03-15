@@ -1,6 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from '../views/Home';
-import Login, {UsersData} from '../views/Login';
+import Login from '../views/Login';
+import {UsersData} from '../types/userData';
 import Cadastro from '../views/Cadastro';
 import RecuperarSenha from '../views/RecuperarSenha';
 import React, {useEffect, useState} from 'react';
@@ -10,6 +11,7 @@ import {Image, Text, View} from 'react-native';
 import {colors} from '../globalStyles';
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthContext} from '../services/authContext';
+import CadastroStack from './cadastro.routes';
 
 const Stack = createStackNavigator();
 
@@ -61,7 +63,7 @@ export function MyStack() {
   const authContext = React.useMemo(
     () => ({
       signIn: async (foundUser: UsersData) => {
-        const userToken = String(foundUser.id);
+        const userToken = String(foundUser.credentials.id);
 
         setUserData(foundUser);
 
@@ -146,7 +148,7 @@ export function MyStack() {
               />
               <Stack.Screen
                 name="Cadastro"
-                component={Cadastro}
+                component={CadastroStack}
                 options={{
                   headerShown: false,
                 }}

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, StatusBar, View} from 'react-native';
+import {Image, StatusBar, Text, View} from 'react-native';
 import {InputContainer, InputIcon, InputText} from '../../../components/Input';
 import Botao from '../../../components/Botao';
 import {colors} from '../../../globalStyles';
@@ -21,47 +21,47 @@ const Tela3: React.FC = ({navigation}: any) => {
 
   function validateApelido() {
     if (!apelido) {
-       return 'Insira um apelido';
+      return 'Insira um apelido';
     }
-   }
-   
-   function validateCep() {
+  }
+
+  function validateCep() {
     if (!cep) {
-       return 'Insira um CEP';
+      return 'Insira um CEP';
     }
-   }
-   
-   function validateRua() {
+  }
+
+  function validateRua() {
     if (!rua) {
-       return 'Insira uma rua';
+      return 'Insira uma rua';
     }
-   }
-   
-   function validateCidade() {
+  }
+
+  function validateCidade() {
     if (!cidade) {
-       return 'Insira uma cidade';
+      return 'Insira uma cidade';
     }
-   }
-   
-   function validateBairro() {
+  }
+
+  function validateBairro() {
     if (!bairro) {
-       return 'Insira um bairro';
+      return 'Insira um bairro';
     }
-   }
-   
-   function validateEstado() {
+  }
+
+  function validateEstado() {
     if (!estado) {
-       return 'Insira um estado';
+      return 'Insira um estado';
     }
-   }
-   
-   function validateNum() {
+  }
+
+  function validateNum() {
     if (!num) {
-       return 'Insira um número';
+      return 'Insira um número';
     }
-   }
-   
-   function validateForm() {
+  }
+
+  function validateForm() {
     let errors: Errors = {};
     const apelidoError = validateApelido();
     const cepError = validateCep();
@@ -70,45 +70,46 @@ const Tela3: React.FC = ({navigation}: any) => {
     const bairroError = validateBairro();
     const estadoError = validateEstado();
     const numError = validateNum();
-   
+
     if (apelidoError) {
-       errors.apelido = apelidoError;
+      errors.apelido = apelidoError;
     }
-   
+
     if (cepError) {
-       errors.cep = cepError;
+      errors.cep = cepError;
     }
-   
+
     if (ruaError) {
-       errors.rua = ruaError;
+      errors.rua = ruaError;
     }
-   
+
     if (cidadeError) {
-       errors.cidade = cidadeError;
+      errors.cidade = cidadeError;
     }
-   
+
     if (bairroError) {
-       errors.bairro = bairroError;
+      errors.bairro = bairroError;
     }
-   
+
     if (estadoError) {
-       errors.estado = estadoError;
+      errors.estado = estadoError;
     }
-   
+
     if (numError) {
-       errors.num = numError;
+      errors.num = numError;
     }
-   
+
     return errors;
-   }
-   
+  }
 
   async function handleSubmit() {
     const newErrors = validateForm();
     setErrors(newErrors);
+
     if (Object.keys(newErrors).length === 0) {
       const endereco = await handleEndereco();
       if (endereco) {
+        navigation.navigate('TelaFinal');
       }
     }
   }
@@ -162,24 +163,38 @@ const Tela3: React.FC = ({navigation}: any) => {
       />
       <View style={{alignItems: 'center', justifyContent: 'center'}}>
         <View style={{flexDirection: 'row', gap: 15}}>
-          <InputContainer style={{width: 160}}>
-            <InputIcon
-              source={require('../../../../assets/images/endereco.png')}
-              style={{width: 11, height: 30}}
-            />
-            <InputText
-              placeholder="Apelido do End."
-              value={apelido}
-              onChangeText={setApelido}
-            />
-          </InputContainer>
-          <InputContainer style={{width: 120}}>
-            <InputIcon
-              source={require('../../../../assets/images/endereco.png')}
-              style={{width: 11, height: 30}}
-            />
-            <InputText placeholder="CEP" value={cep} onChangeText={setCep} />
-          </InputContainer>
+          <View>
+            <InputContainer style={{width: 160}}>
+              <InputIcon
+                source={require('../../../../assets/images/endereco.png')}
+                style={{width: 11, height: 30}}
+              />
+              <InputText
+                placeholder="Apelido do End."
+                value={apelido}
+                onChangeText={setApelido}
+              />
+            </InputContainer>
+            {errors.apelido && (
+              <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+                {errors.apelido}
+              </Text>
+            )}
+          </View>
+          <View>
+            <InputContainer style={{width: 120}}>
+              <InputIcon
+                source={require('../../../../assets/images/endereco.png')}
+                style={{width: 11, height: 30}}
+              />
+              <InputText placeholder="CEP" value={cep} onChangeText={setCep} />
+            </InputContainer>
+            {errors.cep && (
+              <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+                {errors.cep}
+              </Text>
+            )}
+          </View>
         </View>
         <InputContainer>
           <InputIcon
@@ -188,6 +203,11 @@ const Tela3: React.FC = ({navigation}: any) => {
           />
           <InputText placeholder="Rua" value={rua} onChangeText={setRua} />
         </InputContainer>
+        {errors.rua && (
+          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+            {errors.rua}
+          </Text>
+        )}
         <InputContainer>
           <InputIcon
             source={require('../../../../assets/images/endereco.png')}
@@ -199,6 +219,11 @@ const Tela3: React.FC = ({navigation}: any) => {
             onChangeText={setCidade}
           />
         </InputContainer>
+        {errors.cidade && (
+          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+            {errors.cidade}
+          </Text>
+        )}
         <InputContainer>
           <InputIcon
             source={require('../../../../assets/images/endereco.png')}
@@ -210,25 +235,48 @@ const Tela3: React.FC = ({navigation}: any) => {
             onChangeText={setBairro}
           />
         </InputContainer>
+        {errors.bairro && (
+          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+            {errors.bairro}
+          </Text>
+        )}
         <View style={{flexDirection: 'row', gap: 15}}>
-          <InputContainer style={{width: 140}}>
-            <InputIcon
-              source={require('../../../../assets/images/endereco.png')}
-              style={{width: 11, height: 30}}
-            />
-            <InputText
-              placeholder="Estado"
-              value={estado}
-              onChangeText={setEstado}
-            />
-          </InputContainer>
-          <InputContainer style={{width: 140}}>
-            <InputIcon
-              source={require('../../../../assets/images/endereco.png')}
-              style={{width: 11, height: 30}}
-            />
-            <InputText placeholder="Número" value={num} onChangeText={setNum} />
-          </InputContainer>
+          <View>
+            <InputContainer style={{width: 140}}>
+              <InputIcon
+                source={require('../../../../assets/images/endereco.png')}
+                style={{width: 11, height: 30}}
+              />
+              <InputText
+                placeholder="Estado"
+                value={estado}
+                onChangeText={setEstado}
+              />
+            </InputContainer>
+            {errors.estado && (
+              <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+                {errors.estado}
+              </Text>
+            )}
+          </View>
+          <View>
+            <InputContainer style={{width: 140}}>
+              <InputIcon
+                source={require('../../../../assets/images/endereco.png')}
+                style={{width: 11, height: 30}}
+              />
+              <InputText
+                placeholder="Número"
+                value={num}
+                onChangeText={setNum}
+              />
+            </InputContainer>
+            {errors.num && (
+              <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+                {errors.num}
+              </Text>
+            )}
+          </View>
         </View>
       </View>
       <Botao texto="Continuar" handleSubmit={handleSubmit} />

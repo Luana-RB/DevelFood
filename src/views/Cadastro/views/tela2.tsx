@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, StatusBar, View} from 'react-native';
+import {Image, StatusBar, Text, View} from 'react-native';
 import {InputContainer, InputIcon, InputText} from '../../../components/Input';
 import Botao from '../../../components/Botao';
 import {colors} from '../../../globalStyles';
@@ -24,11 +24,11 @@ const Tela2: React.FC = ({navigation}: any) => {
     const telefoneError = validateTelefone();
 
     if (nomeError) {
-      errors.nome = nomeError;
+      errors.name = nomeError;
     }
 
     if (sobrenomeError) {
-      errors.sobrenome = sobrenomeError;
+      errors.surname = sobrenomeError;
     }
 
     if (cpfError) {
@@ -36,7 +36,7 @@ const Tela2: React.FC = ({navigation}: any) => {
     }
 
     if (telefoneError) {
-      errors.telefone = telefoneError;
+      errors.cellphone = telefoneError;
     }
 
     return errors;
@@ -66,14 +66,14 @@ const Tela2: React.FC = ({navigation}: any) => {
   }
 
   async function handleSubmit() {
-    // const newErrors = validateForm();
-    // setErrors(newErrors);
-    // if (Object.keys(newErrors).length === 0) {
-    //   const info = await handleInfo();
-    //   if (info) {
-    navigation.navigate('Endereço');
-    //   }
-    // }
+    const newErrors = validateForm();
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      const info = await handleInfo();
+      if (info) {
+        navigation.navigate('Endereço');
+      }
+    }
   }
 
   async function handleInfo() {
@@ -123,6 +123,11 @@ const Tela2: React.FC = ({navigation}: any) => {
           />
           <InputText placeholder="Nome" value={nome} onChangeText={setNome} />
         </InputContainer>
+        {errors.name && (
+          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+            {errors.name}
+          </Text>
+        )}
         <InputContainer>
           <InputIcon
             source={require('../../../../assets/images/person.png')}
@@ -134,6 +139,11 @@ const Tela2: React.FC = ({navigation}: any) => {
             onChangeText={setSobrenome}
           />
         </InputContainer>
+        {errors.surname && (
+          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+            {errors.surname}
+          </Text>
+        )}
         <InputContainer>
           <InputIcon
             source={require('../../../../assets/images/document.png')}
@@ -146,6 +156,11 @@ const Tela2: React.FC = ({navigation}: any) => {
             keyboardType="numeric"
           />
         </InputContainer>
+        {errors.cpf && (
+          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+            {errors.cpf}
+          </Text>
+        )}
         <InputContainer>
           <InputIcon
             source={require('../../../../assets/images/cellphone.png')}
@@ -157,6 +172,11 @@ const Tela2: React.FC = ({navigation}: any) => {
             onChangeText={setTelefone}
           />
         </InputContainer>
+        {errors.cellphone && (
+          <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
+            {errors.cellphone}
+          </Text>
+        )}
       </View>
       <Botao texto="Continuar" handleSubmit={handleSubmit} />
     </View>

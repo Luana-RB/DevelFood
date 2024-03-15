@@ -1,5 +1,5 @@
 import {users} from '../mocks/users';
-import {UsersData} from '../views/Login';
+import {UsersData} from '../types/userData';
 
 export function getUsers() {
   try {
@@ -11,11 +11,9 @@ export function getUsers() {
 
 export function postUser(user: UsersData) {
   try {
-    const userData = {
-      ...user,
-      id: user.id || String(Math.random()),
-    };
-    users.push(userData);
+    users.push(user);
+    const result = getUsers();
+    console.log(result);
   } catch (e) {
     console.log(e);
   }
@@ -23,7 +21,7 @@ export function postUser(user: UsersData) {
 
 export function getUserById(id: string) {
   try {
-    const user = users.find(user => user.id === id);
+    const user = users.find(user => user.credentials.id === id);
     return user;
   } catch (e) {
     console.log('Usuário não encontrado', e);
@@ -32,8 +30,8 @@ export function getUserById(id: string) {
 
 export function getUserToken(email: string) {
   try {
-    const user = users.find(user => user.email === email);
-    return user ? user.id : null;
+    const user = users.find(user => user.credentials.email === email);
+    return user ? user.credentials.id : null;
   } catch (e) {
     console.log('Usuário não encontrado', e);
   }

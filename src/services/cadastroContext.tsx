@@ -1,5 +1,10 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
-import {UsersData} from '../views/Login';
+import {
+  UserAdress,
+  UserCredentials,
+  UserInfo,
+  UsersData,
+} from '../types/userData';
 
 type CadastroContextType = {
   cadastro: UsersData | null | undefined;
@@ -19,6 +24,11 @@ type CadastroContextType = {
     newEstado: string,
     newNum: string,
   ) => Promise<unknown>;
+  returnsCadastro: () => {
+    credentials: UserCredentials;
+    info: UserInfo;
+    adress: UserAdress;
+  };
 };
 
 const CadastroContext = createContext<CadastroContextType | undefined>(
@@ -35,20 +45,27 @@ export const useCadastro = () => {
 
 export const CadastroProvider = ({children}: any) => {
   const [cadastro, setCadastro] = useState<UsersData>();
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [nome, setNome] = useState('');
-  const [sobrenome, setSobrenome] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [telefone, setTelefone] = useState('');
   const [id, setId] = useState('');
-  const [apelido, setApelido] = useState('');
-  const [cep, setCep] = useState('');
-  const [rua, setRua] = useState('');
-  const [cidade, setCidade] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [estado, setEstado] = useState('');
-  const [num, setNum] = useState('');
+  const [credentials, setCredentials] = useState<UserCredentials>({
+    id: '',
+    email: '',
+    password: '',
+  });
+  const [info, setInfo] = useState<UserInfo>({
+    name: '',
+    surname: '',
+    cpf: '',
+    cellphone: '',
+  });
+  const [adress, setAdress] = useState<UserAdress>({
+    apelido: '',
+    cep: '',
+    rua: '',
+    cidade: '',
+    bairro: '',
+    estado: '',
+    num: '',
+  });
 
   useEffect(() => {
     function createId() {
@@ -56,114 +73,64 @@ export const CadastroProvider = ({children}: any) => {
       setId(thisId);
     }
     createId();
-    loadCadastro(
-      id,
-      email,
-      senha,
-      nome,
-      sobrenome,
-      cpf,
-      telefone,
-      apelido,
-      cep,
-      rua,
-      cidade,
-      bairro,
-      estado,
-      num,
-    );
   }, []);
 
-  const loadCadastro = (
-    id: string,
-    email: string,
-    senha: string,
-    nome: string,
-    sobrenome: string,
-    cpf: string,
-    telefone: string,
-    apelido: string,
-    cep: string,
-    rua: string,
-    cidade: string,
-    bairro: string,
-    estado: string,
-    num: string,
-  ) => {
-    const cadastro = {
-      id,
-      email,
-      senha,
-      nome,
-      sobrenome,
-      cpf,
-      telefone,
-      apelido,
-      cep,
-      rua,
-      cidade,
-      bairro,
-      estado,
-      num,
-    };
-    console.log(cadastro);
-    setCadastro(cadastro);
+  const returnsCadastro = () => {
+    const cadastro = {credentials, info, adress};
+    cleanContext();
+    return cadastro;
   };
 
-  const storeCredentials = async (newEmail: string, newSenha: string) => {
+  const cleanContext = () => {
+    setId('');
+    setCredentials({
+      id: '',
+      email: '',
+      password: '',
+    });
+    setInfo({
+      name: '',
+      surname: '',
+      cpf: '',
+      cellphone: '',
+    });
+    setAdress({
+      apelido: '',
+      cep: '',
+      rua: '',
+      cidade: '',
+      bairro: '',
+      estado: '',
+      num: '',
+    });
+    setCadastro(undefined);
+  };
+
+  const storeCredentials = async (newEmail: string, newPassword: string) => {
     try {
-      setEmail(newEmail);
-      setSenha(newSenha);
-      loadCadastro(
-        id,
-        newEmail,
-        newSenha,
-        nome,
-        sobrenome,
-        cpf,
-        telefone,
-        apelido,
-        cep,
-        rua,
-        cidade,
-        bairro,
-        estado,
-        num,
-      );
-      return newEmail + newSenha;
+      const newCredentials = {id, email: newEmail, password: newPassword};
+      setCredentials(newCredentials);
+      return newEmail;
     } catch (e) {
       return e;
     }
   };
 
   const storeInfo = async (
-    newNome: string,
-    newSobrenome: string,
+    newName: string,
+    newSurname: string,
     newCpf: string,
-    newTelefone: string,
+    newCellphone: string,
   ) => {
     try {
-      setNome(newNome);
-      setSobrenome(newSobrenome);
-      setCpf(newCpf);
-      setTelefone(newTelefone);
-      loadCadastro(
-        id,
-        email,
-        senha,
-        newNome,
-        newSobrenome,
-        newCpf,
-        newTelefone,
-        apelido,
-        cep,
-        rua,
-        cidade,
-        bairro,
-        estado,
-        num,
-      );
-      return newNome;
+      const newInfo = {
+        name: newName,
+        surname: newSurname,
+        cpf: newCpf,
+        cellphone: newCellphone,
+      };
+      setInfo(newInfo);
+      return newName;
     } catch (e) {
       return e;
     }
@@ -179,22 +146,16 @@ export const CadastroProvider = ({children}: any) => {
     newNum: string,
   ) => {
     try {
-      loadCadastro(
-        id,
-        email,
-        senha,
-        nome,
-        sobrenome,
-        cpf,
-        telefone,
-        newApelido,
-        newCep,
-        newRua,
-        newCidade,
-        newBairro,
-        newEstado,
-        newNum,
-      );
+      const newAdress = {
+        apelido: newApelido,
+        cep: newCep,
+        rua: newRua,
+        cidade: newCidade,
+        bairro: newBairro,
+        estado: newEstado,
+        num: newNum,
+      };
+      setAdress(newAdress);
       return newApelido;
     } catch (e) {
       return e;
@@ -203,7 +164,13 @@ export const CadastroProvider = ({children}: any) => {
 
   return (
     <CadastroContext.Provider
-      value={{cadastro, storeCredentials, storeInfo, storeEndereco}}>
+      value={{
+        cadastro,
+        storeCredentials,
+        storeInfo,
+        storeEndereco,
+        returnsCadastro,
+      }}>
       {children}
     </CadastroContext.Provider>
   );

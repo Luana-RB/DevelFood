@@ -1,5 +1,5 @@
 import React from 'react';
-import {UsersData} from '../views/Login';
+import { UsersData } from '../types/userData';
 
 interface AuthContextValue {
   signIn: (foundUser: UsersData) => Promise<void>;

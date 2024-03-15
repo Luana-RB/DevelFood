@@ -1,15 +1,15 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {CadastroProvider} from '../services/cadastroContext';
-import {NavigationContainer} from '@react-navigation/native';
 import Tela1 from '../views/Cadastro/views/tela1';
 import Tela2 from '../views/Cadastro/views/tela2';
 import Tela3 from '../views/Cadastro/views/tela3';
+import TelaFinal from '../views/Cadastro/views/telaFinal';
 
 // import { Container } from './styles';
 const Stack = createStackNavigator();
 
-const CadastroStack: React.FC = () => {
+const CadastroStack: React.FC = ({navigation}: any) => {
   return (
     <CadastroProvider>
       <Stack.Navigator>
@@ -26,6 +26,11 @@ const CadastroStack: React.FC = () => {
         <Stack.Screen
           name="Endereço"
           component={Tela3}
+          options={{title: 'Cadastro', headerTitleAlign: 'center'}}
+        />
+        <Stack.Screen
+          name="TelaFinal"
+          component={TelaFinal}
           options={{title: 'Cadastro', headerTitleAlign: 'center'}}
         />
       </Stack.Navigator>

@@ -3,10 +3,11 @@ import {Image, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {InputContainer, InputIcon, InputText} from '../../../components/Input';
 import Botao from '../../../components/Botao';
 import {colors} from '../../../globalStyles';
-import {Errors, UsersData} from '../../Login';
-import {getUserById, getUserToken, getUsers} from '../../../services/users';
+import {Errors} from '../../Login';
+import {getUserById, getUsers} from '../../../services/users';
 import validator from 'validator';
 import {useCadastro} from '../../../services/cadastroContext';
+import {UsersData} from '../../../types/userData';
 
 // import { Container } from './styles';
 
@@ -46,11 +47,11 @@ const Tela1: React.FC = ({navigation}: any) => {
       } else {
         const senhaError = validateSenha();
         if (senhaError) {
-          errors.senha = senhaError;
+          errors.password = senhaError;
         } else {
           const senhaConfirmaError = validateSenhaConfirma();
           if (senhaConfirmaError) {
-            errors.senhaConfirma = senhaConfirmaError;
+            errors.passwordConfirm = senhaConfirmaError;
           }
         }
       }
@@ -69,8 +70,8 @@ const Tela1: React.FC = ({navigation}: any) => {
   }
 
   function findUserByEmail() {
-    const user = users.find(user => user.email === email);
-    return user ? user.id : undefined;
+    const user = users.find(user => user.credentials.email === email);
+    return user ? user.credentials.id : undefined;
   }
 
   function findUserbyId() {
@@ -96,15 +97,15 @@ const Tela1: React.FC = ({navigation}: any) => {
   }
 
   async function handleSubmit() {
-    // const newErrors = validateForm();
-    // setErrors(newErrors);
+    const newErrors = validateForm();
+    setErrors(newErrors);
 
-    // if (Object.keys(newErrors).length === 0) {
-    //   const credentials = await handleCredentials();
-    //   if (credentials) {
-    navigation.navigate('DadosPessoais');
-    // }
-    // }
+    if (Object.keys(newErrors).length === 0) {
+      const credentials = await handleCredentials();
+      if (credentials) {
+        navigation.navigate('DadosPessoais');
+      }
+    }
   }
 
   async function handleCredentials() {
@@ -187,9 +188,9 @@ const Tela1: React.FC = ({navigation}: any) => {
             )}
           </TouchableOpacity>
         </InputContainer>
-        {errors.senha && (
+        {errors.password && (
           <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.senha}
+            {errors.password}
           </Text>
         )}
         <InputContainer>
@@ -212,9 +213,9 @@ const Tela1: React.FC = ({navigation}: any) => {
             )}
           </TouchableOpacity>
         </InputContainer>
-        {errors.senhaConfirma && (
+        {errors.passwordConfirm && (
           <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.senhaConfirma}
+            {errors.passwordConfirm}
           </Text>
         )}
       </View>

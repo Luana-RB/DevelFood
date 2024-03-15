@@ -20,15 +20,16 @@ import {getUserById, getUserToken, getUsers} from '../../services/users';
 import {useToken} from '../../services/tokenContext';
 import {AuthContext} from '../../services/authContext';
 import {InputContainer, InputIcon, InputText} from '../../components/Input';
+import {UsersData} from '../../types/userData';
 
 export interface Errors {
   email?: string;
-  senha?: string;
-  senhaConfirma?: string;
-  nome?: string;
-  sobrenome?: string;
+  password?: string;
+  passwordConfirm?: string;
+  name?: string;
+  surname?: string;
   cpf?: string;
-  telefone?: string;
+  cellphone?: string;
   apelido?: string;
   cep?: string;
   rua?: string;
@@ -36,13 +37,6 @@ export interface Errors {
   bairro?: string;
   estado?: string;
   num?: string;
-}
-
-export interface UsersData {
-  id?: string;
-  nome: string;
-  email: string;
-  senha: string;
 }
 
 const Login: React.FC = ({navigation}: any) => {
@@ -58,6 +52,7 @@ const Login: React.FC = ({navigation}: any) => {
     const fetchUsers = () => {
       const usersFetched: UsersData[] | undefined = getUsers();
       if (usersFetched) {
+        console.log(usersFetched);
         setUsers(usersFetched);
       } else {
         console.log('Falha ao buscar users');
@@ -77,7 +72,7 @@ const Login: React.FC = ({navigation}: any) => {
     if (user) {
       const senhaError = validateSenha(user!);
       if (senhaError) {
-        errors.senha = senhaError;
+        errors.password = senhaError;
       }
     } else {
       errors.email = 'E-mail inválido';
@@ -86,8 +81,8 @@ const Login: React.FC = ({navigation}: any) => {
   }
 
   function findUserByEmail() {
-    const user = users.find(user => user.email === email);
-    return user ? user.id : undefined;
+    const user = users.find(user => user.credentials.email === email);
+    return user ? user.credentials.id : undefined;
   }
 
   function findUserbyId() {
@@ -99,7 +94,7 @@ const Login: React.FC = ({navigation}: any) => {
   }
 
   function validateSenha(user: UsersData) {
-    if (user!.senha === senha) {
+    if (user!.credentials.password === senha) {
       return undefined;
     }
     return 'Senha inválida';
@@ -173,9 +168,9 @@ const Login: React.FC = ({navigation}: any) => {
             )}
           </TouchableOpacity>
         </InputContainer>
-        {errors.senha && (
+        {errors.password && (
           <Text style={{fontSize: 12, color: colors.red, marginTop: -10}}>
-            {errors.senha}
+            {errors.password}
           </Text>
         )}
         <TouchableOpacity
