@@ -48,27 +48,6 @@ export const LogoText = styled.Text`
   color: ${colors.red};
 `;
 
-export const InputContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  width: ${screenWidth * 0.75}px;
-  height: ${screenHeight * 0.06}px;
-  border-width: 1px;
-  border-color: ${colors.gray};
-  border-radius: 10px;
-  margin-bottom: ${screenWidth * 0.02}px;
-`;
-
-export const InputIcon = styled.Image`
-  padding: 10px;
-  margin: 10px;
-`;
-
-export const InputText = styled.TextInput`
-  flex: 1;
-  font-size: 14px;
-`;
-
 export const ForgotPassContainer = styled.TouchableOpacity`
   align-self: flex-end;
   margin-right: 60px;
@@ -108,10 +87,4 @@ export const SignInButtonText = styled.Text`
   font-weight: bold;
   font-size: 12px;
   margin-left: 5px;
-`;
-
-export const ErrorText = styled.Text`
-  font-size: 12px;
-  color: ${colors.red};
-  margin-top: -10px;
 `;

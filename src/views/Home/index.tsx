@@ -4,8 +4,6 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {AuthContext} from '../../services/authContext';
 import {useToken} from '../../services/tokenContext';
 
-// import { Container } from './styles';
-
 const Home: React.FC = () => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
   const {token} = useToken();

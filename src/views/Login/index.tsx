@@ -4,12 +4,8 @@ import Botao from '../../components/Button';
 import {
   BackGroundImagesContainer,
   Container,
-  ErrorText,
   ForgotPassContainer,
   ForgotPassText,
-  InputContainer,
-  InputIcon,
-  InputText,
   LogoContainer,
   LogoImage,
   LogoText,
@@ -23,17 +19,30 @@ import {
 import {getUserById, getUserToken, getUsers} from '../../services/users';
 import {useToken} from '../../services/tokenContext';
 import {AuthContext} from '../../services/authContext';
+import {colors} from '../../globalStyles';
+import {UsersData} from '../../types/userData';
+import {
+  ErrorText,
+  InputContainer,
+  InputIcon,
+  InputText,
+} from '../../components/Input';
 
-interface Errors {
+export interface Errors {
   email?: string;
   password?: string;
-}
-
-export interface UsersData {
-  id?: string;
-  name: string;
-  email: string;
-  password: string;
+  passwordConfirm?: string;
+  name?: string;
+  surname?: string;
+  cpf?: string;
+  cellphone?: string;
+  apelido?: string;
+  cep?: string;
+  rua?: string;
+  cidade?: string;
+  bairro?: string;
+  estado?: string;
+  num?: string;
 }
 
 const Login: React.FC = ({navigation}: any) => {
@@ -77,8 +86,8 @@ const Login: React.FC = ({navigation}: any) => {
   }
 
   function findUserByEmail() {
-    const user = users.find(user => user.email === email);
-    return user ? user.id : undefined;
+    const user = users.find(user => user.credentials.email === email);
+    return user ? user.credentials.id : undefined;
   }
 
   function findUserbyId() {
@@ -90,7 +99,7 @@ const Login: React.FC = ({navigation}: any) => {
   }
 
   function validatePassword(user: UsersData) {
-    if (user!.password === password) {
+    if (user!.credentials.password === password) {
       return undefined;
     }
     return 'Senha inválida';
@@ -123,7 +132,7 @@ const Login: React.FC = ({navigation}: any) => {
 
   return (
     <Container>
-      <StatusBar />
+      <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
       <BackGroundImagesContainer>
         <Sandwich source={require('../../../assets/images/login1.jpeg')} />
         <Pizza source={require('../../../assets/images/login2.jpeg')} />
