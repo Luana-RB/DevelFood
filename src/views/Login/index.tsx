@@ -1,6 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StatusBar, TouchableOpacity, View} from 'react-native';
 import Botao from '../../components/Button';
+import {useToken} from '../../services/tokenContext';
+import {AuthContext} from '../../services/authContext';
+import {colors} from '../../globalStyles';
+import {UsersData} from '../../types/userData';
+import {Errors} from '../../types/errors';
 import {
   BackGroundImagesContainer,
   Container,
@@ -16,11 +21,11 @@ import {
   SignInContainer,
   SignInText,
 } from './styles';
-import {getUserById, getUserToken, getUsers} from '../../services/users';
-import {useToken} from '../../services/tokenContext';
-import {AuthContext} from '../../services/authContext';
-import {colors} from '../../globalStyles';
-import {UsersData} from '../../types/userData';
+import {
+  findUserIdByEmail,
+  getUserById,
+  getUserToken,
+} from '../../services/users';
 import {
   ErrorText,
   InputContainer,
@@ -28,43 +33,13 @@ import {
   InputText,
 } from '../../components/Input';
 
-export interface Errors {
-  email?: string;
-  password?: string;
-  passwordConfirm?: string;
-  name?: string;
-  surname?: string;
-  cpf?: string;
-  cellphone?: string;
-  apelido?: string;
-  cep?: string;
-  rua?: string;
-  cidade?: string;
-  bairro?: string;
-  estado?: string;
-  num?: string;
-}
-
 const Login: React.FC = ({navigation}: any) => {
   const [olhoIcone, setOlhoIcone] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Errors>({});
-  const [users, setUsers] = useState<UsersData[]>([]);
 
   const {storeToken} = useToken();
-
-  useEffect(() => {
-    const fetchUsers = () => {
-      const usersFetched: UsersData[] | undefined = getUsers();
-      if (usersFetched) {
-        setUsers(usersFetched);
-      } else {
-        console.log('Falha ao buscar users');
-      }
-    };
-    fetchUsers();
-  }, []);
 
   function handleSecurePassword() {
     setOlhoIcone(!olhoIcone);
@@ -73,9 +48,9 @@ const Login: React.FC = ({navigation}: any) => {
   function validateForm() {
     let errors: Errors = {};
 
-    const user = findUserbyId();
+    const user = getUser();
     if (user) {
-      const passwordError = validatePassword(user!);
+      const passwordError = validatePassword(user);
       if (passwordError) {
         errors.password = passwordError;
       }
@@ -85,13 +60,8 @@ const Login: React.FC = ({navigation}: any) => {
     return errors;
   }
 
-  function findUserByEmail() {
-    const user = users.find(user => user.credentials.email === email);
-    return user ? user.credentials.id : undefined;
-  }
-
-  function findUserbyId() {
-    const userId = findUserByEmail();
+  function getUser() {
+    const userId = findUserIdByEmail(email);
     if (userId) {
       const user = getUserById(userId);
       return user;
@@ -108,11 +78,13 @@ const Login: React.FC = ({navigation}: any) => {
   async function handleSubmit() {
     const newErrors = validateForm();
     setErrors(newErrors);
+    console.log(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       const isTokenStored = await handleToken();
+      console.log(isTokenStored);
       if (isTokenStored) {
-        const user = findUserbyId();
+        const user = getUser();
         if (user) {
           signIn(user);
         }

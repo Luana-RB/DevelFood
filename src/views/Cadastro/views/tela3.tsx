@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {StatusBar, View} from 'react-native';
 import {ErrorText, InputContainer, InputText} from '../../../components/Input';
 import {colors} from '../../../globalStyles';
-import {Errors} from '../../Login';
 import {useCadastro} from '../../../services/cadastroContext';
 import Button from '../../../components/Button';
 import {
@@ -14,6 +13,7 @@ import {
   PinIcon,
   RowContainer,
 } from './styles';
+import {Errors} from '../../../types/errors';
 
 const Tela3: React.FC = ({navigation}: any) => {
   const [apelido, setApelido] = useState('');

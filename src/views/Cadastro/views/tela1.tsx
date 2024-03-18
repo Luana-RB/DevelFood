@@ -8,7 +8,6 @@ import {
 } from '../../../components/Input';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
-import {Errors} from '../../Login';
 import {getUserById, getUsers} from '../../../services/users';
 import validator from 'validator';
 import {useCadastro} from '../../../services/cadastroContext';
@@ -20,6 +19,7 @@ import {
   FormContainer,
   LadyImage,
 } from './styles';
+import {Errors} from '../../../types/errors';
 
 const Tela1: React.FC = ({navigation}: any) => {
   const [email, setEmail] = useState('');
