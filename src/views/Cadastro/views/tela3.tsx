@@ -14,6 +14,7 @@ import {
   PinIcon,
   RowContainer,
 } from './styles';
+import {MaskedTextInput} from 'react-native-mask-text';
 
 const Tela3: React.FC = ({navigation}: any) => {
   const [apelido, setApelido] = useState('');
@@ -33,7 +34,7 @@ const Tela3: React.FC = ({navigation}: any) => {
   }
 
   function validateCep() {
-    if (/^[0-9]+$/.test(cep)) {
+    if (/\d{5}-\d{3}/.test(cep)) {
       return undefined;
     }
     return 'Insira um CEP';
@@ -58,9 +59,10 @@ const Tela3: React.FC = ({navigation}: any) => {
   }
 
   function validateEstado() {
-    if (!estado) {
-      return 'Insira um estado';
+    if (/[A-Za-z]{2}/.test(estado)) {
+      return undefined;
     }
+    return 'Insira um estado';
   }
 
   function validateNum() {
@@ -161,7 +163,15 @@ const Tela3: React.FC = ({navigation}: any) => {
           <View>
             <InputContainer style={{width: 120}}>
               <PinIcon source={require('./assets/pin.png')} />
-              <InputText placeholder="CEP" value={cep} onChangeText={setCep} />
+              <MaskedTextInput
+                placeholder="CEP"
+                value={cep}
+                onChangeText={formatted => {
+                  setCep(formatted as string);
+                }}
+                mask={'99999-999'}
+                keyboardType="numeric"
+              />
             </InputContainer>
             {errors.cep && <ErrorText>{errors.cep}</ErrorText>}
           </View>
@@ -197,6 +207,7 @@ const Tela3: React.FC = ({navigation}: any) => {
                 placeholder="Estado"
                 value={estado}
                 onChangeText={setEstado}
+                maxLength={2}
               />
             </InputContainer>
             {errors.estado && <ErrorText>{errors.estado}</ErrorText>}
@@ -208,6 +219,7 @@ const Tela3: React.FC = ({navigation}: any) => {
                 placeholder="Número"
                 value={num}
                 onChangeText={setNum}
+                keyboardType="numeric"
               />
             </InputContainer>
             {errors.num && <ErrorText>{errors.num}</ErrorText>}
