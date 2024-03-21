@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {StyleSheet} from 'react-native';
 export const InputContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -27,3 +28,10 @@ export const ErrorText = styled.Text`
   margin-top: -8px;
   margin-bottom: 2px;
 `;
+
+export const inputStyles = StyleSheet.create({
+  InputText: {
+    flex: 1,
+    fontSize: 14,
+  },
+});

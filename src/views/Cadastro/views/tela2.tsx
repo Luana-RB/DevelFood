@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import {StatusBar} from 'react-native';
-import {ErrorText, InputContainer, InputText} from '../../../components/Input';
+import {
+  ErrorText,
+  InputContainer,
+  InputText,
+  inputStyles,
+} from '../../../components/Input';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
 import {useCadastro} from '../../../services/cadastroContext';
@@ -14,6 +19,8 @@ import {
   LadyImage,
   PersonIcon,
 } from './styles';
+
+import {MaskedTextInput} from 'react-native-mask-text';
 import {Errors} from '../../../types/errors';
 
 const Tela2: React.FC = ({navigation}: any) => {
@@ -61,13 +68,13 @@ const Tela2: React.FC = ({navigation}: any) => {
     }
   }
   function validateCpf() {
-    if (/^\d{11}$/.test(cpf)) {
+    if (/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
       return undefined;
     }
     return 'CPF inválido';
   }
   function validateTelefone() {
-    if (/^\d{11}$/.test(telefone)) {
+    if (/\+\d{2} \d{5}-\d{4}/.test(telefone)) {
       return undefined;
     }
     return 'Telefone inválido';
@@ -115,20 +122,28 @@ const Tela2: React.FC = ({navigation}: any) => {
         {errors.surname && <ErrorText>{errors.surname}</ErrorText>}
         <InputContainer>
           <DocumentIcon source={require('./assets/document.png')} />
-          <InputText
+          <MaskedTextInput
+            style={inputStyles.InputText}
             placeholder="CPF"
             value={cpf}
-            onChangeText={setCpf}
+            onChangeText={formatted => {
+              setCpf(formatted as string);
+            }}
+            mask={'999.999.999-99'}
             keyboardType="numeric"
           />
         </InputContainer>
         {errors.cpf && <ErrorText>{errors.cpf}</ErrorText>}
         <InputContainer>
           <CellphoneIcon source={require('./assets/cellphone.png')} />
-          <InputText
+          <MaskedTextInput
+            style={inputStyles.InputText}
             placeholder="Telefone"
             value={telefone}
-            onChangeText={setTelefone}
+            onChangeText={formatted => {
+              setTelefone(formatted as string);
+            }}
+            mask={'+99 99999-9999'}
             keyboardType="numeric"
           />
         </InputContainer>
