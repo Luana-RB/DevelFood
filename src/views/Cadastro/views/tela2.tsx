@@ -8,7 +8,6 @@ import {
 } from '../../../components/Input';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
-import {Errors} from '../../Login';
 import {useCadastro} from '../../../services/cadastroContext';
 import {
   CellphoneIcon,
@@ -20,7 +19,9 @@ import {
   LadyImage,
   PersonIcon,
 } from './styles';
+
 import {MaskedTextInput} from 'react-native-mask-text';
+import {Errors} from '../../../types/errors';
 
 const Tela2: React.FC = ({navigation}: any) => {
   const [nome, setNome] = useState('');
