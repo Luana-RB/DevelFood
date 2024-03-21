@@ -2,7 +2,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Home from '../views/Home';
 import Login from '../views/Login';
 import {UsersData} from '../types/userData';
-import RecuperarSenha from '../views/RecuperarSenha';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getUserById} from '../services/users';
@@ -11,8 +10,9 @@ import {colors} from '../globalStyles';
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthContext} from '../services/authContext';
 import Cadastro from '../views/Cadastro';
+import RecuperarSenhaStack from './recuperarSenha.routes';
 
-const Stack = createStackNavigator();
+const MainStack = createStackNavigator();
 
 export function MyStack() {
   const [userData, setUserData] = useState<UsersData | null | undefined>(null);
@@ -134,27 +134,33 @@ export function MyStack() {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <MainStack.Navigator>
           {loginState.userToken !== null ? (
-            <Stack.Screen name="Home" component={Home} />
+            <MainStack.Screen name="Home" component={Home} />
           ) : (
             <>
-              <Stack.Screen
+              <MainStack.Screen
                 name="Login"
                 component={Login}
                 options={{headerShown: false}}
               />
-              <Stack.Screen
+              <MainStack.Screen
                 name="Cadastro"
                 component={Cadastro}
                 options={{
                   headerShown: false,
                 }}
               />
-              <Stack.Screen name="Recuperar Senha" component={RecuperarSenha} />
+              <MainStack.Screen
+                name="Recuperar Senha"
+                component={RecuperarSenhaStack}
+                options={{
+                  headerShown: false,
+                }}
+              />
             </>
           )}
-        </Stack.Navigator>
+        </MainStack.Navigator>
       </NavigationContainer>
     </AuthContext.Provider>
   );
