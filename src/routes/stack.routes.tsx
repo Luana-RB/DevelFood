@@ -11,6 +11,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {AuthContext} from '../services/authContext';
 import Cadastro from '../views/Cadastro';
 import RecuperarSenhaStack from './recuperarSenha.routes';
+import HomeTabs from './tabs.routes';
 
 const MainStack = createStackNavigator();
 
@@ -136,7 +137,11 @@ export function MyStack() {
       <NavigationContainer>
         <MainStack.Navigator>
           {loginState.userToken !== null ? (
-            <MainStack.Screen name="Home" component={Home} />
+            <MainStack.Screen
+              name="Home"
+              component={HomeTabs}
+              options={{headerShown: false}}
+            />
           ) : (
             <>
               <MainStack.Screen
