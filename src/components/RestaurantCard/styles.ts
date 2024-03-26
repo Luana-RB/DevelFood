@@ -5,23 +5,24 @@ import {Platform} from 'react-native';
 export const Container = styled.View`
   justify-content: center;
   align-items: center;
-  width: 156px;
-  height: 173px;
+  width: ${screenWidth * 0.412}px;
+  height: ${screenHeight * 0.23}px;
   border-radius: 8px;
   background-color: ${colors.white};
-  margin: 9px 17px;
+  margin: ${screenHeight * 0.015}px ${screenWidth * 0.042}px;
 `;
 
 export const BackGroundImage = styled.ImageBackground`
   width: 100%;
-  height: 127px;
+  height: ${screenHeight * 0.17}px;
   border-radius: 8px;
-  margin-top: -46px;
+  margin-top: -${screenHeight * 0.058}px;
+  overflow: hidden;
 `;
 
 export const HeartContainer = styled.View`
-  width: 42px;
-  height: 42px;
+  width: ${screenWidth * 0.1}px;
+  height: ${screenHeight * 0.05}px;
   align-self: flex-end;
   border-radius: 0px 8px 0px 16px;
   border-width: 1px;
@@ -35,16 +36,16 @@ export const HeartContainer = styled.View`
 `;
 
 export const HeartImage = styled.Image`
-  width: 25px;
-  height: 22px;
+  width: ${screenWidth * 0.053}px;
+  height: ${screenHeight * 0.025}px;
 `;
 
 export const InfoContainer = styled.View`
   width: 100%;
-  height: 69px;
+  height: ${screenHeight * 0.095}px;
   border-radius: 8px;
   flex-direction: column;
-  padding: 12px;
+  padding: ${screenHeight * 0.017}px;
   position: absolute;
   z-index: 1;
   background-color: ${colors.white};
@@ -63,8 +64,8 @@ export const InfoContainer = styled.View`
 
 export const Title = styled.Text`
   font-size: 18px;
-
-  margin-bottom: 5px;
+  flex-wrap: wrap;
+  margin-bottom: ${screenHeight * 0.005}px;
   color: ${colors.black};
 `;
 
@@ -86,8 +87,8 @@ export const RatingContainer = styled.View`
 `;
 
 export const RatingIcon = styled.Image`
-  width: 12px;
-  height: 11px;
+  width: ${screenWidth * 0.035}px;
+  height: ${screenHeight * 0.015}px;
 `;
 
 export const RatingText = styled.Text`

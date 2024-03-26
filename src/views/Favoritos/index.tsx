@@ -1,8 +1,7 @@
 import React from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
-import RestaurantCard from '../../components/RestaurantCard';
 
 const Favoritos: React.FC = () => {
   return (
@@ -11,9 +10,7 @@ const Favoritos: React.FC = () => {
         barStyle="dark-content"
         backgroundColor={colors.white}
       />
-      <View>
-        <RestaurantCard />
-      </View>
+      <View></View>
     </SafeAreaView>
   );
 };

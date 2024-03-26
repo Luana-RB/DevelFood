@@ -1,5 +1,4 @@
-import React from 'react';
-import {Image, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {
   BackGroundImage,
   Category,
@@ -13,10 +12,26 @@ import {
   RatingText,
   Title,
 } from './styles';
+import {RestaurantsData} from '../../types/restaurantData';
+import {ImageSourcePropType} from 'react-native';
 
-// import { Container } from './styles';
+interface RestaurantProps {
+  data: RestaurantsData;
+}
 
-const RestaurantCard: React.FC = () => {
+const RestaurantCard: React.FC<RestaurantProps> = ({data}) => {
+  const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>();
+
+  useEffect(() => {
+    if (data) {
+      if (!!data.info.imageUrl) {
+        setImagePath({uri: data.info.imageUrl});
+      } else {
+        setImagePath(require('../../../assets/images/notFound.png'));
+      }
+    }
+  }, []);
+
   return (
     <Container>
       <HeartContainer>
@@ -24,17 +39,14 @@ const RestaurantCard: React.FC = () => {
           source={require('../../../assets/images/heart_outline.png')}
         />
       </HeartContainer>
-      <BackGroundImage
-        source={require('../../../assets/images/bgPizza.png')}
-        resizeMode="cover"
-      />
+      {imagePath && <BackGroundImage source={imagePath} resizeMode="cover" />}
       <InfoContainer>
-        <Title>Nome</Title>
+        <Title>{data.info.name}</Title>
         <InfoFooter>
-          <Category>Categoria</Category>
+          <Category>{data.info.category}</Category>
           <RatingContainer>
             <RatingIcon source={require('../../../assets/images/star.png')} />
-            <RatingText>5.0</RatingText>
+            <RatingText>{String(data.info.rating)}</RatingText>
           </RatingContainer>
         </InfoFooter>
       </InfoContainer>
