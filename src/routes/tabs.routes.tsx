@@ -3,7 +3,7 @@ import Home from '../views/Home';
 import Favoritos from '../views/Favoritos';
 import Perfil from '../views/Perfil';
 import Pedidos from '../views/Pedidos';
-import {colors} from '../globalStyles';
+import {colors, screenHeight} from '../globalStyles';
 import {Image, Text} from 'react-native';
 
 const Tab = createBottomTabNavigator();
@@ -12,11 +12,11 @@ function HomeTabs() {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarStyle: {height: 60},
+        tabBarStyle: {height: screenHeight * 0.08},
         tabBarIcon: ({focused, color, size}) => {
           if (route.name === 'Início') {
             if (focused) {
-              size = size + 2;
+              size = size + screenHeight * 0.001;
               return <Image source={require('../../assets/images/home.png')} />;
             } else {
               return (
@@ -27,9 +27,12 @@ function HomeTabs() {
             }
           } else if (route.name === 'Favoritos') {
             if (focused) {
-              size = size + 2;
+              size = size + screenHeight * 0.001;
               return (
-                <Image source={require('../../assets/images/heart.png')} />
+                <Image
+                  source={require('../../assets/images/heart.png')}
+                  style={{width: size + screenHeight * 0.0044, height: size}}
+                />
               );
             } else {
               return (
@@ -40,7 +43,7 @@ function HomeTabs() {
             }
           } else if (route.name === 'Pedidos') {
             if (focused) {
-              size = size + 2;
+              size = size + screenHeight * 0.001;
               return <Image source={require('../../assets/images/bars.png')} />;
             } else {
               return (
@@ -51,7 +54,7 @@ function HomeTabs() {
             }
           } else if (route.name === 'Perfil') {
             if (focused) {
-              size = size + 2;
+              size = size + screenHeight * 0.001;
               return <Image source={require('../../assets/images/user.png')} />;
             } else {
               return (

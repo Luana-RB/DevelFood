@@ -11,6 +11,7 @@ import {
   RatingIcon,
   RatingText,
   Title,
+  TitleContainer,
 } from './styles';
 import {RestaurantsData} from '../../types/restaurantData';
 import {ImageSourcePropType} from 'react-native';
@@ -41,7 +42,9 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data}) => {
       </HeartContainer>
       {imagePath && <BackGroundImage source={imagePath} resizeMode="cover" />}
       <InfoContainer>
-        <Title>{data.info.name}</Title>
+        <TitleContainer>
+          <Title>{data.info.name}</Title>
+        </TitleContainer>
         <InfoFooter>
           <Category>{data.info.category}</Category>
           <RatingContainer>
