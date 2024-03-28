@@ -1,8 +1,9 @@
 export interface RestaurantsData {
-  credentials: RestaurantCredentials;
-  info: RestaurantInfo;
-  adress: RestaurantAdress;
-  plates: RestaurantPlate[];
+  id: string;
+  nome: string;
+  cnpj: string;
+  telefone: string;
+  fotos: string;
 }
 
 export interface RestaurantCredentials {

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, View} from 'react-native';
+import {ActivityIndicator, FlatList, Image, Text, View} from 'react-native';
 import {AuthContext} from '../../services/authContext';
 import {useToken} from '../../services/tokenContext';
 import {SafeAreaView} from 'react-native';
@@ -8,6 +8,13 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantCard from '../../components/RestaurantCard';
 import {RestaurantsData} from '../../types/restaurantData';
 import {restaurants} from '../../mocks/restaurants';
+import SearchBar from '../../components/SearchBar';
+import {
+  NoResultContainer,
+  NoResultImage,
+  NoResultText,
+} from '../../components/NoResultCard';
+import {getRestaurants} from '../../services/requisitions/restaurantes';
 
 const Home: React.FC = () => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
@@ -17,22 +24,54 @@ const Home: React.FC = () => {
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(8);
   const [data, setData] = useState<RestaurantsData[]>([]);
+  const [filteredData, setFilteredData] = useState<RestaurantsData[]>([]);
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [filter, setFilter] = useState('');
+  const [notFound, setNotFound] = useState(false);
   const perPage = 8;
 
   useEffect(() => {
     loadApi();
   }, []);
 
-  function loadApi() {
+  async function loadApi() {
+    const restaurantes = await getRestaurants();
+    console.log(restaurantes);
     if (loading) return;
-    setLoading(true);
-    const newData = restaurants.slice(minValue, maxValue);
+    if (filter) await handleSearch(filter);
+
+    const newData = restaurantes;
     setData([...data, ...newData]);
-    setMinValue(minValue + perPage);
-    setMaxValue(maxValue + perPage);
+
     setTimeout(function () {
       setLoading(false);
     }, 2000);
+  }
+
+  async function handleSearch(text: string) {
+    const restaurantes = await getRestaurants();
+    setFilter(text);
+    if (!text) setIsFiltered(false);
+
+    setTimeout(function () {
+      setLoading(false);
+    }, 2000);
+
+    const db = restaurantes.slice(0, maxValue);
+
+    const newData = db?.filter((item: {info: {name: string}}) => {
+      const itemData = item.info.name.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+
+    if (newData.length === 0) {
+      setNotFound(true);
+      setLoading(false);
+    } else setNotFound(false);
+
+    setFilteredData(newData);
+    setIsFiltered(true);
   }
 
   return (
@@ -41,15 +80,24 @@ const Home: React.FC = () => {
         barStyle="light-content"
         backgroundColor={colors.red}
       />
-
+      <SearchBar title="Buscar restaurantes" onChangeText={handleSearch} />
+      {notFound && (
+        <NoResultContainer>
+          <NoResultImage
+            source={require('../../../assets/images/notFoundRestaurant.png')}
+          />
+          <NoResultText>Nenhum restaurante encontrado</NoResultText>
+        </NoResultContainer>
+      )}
       <View style={{flex: 1}}>
+        {data.length < 1 && <ActivityIndicator size={50} color={colors.red} />}
         <FlatList
-          data={data}
-          keyExtractor={item => item.credentials.id}
+          data={isFiltered ? filteredData : data}
+          keyExtractor={item => item.id}
           renderItem={({item}) => <RestaurantCard data={item} />}
           numColumns={2}
           onEndReached={loadApi}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.2}
           ListFooterComponent={<FooterList load={loading} />}
         />
       </View>
