@@ -11,7 +11,7 @@ import Tela4 from '../views/RecuperarSenha/views/Tela4';
 import TelaFinal from '../views/RecuperarSenha/views/TelaFinal';
 import {Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {RecuperarSenhaProvider} from '../services/recuperarSenhaContext';
+import {RecuperarSenhaProvider} from '../services/context/recuperarSenhaContext';
 
 const Stack = createStackNavigator();
 

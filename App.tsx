@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import {TokenProvider} from './src/services/tokenContext';
+import {TokenProvider} from './src/services/context/tokenContext';
 import {MyStack} from './src/routes/stack.routes';
 import {NavigationContainer} from '@react-navigation/native';
 

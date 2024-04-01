@@ -8,9 +8,9 @@ import {
 } from '../../../components/Input';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
-import {getUserById, getUsers} from '../../../services/users';
+import {getUserById, getUsers} from '../../../services/api/users';
 import validator from 'validator';
-import {useCadastro} from '../../../services/cadastroContext';
+import {useCadastro} from '../../../services/context/cadastroContext';
 import {UsersData} from '../../../types/userData';
 import {
   CheckContainer,

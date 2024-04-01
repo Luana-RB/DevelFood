@@ -3,7 +3,7 @@ export interface RestaurantsData {
   nome: string;
   cnpj: string;
   telefone: string;
-  fotos: string;
+  fotos?: string;
 }
 
 export interface RestaurantCredentials {

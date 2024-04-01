@@ -1,47 +1,49 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, Image, Text, View} from 'react-native';
-import {AuthContext} from '../../services/authContext';
-import {useToken} from '../../services/tokenContext';
+import {ActivityIndicator, FlatList, View} from 'react-native';
+import {AuthContext} from '../../services/context/authContext';
+import {useToken} from '../../services/context/tokenContext';
 import {SafeAreaView} from 'react-native';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantCard from '../../components/RestaurantCard';
 import {RestaurantsData} from '../../types/restaurantData';
-import {restaurants} from '../../mocks/restaurants';
 import SearchBar from '../../components/SearchBar';
 import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
 } from '../../components/NoResultCard';
-import {getRestaurants} from '../../services/requisitions/restaurantes';
+import {getRestaurants} from '../../services/api/restaurantes';
 
 const Home: React.FC = () => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
   const {token} = useToken();
 
   const [loading, setLoading] = useState(false);
-  const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(8);
   const [data, setData] = useState<RestaurantsData[]>([]);
-  const [filteredData, setFilteredData] = useState<RestaurantsData[]>([]);
+  const [filteredData, setFilteredData] = useState<
+    RestaurantsData[] | undefined
+  >([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [filter, setFilter] = useState('');
   const [notFound, setNotFound] = useState(false);
-  const perPage = 8;
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     loadApi();
   }, []);
 
   async function loadApi() {
-    const restaurantes = await getRestaurants();
-    console.log(restaurantes);
     if (loading) return;
+    setLoading(true);
+    const restaurantes = await getRestaurants({page});
+    if (!restaurantes) return;
     if (filter) await handleSearch(filter);
 
     const newData = restaurantes;
     setData([...data, ...newData]);
+    //setPage(page + 1);
+    setPage(page + 7);
 
     setTimeout(function () {
       setLoading(false);
@@ -49,7 +51,6 @@ const Home: React.FC = () => {
   }
 
   async function handleSearch(text: string) {
-    const restaurantes = await getRestaurants();
     setFilter(text);
     if (!text) setIsFiltered(false);
 
@@ -57,15 +58,13 @@ const Home: React.FC = () => {
       setLoading(false);
     }, 2000);
 
-    const db = restaurantes.slice(0, maxValue);
-
-    const newData = db?.filter((item: {info: {name: string}}) => {
-      const itemData = item.info.name.toUpperCase();
+    const newData = data?.filter((item: {nome: string}) => {
+      const itemData = item.nome.toUpperCase();
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
 
-    if (newData.length === 0) {
+    if (!newData || newData.length === 0) {
       setNotFound(true);
       setLoading(false);
     } else setNotFound(false);

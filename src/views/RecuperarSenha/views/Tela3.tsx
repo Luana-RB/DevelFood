@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {TextInput, View} from 'react-native';
 import Button from '../../../components/Button';
 import {ErrorText} from '../../../components/Input';
-import {sendNumberCode} from '../../../services/users';
+import {sendNumberCode} from '../../../services/api/users';
 import {
   BarContainer,
   BarImage,

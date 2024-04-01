@@ -3,7 +3,7 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
-import {CadastroProvider} from '../services/cadastroContext';
+import {CadastroProvider} from '../services/context/cadastroContext';
 import Tela1 from '../views/Cadastro/views/tela1';
 import Tela2 from '../views/Cadastro/views/tela2';
 import Tela3 from '../views/Cadastro/views/tela3';

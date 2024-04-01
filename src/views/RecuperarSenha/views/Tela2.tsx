@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import Button from '../../../components/Button';
-import {sendToken} from '../../../services/users';
-import {useRecuperarSenha} from '../../../services/recuperarSenhaContext';
+import {sendToken} from '../../../services/api/users';
+import {useRecuperarSenha} from '../../../services/context/recuperarSenhaContext';
 import {
   BarContainer,
   BarImage,
@@ -13,7 +13,6 @@ import {
   TextContainer,
   Title,
 } from './styles';
-
 
 const Tela2: React.FC = ({navigation}: any) => {
   const [code, setCode] = useState('');
