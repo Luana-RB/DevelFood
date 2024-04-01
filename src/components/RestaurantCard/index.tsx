@@ -46,7 +46,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data}) => {
           <Title>{data.nome}</Title>
         </TitleContainer>
         <InfoFooter>
-          <Category>Categoria</Category>
+          <Category>{data.tipoComida?.nome}</Category>
           <RatingContainer>
             <RatingIcon source={require('../../../assets/images/star.png')} />
             <RatingText>5.0</RatingText>
