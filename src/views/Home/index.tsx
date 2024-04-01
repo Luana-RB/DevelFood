@@ -42,8 +42,8 @@ const Home: React.FC = () => {
 
     const newData = restaurantes;
     setData([...data, ...newData]);
-    //setPage(page + 1);
-    setPage(page + 7);
+    setPage(page + 1);
+    // setPage(page + 7);
 
     setTimeout(function () {
       setLoading(false);
@@ -99,6 +99,7 @@ const Home: React.FC = () => {
           onEndReachedThreshold={0.2}
           ListFooterComponent={<FooterList load={loading} />}
         />
+        <View style={{height: 60, width: '100%'}} />
       </View>
     </SafeAreaView>
   );
