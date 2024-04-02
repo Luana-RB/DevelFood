@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState} from 'react';
-import {UsersData} from '../types/userData';
+import {UsersData} from '../../types/userData';
 
 type RecuperarSenhaContextType = {
   user: UsersData;

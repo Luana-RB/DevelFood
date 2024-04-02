@@ -8,7 +8,7 @@ import {
 } from '../../../components/Input';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
-import {useCadastro} from '../../../services/cadastroContext';
+import {useCadastro} from '../../../services/context/cadastroContext';
 import {
   CellphoneIcon,
   CheckContainer,

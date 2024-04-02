@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {StatusBar, TouchableOpacity, View} from 'react-native';
 import Botao from '../../components/Button';
-import {useToken} from '../../services/tokenContext';
-import {AuthContext} from '../../services/authContext';
+import {useToken} from '../../services/context/tokenContext';
+import {AuthContext} from '../../services/context/authContext';
 import {colors} from '../../globalStyles';
 import {UsersData} from '../../types/userData';
 import {Errors} from '../../types/errors';
@@ -25,7 +25,7 @@ import {
   findUserIdByEmail,
   getUserById,
   getUserToken,
-} from '../../services/users';
+} from '../../services/api/users';
 import {
   ErrorText,
   InputContainer,

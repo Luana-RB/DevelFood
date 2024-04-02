@@ -25,8 +25,8 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data}) => {
 
   useEffect(() => {
     if (data) {
-      if (!!data.info.imageUrl) {
-        setImagePath({uri: data.info.imageUrl});
+      if (!!data.fotos) {
+        setImagePath({uri: data.fotos});
       } else {
         setImagePath(require('../../../assets/images/notFound.png'));
       }
@@ -43,13 +43,13 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data}) => {
       {imagePath && <BackGroundImage source={imagePath} resizeMode="cover" />}
       <InfoContainer>
         <TitleContainer>
-          <Title>{data.info.name}</Title>
+          <Title>{data.nome}</Title>
         </TitleContainer>
         <InfoFooter>
-          <Category>{data.info.category}</Category>
+          <Category>{data.tipoComida?.nome}</Category>
           <RatingContainer>
             <RatingIcon source={require('../../../assets/images/star.png')} />
-            <RatingText>{String(data.info.rating)}</RatingText>
+            <RatingText>5.0</RatingText>
           </RatingContainer>
         </InfoFooter>
       </InfoContainer>

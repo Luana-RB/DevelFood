@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import Button from '../../../components/Button';
-import {patchPassword} from '../../../services/users';
-import {useRecuperarSenha} from '../../../services/recuperarSenhaContext';
+import {patchPassword} from '../../../services/api/users';
+import {useRecuperarSenha} from '../../../services/context/recuperarSenhaContext';
 import {Errors} from '../../../types/errors';
 import {
   ErrorText,

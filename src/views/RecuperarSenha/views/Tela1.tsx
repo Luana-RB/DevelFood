@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {findUserIdByEmail, getUserById} from '../../../services/users';
-import {useRecuperarSenha} from '../../../services/recuperarSenhaContext';
+import {findUserIdByEmail, getUserById} from '../../../services/api/users';
+import {useRecuperarSenha} from '../../../services/context/recuperarSenhaContext';
 import {Errors} from '../../../types/errors';
 import Button from '../../../components/Button';
 import {

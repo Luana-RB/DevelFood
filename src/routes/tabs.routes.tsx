@@ -12,7 +12,8 @@ function HomeTabs() {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarStyle: {height: screenHeight * 0.08},
+        keyboardHidesTabBar: true,
+        tabBarStyle: {height: screenHeight * 0.08, position: 'absolute'},
         tabBarIcon: ({focused, color, size}) => {
           if (route.name === 'Início') {
             if (focused) {

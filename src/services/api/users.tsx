@@ -1,5 +1,5 @@
-import {users} from '../mocks/users';
-import {UsersData} from '../types/userData';
+import {users} from '../../mocks/users';
+import {UsersData} from '../../types/userData';
 
 export function getUsers() {
   try {

@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
-import {UserAdress, UserCredentials, UserInfo} from '../types/userData';
+import {UserAdress, UserCredentials, UserInfo} from '../../types/userData';
 
 type CadastroContextType = {
   storeCredentials: (newEmail: string, newSenha: string) => Promise<unknown>;

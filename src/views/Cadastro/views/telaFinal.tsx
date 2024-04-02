@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from '../../../components/Button';
-import {useCadastro} from '../../../services/cadastroContext';
-import {getUserToken, postUser} from '../../../services/users';
-import {AuthContext} from '../../../services/authContext';
+import {useCadastro} from '../../../services/context/cadastroContext';
+import {getUserToken, postUser} from '../../../services/api/users';
+import {AuthContext} from '../../../services/context/authContext';
 import {
   BigLadyImage,
   CadastroContainer,
@@ -11,7 +11,7 @@ import {
   Container,
 } from './styles';
 import {UsersData} from '../../../types/userData';
-import {useToken} from '../../../services/tokenContext';
+import {useToken} from '../../../services/context/tokenContext';
 import {View} from 'react-native';
 
 const TelaFinal: React.FC = () => {
