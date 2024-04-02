@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {ActivityIndicator, FlatList, View} from 'react-native';
 import {
   BodyContainer,
   Container,
@@ -22,6 +22,7 @@ import {
 } from '../../components/NoResultCard';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {colors} from '../../globalStyles';
+import {RestaurantPlate} from '../../types/restaurantData';
 
 const RestaurantProfile: React.FC = () => {
   const [cart, setCart] = useState(false);
@@ -29,21 +30,48 @@ const RestaurantProfile: React.FC = () => {
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
+  const [loading, setLoading] = useState(false);
+  const [plateData, setPlateData] = useState<RestaurantPlate[]>([]);
+  const [filteredData, setFilteredData] = useState<RestaurantPlate[] | null>();
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [filter, setFilter] = useState('');
 
   const {data} = useRestaurant();
+
   useEffect(() => {
-    if (data?.pratos === undefined) {
-      setNotFound(true);
-    }
     if (data) {
-      if (!!data.fotos) {
-        setImagePath({uri: data.fotos});
-      } else {
-        setImagePath(require('../../../assets/images/notFound.png'));
-      }
+      if (data?.pratos === undefined) setNotFound(true);
+      else setPlateData(data?.pratos);
+      if (!!data.fotos) setImagePath({uri: data.fotos});
+      else setImagePath(require('../../../assets/images/notFound.png'));
     }
   }, []);
+
   if (!data) return;
+
+  async function handleSearch(text: string) {
+    setFilter(text);
+    if (!text) setIsFiltered(false);
+    setLoading(true);
+
+    setTimeout(function () {
+      setLoading(false);
+    }, 2000);
+
+    const newData = plateData?.filter((item: {nome: string}) => {
+      const itemData = item.nome.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+
+    if (!newData || newData.length === 0) {
+      setNotFound(true);
+      setLoading(false);
+    } else setNotFound(false);
+
+    setFilteredData(newData);
+    setIsFiltered(true);
+  }
 
   return (
     <Container>
@@ -63,10 +91,11 @@ const RestaurantProfile: React.FC = () => {
         <PlatesTitle>Pratos</PlatesTitle>
         <SearchBar
           title={`Buscar em ${data.nome}`}
-          onChangeText={function (text: string): void {}}
+          onChangeText={handleSearch}
         />
+
         {notFound && (
-          <NoResultContainer>
+          <NoResultContainer style={{marginTop: 60}}>
             <NoResultImage
               source={require('../../../assets/images/notFoundRestaurant.png')}
             />
@@ -74,11 +103,12 @@ const RestaurantProfile: React.FC = () => {
           </NoResultContainer>
         )}
         <FlatList
-          data={data.pratos}
+          data={isFiltered ? filteredData : data.pratos}
           keyExtractor={item => item.id}
           renderItem={({item}) => <PlateCard data={item} />}
           ListFooterComponent={<View style={{height: 70}} />}
         />
+        {loading && <ActivityIndicator size={50} color={colors.red} />}
       </BodyContainer>
       {cart && <CartBar />}
     </Container>

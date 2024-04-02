@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import {colors, screenHeight, screenWidth} from '../../globalStyles';
 
-export const NoResultContainer = styled.View`
+export const NoResultContainer = styled.KeyboardAvoidingView`
   flex: 1;
   align-items: center;
   justify-content: center;

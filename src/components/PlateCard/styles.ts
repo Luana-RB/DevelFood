@@ -108,6 +108,9 @@ export const QuantityContainer = styled.View`
   flex-direction: row;
   height: 100%;
   width: 40%;
+  align-items: center;
+  justify-content: center;
+  margin-top: -7px;
 `;
 
 export const QuantityBox = styled.View`
@@ -116,22 +119,31 @@ export const QuantityBox = styled.View`
   background-color: ${colors.red};
   border-radius: 8px;
   align-items: center;
+  justify-content: center;
 `;
 
 export const QuantityText = styled.Text`
-  font-size: 14px;
+  font-size: 12px;
   color: ${colors.white};
 `;
 export const QuantityButton = styled.TouchableOpacity`
-  height: 100%;
-  width: 40%;
+  height: 50%;
+  width: 20%;
+  align-items: center;
+  justify-content: center;
+
+  margin: 5px;
 `;
 
-export const QuantityIcon = styled.Image`
-  width: ${screenWidth * 0.053}px;
-  height: ${screenHeight * 0.02299}px;
+export const MinusIcon = styled.Image`
+  width: ${screenWidth * 0.02}px;
+  height: ${screenHeight * 0.006}px;
+`;
+export const PlusIcon = styled.Image`
+  width: ${screenWidth * 0.03}px;
+  height: ${screenHeight * 0.015}px;
 `;
 export const TrashIcon = styled.Image`
-  width: ${screenWidth * 0.053}px;
-  height: ${screenHeight * 0.02299}px;
+  width: ${screenWidth * 0.028}px;
+  height: ${screenHeight * 0.016}px;
 `;

@@ -9,12 +9,13 @@ import {
   DescriptionContainer,
   FooterContainer,
   HeartIcon,
+  MinusIcon,
   PlateImage,
+  PlusIcon,
   Price,
   QuantityBox,
   QuantityButton,
   QuantityContainer,
-  QuantityIcon,
   QuantityText,
   TextContainer,
   Title,
@@ -80,7 +81,7 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
                 </QuantityButton>
               ) : (
                 <QuantityButton onPress={() => setQuantity(quantity - 1)}>
-                  <QuantityIcon
+                  <MinusIcon
                     source={require('../../../assets/images/minus.png')}
                   />
                 </QuantityButton>
@@ -89,9 +90,7 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
                 <QuantityText>{quantity}</QuantityText>
               </QuantityBox>
               <QuantityButton onPress={() => setQuantity(quantity + 1)}>
-                <QuantityIcon
-                  source={require('../../../assets/images/plus.png')}
-                />
+                <PlusIcon source={require('../../../assets/images/plus.png')} />
               </QuantityButton>
             </QuantityContainer>
           )}
