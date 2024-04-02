@@ -15,7 +15,7 @@ import {
 } from '../../components/NoResultCard';
 import {getRestaurants} from '../../services/api/restaurantes';
 
-const Home: React.FC = () => {
+const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
   const {token} = useToken();
 
@@ -42,8 +42,8 @@ const Home: React.FC = () => {
 
     const newData = restaurantes;
     setData([...data, ...newData]);
-    setPage(page + 1);
-    // setPage(page + 7);
+    // setPage(page + 1);
+    setPage(page + 7);
 
     setTimeout(function () {
       setLoading(false);
@@ -93,7 +93,9 @@ const Home: React.FC = () => {
         <FlatList
           data={isFiltered ? filteredData : data}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <RestaurantCard data={item} />}
+          renderItem={({item}) => (
+            <RestaurantCard data={item} navigation={navigation} />
+          )}
           numColumns={2}
           onEndReached={loadApi}
           onEndReachedThreshold={0.2}

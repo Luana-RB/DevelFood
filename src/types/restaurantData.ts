@@ -4,6 +4,12 @@ export interface RestaurantsData {
   cnpj: string;
   telefone: string;
   fotos?: string;
+  categoria?: string;
+  pratos?: RestaurantPlate[];
+  tipoComida?: {
+    id: string;
+    nome: string;
+  };
 }
 
 export interface RestaurantCredentials {
@@ -18,10 +24,11 @@ export interface RestaurantInfo {
   rating: number;
 }
 export interface RestaurantPlate {
-  name: string;
-  price: string;
-  description: string;
-  imageUrl?: string;
+  id: string;
+  nome: string;
+  price?: string;
+  description?: string;
+  fotos?: string;
 }
 
 export interface RestaurantAdress {

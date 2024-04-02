@@ -5,6 +5,7 @@ import Perfil from '../views/Perfil';
 import Pedidos from '../views/Pedidos';
 import {colors, screenHeight} from '../globalStyles';
 import {Image, Text} from 'react-native';
+import {RestaurantStack} from './restaurant.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -88,7 +89,7 @@ function HomeTabs() {
       })}>
       <Tab.Screen
         name="Início"
-        component={Home}
+        component={RestaurantStack}
         options={{headerShown: false}}
       />
       <Tab.Screen

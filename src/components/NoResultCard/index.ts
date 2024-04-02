@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors} from '../../globalStyles';
+import {colors, screenHeight, screenWidth} from '../../globalStyles';
 
 export const NoResultContainer = styled.View`
   flex: 1;
@@ -9,8 +9,8 @@ export const NoResultContainer = styled.View`
 `;
 
 export const NoResultImage = styled.Image`
-  width: 100%;
-  height: 70%;
+  width: ${screenWidth * 0.9}px;
+  height: ${screenHeight * 0.25}px;
 `;
 
 export const NoResultText = styled.Text`
