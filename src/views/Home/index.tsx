@@ -26,7 +26,6 @@ const Home: React.FC = () => {
   >([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [filter, setFilter] = useState('');
-  const [notFound, setNotFound] = useState(false);
   const [page, setPage] = useState(0);
 
   useEffect(() => {
@@ -64,11 +63,6 @@ const Home: React.FC = () => {
       return itemData.indexOf(textData) > -1;
     });
 
-    if (!newData || newData.length === 0) {
-      setNotFound(true);
-      setLoading(false);
-    } else setNotFound(false);
-
     setFilteredData(newData);
     setIsFiltered(true);
   }
@@ -80,14 +74,6 @@ const Home: React.FC = () => {
         backgroundColor={colors.red}
       />
       <SearchBar title="Buscar restaurantes" onChangeText={handleSearch} />
-      {notFound && (
-        <NoResultContainer>
-          <NoResultImage
-            source={require('../../../assets/images/notFoundRestaurant.png')}
-          />
-          <NoResultText>Nenhum restaurante encontrado</NoResultText>
-        </NoResultContainer>
-      )}
       <View style={{flex: 1}}>
         {data.length < 1 && <ActivityIndicator size={50} color={colors.red} />}
         <FlatList
@@ -98,6 +84,14 @@ const Home: React.FC = () => {
           onEndReached={loadApi}
           onEndReachedThreshold={0.2}
           ListFooterComponent={<FooterList load={loading} />}
+          ListEmptyComponent={
+            <NoResultContainer>
+              <NoResultImage
+                source={require('../../../assets/images/notFoundRestaurant.png')}
+              />
+              <NoResultText>Nenhum restaurante encontrado</NoResultText>
+            </NoResultContainer>
+          }
         />
         <View style={{height: 60, width: '100%'}} />
       </View>
