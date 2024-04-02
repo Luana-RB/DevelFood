@@ -41,20 +41,20 @@ const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
 
   useEffect(() => {
     if (data) {
-      if (!!data.fotos) {
-        setImagePath({uri: data.fotos});
+      if (!!data.foto) {
+        setImagePath({uri: data.foto});
       } else {
         setImagePath(require('../../../assets/images/notFound.png'));
       }
-      if (!!data.description) {
-        const text = data.description;
+      if (!!data.descricao) {
+        const text = data.descricao;
         const words = text.split(' ');
         const firstWords = words.slice(0, 20);
         const newDescription = firstWords.join(' ');
         setDescription(newDescription);
       }
-      if (!!data.price) {
-        const centsFormat = data.price.toFixed(2);
+      if (!!data.preco) {
+        const centsFormat = data.preco.toFixed(2);
         const commaFormat = centsFormat.replace(/\./g, ',');
         setPrice(commaFormat);
       }
@@ -92,22 +92,18 @@ const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
                     setQuantity(0);
                     setCart(false);
                   }}>
-                  <TrashIcon
-                    source={require('../../../assets/images/trash.png')}
-                  />
+                  <TrashIcon source={require('./assets/trash.png')} />
                 </QuantityButton>
               ) : (
                 <QuantityButton onPress={() => setQuantity(quantity - 1)}>
-                  <MinusIcon
-                    source={require('../../../assets/images/minus.png')}
-                  />
+                  <MinusIcon source={require('./assets/minus.png')} />
                 </QuantityButton>
               )}
               <QuantityBox>
                 <QuantityText>{quantity}</QuantityText>
               </QuantityBox>
               <QuantityButton onPress={() => setQuantity(quantity + 1)}>
-                <PlusIcon source={require('../../../assets/images/plus.png')} />
+                <PlusIcon source={require('./assets/plus.png')} />
               </QuantityButton>
             </QuantityContainer>
           )}

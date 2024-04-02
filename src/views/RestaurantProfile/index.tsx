@@ -22,11 +22,12 @@ import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
-} from '../../components/NoResultCard';
+} from '../../components/NoResultComponent';
+import {isLength} from 'validator';
 
 const RestaurantProfile: React.FC = () => {
   const [cart, setCart] = useState(false);
-  const [notFound, setNotFound] = useState(false);
+  const [notFound, setNotFound] = useState(true);
   const [loading, setLoading] = useState(false);
   const [plateData, setPlateData] = useState<RestaurantPlate[]>([]);
   const [filteredData, setFilteredData] = useState<RestaurantPlate[] | null>();
@@ -39,8 +40,11 @@ const RestaurantProfile: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      if (data?.pratos === undefined) setNotFound(true);
-      else setPlateData(data?.pratos);
+      console.log(data);
+      if (data?.pratos !== undefined && data?.pratos?.length >= 1) {
+        setNotFound(false);
+        setPlateData(data?.pratos);
+      }
       if (!!data.fotos) setImagePath({uri: data.fotos});
       else setImagePath(require('../../../assets/images/notFound.png'));
     }

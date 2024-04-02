@@ -1,5 +1,4 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import Home from '../views/Home';
 import Login from '../views/Login';
 import {UsersData} from '../types/userData';
 import React, {useEffect, useState} from 'react';
@@ -10,7 +9,7 @@ import {colors} from '../globalStyles';
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthContext} from '../services/context/authContext';
 import Cadastro from '../views/Cadastro';
-import RecuperarSenhaStack from './recuperarSenha.routes';
+import ForgotPasswordStack from './newPassword.routes';
 import HomeTabs from './tabs.routes';
 
 const MainStack = createStackNavigator();
@@ -159,7 +158,7 @@ export function MyStack() {
               />
               <MainStack.Screen
                 name="Recuperar Senha"
-                component={RecuperarSenhaStack}
+                component={ForgotPasswordStack}
                 options={{
                   headerShown: false,
                 }}

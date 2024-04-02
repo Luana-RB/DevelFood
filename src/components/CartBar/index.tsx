@@ -13,7 +13,7 @@ const CartBar: React.FC = () => {
   return (
     <Container>
       <CartContainer>
-        <CartIcon source={require('../../../assets/images/cart.png')} />
+        <CartIcon source={require('./assets/cart.png')} />
         <QuantityContainer>
           <QuantityText>9+</QuantityText>
         </QuantityContainer>

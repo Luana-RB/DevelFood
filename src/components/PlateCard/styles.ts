@@ -25,8 +25,8 @@ export const Container = styled.View`
 `;
 
 export const PlateImage = styled.Image`
-  width: ${screenHeight * 0.15}px;
-  height: ${screenHeight * 0.14}px;
+  width: ${screenHeight * 0.145}px;
+  height: ${screenHeight * 0.135}px;
   border-radius: 8px;
   overflow: hidden;
   margin: ${screenWidth * 0.03}px;
@@ -59,24 +59,24 @@ export const TextContainer = styled.View`
 `;
 export const TitleContainer = styled.View`
   width: 100%;
-  height: 40%;
+  align-self: center;
+  margin-bottom: ${screenHeight * 0.005}px;
 `;
 export const Title = styled.Text`
   font-size: 16px;
   flex-wrap: wrap;
-  margin-bottom: ${screenHeight * 0.005}px;
   color: ${colors.red};
   font-weight: bold;
 `;
 
 export const DescriptionContainer = styled.View`
   width: 100%;
-  height: 60%;
+  align-self: center;
 `;
 export const Description = styled.Text`
-  font-size: 12px;
+  font-size: 10px;
   flex-wrap: wrap;
-  margin-bottom: ${screenHeight * 0.005}px;
+
   color: ${colors.gray};
 `;
 
@@ -95,7 +95,7 @@ export const Price = styled.Text`
 
 export const AddButton = styled.TouchableOpacity`
   height: 100%;
-  width: 35%;
+  width: ${screenWidth * 0.2}px;
 `;
 
 export const AddText = styled.Text`
@@ -106,8 +106,8 @@ export const AddText = styled.Text`
 
 export const QuantityContainer = styled.View`
   flex-direction: row;
-  height: 100%;
-  width: 40%;
+  height: ${screenHeight * 0.045}px;
+  width: ${screenWidth * 0.2}px;
   align-items: center;
   justify-content: center;
   margin-top: -7px;
@@ -131,8 +131,7 @@ export const QuantityButton = styled.TouchableOpacity`
   width: 20%;
   align-items: center;
   justify-content: center;
-
-  margin: 5px;
+  margin: 5px 10px;
 `;
 
 export const MinusIcon = styled.Image`

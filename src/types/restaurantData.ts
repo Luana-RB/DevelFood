@@ -26,9 +26,9 @@ export interface RestaurantInfo {
 export interface RestaurantPlate {
   id: string;
   nome: string;
-  price?: number;
-  description?: string;
-  fotos?: string;
+  preco?: number;
+  descricao?: string;
+  foto?: string;
 }
 
 export interface RestaurantAdress {

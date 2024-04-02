@@ -13,9 +13,9 @@ import {
   Title,
   TitleContainer,
 } from './styles';
-import {RestaurantsData} from '../../types/restaurantData';
+import {RestaurantsData} from '../../../../types/restaurantData';
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
-import {useRestaurant} from '../../services/context/restaurantContext';
+import {useRestaurant} from '../../../../services/context/restaurantContext';
 
 interface RestaurantProps {
   data: RestaurantsData;
@@ -24,6 +24,7 @@ interface RestaurantProps {
 
 const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>();
+  const [fontSize, setFontSize] = useState(16);
   const {storeData} = useRestaurant();
 
   useEffect(() => {
@@ -31,8 +32,9 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
       if (!!data.fotos) {
         setImagePath({uri: data.fotos});
       } else {
-        setImagePath(require('../../../assets/images/notFound.png'));
+        setImagePath(require('../../../../../assets/images/notFound.png'));
       }
+      if (data.nome.length > 18) setFontSize(14);
     }
   }, []);
 
@@ -46,18 +48,20 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
       <Container>
         <HeartContainer>
           <HeartImage
-            source={require('../../../assets/images/heart_outline.png')}
+            source={require('../../../../../assets/images/heart_outline.png')}
           />
         </HeartContainer>
         {imagePath && <BackGroundImage source={imagePath} resizeMode="cover" />}
         <InfoContainer>
           <TitleContainer>
-            <Title>{data.nome}</Title>
+            <Title style={{fontSize: fontSize}}>{data.nome}</Title>
           </TitleContainer>
           <InfoFooter>
             <Category>{data.tipoComida?.nome}</Category>
             <RatingContainer>
-              <RatingIcon source={require('../../../assets/images/star.png')} />
+              <RatingIcon
+                source={require('../../../../../assets/images/star.png')}
+              />
               <RatingText>5.0</RatingText>
             </RatingContainer>
           </InfoFooter>

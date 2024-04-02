@@ -42,7 +42,7 @@ function CustomHeartButton() {
   );
 }
 
-export function RestaurantStack({route}: any) {
+export function RestaurantStack() {
   return (
     <RestaurantProvider>
       <Stack.Navigator>

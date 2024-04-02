@@ -106,11 +106,11 @@ const Login: React.FC = ({navigation}: any) => {
     <Container>
       <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
       <BackGroundImagesContainer>
-        <Sandwich source={require('../../../assets/images/login1.jpeg')} />
-        <Pizza source={require('../../../assets/images/login2.jpeg')} />
+        <Sandwich source={require('./assets/login1.jpeg')} />
+        <Pizza source={require('./assets/login2.jpeg')} />
       </BackGroundImagesContainer>
       <LogoContainer>
-        <LogoImage source={require('../../../assets/images/dfLogoRed.png')} />
+        <LogoImage source={require('./assets/dfLogoRed.png')} />
         <LogoText>DEVELFOOD</LogoText>
       </LogoContainer>
       <View style={{alignItems: 'center'}}>
@@ -150,9 +150,7 @@ const Login: React.FC = ({navigation}: any) => {
         </ForgotPassContainer>
       </View>
       <Botao text={'Entrar'} handleSubmit={handleSubmit} />
-      <Pepper
-        source={require('../../../assets/images/login3.jpeg')}
-        resizeMode="contain">
+      <Pepper source={require('./assets/login3.jpeg')} resizeMode="contain">
         <SignInContainer>
           <SignInText>Não possui cadastro?</SignInText>
           <TouchableOpacity

@@ -13,25 +13,24 @@ export const restaurantsMock: RestaurantsData[] = [
       {
         id: '101',
         nome: 'Margherita Pizza',
-        description:
+        descricao:
           'Uma pizza de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
-        price: 49.9,
-        fotos:
-          'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        preco: 49.9,
+        foto: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
         id: '102',
         nome: 'Pepperoni Pizza',
-        description:
+        descricao:
           'Uma pizza de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
-        price: 49.9,
+        preco: 49.9,
       },
       {
         id: '103',
         nome: 'Hawaiian Pizza',
-        description:
+        descricao:
           'Uma pizza de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
-        price: 49.9,
+        preco: 49.9,
       },
       {id: '104', nome: 'Hawaiian Pizza'},
     ],
@@ -47,8 +46,7 @@ export const restaurantsMock: RestaurantsData[] = [
       {
         id: '201',
         nome: 'Classic Burger',
-        fotos:
-          'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        foto: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {id: '202', nome: 'Cheeseburger'},
       {id: '203', nome: 'Veggie Burger'},

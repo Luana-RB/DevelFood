@@ -11,7 +11,7 @@ import Tela4 from '../views/RecuperarSenha/views/Tela4';
 import TelaFinal from '../views/RecuperarSenha/views/TelaFinal';
 import {Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {RecuperarSenhaProvider} from '../services/context/recuperarSenhaContext';
+import {ForgotPasswordProvider} from '../services/context/newPasswordContext';
 
 const Stack = createStackNavigator();
 
@@ -33,9 +33,9 @@ function CustomBackButton() {
   );
 }
 
-const RecuperarSenhaStack: React.FC = () => {
+const ForgotPasswordStack: React.FC = () => {
   return (
-    <RecuperarSenhaProvider>
+    <ForgotPasswordProvider>
       <Stack.Navigator>
         <Stack.Screen
           name="Esqueceu"
@@ -84,8 +84,8 @@ const RecuperarSenhaStack: React.FC = () => {
           }}
         />
       </Stack.Navigator>
-    </RecuperarSenhaProvider>
+    </ForgotPasswordProvider>
   );
 };
 
-export default RecuperarSenhaStack;
+export default ForgotPasswordStack;

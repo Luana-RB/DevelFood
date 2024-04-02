@@ -5,14 +5,14 @@ import {useToken} from '../../services/context/tokenContext';
 import {SafeAreaView} from 'react-native';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
-import RestaurantCard from '../../components/RestaurantCard';
+import RestaurantCard from './components/RestaurantCard';
 import {RestaurantsData} from '../../types/restaurantData';
 import SearchBar from '../../components/SearchBar';
 import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
-} from '../../components/NoResultCard';
+} from '../../components/NoResultComponent';
 import {getRestaurants} from '../../services/api/restaurantes';
 
 const Home: React.FC = ({navigation}: any) => {
