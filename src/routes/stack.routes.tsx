@@ -132,6 +132,7 @@ export function MyStack() {
       </View>
     );
   }
+
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>

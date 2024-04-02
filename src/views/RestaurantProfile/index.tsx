@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, FlatList, View} from 'react-native';
+import SearchBar from '../../components/SearchBar';
+import PlateCard from '../../components/PlateCard';
+import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
+import {colors} from '../../globalStyles';
+import {RestaurantPlate} from '../../types/restaurantData';
+import CartBar from '../../components/CartBar';
+import {useRestaurant} from '../../services/context/restaurantContext';
 import {
   BodyContainer,
   Container,
@@ -11,30 +18,22 @@ import {
   Line,
   PlatesTitle,
 } from './styles';
-import SearchBar from '../../components/SearchBar';
-import PlateCard from '../../components/PlateCard';
-import CartBar from '../../components/CartBar';
-import {useRestaurant} from '../../services/context/restaurantContext';
 import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
 } from '../../components/NoResultCard';
-import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
-import {colors} from '../../globalStyles';
-import {RestaurantPlate} from '../../types/restaurantData';
 
 const RestaurantProfile: React.FC = () => {
   const [cart, setCart] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const [imagePath, setImagePath] = useState(
-    require('../../../assets/images/notFound.png'),
-  );
   const [loading, setLoading] = useState(false);
   const [plateData, setPlateData] = useState<RestaurantPlate[]>([]);
   const [filteredData, setFilteredData] = useState<RestaurantPlate[] | null>();
   const [isFiltered, setIsFiltered] = useState(false);
-  const [filter, setFilter] = useState('');
+  const [imagePath, setImagePath] = useState(
+    require('../../../assets/images/notFound.png'),
+  );
 
   const {data} = useRestaurant();
 
@@ -50,7 +49,6 @@ const RestaurantProfile: React.FC = () => {
   if (!data) return;
 
   async function handleSearch(text: string) {
-    setFilter(text);
     if (!text) setIsFiltered(false);
     setLoading(true);
 
@@ -102,15 +100,27 @@ const RestaurantProfile: React.FC = () => {
             <NoResultText>Nenhum prato encontrado</NoResultText>
           </NoResultContainer>
         )}
+
         <FlatList
           data={isFiltered ? filteredData : data.pratos}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <PlateCard data={item} />}
+          renderItem={({item}) => <PlateCard data={item} setCart={setCart} />}
           ListFooterComponent={<View style={{height: 70}} />}
+          style={{flex: 5}}
         />
         {loading && <ActivityIndicator size={50} color={colors.red} />}
       </BodyContainer>
-      {cart && <CartBar />}
+      {cart && (
+        <View
+          style={{
+            backgroundColor: colors.white,
+            flex: 1.7,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <CartBar />
+        </View>
+      )}
     </Container>
   );
 };

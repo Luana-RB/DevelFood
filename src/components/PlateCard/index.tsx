@@ -26,14 +26,18 @@ import {ImageSourcePropType} from 'react-native';
 
 interface PlateCardProps {
   data: RestaurantPlate;
+  setCart: (value: boolean) => void;
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data}) => {
+const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
   const [quantity, setQuantity] = useState(0);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(
+    'Descrição de um prato delicioso que é uma ótima opção para pedir quando se está com a família',
+  );
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
   );
+  const [price, setPrice] = useState('0,00');
 
   useEffect(() => {
     if (data) {
@@ -48,6 +52,11 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
         const firstWords = words.slice(0, 20);
         const newDescription = firstWords.join(' ');
         setDescription(newDescription);
+      }
+      if (!!data.price) {
+        const centsFormat = data.price.toFixed(2);
+        const commaFormat = centsFormat.replace(/\./g, ',');
+        setPrice(commaFormat);
       }
     }
   }, []);
@@ -66,15 +75,23 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
           </DescriptionContainer>
         </TextContainer>
         <FooterContainer>
-          <Price>R$ {data.price}</Price>
+          <Price>R$ {price}</Price>
           {quantity === 0 ? (
-            <AddButton onPress={() => setQuantity(1)}>
+            <AddButton
+              onPress={() => {
+                setQuantity(1);
+                setCart(true);
+              }}>
               <AddText>Adicionar</AddText>
             </AddButton>
           ) : (
             <QuantityContainer>
               {quantity === 1 ? (
-                <QuantityButton onPress={() => setQuantity(0)}>
+                <QuantityButton
+                  onPress={() => {
+                    setQuantity(0);
+                    setCart(false);
+                  }}>
                   <TrashIcon
                     source={require('../../../assets/images/trash.png')}
                   />

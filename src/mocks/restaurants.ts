@@ -14,12 +14,25 @@ export const restaurantsMock: RestaurantsData[] = [
         id: '101',
         nome: 'Margherita Pizza',
         description:
-          'Um prato de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
+          'Uma pizza de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
+        price: 49.9,
         fotos:
           'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
-      {id: '102', nome: 'Pepperoni Pizza'},
-      {id: '103', nome: 'Hawaiian Pizza'},
+      {
+        id: '102',
+        nome: 'Pepperoni Pizza',
+        description:
+          'Uma pizza de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
+        price: 49.9,
+      },
+      {
+        id: '103',
+        nome: 'Hawaiian Pizza',
+        description:
+          'Uma pizza de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
+        price: 49.9,
+      },
       {id: '104', nome: 'Hawaiian Pizza'},
     ],
   },

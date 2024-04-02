@@ -1,5 +1,4 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '../views/Home';
 import Favoritos from '../views/Favoritos';
 import Perfil from '../views/Perfil';
 import Pedidos from '../views/Pedidos';
@@ -90,7 +89,9 @@ function HomeTabs() {
       <Tab.Screen
         name="Início"
         component={RestaurantStack}
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+        }}
       />
       <Tab.Screen
         name="Favoritos"
