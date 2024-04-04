@@ -7,13 +7,17 @@ import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantCard from '../../components/RestaurantCard';
 import {RestaurantsData} from '../../types/restaurantData';
-import SearchBar from '../../components/SearchBar';
 import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
 } from '../../components/NoResultCard';
 import {getRestaurants} from '../../services/api/restaurantes';
+import {
+  SearchBarContainer,
+  SearchIcon,
+  SearchInput,
+} from '../../components/SearchBar/styles';
 
 const Home: React.FC = () => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
@@ -28,50 +32,53 @@ const Home: React.FC = () => {
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    loadApi();
-  }, []);
+    if (filter === '') {
+      setShownData(data);
+      handleAll();
+    } else handleSearch(data);
+  }, [filter]);
 
-  async function loadApi() {
+  async function handleAll() {
     if (loading) return;
     if (endedList) return;
     setLoading(true);
 
-    const restaurantes = await getRestaurants({page});
-
-    if (!restaurantes) {
+    const restaurantList = await loadAPI();
+    if (!restaurantList) {
       setEndedList(true);
       setLoading(false);
       return;
     }
+    if (restaurantList.length === 0) setEndedList(true);
 
-    if (restaurantes.length === 0) setEndedList(true);
-
-    setData([...data, ...restaurantes]);
+    setData([...data, ...restaurantList]);
     setLoading(false);
     setFound(true);
 
-    setPage(page + 1);
-    //setPage(page + 7);
-
-    if (filter) {
-      await handleSearch();
-    } else {
-      setShownData([...data, ...restaurantes]);
+    if (filter.length >= 2) {
+      handleSearch([...data, ...restaurantList]);
+      return;
     }
+    setShownData([...data, ...restaurantList]);
   }
 
-  async function handleSearch(text?: string) {
-    const filterText = text ? text : filter;
-    if (text) setFilter(text);
-    if (filterText.length < 2) {
-      setShownData(data);
+  async function loadAPI() {
+    const restaurantes = await getRestaurants({page});
+    //setPage(page + 1);
+    setPage(page + 7);
+    return restaurantes;
+  }
+
+  async function handleSearch(data: RestaurantsData[]) {
+    if (filter.length < 2) {
+      handleAll();
       return;
     }
 
     const newData = data?.filter((item: {nome: string}) => {
-      const itemData = item.nome.toUpperCase();
-      const textData = filterText.toUpperCase();
-      return itemData.indexOf(textData) > -1;
+      const name = item.nome.toUpperCase();
+      const text = filter.toUpperCase();
+      return name.indexOf(text) > -1;
     });
 
     if (newData.length === 0) {
@@ -84,7 +91,7 @@ const Home: React.FC = () => {
   }
 
   function onEnd() {
-    loadApi();
+    handleAll();
   }
 
   return (
@@ -93,7 +100,15 @@ const Home: React.FC = () => {
         barStyle="light-content"
         backgroundColor={colors.red}
       />
-      <SearchBar title="Buscar restaurantes" onChangeText={handleSearch} />
+      <SearchBarContainer>
+        <SearchIcon source={require('../../../assets/images/search.png')} />
+        <SearchInput
+          placeholder={'Buscar Restaurantes'}
+          placeholderTextColor={colors.gray}
+          value={filter}
+          onChangeText={setFilter}
+        />
+      </SearchBarContainer>
       <View style={{flex: 1}}>
         {data.length < 1 ||
           (!found && <ActivityIndicator size={50} color={colors.red} />)}
@@ -128,6 +143,7 @@ function FooterList({load}: any) {
 
 function ListEmptyComponent({found, setFound}: any) {
   const [show, setShow] = useState(false);
+
   setTimeout(function () {
     if (!found) setShow(true);
     setFound(true);
