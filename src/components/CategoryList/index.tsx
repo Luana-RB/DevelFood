@@ -1,0 +1,44 @@
+import React from 'react';
+import {FlatList, View} from 'react-native';
+import CategoryCard from '../CategoryCard';
+
+// import { Container } from './styles';
+
+const CategoryList: React.FC = () => {
+  interface CategoryData {
+    id: string;
+    name: string;
+  }
+
+  const data: CategoryData[] = [
+    {
+      id: '1',
+      name: 'Pizza',
+    },
+    {
+      id: '2',
+      name: 'Sushi',
+    },
+    {
+      id: '3',
+      name: 'Almoço',
+    },
+    {
+      id: '4',
+      name: 'Massas',
+    },
+  ];
+
+  return (
+    <View>
+      <FlatList
+        data={data}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => <CategoryCard name={item.name} />}
+        horizontal
+      />
+    </View>
+  );
+};
+
+export default CategoryList;
