@@ -18,6 +18,7 @@ import {
   SearchIcon,
   SearchInput,
 } from '../../components/SearchBar/styles';
+import sorter from '../../utils/sorter';
 
 const Home: React.FC = () => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
@@ -64,8 +65,8 @@ const Home: React.FC = () => {
 
   async function loadAPI() {
     const restaurantes = await getRestaurants({page});
-    setPage(page + 1);
-    //setPage(page + 7);
+    //setPage(page + 1);
+    setPage(page + 7);
     return restaurantes;
   }
 
@@ -81,12 +82,18 @@ const Home: React.FC = () => {
       return name.indexOf(text) > -1;
     });
 
+    const sortedData = newData.sort((a: {nome: string}, b: {nome: string}) => {
+      const scoreA = sorter(a.nome.toUpperCase(), filter.toUpperCase());
+      const scoreB = sorter(b.nome.toUpperCase(), filter.toUpperCase());
+      return scoreA - scoreB;
+    });
+
     if (newData.length === 0) {
       setFound(false);
       setShownData([]);
     } else {
       setFound(true);
-      setShownData(newData);
+      setShownData(sortedData);
     }
   }
 
