@@ -64,8 +64,8 @@ const Home: React.FC = () => {
 
   async function loadAPI() {
     const restaurantes = await getRestaurants({page});
-    //setPage(page + 1);
-    setPage(page + 7);
+    setPage(page + 1);
+    //setPage(page + 7);
     return restaurantes;
   }
 
