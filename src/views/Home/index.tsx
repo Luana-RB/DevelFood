@@ -7,13 +7,18 @@ import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantCard from './components/RestaurantCard';
 import {RestaurantsData} from '../../types/restaurantData';
-import SearchBar from '../../components/SearchBar';
 import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
 } from '../../components/NoResultComponent';
 import {getRestaurants} from '../../services/api/restaurantes';
+import {
+  SearchBarContainer,
+  SearchIcon,
+  SearchInput,
+} from '../../components/SearchBar/styles';
+import sorter from '../../utils/sorter';
 
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
@@ -21,50 +26,78 @@ const Home: React.FC = ({navigation}: any) => {
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<RestaurantsData[]>([]);
-  const [filteredData, setFilteredData] = useState<
-    RestaurantsData[] | undefined
-  >([]);
-  const [isFiltered, setIsFiltered] = useState(false);
+  const [shownData, setShownData] = useState<RestaurantsData[]>([]);
+  const [found, setFound] = useState(false);
+  const [endedList, setEndedList] = useState(false);
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    loadApi();
-  }, []);
+    if (filter === '') {
+      setShownData(data);
+      handleAll();
+    } else handleSearch(data);
+  }, [filter]);
 
-  async function loadApi() {
-    if (loading) return;
+  async function handleAll() {
+    if (loading || endedList) return;
     setLoading(true);
-    const restaurantes = await getRestaurants({page});
-    if (!restaurantes) return;
-    if (filter) await handleSearch(filter);
 
-    const newData = restaurantes;
-    setData([...data, ...newData]);
-    // setPage(page + 1);
-    setPage(page + 7);
-
-    setTimeout(function () {
+    const restaurantList = await loadAPI();
+    if (!restaurantList) {
+      setEndedList(true);
       setLoading(false);
-    }, 2000);
+      return;
+    }
+    if (restaurantList.length === 0) setEndedList(true);
+
+    setData([...data, ...restaurantList]);
+    setLoading(false);
+    setFound(true);
+
+    if (filter.length >= 2) {
+      handleSearch([...data, ...restaurantList]);
+      return;
+    }
+    setShownData([...data, ...restaurantList]);
   }
 
-  async function handleSearch(text: string) {
-    setFilter(text);
-    if (!text) setIsFiltered(false);
+  async function loadAPI() {
+    const restaurantes = await getRestaurants({page});
+    //setPage(page + 1);
+    setPage(page + 7);
+    return restaurantes;
+  }
 
-    setTimeout(function () {
-      setLoading(false);
-    }, 2000);
+  async function handleSearch(data: RestaurantsData[]) {
+    if (filter.length < 2) {
+      handleAll();
+      return;
+    }
 
     const newData = data?.filter((item: {nome: string}) => {
-      const itemData = item.nome.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
+      const name = item.nome.toUpperCase();
+      const text = filter.toUpperCase();
+      return name.indexOf(text) > -1;
     });
 
-    setFilteredData(newData);
-    setIsFiltered(true);
+    const sortedData = newData.sort((a: {nome: string}, b: {nome: string}) => {
+      const scoreA = sorter(a.nome.toUpperCase(), filter.toUpperCase());
+      const scoreB = sorter(b.nome.toUpperCase(), filter.toUpperCase());
+      return scoreA - scoreB;
+    });
+
+    if (newData.length === 0) {
+      setFound(false);
+      setShownData([]);
+    } else {
+      setFound(true);
+      setShownData(sortedData);
+    }
+  }
+
+  function onEnd() {
+    handleAll();
   }
 
   return (
@@ -73,26 +106,30 @@ const Home: React.FC = ({navigation}: any) => {
         barStyle="light-content"
         backgroundColor={colors.red}
       />
-      <SearchBar title="Buscar restaurantes" onChangeText={handleSearch} />
+      <SearchBarContainer>
+        <SearchIcon source={require('../../../assets/images/search.png')} />
+        <SearchInput
+          placeholder={'Buscar Restaurantes'}
+          placeholderTextColor={colors.gray}
+          value={filter}
+          onChangeText={setFilter}
+        />
+      </SearchBarContainer>
       <View style={{flex: 1}}>
-        {data.length < 1 && <ActivityIndicator size={50} color={colors.red} />}
+        {data.length < 1 ||
+          (!found && <ActivityIndicator size={50} color={colors.red} />)}
         <FlatList
-          data={isFiltered ? filteredData : data}
+          data={shownData}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <RestaurantCard data={item} navigation={navigation} />
           )}
           numColumns={2}
-          onEndReached={loadApi}
-          onEndReachedThreshold={0.2}
+          onEndReached={onEnd}
+          onEndReachedThreshold={0.1}
           ListFooterComponent={<FooterList load={loading} />}
           ListEmptyComponent={
-            <NoResultContainer>
-              <NoResultImage
-                source={require('../../../assets/images/notFoundRestaurant.png')}
-              />
-              <NoResultText>Nenhum restaurante encontrado</NoResultText>
-            </NoResultContainer>
+            <ListEmptyComponent found={found} setFound={setFound} />
           }
         />
         <View style={{height: 60, width: '100%'}} />
@@ -102,13 +139,34 @@ const Home: React.FC = ({navigation}: any) => {
 };
 
 function FooterList({load}: any) {
-  if (!load) return null;
+  if (!load) return <View style={{height: 10}} />;
 
   return (
     <View style={{padding: 15}}>
       <ActivityIndicator size={25} color={colors.red} />
+      <View style={{height: 50, width: '100%'}} />
     </View>
   );
+}
+
+function ListEmptyComponent({found, setFound}: any) {
+  const [show, setShow] = useState(false);
+
+  setTimeout(function () {
+    if (!found) setShow(true);
+    setFound(true);
+  }, 3000);
+
+  if (show) {
+    return (
+      <NoResultContainer>
+        <NoResultImage
+          source={require('../../../assets/images/notFoundRestaurant.png')}
+        />
+        <NoResultText>Nenhum restaurante encontrado</NoResultText>
+      </NoResultContainer>
+    );
+  } else return null;
 }
 
 export default Home;

@@ -6,6 +6,7 @@ export const NoResultContainer = styled.KeyboardAvoidingView`
   align-items: center;
   justify-content: center;
   padding-top: 40px;
+  height: ${screenHeight * 0.5}px;
 `;
 
 export const NoResultImage = styled.Image`

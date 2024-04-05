@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Container, Icon, Title} from './styles';
+import {SearchBarContainer, SearchIcon, SearchInput} from './styles';
 import {colors} from '../../globalStyles';
 
 interface SearchProps {
@@ -8,16 +8,16 @@ interface SearchProps {
 }
 const SearchBar: React.FC<SearchProps> = ({title, onChangeText}) => {
   return (
-    <Container>
-      <Icon source={require('../../../assets/images/search.png')} />
-      <Title
+    <SearchBarContainer>
+      <SearchIcon source={require('../../../assets/images/search.png')} />
+      <SearchInput
         placeholder={title}
         placeholderTextColor={colors.gray}
         onChangeText={value => {
           onChangeText(value);
         }}
       />
-    </Container>
+    </SearchBarContainer>
   );
 };
 
