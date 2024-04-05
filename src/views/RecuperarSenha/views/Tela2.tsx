@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import Button from '../../../components/Button';
 import {sendToken} from '../../../services/api/users';
-import {useRecuperarSenha} from '../../../services/context/recuperarSenhaContext';
+import {useForgotPassword} from '../../../services/context/newPasswordContext';
 import {
   BarContainer,
   BarImage,
@@ -16,7 +16,7 @@ import {
 
 const Tela2: React.FC = ({navigation}: any) => {
   const [code, setCode] = useState('');
-  const {storeToken} = useRecuperarSenha();
+  const {storeToken} = useForgotPassword();
 
   useEffect(() => {
     function getCode() {

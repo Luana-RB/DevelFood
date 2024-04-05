@@ -5,13 +5,13 @@ import {useToken} from '../../services/context/tokenContext';
 import {SafeAreaView} from 'react-native';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
-import RestaurantCard from '../../components/RestaurantCard';
+import RestaurantCard from './components/RestaurantCard';
 import {RestaurantsData} from '../../types/restaurantData';
 import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
-} from '../../components/NoResultCard';
+} from '../../components/NoResultComponent';
 import {getRestaurants} from '../../services/api/restaurantes';
 import {
   SearchBarContainer,
@@ -20,7 +20,7 @@ import {
 } from '../../components/SearchBar/styles';
 import sorter from '../../utils/sorter';
 
-const Home: React.FC = () => {
+const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
   const {token} = useToken();
 
@@ -121,7 +121,9 @@ const Home: React.FC = () => {
         <FlatList
           data={shownData}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <RestaurantCard data={item} />}
+          renderItem={({item}) => (
+            <RestaurantCard data={item} navigation={navigation} />
+          )}
           numColumns={2}
           onEndReached={onEnd}
           onEndReachedThreshold={0.1}

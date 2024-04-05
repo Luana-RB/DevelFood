@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import Button from '../../../components/Button';
 import {patchPassword} from '../../../services/api/users';
-import {useRecuperarSenha} from '../../../services/context/recuperarSenhaContext';
+import {useForgotPassword} from '../../../services/context/newPasswordContext';
 import {Errors} from '../../../types/errors';
 import {
   ErrorText,
@@ -29,7 +29,7 @@ const Tela4: React.FC = ({navigation}: any) => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  const {returnsUser, token} = useRecuperarSenha();
+  const {returnsUser, token} = useForgotPassword();
 
   function handleSecure() {
     setOlhoIconeToken(!olhoIconeToken);
