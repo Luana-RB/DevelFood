@@ -5,17 +5,17 @@ import {useToken} from '../../services/context/tokenContext';
 import {SafeAreaView} from 'react-native';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
-import RestaurantCard from '../../components/RestaurantCard';
+import RestaurantCard from './components/RestaurantCard';
 import {RestaurantsData} from '../../types/restaurantData';
 import SearchBar from '../../components/SearchBar';
 import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
-} from '../../components/NoResultCard';
+} from '../../components/NoResultComponent';
 import {getRestaurants} from '../../services/api/restaurantes';
 
-const Home: React.FC = () => {
+const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
   const {token} = useToken();
 
@@ -41,8 +41,8 @@ const Home: React.FC = () => {
 
     const newData = restaurantes;
     setData([...data, ...newData]);
-    setPage(page + 1);
-    // setPage(page + 7);
+    // setPage(page + 1);
+    setPage(page + 7);
 
     setTimeout(function () {
       setLoading(false);
@@ -79,7 +79,9 @@ const Home: React.FC = () => {
         <FlatList
           data={isFiltered ? filteredData : data}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <RestaurantCard data={item} />}
+          renderItem={({item}) => (
+            <RestaurantCard data={item} navigation={navigation} />
+          )}
           numColumns={2}
           onEndReached={loadApi}
           onEndReachedThreshold={0.2}

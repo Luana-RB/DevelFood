@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, screenHeight, screenWidth} from '../../../../globalStyles';
 import {Platform} from 'react-native';
 
 export const Container = styled.View`
@@ -45,7 +45,7 @@ export const InfoContainer = styled.View`
   height: ${screenHeight * 0.095}px;
   border-radius: 8px;
   flex-direction: column;
-  padding: ${screenHeight * 0.017}px;
+  padding: ${screenHeight * 0.012}px;
   position: absolute;
   z-index: 1;
   background-color: ${colors.white};
@@ -63,9 +63,11 @@ export const InfoContainer = styled.View`
 `;
 export const TitleContainer = styled.View`
   width: 100%;
-  height: 70%;
+  max-height: 60%;
+  flex-shrink: 1;
 `;
 export const Title = styled.Text`
+  flex-shrink: 1;
   font-size: 16px;
   flex-wrap: wrap;
   margin-bottom: ${screenHeight * 0.005}px;

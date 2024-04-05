@@ -8,4 +8,5 @@ export const colors = {
   white: '#FFFFFF',
   brown: '#68484a',
   gray: '#bfbaba',
+  lightGray: '#F0F0F5',
 };
