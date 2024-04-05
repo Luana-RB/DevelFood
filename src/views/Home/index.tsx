@@ -40,8 +40,7 @@ const Home: React.FC = () => {
   }, [filter]);
 
   async function handleAll() {
-    if (loading) return;
-    if (endedList) return;
+    if (loading || endedList) return;
     setLoading(true);
 
     const restaurantList = await loadAPI();
