@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {FlatList, View} from 'react-native';
 import {AuthContext} from '../../services/context/authContext';
 import {useToken} from '../../services/context/tokenContext';
 import {SafeAreaView} from 'react-native';
@@ -8,17 +8,17 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantCard from './components/RestaurantCard';
 import {RestaurantsData} from '../../types/restaurantData';
 import {
-  NoResultContainer,
-  NoResultImage,
-  NoResultText,
-} from '../../components/NoResultComponent';
-import {getRestaurants} from '../../services/api/restaurantes';
+  getRestaurants,
+  getRestaurantsFiltered,
+} from '../../services/api/restaurantes';
 import {
   SearchBarContainer,
   SearchIcon,
   SearchInput,
 } from '../../components/SearchBar/styles';
-import sorter from '../../utils/sorter';
+import ListEmptyComponent from './components/ListEmptyComponent';
+import FooterList from './components/FooterList';
+const DELAY = 1500;
 
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
@@ -27,78 +27,78 @@ const Home: React.FC = ({navigation}: any) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<RestaurantsData[]>([]);
   const [shownData, setShownData] = useState<RestaurantsData[]>([]);
-  const [found, setFound] = useState(false);
   const [endedList, setEndedList] = useState(false);
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
-
-  useEffect(() => {
-    if (filter === '') {
-      setShownData(data);
-      handleAll();
-    } else handleSearch(data);
-  }, [filter]);
-
-  async function handleAll() {
-    if (loading || endedList) return;
-    setLoading(true);
-
-    const restaurantList = await loadAPI();
-    if (!restaurantList) {
-      setEndedList(true);
-      setLoading(false);
-      return;
-    }
-    if (restaurantList.length === 0) setEndedList(true);
-
-    setData([...data, ...restaurantList]);
-    setLoading(false);
-    setFound(true);
-
-    if (filter.length >= 2) {
-      handleSearch([...data, ...restaurantList]);
-      return;
-    }
-    setShownData([...data, ...restaurantList]);
-  }
+  const [filterPage, setFilterPage] = useState(0);
 
   async function loadAPI() {
     const restaurantes = await getRestaurants({page});
-    //setPage(page + 1);
-    setPage(page + 7);
+    setPage(page + 1);
     return restaurantes;
   }
 
-  async function handleSearch(data: RestaurantsData[]) {
+  async function loadSearch(filter: string) {
+    const newData = await getRestaurantsFiltered({page: filterPage, filter});
+    //setFilterPage(filterPage + 1);
+
+    if (newData) {
+      if (newData.length === 0) {
+        return [];
+      } else {
+        return newData;
+      }
+    }
+  }
+
+  async function handleAll(filter: string) {
     if (filter.length < 2) {
-      handleAll();
-      return;
-    }
+      setShownData(data);
+      if (loading || endedList) return;
+      setLoading(true);
+      setShownData(data);
+      const restaurantList = await loadAPI();
 
-    const newData = data?.filter((item: {nome: string}) => {
-      const name = item.nome.toUpperCase();
-      const text = filter.toUpperCase();
-      return name.indexOf(text) > -1;
-    });
+      if (!restaurantList) {
+        setEndedList(true);
+        setLoading(false);
+        return;
+      }
+      if (restaurantList.length === 0) setEndedList(true);
 
-    const sortedData = newData.sort((a: {nome: string}, b: {nome: string}) => {
-      const scoreA = sorter(a.nome.toUpperCase(), filter.toUpperCase());
-      const scoreB = sorter(b.nome.toUpperCase(), filter.toUpperCase());
-      return scoreA - scoreB;
-    });
-
-    if (newData.length === 0) {
-      setFound(false);
-      setShownData([]);
+      setData([...data, ...restaurantList]);
+      setShownData([...data, ...restaurantList]);
     } else {
-      setFound(true);
-      setShownData(sortedData);
+      const restaurantList = await loadSearch(filter);
+      if (!restaurantList) return;
+      setShownData(restaurantList);
     }
+    setLoading(false);
   }
 
   function onEnd() {
-    handleAll();
+    handleAll(filter);
   }
+
+  const debounce = (
+    func: {(filter: string): void; apply?: any},
+    wait: number | undefined,
+  ) => {
+    let timeout: any;
+    return (...args: any) => {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  };
+
+  const debouncedWaitSearch = useCallback(
+    debounce(filter => {
+      setShownData([]);
+      handleAll(filter);
+    }, DELAY),
+    [data],
+  );
 
   return (
     <SafeAreaView style={{backgroundColor: colors.white, flex: 1}}>
@@ -112,61 +112,31 @@ const Home: React.FC = ({navigation}: any) => {
           placeholder={'Buscar Restaurantes'}
           placeholderTextColor={colors.gray}
           value={filter}
-          onChangeText={setFilter}
+          onChangeText={text => {
+            setFilter(text);
+            debouncedWaitSearch(text);
+          }}
         />
       </SearchBarContainer>
       <View style={{flex: 1}}>
-        {data.length < 1 ||
-          (!found && <ActivityIndicator size={50} color={colors.red} />)}
         <FlatList
           data={shownData}
-          keyExtractor={item => item.id}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
             <RestaurantCard data={item} navigation={navigation} />
           )}
           numColumns={2}
           onEndReached={onEnd}
-          onEndReachedThreshold={0.1}
-          ListFooterComponent={<FooterList load={loading} />}
-          ListEmptyComponent={
-            <ListEmptyComponent found={found} setFound={setFound} />
+          onEndReachedThreshold={0.2}
+          ListFooterComponent={
+            <FooterList load={loading} shownData={shownData.length === 0} />
           }
+          ListEmptyComponent={<ListEmptyComponent />}
         />
         <View style={{height: 60, width: '100%'}} />
       </View>
     </SafeAreaView>
   );
 };
-
-function FooterList({load}: any) {
-  if (!load) return <View style={{height: 10}} />;
-
-  return (
-    <View style={{padding: 15}}>
-      <ActivityIndicator size={25} color={colors.red} />
-      <View style={{height: 50, width: '100%'}} />
-    </View>
-  );
-}
-
-function ListEmptyComponent({found, setFound}: any) {
-  const [show, setShow] = useState(false);
-
-  setTimeout(function () {
-    if (!found) setShow(true);
-    setFound(true);
-  }, 3000);
-
-  if (show) {
-    return (
-      <NoResultContainer>
-        <NoResultImage
-          source={require('../../../assets/images/notFoundRestaurant.png')}
-        />
-        <NoResultText>Nenhum restaurante encontrado</NoResultText>
-      </NoResultContainer>
-    );
-  } else return null;
-}
 
 export default Home;

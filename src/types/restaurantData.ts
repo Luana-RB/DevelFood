@@ -1,8 +1,8 @@
 export interface RestaurantsData {
-  id: string;
+  id?: string;
   nome: string;
-  cnpj: string;
-  telefone: string;
+  cnpj?: string;
+  telefone?: string;
   fotos?: string;
   categoria?: string;
   pratos?: RestaurantPlate[];
@@ -10,6 +10,8 @@ export interface RestaurantsData {
     id: string;
     nome: string;
   };
+  foodTypeName?: string;
+  foodTypeId?: string;
 }
 
 export interface RestaurantCredentials {
