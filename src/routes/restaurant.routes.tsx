@@ -5,8 +5,10 @@ import Home from '../views/Home';
 import {Image, ImageSourcePropType, TouchableOpacity} from 'react-native';
 import {useEffect, useState} from 'react';
 import {screenHeight, screenWidth} from '../globalStyles';
+import PlateDetail from '../views/PlateDetail';
+import {RootStackParamList} from '../types/restaurantData';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 function CustomHeartButton() {
   const [heart, setHeart] = useState(false);
@@ -54,6 +56,14 @@ export function RestaurantStack() {
         <Stack.Screen
           name="RestaurantProfile"
           component={RestaurantProfile}
+          options={{
+            title: '',
+            headerRight: props => <CustomHeartButton />,
+          }}
+        />
+        <Stack.Screen
+          name="PlateDetails"
+          component={PlateDetail}
           options={{
             title: '',
             headerRight: props => <CustomHeartButton />,

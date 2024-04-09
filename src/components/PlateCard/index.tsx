@@ -1,28 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import {RestaurantPlate} from '../../types/restaurantData';
 import {
-  AddButton,
-  AddText,
   BodyContainer,
   Container,
   Description,
   DescriptionContainer,
   FooterContainer,
   HeartIcon,
-  MinusIcon,
   PlateImage,
-  PlusIcon,
   Price,
+  TextContainer,
+  Title,
+  TitleContainer,
+} from './styles';
+import {ImageSourcePropType} from 'react-native';
+import {
+  AddButton,
+  AddText,
+  MinusIcon,
+  PlusIcon,
   QuantityBox,
   QuantityButton,
   QuantityContainer,
   QuantityText,
-  TextContainer,
-  Title,
-  TitleContainer,
   TrashIcon,
-} from './styles';
-import {ImageSourcePropType} from 'react-native';
+} from '../AddButton';
 
 interface PlateCardProps {
   data: RestaurantPlate;

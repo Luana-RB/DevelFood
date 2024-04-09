@@ -1,5 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import SearchBar from '../../components/SearchBar';
 import PlateCard from '../../components/PlateCard';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
@@ -23,9 +28,8 @@ import {
   NoResultImage,
   NoResultText,
 } from '../../components/NoResultComponent';
-import {isLength} from 'validator';
 
-const RestaurantProfile: React.FC = () => {
+const RestaurantProfile: React.FC = ({navigation}: any) => {
   const [cart, setCart] = useState(false);
   const [notFound, setNotFound] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -40,7 +44,6 @@ const RestaurantProfile: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       if (data?.pratos !== undefined && data?.pratos?.length >= 1) {
         setNotFound(false);
         setPlateData(data?.pratos);
@@ -108,7 +111,17 @@ const RestaurantProfile: React.FC = () => {
         <FlatList
           data={isFiltered ? filteredData : data.pratos}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <PlateCard data={item} setCart={setCart} />}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('PlateDetails', {
+                  prato: item,
+                  restaurant: data,
+                });
+              }}>
+              <PlateCard data={item} setCart={setCart} />
+            </TouchableOpacity>
+          )}
           ListFooterComponent={<View style={{height: 70}} />}
           style={{flex: 5}}
         />

@@ -34,7 +34,7 @@ const Home: React.FC = ({navigation}: any) => {
 
   async function loadAPI() {
     const restaurantes = await getRestaurants({page});
-    setPage(page + 1);
+    setPage(page + 7);
     return restaurantes;
   }
 

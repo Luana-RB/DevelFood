@@ -40,6 +40,7 @@ export const restaurantsMock: RestaurantsData[] = [
     nome: 'Burger Bistro',
     cnpj: '23456789012345',
     telefone: '234-567-8901',
+    categoria: 'Fast Food',
     fotos:
       'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     pratos: [
@@ -57,6 +58,7 @@ export const restaurantsMock: RestaurantsData[] = [
     nome: 'Sushi Station',
     cnpj: '34567890123456',
     telefone: '345-678-9012',
+    categoria: 'Sushi',
     fotos:
       'https://plus.unsplash.com/premium_photo-1670333291474-cb722ca783a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
@@ -65,6 +67,7 @@ export const restaurantsMock: RestaurantsData[] = [
     nome: 'Pasta Place',
     cnpj: '45678901234567',
     telefone: '456-789-0123',
+    categoria: 'Almoço',
     fotos:
       'https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     pratos: [
@@ -78,6 +81,7 @@ export const restaurantsMock: RestaurantsData[] = [
     nome: 'Smoothies Shop',
     cnpj: '67890123456789',
     telefone: '678-901-2345',
+    categoria: 'Sobremesa',
     pratos: [
       {id: '601', nome: 'Strawberry Smoothie'},
       {id: '602', nome: 'Mango Smoothie'},
@@ -100,6 +104,7 @@ export const restaurantsMock: RestaurantsData[] = [
     nome: 'Doughnuts Den',
     cnpj: '89012345678901',
     telefone: '890-123-4567',
+    categoria: 'Sobremesa',
     pratos: [
       {id: '801', nome: 'Glazed Doughnut'},
       {id: '802', nome: 'Chocolate Glazed Doughnut'},
@@ -111,6 +116,7 @@ export const restaurantsMock: RestaurantsData[] = [
     nome: 'Pizza Palace',
     cnpj: '12345678901234',
     telefone: '123-456-7890',
+    categoria: 'Pizza',
     fotos:
       'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     pratos: [
@@ -124,6 +130,7 @@ export const restaurantsMock: RestaurantsData[] = [
     nome: 'Burger Bistro',
     cnpj: '23456789012345',
     telefone: '234-567-8901',
+    categoria: 'Fast Food',
     fotos:
       'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     pratos: [
