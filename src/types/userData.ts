@@ -1,7 +1,10 @@
+import {RestaurantPlate} from './restaurantData';
+
 export interface UsersData {
   credentials: UserCredentials;
   info: UserInfo;
   adress: UserAdress;
+  favorites: RestaurantPlate[];
 }
 
 export interface UserCredentials {

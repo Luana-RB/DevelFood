@@ -24,49 +24,56 @@ import {
   QuantityText,
 } from '../AddButton';
 import {colors} from '../../globalStyles';
+import {compareFavorites} from '../../services/api/favorites';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface PlateCardProps {
   data: RestaurantPlate;
   setCart: (value: boolean) => void;
+  navigation: any;
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
+const PlateCard: React.FC<PlateCardProps> = ({data, setCart, navigation}) => {
   const [quantity, setQuantity] = useState(0);
-  const [description, setDescription] = useState(
-    'Descrição de um prato delicioso que é uma ótima opção para pedir quando se está com a família',
-  );
+  const [description, setDescription] = useState('');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
   );
   const [price, setPrice] = useState('0,00');
+  const [heart, setHeart] = useState('heart-outline');
 
   useEffect(() => {
-    if (data) {
-      if (!!data.foto) {
-        setImagePath({uri: data.foto});
-      } else {
-        setImagePath(require('../../../assets/images/notFound.png'));
-      }
-      if (!!data.descricao) {
-        const text = data.descricao;
-        const words = text.split(' ');
-        const firstWords = words.slice(0, 20);
-        const newDescription = firstWords.join(' ');
-        setDescription(newDescription);
-      }
-      if (!!data.preco) {
-        const centsFormat = data.preco.toFixed(2);
-        const commaFormat = centsFormat.replace(/\./g, ',');
-        setPrice(commaFormat);
-      }
+    if (!!data.foto) setImagePath({uri: data.foto});
+    else setImagePath(require('../../../assets/images/notFound.png'));
+
+    if (!!data.descricao) {
+      const text = data.descricao;
+      const words = text.split(' ');
+      const firstWords = words.slice(0, 20);
+      const newDescription = firstWords.join(' ');
+      setDescription(newDescription);
+    }
+
+    if (!!data.preco) {
+      const centsFormat = data.preco.toFixed(2);
+      const commaFormat = centsFormat.replace(/\./g, ',');
+      setPrice(commaFormat);
     }
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const isFavorite = compareFavorites(data);
+      if (isFavorite) setHeart('heart');
+      else setHeart('heart-outline');
+    }, []),
+  );
 
   return (
     <Container>
       <PlateImage source={imagePath} />
       <Icon
-        name={'heart-outline'}
+        name={heart}
         color={colors.red}
         style={styles.heartIcon}
         size={20}

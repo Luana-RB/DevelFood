@@ -8,16 +8,29 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PlateDetail from '../views/PlateDetail';
 import {RootStackParamList} from '../types/restaurantData';
 import {colors} from '../globalStyles';
+import {
+  addFavorite,
+  compareFavorites,
+  removeFavorite,
+} from '../services/api/favorites';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-function CustomHeartButton() {
-  const [heart, setHeart] = useState(false);
+function CustomHeartButton({route}: any) {
+  const [heart, setHeart] = useState(true);
   const [imagePath, setImagePath] = useState<string>('heart-outline');
 
   useEffect(() => {
+    if (route.params) {
+      const {prato} = route.params;
+      const isFavoriteResult = compareFavorites(prato);
+      setHeart(isFavoriteResult);
+    }
+  }, []);
+
+  useEffect(() => {
     handleImagePath();
-  });
+  }, [heart]);
 
   function handleImagePath() {
     if (heart) {
@@ -25,11 +38,22 @@ function CustomHeartButton() {
     } else setImagePath('heart-outline');
   }
 
+  function handleChange() {
+    setHeart(!heart);
+    if (route.params) {
+      const {prato} = route.params;
+      if (heart) {
+        removeFavorite(prato);
+      } else {
+        addFavorite(prato);
+      }
+    }
+  }
+
   return (
     <TouchableOpacity
       onPress={() => {
-        setHeart(!heart);
-        handleImagePath;
+        handleChange();
       }}>
       <Icon
         name={imagePath}
@@ -53,18 +77,18 @@ export function RestaurantStack() {
         <Stack.Screen
           name="RestaurantProfile"
           component={RestaurantProfile}
-          options={{
+          options={({route}) => ({
             title: '',
-            headerRight: props => <CustomHeartButton />,
-          }}
+            headerRight: () => <CustomHeartButton route={route} />,
+          })}
         />
         <Stack.Screen
           name="PlateDetails"
           component={PlateDetail}
-          options={{
+          options={({route}) => ({
             title: '',
-            headerRight: props => <CustomHeartButton />,
-          }}
+            headerRight: () => <CustomHeartButton route={route} />,
+          })}
         />
       </Stack.Navigator>
     </RestaurantProvider>

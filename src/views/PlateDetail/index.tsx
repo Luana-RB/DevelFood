@@ -35,9 +35,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
   );
-  const [description, setDescription] = useState(
-    'Descrição de um prato delicioso que é uma ótima opção para pedir quando se está com a família',
-  );
+  const [description, setDescription] = useState('');
   const [price, setPrice] = useState('0,00');
 
   useEffect(() => {
@@ -70,7 +68,6 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
       />
       <BodyContainer>
         <PlateImage source={imagePath} />
-
         <HeaderContainer>
           <Title>{prato.nome}</Title>
           <SubTitle>{restaurant.categoria}</SubTitle>
