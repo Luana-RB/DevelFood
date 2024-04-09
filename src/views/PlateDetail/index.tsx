@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   BodyContainer,
   Container,
@@ -19,15 +20,13 @@ import {ImageSourcePropType} from 'react-native';
 import {
   AddButton,
   AddText,
-  MinusIcon,
-  PlusIcon,
   QuantityBox,
   QuantityButton,
   QuantityContainer,
   QuantityText,
-  TrashIcon,
 } from '../../components/AddButton';
 import {colors} from '../../globalStyles';
+import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 
 const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const {prato, restaurant} = route.params;
@@ -65,6 +64,10 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
 
   return (
     <Container>
+      <FocusAwareStatusBar
+        barStyle="dark-content"
+        backgroundColor={colors.white}
+      />
       <BodyContainer>
         <PlateImage source={imagePath} />
 
@@ -76,7 +79,12 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
           <Description>{description}</Description>
         </DescriptionContainer>
         <RestaurantContainer>
-          <RestaurantIcon source={require('./assets/store.png')} />
+          <Icon
+            name="store"
+            size={30}
+            color={colors.red}
+            style={{marginVertical: 10, marginHorizontal: 15}}
+          />
           <RestaurantName>
             Vendido e entregue por {restaurant?.nome}
           </RestaurantName>
@@ -100,18 +108,22 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
                   setQuantity(0);
                   setCart(false);
                 }}>
-                <TrashIcon source={require('./assets/trash.png')} />
+                <Icon
+                  name={'trash-can-outline'}
+                  color={colors.white}
+                  size={25}
+                />
               </QuantityButton>
             ) : (
               <QuantityButton onPress={() => setQuantity(quantity - 1)}>
-                <MinusIcon source={require('./assets/minus.png')} />
+                <Icon name={'minus'} color={colors.white} size={25} />
               </QuantityButton>
             )}
             <QuantityBox style={{borderColor: colors.white}}>
               <QuantityText>{quantity}</QuantityText>
             </QuantityBox>
             <QuantityButton onPress={() => setQuantity(quantity + 1)}>
-              <PlusIcon source={require('./assets/plus.png')} />
+              <Icon name={'plus'} color={colors.white} size={25} />
             </QuantityButton>
           </QuantityContainer>
         )}

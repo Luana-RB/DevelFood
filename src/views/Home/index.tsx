@@ -13,11 +13,11 @@ import {
 } from '../../services/api/restaurantes';
 import {
   SearchBarContainer,
-  SearchIcon,
   SearchInput,
 } from '../../components/SearchBar/styles';
 import ListEmptyComponent from './components/ListEmptyComponent';
 import FooterList from './components/FooterList';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const DELAY = 1500;
 
 const Home: React.FC = ({navigation}: any) => {
@@ -107,7 +107,12 @@ const Home: React.FC = ({navigation}: any) => {
         backgroundColor={colors.red}
       />
       <SearchBarContainer>
-        <SearchIcon source={require('../../../assets/images/search.png')} />
+        <Icon
+          name="magnify"
+          size={30}
+          color={colors.gray}
+          style={{margin: 10}}
+        />
         <SearchInput
           placeholder={'Buscar Restaurantes'}
           placeholderTextColor={colors.gray}

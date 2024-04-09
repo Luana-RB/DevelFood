@@ -32,6 +32,9 @@ export const QuantityBox = styled.View`
   border-color: ${colors.red};
   align-items: center;
   justify-content: flex-start;
+  margin-right: -7px;
+  margin-left: -2px;
+  margin-top: 3px;
 `;
 
 export const QuantityText = styled.Text`
@@ -40,21 +43,8 @@ export const QuantityText = styled.Text`
 `;
 export const QuantityButton = styled.TouchableOpacity`
   height: 60%;
-  width: 20%;
+  width: 40%;
   align-items: center;
   justify-content: center;
   margin: 5px 10px;
-`;
-
-export const MinusIcon = styled.Image`
-  width: ${screenWidth * 0.03}px;
-  height: ${screenHeight * 0.006}px;
-`;
-export const PlusIcon = styled.Image`
-  width: ${screenWidth * 0.03}px;
-  height: ${screenHeight * 0.015}px;
-`;
-export const TrashIcon = styled.Image`
-  width: ${screenWidth * 0.028}px;
-  height: ${screenHeight * 0.016}px;
 `;

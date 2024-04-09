@@ -35,11 +35,6 @@ export const HeartContainer = styled.View`
   top: 0;
 `;
 
-export const HeartImage = styled.Image`
-  width: ${screenWidth * 0.053}px;
-  height: ${screenHeight * 0.02299}px;
-`;
-
 export const InfoContainer = styled.View`
   width: 100%;
   height: ${screenHeight * 0.095}px;
@@ -88,11 +83,6 @@ export const RatingContainer = styled.View`
   justify-content: center;
   align-items: center;
   gap: 5px;
-`;
-
-export const RatingIcon = styled.Image`
-  width: ${screenWidth * 0.03}px;
-  height: ${screenHeight * 0.0132}px;
 `;
 
 export const RatingText = styled.Text`

@@ -4,11 +4,9 @@ import {
   Category,
   Container,
   HeartContainer,
-  HeartImage,
   InfoContainer,
   InfoFooter,
   RatingContainer,
-  RatingIcon,
   RatingText,
   Title,
   TitleContainer,
@@ -16,7 +14,8 @@ import {
 import {RestaurantsData} from '../../../../types/restaurantData';
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
 import {useRestaurant} from '../../../../services/context/restaurantContext';
-import {screenHeight} from '../../../../globalStyles';
+import {colors, screenHeight} from '../../../../globalStyles';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface RestaurantProps {
   data: RestaurantsData;
@@ -49,9 +48,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
     <TouchableOpacity onPress={handleNavigation}>
       <Container>
         <HeartContainer>
-          <HeartImage
-            source={require('../../../../../assets/images/heart_outline.png')}
-          />
+          <Icon name="heart-outline" size={25} color={colors.red} />
         </HeartContainer>
         {imagePath && <BackGroundImage source={imagePath} resizeMode="cover" />}
         <InfoContainer>
@@ -61,9 +58,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
           <InfoFooter>
             <Category>{data.tipoComida?.nome}</Category>
             <RatingContainer>
-              <RatingIcon
-                source={require('../../../../../assets/images/star.png')}
-              />
+              <Icon name="star" size={15} color={colors.red} />
               <RatingText>5.0</RatingText>
             </RatingContainer>
           </InfoFooter>

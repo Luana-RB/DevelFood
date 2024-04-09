@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import {colors, screenHeight, screenWidth} from '../../globalStyles';
-import {Platform} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 export const Container = styled.View`
   flex-direction: row;
@@ -32,16 +32,16 @@ export const PlateImage = styled.Image`
   margin: ${screenWidth * 0.03}px;
 `;
 
-export const HeartIcon = styled.Image`
-  width: ${screenWidth * 0.056}px;
-  height: ${screenHeight * 0.024}px;
-  align-self: flex-end;
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  right: 0;
-  margin: 10px;
-`;
+export const styles = StyleSheet.create({
+  heartIcon: {
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    zIndex: 2,
+    top: 0,
+    right: 0,
+    margin: 10,
+  },
+});
 
 export const BodyContainer = styled.View`
   width: 60%;
@@ -76,7 +76,6 @@ export const DescriptionContainer = styled.View`
 export const Description = styled.Text`
   font-size: 10px;
   flex-wrap: wrap;
-
   color: ${colors.gray};
 `;
 
@@ -92,4 +91,3 @@ export const Price = styled.Text`
   color: ${colors.black};
   font-weight: bold;
 `;
-

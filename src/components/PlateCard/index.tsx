@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RestaurantPlate} from '../../types/restaurantData';
 import {
   BodyContainer,
@@ -6,25 +7,23 @@ import {
   Description,
   DescriptionContainer,
   FooterContainer,
-  HeartIcon,
   PlateImage,
   Price,
   TextContainer,
   Title,
   TitleContainer,
+  styles,
 } from './styles';
 import {ImageSourcePropType} from 'react-native';
 import {
   AddButton,
   AddText,
-  MinusIcon,
-  PlusIcon,
   QuantityBox,
   QuantityButton,
   QuantityContainer,
   QuantityText,
-  TrashIcon,
 } from '../AddButton';
+import {colors} from '../../globalStyles';
 
 interface PlateCardProps {
   data: RestaurantPlate;
@@ -66,7 +65,12 @@ const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
   return (
     <Container>
       <PlateImage source={imagePath} />
-      <HeartIcon source={require('../../../assets/images/heart_outline.png')} />
+      <Icon
+        name={'heart-outline'}
+        color={colors.red}
+        style={styles.heartIcon}
+        size={20}
+      />
       <BodyContainer>
         <TextContainer>
           <TitleContainer>
@@ -94,18 +98,22 @@ const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
                     setQuantity(0);
                     setCart(false);
                   }}>
-                  <TrashIcon source={require('./assets/trash.png')} />
+                  <Icon
+                    name={'trash-can-outline'}
+                    color={colors.red}
+                    size={20}
+                  />
                 </QuantityButton>
               ) : (
                 <QuantityButton onPress={() => setQuantity(quantity - 1)}>
-                  <MinusIcon source={require('./assets/minus.png')} />
+                  <Icon name={'minus'} color={colors.red} size={20} />
                 </QuantityButton>
               )}
               <QuantityBox>
                 <QuantityText>{quantity}</QuantityText>
               </QuantityBox>
               <QuantityButton onPress={() => setQuantity(quantity + 1)}>
-                <PlusIcon source={require('./assets/plus.png')} />
+                <Icon name={'plus'} color={colors.red} size={20} />
               </QuantityButton>
             </QuantityContainer>
           )}
