@@ -14,7 +14,7 @@ import {
   TitleContainer,
   styles,
 } from './styles';
-import {ImageSourcePropType} from 'react-native';
+import {Alert, ImageSourcePropType} from 'react-native';
 import {
   AddButton,
   AddText,
@@ -26,20 +26,21 @@ import {
 import {colors} from '../../globalStyles';
 import {compareFavorites} from '../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
+import {useCart} from '../../services/context/cartContext';
 
 interface PlateCardProps {
   data: RestaurantPlate;
-  setCart: (value: boolean) => void;
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
+const PlateCard: React.FC<PlateCardProps> = ({data}) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
   );
-  const [price, setPrice] = useState('0,00');
+  const [thisPrice, setThisPrice] = useState('0,00');
   const [heart, setHeart] = useState('heart-outline');
+  const {addItem, removeItem, removeQuantity, getQuantity, price} = useCart();
 
   useEffect(() => {
     if (!!data.foto) setImagePath({uri: data.foto});
@@ -53,11 +54,9 @@ const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
       setDescription(newDescription);
     }
 
-    if (!!data.preco) {
-      const centsFormat = data.preco.toFixed(2);
-      const commaFormat = centsFormat.replace(/\./g, ',');
-      setPrice(commaFormat);
-    }
+    const centsFormat = data.preco.toFixed(2);
+    const commaFormat = centsFormat.replace(/\./g, ',');
+    setThisPrice(commaFormat);
   }, []);
 
   useFocusEffect(
@@ -65,8 +64,26 @@ const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
       const isFavorite = compareFavorites(data);
       if (isFavorite) setHeart('heart');
       else setHeart('heart-outline');
-    }, []),
+
+      const newQuantity = getQuantity(data);
+      setQuantity(newQuantity);
+    }, [price]),
   );
+
+  function handleAdd() {
+    const response = addItem(data);
+    if (response) setQuantity(quantity + 1);
+    else Alert.alert('Faça pedidos em um restaurante por vez!');
+  }
+
+  function handleRemove() {
+    if (quantity === 1) {
+      const quantityInCart = getQuantity(data);
+      removeItem(data, quantityInCart);
+    } else if (quantity > 1) removeQuantity(data);
+
+    setQuantity(quantity - 1);
+  }
 
   return (
     <Container>
@@ -87,23 +104,15 @@ const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
           </DescriptionContainer>
         </TextContainer>
         <FooterContainer>
-          <Price>R$ {price}</Price>
+          <Price>R$ {thisPrice}</Price>
           {quantity === 0 ? (
-            <AddButton
-              onPress={() => {
-                setQuantity(1);
-                setCart(true);
-              }}>
+            <AddButton onPress={handleAdd}>
               <AddText>Adicionar</AddText>
             </AddButton>
           ) : (
             <QuantityContainer>
               {quantity === 1 ? (
-                <QuantityButton
-                  onPress={() => {
-                    setQuantity(0);
-                    setCart(false);
-                  }}>
+                <QuantityButton onPress={handleRemove}>
                   <Icon
                     name={'trash-can-outline'}
                     color={colors.red}
@@ -111,14 +120,14 @@ const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
                   />
                 </QuantityButton>
               ) : (
-                <QuantityButton onPress={() => setQuantity(quantity - 1)}>
+                <QuantityButton onPress={handleRemove}>
                   <Icon name={'minus'} color={colors.red} size={20} />
                 </QuantityButton>
               )}
               <QuantityBox>
                 <QuantityText>{quantity}</QuantityText>
               </QuantityBox>
-              <QuantityButton onPress={() => setQuantity(quantity + 1)}>
+              <QuantityButton onPress={handleAdd}>
                 <Icon name={'plus'} color={colors.red} size={20} />
               </QuantityButton>
             </QuantityContainer>

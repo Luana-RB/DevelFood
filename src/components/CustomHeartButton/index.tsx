@@ -17,8 +17,8 @@ export function CustomHeartButton({route}: any) {
   useFocusEffect(
     React.useCallback(() => {
       if (route.name === 'PlateDetails') {
-        const {prato} = route.params;
-        const isFavoriteResult = compareFavorites(prato);
+        const {plate} = route.params;
+        const isFavoriteResult = compareFavorites(plate);
         setHeart(isFavoriteResult);
       } else if (route.name === 'RestaurantProfile') {
         const {restaurant} = route.params;

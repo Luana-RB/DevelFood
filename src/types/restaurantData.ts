@@ -30,10 +30,11 @@ export interface RestaurantInfo {
 export interface RestaurantPlate {
   id: string;
   nome: string;
-  preco?: number;
+  preco: number;
   descricao?: string;
   foto?: string;
   restaurantId: string;
+  quantity?: number;
 }
 
 export interface RestaurantAdress {
@@ -46,7 +47,7 @@ export interface RestaurantAdress {
 }
 
 export type RootStackParamList = {
-  PlateDetails: {prato: any; restaurant: any};
+  PlateDetails: {plate: any; restaurant: any};
   Home: any;
   RestaurantProfile: any;
 };

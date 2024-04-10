@@ -28,6 +28,7 @@ export const users: UsersData[] = [
         id: '201',
         nome: 'Classic Burger',
         restaurantId: '2',
+        preco: 1.0,
       },
     ],
   },

@@ -15,7 +15,7 @@ import {
   Title,
 } from './styles';
 import {PlateDetailsScreenProps} from '../../types/restaurantData';
-import {ImageSourcePropType} from 'react-native';
+import {Alert, ImageSourcePropType} from 'react-native';
 import {
   AddButton,
   AddText,
@@ -26,35 +26,62 @@ import {
 } from '../../components/AddButton';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
+import {useCart} from '../../services/context/cartContext';
+import {useFocusEffect} from '@react-navigation/native';
 
 const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
-  const {prato, restaurant} = route.params;
+  const {plate, restaurant} = route.params;
   const [quantity, setQuantity] = useState(0);
-  const [cart, setCart] = useState(false);
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('0,00');
+  const [thisPrice, setThisPrice] = useState('0,00');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
   );
 
+  const {addItem, removeItem, removeQuantity, getQuantity, price} = useCart();
+
   useEffect(() => {
-    if (!!prato.foto) setImagePath({uri: prato.foto});
+    if (!!plate.foto) setImagePath({uri: plate.foto});
     else setImagePath(require('../../../assets/images/notFound.png'));
 
-    if (!!prato.descricao) {
-      const text = prato.descricao;
+    if (!!plate.descricao) {
+      const text = plate.descricao;
       const words = text.split(' ');
-      const firstWords = words.slice(0, 20);
+      const firstWords = words.slice(0, 40);
       const newDescription = firstWords.join(' ');
       setDescription(newDescription);
     }
 
-    if (!!prato.preco) {
-      const centsFormat = prato.preco.toFixed(2);
-      const commaFormat = centsFormat.replace(/\./g, ',');
-      setPrice(commaFormat);
-    }
+    formatPrice(plate.preco);
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const newQuantity = getQuantity(plate);
+      setQuantity(newQuantity);
+    }, []),
+  );
+
+  function formatPrice(price: number) {
+    const centsFormat = price.toFixed(2);
+    const commaFormat = centsFormat.replace(/\./g, ',');
+    setThisPrice(commaFormat);
+  }
+
+  function handleAdd() {
+    const response = addItem(plate);
+    if (response) setQuantity(quantity + 1);
+    else Alert.alert('Faça pedidos em um restaurante por vez!');
+  }
+
+  function handleRemove() {
+    if (quantity === 1) {
+      const quantityInCart = getQuantity(plate);
+      removeItem(plate, quantityInCart);
+    } else if (quantity > 1) removeQuantity(plate);
+
+    setQuantity(quantity - 1);
+  }
 
   return (
     <Container>
@@ -65,7 +92,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
       <BodyContainer>
         <PlateImage source={imagePath} />
         <HeaderContainer>
-          <Title>{prato.nome}</Title>
+          <Title>{plate.nome}</Title>
           <SubTitle>{restaurant.categoria}</SubTitle>
         </HeaderContainer>
         <DescriptionContainer>
@@ -84,23 +111,15 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
         </RestaurantContainer>
       </BodyContainer>
       <FooterContainer>
-        <Price>R$ {price}</Price>
+        <Price>R$ {thisPrice}</Price>
         {quantity === 0 ? (
-          <AddButton
-            onPress={() => {
-              setQuantity(1);
-              setCart(true);
-            }}>
+          <AddButton onPress={handleAdd}>
             <AddText style={{color: colors.white}}>Adicionar</AddText>
           </AddButton>
         ) : (
           <QuantityContainer>
             {quantity === 1 ? (
-              <QuantityButton
-                onPress={() => {
-                  setQuantity(0);
-                  setCart(false);
-                }}>
+              <QuantityButton onPress={handleRemove}>
                 <Icon
                   name={'trash-can-outline'}
                   color={colors.white}
@@ -108,14 +127,14 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
                 />
               </QuantityButton>
             ) : (
-              <QuantityButton onPress={() => setQuantity(quantity - 1)}>
+              <QuantityButton onPress={handleRemove}>
                 <Icon name={'minus'} color={colors.white} size={25} />
               </QuantityButton>
             )}
             <QuantityBox style={{borderColor: colors.white}}>
               <QuantityText>{quantity}</QuantityText>
             </QuantityBox>
-            <QuantityButton onPress={() => setQuantity(quantity + 1)}>
+            <QuantityButton onPress={handleAdd}>
               <Icon name={'plus'} color={colors.white} size={25} />
             </QuantityButton>
           </QuantityContainer>

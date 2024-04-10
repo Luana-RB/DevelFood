@@ -35,7 +35,7 @@ export const restaurantsMock: RestaurantsData[] = [
         preco: 49.9,
         restaurantId: '1',
       },
-      {id: '104', nome: 'Hawaiian Pizza', restaurantId: '1'},
+      {id: '104', nome: 'Hawaiian Pizza', restaurantId: '1', preco: 1},
     ],
   },
   {
@@ -49,12 +49,13 @@ export const restaurantsMock: RestaurantsData[] = [
     pratos: [
       {
         id: '201',
+        preco: 1.0,
         restaurantId: '2',
         nome: 'Classic Burger',
         foto: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
-      {id: '202', nome: 'Cheeseburger', restaurantId: '2'},
-      {id: '203', nome: 'Veggie Burger', restaurantId: '2'},
+      {id: '202', nome: 'Cheeseburger', restaurantId: '2', preco: 1.5},
+      {id: '203', nome: 'Veggie Burger', restaurantId: '2', preco: 1.0},
     ],
   },
   {
@@ -75,9 +76,9 @@ export const restaurantsMock: RestaurantsData[] = [
     fotos:
       'https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     pratos: [
-      {id: '401', nome: 'Spaghetti Carbonara', restaurantId: '4'},
-      {id: '402', nome: 'Lasagna', restaurantId: '4'},
-      {id: '403', nome: 'Penne Arrabbiata', restaurantId: '4'},
+      {id: '401', nome: 'Spaghetti Carbonara', restaurantId: '4', preco: 1.0},
+      {id: '402', nome: 'Lasagna', restaurantId: '4', preco: 1.0},
+      {id: '403', nome: 'Penne Arrabbiata', restaurantId: '4', preco: 1.0},
     ],
   },
   {
@@ -87,9 +88,9 @@ export const restaurantsMock: RestaurantsData[] = [
     telefone: '678-901-2345',
     categoria: 'Sobremesa',
     pratos: [
-      {id: '601', nome: 'Strawberry Smoothie', restaurantId: '6'},
-      {id: '602', nome: 'Mango Smoothie', restaurantId: '6'},
-      {id: '603', nome: 'Blueberry Smoothie', restaurantId: '6'},
+      {id: '601', nome: 'Strawberry Smoothie', restaurantId: '6', preco: 1},
+      {id: '602', nome: 'Mango Smoothie', restaurantId: '6', preco: 1},
+      {id: '603', nome: 'Blueberry Smoothie', restaurantId: '6', preco: 1},
     ],
   },
   {
@@ -98,9 +99,9 @@ export const restaurantsMock: RestaurantsData[] = [
     cnpj: '78901234567890',
     telefone: '789-012-3456',
     pratos: [
-      {id: '701', nome: 'Espresso', restaurantId: '7'},
-      {id: '702', nome: 'Latte', restaurantId: '7'},
-      {id: '703', nome: 'Cappuccino', restaurantId: '7'},
+      {id: '701', nome: 'Espresso', restaurantId: '7', preco: 1},
+      {id: '702', nome: 'Latte', restaurantId: '7', preco: 1},
+      {id: '703', nome: 'Cappuccino', restaurantId: '7', preco: 1},
     ],
   },
   {
@@ -110,9 +111,14 @@ export const restaurantsMock: RestaurantsData[] = [
     telefone: '890-123-4567',
     categoria: 'Sobremesa',
     pratos: [
-      {id: '801', nome: 'Glazed Doughnut', restaurantId: '8'},
-      {id: '802', nome: 'Chocolate Glazed Doughnut', restaurantId: '8'},
-      {id: '803', nome: 'Sprinkle Doughnut', restaurantId: '8'},
+      {id: '801', nome: 'Glazed Doughnut', restaurantId: '8', preco: 1},
+      {
+        id: '802',
+        nome: 'Chocolate Glazed Doughnut',
+        restaurantId: '8',
+        preco: 1,
+      },
+      {id: '803', nome: 'Sprinkle Doughnut', restaurantId: '8', preco: 1},
     ],
   },
   {
@@ -124,9 +130,9 @@ export const restaurantsMock: RestaurantsData[] = [
     fotos:
       'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     pratos: [
-      {id: '101', nome: 'Margherita Pizza', restaurantId: '9'},
-      {id: '102', nome: 'Pepperoni Pizza', restaurantId: '9'},
-      {id: '103', nome: 'Hawaiian Pizza', restaurantId: '9'},
+      {id: '101', nome: 'Margherita Pizza', restaurantId: '9', preco: 1},
+      {id: '102', nome: 'Pepperoni Pizza', restaurantId: '9', preco: 1},
+      {id: '103', nome: 'Hawaiian Pizza', restaurantId: '9', preco: 1},
     ],
   },
   {
@@ -138,9 +144,9 @@ export const restaurantsMock: RestaurantsData[] = [
     fotos:
       'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     pratos: [
-      {id: '201', nome: 'Classic Burger', restaurantId: '10'},
-      {id: '202', nome: 'Cheeseburger', restaurantId: '10'},
-      {id: '203', nome: 'Veggie Burger', restaurantId: '10'},
+      {id: '201', nome: 'Classic Burger', restaurantId: '10', preco: 1},
+      {id: '202', nome: 'Cheeseburger', restaurantId: '10', preco: 1},
+      {id: '203', nome: 'Veggie Burger', restaurantId: '10', preco: 1},
     ],
   },
 ];
