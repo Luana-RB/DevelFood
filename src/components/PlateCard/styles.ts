@@ -32,17 +32,6 @@ export const PlateImage = styled.Image`
   margin: ${screenWidth * 0.03}px;
 `;
 
-export const styles = StyleSheet.create({
-  heartIcon: {
-    alignSelf: 'flex-end',
-    position: 'absolute',
-    zIndex: 2,
-    top: 0,
-    right: 0,
-    margin: 10,
-  },
-});
-
 export const BodyContainer = styled.View`
   width: 60%;
   height: 100%;
@@ -91,3 +80,14 @@ export const Price = styled.Text`
   color: ${colors.black};
   font-weight: bold;
 `;
+
+export const styles = StyleSheet.create({
+  heartIcon: {
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    zIndex: 2,
+    top: 0,
+    right: 0,
+    margin: 10,
+  },
+});

@@ -3,7 +3,7 @@ import Favoritos from '../views/Favoritos';
 import Perfil from '../views/Perfil';
 import Pedidos from '../views/Pedidos';
 import {colors, screenHeight} from '../globalStyles';
-import {Image, Text} from 'react-native';
+import {Text} from 'react-native';
 import {RestaurantStack} from './restaurant.routes';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -20,33 +20,23 @@ function HomeTabs() {
             if (focused) {
               size = size + screenHeight * 0.001;
               return <Icon name="home" size={35} color={colors.red} />;
-            } else {
-              return <Icon name="home" size={30} color={colors.gray} />;
-            }
+            } else return <Icon name="home" size={30} color={colors.gray} />;
           } else if (route.name === 'Favoritos') {
             if (focused) {
               size = size + screenHeight * 0.001;
               return <Icon name="heart" size={35} color={colors.red} />;
-            } else {
-              return <Icon name="heart" size={30} color={colors.gray} />;
-            }
+            } else return <Icon name="heart" size={30} color={colors.gray} />;
           } else if (route.name === 'Pedidos') {
             if (focused) {
               size = size + screenHeight * 0.001;
               return <Icon name="menu" size={35} color={colors.red} />;
-            } else {
-              return <Icon name="menu" size={30} color={colors.gray} />;
-            }
+            } else return <Icon name="menu" size={30} color={colors.gray} />;
           } else if (route.name === 'Perfil') {
             if (focused) {
               size = size + screenHeight * 0.001;
               return <Icon name="account" size={35} color={colors.red} />;
-            } else {
-              return <Icon name="account" size={30} color={colors.gray} />;
-            }
-          } else {
-            return <Icon name="home" size={30} color={colors.gray} />;
-          }
+            } else return <Icon name="account" size={30} color={colors.gray} />;
+          } else return <Icon name="home" size={30} color={colors.gray} />;
         },
         tabBarLabel: ({focused}) => {
           if (!focused) {

@@ -119,11 +119,7 @@ const RestaurantProfile: React.FC = ({navigation}: any) => {
                   restaurant: data,
                 });
               }}>
-              <PlateCard
-                data={item}
-                setCart={setCart}
-                navigation={navigation}
-              />
+              <PlateCard data={item} setCart={setCart} />
             </TouchableOpacity>
           )}
           ListFooterComponent={<View style={{height: 70}} />}

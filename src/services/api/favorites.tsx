@@ -49,14 +49,11 @@ export function compareRestaurant(restaurantId: string) {
     const user = users[0];
     const favorites = user.favorites;
     if (favorites?.length === 0) return false;
-    console.log(restaurantId);
-
     const newFavorites = favorites.filter(item => {
-      console.log(item);
       return item.restaurantId === restaurantId;
     });
     if (newFavorites.length > 0) return true;
-    else return false;
+    return false;
   } catch (e) {
     console.log('compareRestaurant:', e);
     return false;

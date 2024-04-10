@@ -30,10 +30,9 @@ import {useFocusEffect} from '@react-navigation/native';
 interface PlateCardProps {
   data: RestaurantPlate;
   setCart: (value: boolean) => void;
-  navigation: any;
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data, setCart, navigation}) => {
+const PlateCard: React.FC<PlateCardProps> = ({data, setCart}) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(

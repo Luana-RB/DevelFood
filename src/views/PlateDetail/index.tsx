@@ -10,7 +10,6 @@ import {
   PlateImage,
   Price,
   RestaurantContainer,
-  RestaurantIcon,
   RestaurantName,
   SubTitle,
   Title,
@@ -32,31 +31,28 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const {prato, restaurant} = route.params;
   const [quantity, setQuantity] = useState(0);
   const [cart, setCart] = useState(false);
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('0,00');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
   );
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('0,00');
 
   useEffect(() => {
-    if (prato) {
-      if (!!prato.foto) {
-        setImagePath({uri: prato.foto});
-      } else {
-        setImagePath(require('../../../assets/images/notFound.png'));
-      }
-      if (!!prato.descricao) {
-        const text = prato.descricao;
-        const words = text.split(' ');
-        const firstWords = words.slice(0, 20);
-        const newDescription = firstWords.join(' ');
-        setDescription(newDescription);
-      }
-      if (!!prato.preco) {
-        const centsFormat = prato.preco.toFixed(2);
-        const commaFormat = centsFormat.replace(/\./g, ',');
-        setPrice(commaFormat);
-      }
+    if (!!prato.foto) setImagePath({uri: prato.foto});
+    else setImagePath(require('../../../assets/images/notFound.png'));
+
+    if (!!prato.descricao) {
+      const text = prato.descricao;
+      const words = text.split(' ');
+      const firstWords = words.slice(0, 20);
+      const newDescription = firstWords.join(' ');
+      setDescription(newDescription);
+    }
+
+    if (!!prato.preco) {
+      const centsFormat = prato.preco.toFixed(2);
+      const commaFormat = centsFormat.replace(/\./g, ',');
+      setPrice(commaFormat);
     }
   }, []);
 
