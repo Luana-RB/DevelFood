@@ -71,7 +71,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   function handleAdd() {
     const response = addItem(plate);
     if (response) setQuantity(quantity + 1);
-    else Alert.alert('Faça pedidos em um restaurante por vez!');
+    else Alert.alert('Faça pedidos em um restaurante por vez');
   }
 
   function handleRemove() {

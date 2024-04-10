@@ -40,9 +40,9 @@ export function CustomHeartButton({route}: any) {
   function handleChange() {
     if (route.name === 'PlateDetails') {
       setHeart(!heart);
-      const {prato} = route.params;
-      if (heart) removeFavorite(prato);
-      else addFavorite(prato);
+      const {plate} = route.params;
+      if (heart) removeFavorite(plate);
+      else addFavorite(plate);
     }
   }
 
