@@ -10,7 +10,7 @@ import {RestaurantsData} from '../../types/restaurantData';
 import {
   getRestaurants,
   getRestaurantsFiltered,
-} from '../../services/api/restaurantes';
+} from '../../services/api/restaurants';
 import {
   SearchBarContainer,
   SearchInput,

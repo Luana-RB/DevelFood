@@ -3,7 +3,7 @@ import RestaurantProfile from '../views/RestaurantProfile';
 import {RestaurantProvider} from '../services/context/restaurantContext';
 import Home from '../views/Home';
 import {TouchableOpacity} from 'react-native';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PlateDetail from '../views/PlateDetail';
 import {RootStackParamList} from '../types/restaurantData';
@@ -11,42 +11,46 @@ import {colors} from '../globalStyles';
 import {
   addFavorite,
   compareFavorites,
+  compareRestaurant,
   removeFavorite,
 } from '../services/api/favorites';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 function CustomHeartButton({route}: any) {
-  const [heart, setHeart] = useState(true);
+  const [heart, setHeart] = useState<boolean | undefined>(true);
   const [imagePath, setImagePath] = useState<string>('heart-outline');
 
-  useEffect(() => {
-    if (route.params) {
-      const {prato} = route.params;
-      const isFavoriteResult = compareFavorites(prato);
-      setHeart(isFavoriteResult);
-    }
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (route.name === 'PlateDetails') {
+        const {prato} = route.params;
+        const isFavoriteResult = compareFavorites(prato);
+        setHeart(isFavoriteResult);
+      } else if (route.name === 'RestaurantProfile') {
+        const {restaurant} = route.params;
+        const isFavoriteResult = compareRestaurant(restaurant.id);
+        setHeart(isFavoriteResult);
+      }
+    }, []),
+  );
 
   useEffect(() => {
     handleImagePath();
   }, [heart]);
 
   function handleImagePath() {
-    if (heart) {
-      setImagePath('heart');
-    } else setImagePath('heart-outline');
+    if (heart) setImagePath('heart');
+    else setImagePath('heart-outline');
   }
 
   function handleChange() {
-    setHeart(!heart);
-    if (route.params) {
+    if (route.name === 'PlateDetails') {
+      setHeart(!heart);
       const {prato} = route.params;
-      if (heart) {
-        removeFavorite(prato);
-      } else {
-        addFavorite(prato);
-      }
+      if (heart) removeFavorite(prato);
+      else addFavorite(prato);
     }
   }
 

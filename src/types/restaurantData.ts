@@ -1,7 +1,7 @@
 import {StackScreenProps} from '@react-navigation/stack';
 
 export interface RestaurantsData {
-  id?: string;
+  id: string;
   nome: string;
   cnpj?: string;
   telefone?: string;
@@ -33,6 +33,7 @@ export interface RestaurantPlate {
   preco?: number;
   descricao?: string;
   foto?: string;
+  restaurantId: string;
 }
 
 export interface RestaurantAdress {

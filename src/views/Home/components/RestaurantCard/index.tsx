@@ -16,6 +16,8 @@ import {ImageSourcePropType, TouchableOpacity} from 'react-native';
 import {useRestaurant} from '../../../../services/context/restaurantContext';
 import {colors, screenHeight} from '../../../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {compareRestaurant} from '../../../../services/api/favorites';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface RestaurantProps {
   data: RestaurantsData;
@@ -25,30 +27,36 @@ interface RestaurantProps {
 const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>();
   const [fontSize, setFontSize] = useState(screenHeight * 0.019);
+  const [heart, setHeart] = useState('heart-outline');
   const {storeData} = useRestaurant();
 
   useEffect(() => {
-    if (data) {
-      if (!!data.fotos) {
-        setImagePath({uri: data.fotos});
-      } else {
-        setImagePath(require('../../../../../assets/images/notFound.png'));
-      }
-    }
+    if (!!data.fotos) setImagePath({uri: data.fotos});
+    else setImagePath(require('../../../../../assets/images/notFound.png'));
+
     if (data?.nome.length >= 19) setFontSize(screenHeight * 0.016);
     else if (data?.nome.length >= 15) setFontSize(screenHeight * 0.018);
   }, []);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const isFavorite = compareRestaurant(data.id);
+      if (isFavorite) setHeart('heart');
+      else setHeart('heart-outline');
+    }, []),
+  );
+
   function handleNavigation() {
     const response = storeData(data);
-    if (response !== null) navigation.navigate('RestaurantProfile');
+    if (response !== null)
+      navigation.navigate('RestaurantProfile', {restaurant: data});
   }
 
   return (
     <TouchableOpacity onPress={handleNavigation}>
       <Container>
         <HeartContainer>
-          <Icon name="heart-outline" size={25} color={colors.red} />
+          <Icon name={heart} size={25} color={colors.red} />
         </HeartContainer>
         {imagePath && <BackGroundImage source={imagePath} resizeMode="cover" />}
         <InfoContainer>
