@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {SearchBarContainer, SearchIcon, SearchInput} from './styles';
+import {SearchBarContainer, SearchInput} from './styles';
 import {colors} from '../../globalStyles';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface SearchProps {
   title: string;
@@ -9,7 +10,7 @@ interface SearchProps {
 const SearchBar: React.FC<SearchProps> = ({title, onChangeText}) => {
   return (
     <SearchBarContainer>
-      <SearchIcon source={require('../../../assets/images/search.png')} />
+      <Icon name="magnify" size={30} color={colors.gray} style={{margin: 10}} />
       <SearchInput
         placeholder={title}
         placeholderTextColor={colors.gray}

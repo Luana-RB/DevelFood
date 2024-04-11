@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import {colors, screenHeight, screenWidth} from '../../globalStyles';
-import {Platform} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 export const Container = styled.View`
   flex-direction: row;
@@ -30,17 +30,6 @@ export const PlateImage = styled.Image`
   border-radius: 8px;
   overflow: hidden;
   margin: ${screenWidth * 0.03}px;
-`;
-
-export const HeartIcon = styled.Image`
-  width: ${screenWidth * 0.056}px;
-  height: ${screenHeight * 0.024}px;
-  align-self: flex-end;
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  right: 0;
-  margin: 10px;
 `;
 
 export const BodyContainer = styled.View`
@@ -76,7 +65,6 @@ export const DescriptionContainer = styled.View`
 export const Description = styled.Text`
   font-size: 10px;
   flex-wrap: wrap;
-
   color: ${colors.gray};
 `;
 
@@ -93,56 +81,13 @@ export const Price = styled.Text`
   font-weight: bold;
 `;
 
-export const AddButton = styled.TouchableOpacity`
-  height: 100%;
-  width: ${screenWidth * 0.2}px;
-`;
-
-export const AddText = styled.Text`
-  font-size: 14px;
-  color: ${colors.red};
-  font-weight: bold;
-`;
-
-export const QuantityContainer = styled.View`
-  flex-direction: row;
-  height: ${screenHeight * 0.045}px;
-  width: ${screenWidth * 0.2}px;
-  align-items: center;
-  justify-content: center;
-  margin-top: -7px;
-`;
-
-export const QuantityBox = styled.View`
-  width: ${screenWidth * 0.053}px;
-  height: ${screenHeight * 0.02299}px;
-  background-color: ${colors.red};
-  border-radius: 8px;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const QuantityText = styled.Text`
-  font-size: 12px;
-  color: ${colors.white};
-`;
-export const QuantityButton = styled.TouchableOpacity`
-  height: 50%;
-  width: 20%;
-  align-items: center;
-  justify-content: center;
-  margin: 5px 10px;
-`;
-
-export const MinusIcon = styled.Image`
-  width: ${screenWidth * 0.02}px;
-  height: ${screenHeight * 0.006}px;
-`;
-export const PlusIcon = styled.Image`
-  width: ${screenWidth * 0.03}px;
-  height: ${screenHeight * 0.015}px;
-`;
-export const TrashIcon = styled.Image`
-  width: ${screenWidth * 0.028}px;
-  height: ${screenHeight * 0.016}px;
-`;
+export const styles = StyleSheet.create({
+  heartIcon: {
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    zIndex: 2,
+    top: 0,
+    right: 0,
+    margin: 10,
+  },
+});

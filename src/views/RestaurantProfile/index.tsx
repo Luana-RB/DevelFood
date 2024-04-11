@@ -1,5 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import SearchBar from '../../components/SearchBar';
 import PlateCard from '../../components/PlateCard';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
@@ -23,9 +28,9 @@ import {
   NoResultImage,
   NoResultText,
 } from '../../components/NoResultComponent';
-import {isLength} from 'validator';
+import {useCart} from '../../services/context/cartContext';
 
-const RestaurantProfile: React.FC = () => {
+const RestaurantProfile: React.FC = ({navigation}: any) => {
   const [cart, setCart] = useState(false);
   const [notFound, setNotFound] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -35,22 +40,21 @@ const RestaurantProfile: React.FC = () => {
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
-
+  const {numOfItems} = useCart();
   const {data} = useRestaurant();
+  if (!data) return;
 
   useEffect(() => {
-    if (data) {
-      console.log(data);
-      if (data?.pratos !== undefined && data?.pratos?.length >= 1) {
-        setNotFound(false);
-        setPlateData(data?.pratos);
-      }
-      if (!!data.fotos) setImagePath({uri: data.fotos});
-      else setImagePath(require('../../../assets/images/notFound.png'));
+    if (data?.pratos !== undefined && data?.pratos?.length >= 1) {
+      setNotFound(false);
+      setPlateData(data?.pratos);
     }
-  }, []);
+    if (!!data.fotos) setImagePath({uri: data.fotos});
+    else setImagePath(require('../../../assets/images/notFound.png'));
 
-  if (!data) return;
+    if (numOfItems > 0) setCart(true);
+    else setCart(false);
+  }, [numOfItems]);
 
   async function handleSearch(text: string) {
     if (!text) setIsFiltered(false);
@@ -108,7 +112,17 @@ const RestaurantProfile: React.FC = () => {
         <FlatList
           data={isFiltered ? filteredData : data.pratos}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <PlateCard data={item} setCart={setCart} />}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('PlateDetails', {
+                  plate: item,
+                  restaurant: data,
+                });
+              }}>
+              <PlateCard data={item} />
+            </TouchableOpacity>
+          )}
           ListFooterComponent={<View style={{height: 70}} />}
           style={{flex: 5}}
         />
@@ -120,9 +134,9 @@ const RestaurantProfile: React.FC = () => {
             backgroundColor: colors.white,
             flex: 1.7,
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
           }}>
-          <CartBar />
+          <CartBar margin={20} />
         </View>
       )}
     </Container>

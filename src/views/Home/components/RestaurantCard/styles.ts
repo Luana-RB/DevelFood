@@ -35,11 +35,6 @@ export const HeartContainer = styled.View`
   top: 0;
 `;
 
-export const HeartImage = styled.Image`
-  width: ${screenWidth * 0.053}px;
-  height: ${screenHeight * 0.02299}px;
-`;
-
 export const InfoContainer = styled.View`
   width: 100%;
   height: ${screenHeight * 0.095}px;
@@ -63,20 +58,19 @@ export const InfoContainer = styled.View`
 `;
 export const TitleContainer = styled.View`
   width: 100%;
-  max-height: 60%;
+  max-height: 70%;
   flex-shrink: 1;
 `;
 export const Title = styled.Text`
   flex-shrink: 1;
-  font-size: 16px;
   flex-wrap: wrap;
-  margin-bottom: ${screenHeight * 0.005}px;
   color: ${colors.black};
 `;
 
 export const InfoFooter = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  margin-top: ${screenHeight * 0.005}px;
 `;
 
 export const Category = styled.Text`
@@ -89,11 +83,6 @@ export const RatingContainer = styled.View`
   justify-content: center;
   align-items: center;
   gap: 5px;
-`;
-
-export const RatingIcon = styled.Image`
-  width: ${screenWidth * 0.03}px;
-  height: ${screenHeight * 0.0132}px;
 `;
 
 export const RatingText = styled.Text`

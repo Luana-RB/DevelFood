@@ -3,8 +3,9 @@ import Favoritos from '../views/Favoritos';
 import Perfil from '../views/Perfil';
 import Pedidos from '../views/Pedidos';
 import {colors, screenHeight} from '../globalStyles';
-import {Image, Text} from 'react-native';
+import {Text} from 'react-native';
 import {RestaurantStack} from './restaurant.routes';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,55 +19,24 @@ function HomeTabs() {
           if (route.name === 'Início') {
             if (focused) {
               size = size + screenHeight * 0.001;
-              return <Image source={require('../../assets/images/home.png')} />;
-            } else {
-              return (
-                <Image
-                  source={require('../../assets/images/home_inactive.png')}
-                />
-              );
-            }
+              return <Icon name="home" size={35} color={colors.red} />;
+            } else return <Icon name="home" size={30} color={colors.gray} />;
           } else if (route.name === 'Favoritos') {
             if (focused) {
               size = size + screenHeight * 0.001;
-              return (
-                <Image
-                  source={require('../../assets/images/heart.png')}
-                  style={{width: size + screenHeight * 0.0044, height: size}}
-                />
-              );
-            } else {
-              return (
-                <Image
-                  source={require('../../assets/images/heart_inactive.png')}
-                />
-              );
-            }
+              return <Icon name="heart" size={35} color={colors.red} />;
+            } else return <Icon name="heart" size={30} color={colors.gray} />;
           } else if (route.name === 'Pedidos') {
             if (focused) {
               size = size + screenHeight * 0.001;
-              return <Image source={require('../../assets/images/bars.png')} />;
-            } else {
-              return (
-                <Image
-                  source={require('../../assets/images/bars_inactive.png')}
-                />
-              );
-            }
+              return <Icon name="menu" size={35} color={colors.red} />;
+            } else return <Icon name="menu" size={30} color={colors.gray} />;
           } else if (route.name === 'Perfil') {
             if (focused) {
               size = size + screenHeight * 0.001;
-              return <Image source={require('../../assets/images/user.png')} />;
-            } else {
-              return (
-                <Image
-                  source={require('../../assets/images/user_inactive.png')}
-                />
-              );
-            }
-          } else {
-            return <Image source={require('../../assets/images/home.png')} />;
-          }
+              return <Icon name="account" size={35} color={colors.red} />;
+            } else return <Icon name="account" size={30} color={colors.gray} />;
+          } else return <Icon name="home" size={30} color={colors.gray} />;
         },
         tabBarLabel: ({focused}) => {
           if (!focused) {

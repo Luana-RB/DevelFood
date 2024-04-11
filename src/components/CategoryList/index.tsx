@@ -2,8 +2,6 @@ import React from 'react';
 import {FlatList, View} from 'react-native';
 import CategoryCard from '../CategoryCard';
 
-// import { Container } from './styles';
-
 const CategoryList: React.FC = () => {
   interface CategoryData {
     id: string;
@@ -32,6 +30,7 @@ const CategoryList: React.FC = () => {
   return (
     <View>
       <FlatList
+        style={{marginHorizontal: 5}}
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => <CategoryCard name={item.name} />}
