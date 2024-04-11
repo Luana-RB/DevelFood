@@ -2,17 +2,20 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import {RestaurantsData} from '../../../../types/restaurantData';
 import {getRestaurants} from '../../../../services/api/restaurants';
-
 import {
   SearchBarContainer,
   SearchInput,
 } from '../../../../components/SearchBar/styles';
 import {colors} from '../../../../globalStyles';
-import RestaurantCard from '../RestaurantCard';
+import RestaurantCard from './RestaurantCard';
 import {getRestaurantsFiltered} from '../../../../services/api/restaurants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FooterList from '../FooterList';
-import ListEmptyComponent from '../ListEmptyComponent';
+import FooterList from './FooterList';
+import ListEmptyComponent from './ListEmptyComponent';
+import AddressBanner from '../AddressBanner';
+import BannerCarrossel from '../BannerCarrossel';
+import {sales} from '../../../../mocks/sales';
+import CategoryList from '../../../../components/CategoryList';
 const DELAY = 1500;
 
 interface RestaurantListProps {
@@ -36,6 +39,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
     setPage(page + 7);
     return restaurantes;
   }
+
   async function loadSearch(filter: string) {
     const newData = await getRestaurantsFiltered({page: filterPage, filter});
     //setFilterPage(filterPage + 1);
@@ -47,6 +51,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
       }
     }
   }
+
   async function handleAll(filter: string) {
     if (filter.length < 2) {
       setShownData(data);
@@ -69,9 +74,11 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
     }
     setLoading(false);
   }
+
   function onEnd() {
     handleAll(filter);
   }
+
   const debounce = (
     func: {(filter: string): void; apply?: any},
     wait: number | undefined,
@@ -83,9 +90,9 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
       timeout = setTimeout(() => func.apply(context, args), wait);
     };
   };
+
   const debouncedWaitSearch = useCallback(
     debounce(filter => {
-      console.log('debounce');
       setShownData([]);
       handleAll(filter);
     }, DELAY),
@@ -94,37 +101,44 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
 
   return (
     <View style={{flex: 1}}>
-      <SearchBarContainer>
-        <Icon
-          name="magnify"
-          size={30}
-          color={colors.gray}
-          style={{margin: 10}}
-        />
-        <SearchInput
-          placeholder={'Buscar Restaurantes'}
-          placeholderTextColor={colors.gray}
-          value={filter}
-          onChangeText={text => {
-            setFilter(text);
-            debouncedWaitSearch(text);
-          }}
-        />
-      </SearchBarContainer>
       <View style={{flex: 4}}>
         <FlatList
+          ListHeaderComponent={
+            <View>
+              <AddressBanner />
+              <BannerCarrossel data={sales} />
+              <CategoryList />
+              <SearchBarContainer>
+                <Icon
+                  name="magnify"
+                  size={30}
+                  color={colors.gray}
+                  style={{margin: 10}}
+                />
+                <SearchInput
+                  placeholder={'Buscar Restaurantes'}
+                  placeholderTextColor={colors.gray}
+                  value={filter}
+                  onChangeText={text => {
+                    setFilter(text);
+                    debouncedWaitSearch(text);
+                  }}
+                />
+              </SearchBarContainer>
+            </View>
+          }
           data={shownData}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({item}) => (
-            <RestaurantCard data={item} navigation={navigation} />
-          )}
           numColumns={2}
           onEndReached={onEnd}
           onEndReachedThreshold={0.2}
+          ListEmptyComponent={<ListEmptyComponent />}
           ListFooterComponent={
             <FooterList load={loading} shownData={shownData.length === 0} />
           }
-          ListEmptyComponent={<ListEmptyComponent />}
+          renderItem={({item}) => (
+            <RestaurantCard data={item} navigation={navigation} />
+          )}
         />
         <View style={{height: 60, width: '100%'}} />
       </View>

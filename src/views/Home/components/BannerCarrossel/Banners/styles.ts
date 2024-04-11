@@ -3,7 +3,7 @@ import {colors, screenHeight, screenWidth} from '../../../../../globalStyles';
 
 export const Container = styled.TouchableOpacity`
   width: ${screenWidth * 0.92}px;
-  height: ${screenHeight * 0.26}px;
+  height: ${screenHeight * 0.23}px;
   background-color: ${colors.white};
   margin-right: 8px;
   align-items: flex-start;

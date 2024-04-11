@@ -1,6 +1,7 @@
 import React from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import CategoryCard from '../CategoryCard';
+import {colors} from '../../globalStyles';
 
 const CategoryList: React.FC = () => {
   interface CategoryData {
@@ -29,6 +30,14 @@ const CategoryList: React.FC = () => {
 
   return (
     <View>
+      <Text
+        style={{
+          color: colors.black,
+          fontSize: 16,
+          margin: 12,
+        }}>
+        Categorias
+      </Text>
       <FlatList
         style={{marginHorizontal: 5}}
         data={data}

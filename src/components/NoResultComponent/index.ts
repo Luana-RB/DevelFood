@@ -4,9 +4,9 @@ import {colors, screenHeight, screenWidth} from '../../globalStyles';
 export const NoResultContainer = styled.KeyboardAvoidingView`
   flex: 1;
   align-items: center;
-  justify-content: center;
-  padding-top: 40px;
+  justify-content: flex-start;
   height: ${screenHeight * 0.5}px;
+  padding: 20px;
 `;
 
 export const NoResultImage = styled.Image`

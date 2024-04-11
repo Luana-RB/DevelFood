@@ -11,12 +11,12 @@ import {
   Title,
   TitleContainer,
 } from './styles';
-import {RestaurantsData} from '../../../../types/restaurantData';
+import {RestaurantsData} from '../../../../../types/restaurantData';
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
-import {useRestaurant} from '../../../../services/context/restaurantContext';
-import {colors, screenHeight} from '../../../../globalStyles';
+import {useRestaurant} from '../../../../../services/context/restaurantContext';
+import {colors, screenHeight} from '../../../../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {compareRestaurant} from '../../../../services/api/favorites';
+import {compareRestaurant} from '../../../../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 
 interface RestaurantProps {
@@ -32,7 +32,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
 
   useEffect(() => {
     if (!!data.fotos) setImagePath({uri: data.fotos});
-    else setImagePath(require('../../../../../assets/images/notFound.png'));
+    else setImagePath(require('../../../../../../assets/images/notFound.png'));
 
     if (data?.nome.length >= 19) setFontSize(screenHeight * 0.016);
     else if (data?.nome.length >= 15) setFontSize(screenHeight * 0.018);

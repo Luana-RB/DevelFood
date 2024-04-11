@@ -1,18 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {AuthContext} from '../../services/context/authContext';
 import {useToken} from '../../services/context/tokenContext';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {colors, screenHeight} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantList from './components/RestaurantList';
-import AddressBanner from './components/AddressBanner';
-import Banners from './components/BannerCarrossel/Banners';
-import CategoryList from '../../components/CategoryList';
-import {FlatList} from 'react-native';
 import {useCart} from '../../services/context/cartContext';
 import CartBar from '../../components/CartBar';
-import BannerCarrossel from './components/BannerCarrossel';
-import {sales} from '../../mocks/sales';
 
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
@@ -26,49 +20,16 @@ const Home: React.FC = ({navigation}: any) => {
     else setCart(false);
   }, [numOfItems]);
 
-  const renderItem = ({item}: any) => {
-    switch (item.type) {
-      case 'addressBanner':
-        return <AddressBanner />;
-      case 'banners':
-        return <BannerCarrossel data={sales} />;
-      case 'categoryList':
-        return <CategoryList />;
-      case 'restaurantList':
-        return <RestaurantList navigation={navigation} />;
-      default:
-        return null;
-    }
-  };
-
-  const data = [
-    {type: 'addressBanner'},
-    {type: 'banners'},
-    {type: 'categoryList'},
-    {type: 'restaurantList'},
-  ];
-
   return (
     <SafeAreaView style={{backgroundColor: colors.white, flex: 1}}>
       <FocusAwareStatusBar
         barStyle="light-content"
         backgroundColor={colors.red}
       />
-      <FlatList
-        style={{flex: 1}}
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.type}
-      />
+      <RestaurantList navigation={navigation} />
       {cart && (
-        <View
-          style={{
-            backgroundColor: colors.white,
-            flex: 0.2,
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-          }}>
-          <CartBar margin={17} />
+        <View style={styles.cartContainer}>
+          <CartBar margin={-40} />
         </View>
       )}
     </SafeAreaView>
@@ -76,3 +37,12 @@ const Home: React.FC = ({navigation}: any) => {
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  cartContainer: {
+    backgroundColor: colors.white,
+    height: screenHeight * 0.1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+});
