@@ -32,7 +32,6 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
   }, []);
 
   async function loadAPI() {
-    console.log('load');
     const restaurantes = await getRestaurants({page});
     setPage(page + 7);
     return restaurantes;
@@ -49,7 +48,6 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
     }
   }
   async function handleAll(filter: string) {
-    console.log('handle All');
     if (filter.length < 2) {
       setShownData(data);
       if (loading || endedList) return;
@@ -72,7 +70,6 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
     setLoading(false);
   }
   function onEnd() {
-    console.log('on end');
     handleAll(filter);
   }
   const debounce = (

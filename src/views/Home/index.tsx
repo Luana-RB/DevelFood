@@ -6,11 +6,13 @@ import {colors, screenHeight} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantList from './components/RestaurantList';
 import AddressBanner from './components/AddressBanner';
-import Banners from './components/Banners';
+import Banners from './components/BannerCarrossel/Banners';
 import CategoryList from '../../components/CategoryList';
 import {FlatList} from 'react-native';
 import {useCart} from '../../services/context/cartContext';
 import CartBar from '../../components/CartBar';
+import BannerCarrossel from './components/BannerCarrossel';
+import {sales} from '../../mocks/sales';
 
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
@@ -29,7 +31,7 @@ const Home: React.FC = ({navigation}: any) => {
       case 'addressBanner':
         return <AddressBanner />;
       case 'banners':
-        return <Banners />;
+        return <BannerCarrossel data={sales} />;
       case 'categoryList':
         return <CategoryList />;
       case 'restaurantList':
