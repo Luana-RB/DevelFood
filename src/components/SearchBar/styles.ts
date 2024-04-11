@@ -14,12 +14,6 @@ export const SearchBarContainer = styled.View`
   margin: ${screenHeight * 0.015}px ${screenWidth * 0.042}px;
 `;
 
-export const SearchIcon = styled.Image`
-  width: ${screenWidth * 0.05}px;
-  height: ${screenHeight * 0.023}px;
-  margin: ${screenWidth * 0.04}px;
-`;
-
 export const SearchInput = styled.TextInput`
   flex: 1;
   font-size: 14px;

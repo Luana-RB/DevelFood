@@ -1,5 +1,7 @@
+import {StackScreenProps} from '@react-navigation/stack';
+
 export interface RestaurantsData {
-  id?: string;
+  id: string;
   nome: string;
   cnpj?: string;
   telefone?: string;
@@ -31,6 +33,7 @@ export interface RestaurantPlate {
   preco?: number;
   descricao?: string;
   foto?: string;
+  restaurantId: string;
 }
 
 export interface RestaurantAdress {
@@ -41,3 +44,14 @@ export interface RestaurantAdress {
   estado: string;
   num: string;
 }
+
+export type RootStackParamList = {
+  PlateDetails: {prato: any; restaurant: any};
+  Home: any;
+  RestaurantProfile: any;
+};
+
+export type PlateDetailsScreenProps = StackScreenProps<
+  RootStackParamList,
+  'PlateDetails'
+>;

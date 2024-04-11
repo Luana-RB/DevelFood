@@ -2,45 +2,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import RestaurantProfile from '../views/RestaurantProfile';
 import {RestaurantProvider} from '../services/context/restaurantContext';
 import Home from '../views/Home';
-import {Image, ImageSourcePropType, TouchableOpacity} from 'react-native';
-import {useEffect, useState} from 'react';
-import {screenHeight, screenWidth} from '../globalStyles';
+import React from 'react';
+import PlateDetail from '../views/PlateDetail';
+import {RootStackParamList} from '../types/restaurantData';
+import {CustomHeartButton} from '../components/CustomHeartButton';
 
-const Stack = createStackNavigator();
-
-function CustomHeartButton() {
-  const [heart, setHeart] = useState(false);
-  const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
-    require('../../assets/images/heart_outline.png'),
-  );
-
-  useEffect(() => {
-    handleImagePath();
-  });
-
-  function handleImagePath() {
-    if (heart) {
-      setImagePath(require('../../assets/images/heart.png'));
-    } else setImagePath(require('../../assets/images/heart_outline.png'));
-  }
-
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        setHeart(!heart);
-        handleImagePath;
-      }}>
-      <Image
-        source={imagePath}
-        style={{
-          width: screenWidth * 0.056,
-          height: screenHeight * 0.0238,
-          marginRight: 20,
-        }}
-      />
-    </TouchableOpacity>
-  );
-}
+const Stack = createStackNavigator<RootStackParamList>();
 
 export function RestaurantStack() {
   return (
@@ -54,10 +21,18 @@ export function RestaurantStack() {
         <Stack.Screen
           name="RestaurantProfile"
           component={RestaurantProfile}
-          options={{
+          options={({route}) => ({
             title: '',
-            headerRight: props => <CustomHeartButton />,
-          }}
+            headerRight: () => <CustomHeartButton route={route} />,
+          })}
+        />
+        <Stack.Screen
+          name="PlateDetails"
+          component={PlateDetail}
+          options={({route}) => ({
+            title: '',
+            headerRight: () => <CustomHeartButton route={route} />,
+          })}
         />
       </Stack.Navigator>
     </RestaurantProvider>
