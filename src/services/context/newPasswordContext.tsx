@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useState} from 'react';
 import {UsersData} from '../../types/userData';
 
-type RecuperarSenhaContextType = {
+type ForgotPasswordContextType = {
   user: UsersData;
   token: string;
   storeUser: (user: UsersData) => Promise<true | undefined>;
@@ -9,19 +9,19 @@ type RecuperarSenhaContextType = {
   storeToken: (token: string) => Promise<void>;
 };
 
-const RecuperarSenhaContext = createContext<
-  RecuperarSenhaContextType | undefined
+const ForgotPasswordContext = createContext<
+  ForgotPasswordContextType | undefined
 >(undefined);
 
-export const useRecuperarSenha = () => {
-  const context = useContext(RecuperarSenhaContext);
+export const useForgotPassword = () => {
+  const context = useContext(ForgotPasswordContext);
   if (!context) {
-    throw new Error('useRecuperar must be used within a RecuperarProvider');
+    throw new Error('usePassword must be used within a PasswordProvider');
   }
   return context;
 };
 
-export const RecuperarSenhaProvider = ({children}: any) => {
+export const ForgotPasswordProvider = ({children}: any) => {
   const [token, setToken] = useState('');
   const [user, setUser] = useState<UsersData>({
     credentials: {id: '', email: '', password: ''},
@@ -79,7 +79,7 @@ export const RecuperarSenhaProvider = ({children}: any) => {
   };
 
   return (
-    <RecuperarSenhaContext.Provider
+    <ForgotPasswordContext.Provider
       value={{
         token,
         user,
@@ -88,6 +88,6 @@ export const RecuperarSenhaProvider = ({children}: any) => {
         storeToken,
       }}>
       {children}
-    </RecuperarSenhaContext.Provider>
+    </ForgotPasswordContext.Provider>
   );
 };

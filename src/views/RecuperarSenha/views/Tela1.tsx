@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import {findUserIdByEmail, getUserById} from '../../../services/api/users';
-import {useRecuperarSenha} from '../../../services/context/recuperarSenhaContext';
+import {useForgotPassword} from '../../../services/context/newPasswordContext';
 import {Errors} from '../../../types/errors';
 import Button from '../../../components/Button';
 import {
@@ -24,7 +24,7 @@ const Tela1: React.FC = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState<Errors>({});
 
-  const {storeUser} = useRecuperarSenha();
+  const {storeUser} = useForgotPassword();
 
   async function validateForm() {
     let errors: Errors = {};

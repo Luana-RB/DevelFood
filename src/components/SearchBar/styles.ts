@@ -6,7 +6,7 @@ export const SearchBarContainer = styled.View`
   align-items: center;
   flex-direction: row;
   width: ${screenWidth * 0.91}px;
-  height: ${screenHeight * 0.08}px;
+  height: ${screenHeight * 0.07}px;
   border-radius: 10px;
   border-color: ${colors.gray};
   border-width: 1px;

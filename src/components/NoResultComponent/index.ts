@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight} from '../../globalStyles';
+import {colors, screenHeight, screenWidth} from '../../globalStyles';
 
-export const NoResultContainer = styled.View`
+export const NoResultContainer = styled.KeyboardAvoidingView`
   flex: 1;
   align-items: center;
   justify-content: center;
@@ -10,8 +10,8 @@ export const NoResultContainer = styled.View`
 `;
 
 export const NoResultImage = styled.Image`
-  width: 100%;
-  height: 60%;
+  width: ${screenWidth * 0.9}px;
+  height: ${screenHeight * 0.25}px;
 `;
 
 export const NoResultText = styled.Text`

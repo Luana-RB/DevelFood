@@ -19,14 +19,3 @@ export async function getRestaurants({page}: GetProps) {
     console.log(e);
   }
 }
-
-export async function getRestaurantsByCategory({page, filter}: GetFilterProps) {
-  try {
-    const restaurants = await api.get(
-      `/restaurante/listar?page=${page}&filtro${filter}`,
-    );
-    return restaurants.data.content;
-  } catch (e) {
-    console.log(e);
-  }
-}

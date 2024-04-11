@@ -1,7 +1,7 @@
 import React from 'react';
 import {AuthContext} from '../../services/context/authContext';
 import {useToken} from '../../services/context/tokenContext';
-import {SafeAreaView, ScrollView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantList from './components/RestaurantList';
