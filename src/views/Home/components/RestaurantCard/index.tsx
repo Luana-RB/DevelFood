@@ -16,6 +16,7 @@ import {
 import {RestaurantsData} from '../../../../types/restaurantData';
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
 import {useRestaurant} from '../../../../services/context/restaurantContext';
+import {screenHeight} from '../../../../globalStyles';
 
 interface RestaurantProps {
   data: RestaurantsData;
@@ -24,7 +25,7 @@ interface RestaurantProps {
 
 const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>();
-  const [fontSize, setFontSize] = useState(16);
+  const [fontSize, setFontSize] = useState(screenHeight * 0.019);
   const {storeData} = useRestaurant();
 
   useEffect(() => {
@@ -34,8 +35,9 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
       } else {
         setImagePath(require('../../../../../assets/images/notFound.png'));
       }
-      if (data.nome.length > 18) setFontSize(14);
     }
+    if (data?.nome.length >= 19) setFontSize(screenHeight * 0.016);
+    else if (data?.nome.length >= 15) setFontSize(screenHeight * 0.018);
   }, []);
 
   function handleNavigation() {
