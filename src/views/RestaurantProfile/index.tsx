@@ -134,9 +134,9 @@ const RestaurantProfile: React.FC = ({navigation}: any) => {
             backgroundColor: colors.white,
             flex: 1.7,
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
           }}>
-          <CartBar />
+          <CartBar margin={20} />
         </View>
       )}
     </Container>

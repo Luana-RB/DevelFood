@@ -11,7 +11,11 @@ import {useCart} from '../../services/context/cartContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../globalStyles';
 
-const CartBar: React.FC = () => {
+interface CartBarProps {
+  margin: number;
+}
+
+const CartBar: React.FC<CartBarProps> = ({margin}) => {
   const {numOfItems, price} = useCart();
   const [shownNum, setShownNum] = useState('0');
   const [shownPrice, setShownPrice] = useState('0.00');
@@ -26,7 +30,7 @@ const CartBar: React.FC = () => {
   }, [numOfItems, price]);
 
   return (
-    <Container>
+    <Container style={{marginTop: margin}}>
       <CartContainer>
         <Icon name="cart-variant" size={24} color={colors.white} />
         <QuantityContainer>

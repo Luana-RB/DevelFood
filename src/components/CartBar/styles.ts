@@ -11,7 +11,6 @@ export const Container = styled.View`
   height: ${screenHeight * 0.05}px;
   border-radius: 8px;
   background-color: ${colors.red};
-  margin-top: -70px;
 `;
 
 export const CartContainer = styled.View`
