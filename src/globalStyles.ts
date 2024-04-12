@@ -10,4 +10,5 @@ export const colors = {
   gray: '#bfbaba',
   lightGray: '#F0F0F5',
   lowOpacity: 'rgba(43, 43, 46, 0.5)',
+  yellow: '#eccc50',
 };
