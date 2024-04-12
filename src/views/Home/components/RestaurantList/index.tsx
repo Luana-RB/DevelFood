@@ -101,47 +101,45 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{flex: 4}}>
-        <FlatList
-          ListHeaderComponent={
-            <View>
-              <AddressBanner />
-              <BannerCarrossel data={sales} />
-              <CategoryList />
-              <SearchBarContainer>
-                <Icon
-                  name="magnify"
-                  size={30}
-                  color={colors.gray}
-                  style={{margin: 10}}
-                />
-                <SearchInput
-                  placeholder={'Buscar Restaurantes'}
-                  placeholderTextColor={colors.gray}
-                  value={filter}
-                  onChangeText={text => {
-                    setFilter(text);
-                    debouncedWaitSearch(text);
-                  }}
-                />
-              </SearchBarContainer>
-            </View>
-          }
-          data={shownData}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={2}
-          onEndReached={onEnd}
-          onEndReachedThreshold={0.2}
-          ListEmptyComponent={<ListEmptyComponent />}
-          ListFooterComponent={
-            <FooterList load={loading} shownData={shownData.length === 0} />
-          }
-          renderItem={({item}) => (
-            <RestaurantCard data={item} navigation={navigation} />
-          )}
-        />
-        <View style={{height: 60, width: '100%'}} />
-      </View>
+      <FlatList
+        ListHeaderComponent={
+          <View>
+            <AddressBanner />
+            <BannerCarrossel data={sales} navigation={navigation} />
+            <CategoryList />
+            <SearchBarContainer>
+              <Icon
+                name="magnify"
+                size={30}
+                color={colors.gray}
+                style={{margin: 10}}
+              />
+              <SearchInput
+                placeholder={'Buscar Restaurantes'}
+                placeholderTextColor={colors.gray}
+                value={filter}
+                onChangeText={text => {
+                  setFilter(text);
+                  debouncedWaitSearch(text);
+                }}
+              />
+            </SearchBarContainer>
+          </View>
+        }
+        data={shownData}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={2}
+        onEndReached={onEnd}
+        onEndReachedThreshold={0.2}
+        ListEmptyComponent={<ListEmptyComponent />}
+        ListFooterComponent={
+          <FooterList load={loading} shownData={shownData.length === 0} />
+        }
+        renderItem={({item}) => (
+          <RestaurantCard data={item} navigation={navigation} />
+        )}
+      />
+      <View style={{height: 60, width: '100%'}} />
     </View>
   );
 };

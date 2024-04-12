@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {colors, screenHeight, screenWidth} from '../../../../../globalStyles';
+import {colors} from '../../../../../globalStyles';
+import {styles} from './styles';
 
 interface CarrosselMarkerProps {
   show: boolean;
@@ -29,11 +30,3 @@ const CarrosselMarker: React.FC<CarrosselMarkerProps> = ({show}) => {
 };
 
 export default CarrosselMarker;
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    width: screenWidth * 0.04,
-  },
-});

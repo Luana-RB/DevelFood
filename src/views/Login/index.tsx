@@ -117,6 +117,7 @@ const Login: React.FC = ({navigation}: any) => {
         <InputContainer>
           <InputIcon source={require('../../../assets/images/email.png')} />
           <InputText
+            placeholderTextColor={colors.gray}
             placeholder="Email"
             value={email}
             onChangeText={setEmail}
@@ -126,6 +127,7 @@ const Login: React.FC = ({navigation}: any) => {
         <InputContainer>
           <InputIcon source={require('../../../assets/images/password.png')} />
           <InputText
+            placeholderTextColor={colors.gray}
             placeholder="Senha"
             secureTextEntry={olhoIcone}
             value={password}

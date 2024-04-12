@@ -14,7 +14,6 @@ import {
   SubTitle,
   Title,
 } from './styles';
-import {PlateDetailsScreenProps} from '../../types/restaurantData';
 import {Alert, ImageSourcePropType} from 'react-native';
 import {
   AddButton,
@@ -28,6 +27,7 @@ import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {useCart} from '../../services/context/cartContext';
 import {useFocusEffect} from '@react-navigation/native';
+import {PlateDetailsScreenProps} from '../../types/routeTypes';
 
 const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const {plate, restaurant} = route.params;
@@ -38,19 +38,13 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
     require('../../../assets/images/notFound.png'),
   );
 
-  const {addItem, removeItem, removeQuantity, getQuantity, price} = useCart();
+  const {addItem, removeItem, removeQuantity, getQuantity} = useCart();
 
   useEffect(() => {
     if (!!plate.foto) setImagePath({uri: plate.foto});
     else setImagePath(require('../../../assets/images/notFound.png'));
 
-    if (!!plate.descricao) {
-      const text = plate.descricao;
-      const words = text.split(' ');
-      const firstWords = words.slice(0, 40);
-      const newDescription = firstWords.join(' ');
-      setDescription(newDescription);
-    }
+    if (plate.descricao) formatDescription(plate.descricao);
 
     formatPrice(plate.preco);
   }, []);
@@ -61,6 +55,14 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
       setQuantity(newQuantity);
     }, []),
   );
+
+  function formatDescription(description: string) {
+    const text = description;
+    const words = text.split(' ');
+    const firstWords = words.slice(0, 40);
+    const newDescription = firstWords.join(' ');
+    setDescription(newDescription);
+  }
 
   function formatPrice(price: number) {
     const centsFormat = price.toFixed(2);

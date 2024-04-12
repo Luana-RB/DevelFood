@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   TouchableOpacity,
   View,
@@ -9,9 +10,8 @@ import SearchBar from '../../components/SearchBar';
 import PlateCard from '../../components/PlateCard';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {colors} from '../../globalStyles';
-import {RestaurantPlate} from '../../types/restaurantData';
+import {RestaurantPlate, RestaurantsData} from '../../types/restaurantData';
 import CartBar from '../../components/CartBar';
-import {useRestaurant} from '../../services/context/restaurantContext';
 import {
   BodyContainer,
   Container,
@@ -29,9 +29,15 @@ import {
   NoResultText,
 } from '../../components/NoResultComponent';
 import {useCart} from '../../services/context/cartContext';
+import {getRestaurantById} from '../../services/api/restaurants';
+import {RestaurantProfileScreenProps} from '../../types/routeTypes';
 
-const RestaurantProfile: React.FC = ({navigation}: any) => {
+const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
+  route,
+  navigation,
+}) => {
   const [cart, setCart] = useState(false);
+  const [data, setData] = useState<RestaurantsData>();
   const [notFound, setNotFound] = useState(true);
   const [loading, setLoading] = useState(false);
   const [plateData, setPlateData] = useState<RestaurantPlate[]>([]);
@@ -41,20 +47,34 @@ const RestaurantProfile: React.FC = ({navigation}: any) => {
     require('../../../assets/images/notFound.png'),
   );
   const {numOfItems} = useCart();
-  const {data} = useRestaurant();
-  if (!data) return;
+  const {restaurantId} = route.params;
 
   useEffect(() => {
-    if (data?.pratos !== undefined && data?.pratos?.length >= 1) {
-      setNotFound(false);
-      setPlateData(data?.pratos);
+    async function getData() {
+      const newData = await getRestaurantById(restaurantId);
+      console.log(newData);
+      if (newData) setData(newData);
+      else {
+        Alert.alert('Falha ao encontrar restaurante');
+        navigation.goBack();
+      }
     }
-    if (!!data.fotos) setImagePath({uri: data.fotos});
-    else setImagePath(require('../../../assets/images/notFound.png'));
+    getData();
+  }, []);
 
-    if (numOfItems > 0) setCart(true);
-    else setCart(false);
-  }, [numOfItems]);
+  useEffect(() => {
+    if (data) {
+      if (data.pratos !== undefined && data.pratos.length >= 1) {
+        setNotFound(false);
+        setPlateData(data.pratos);
+      }
+      if (!!data.fotos) setImagePath({uri: data.fotos});
+      else setImagePath(require('../../../assets/images/notFound.png'));
+
+      if (numOfItems > 0) setCart(true);
+      else setCart(false);
+    }
+  }, [numOfItems, data]);
 
   async function handleSearch(text: string) {
     if (!text) setIsFiltered(false);
@@ -87,8 +107,8 @@ const RestaurantProfile: React.FC = ({navigation}: any) => {
       />
       <HeaderContainer>
         <HeaderTextContainer>
-          <HeaderTitle>{data.nome}</HeaderTitle>
-          <HeaderCategory>{data.categoria}</HeaderCategory>
+          <HeaderTitle>{data?.nome}</HeaderTitle>
+          <HeaderCategory>{data?.categoria}</HeaderCategory>
         </HeaderTextContainer>
         <HeaderLogo source={imagePath} />
       </HeaderContainer>
@@ -96,7 +116,7 @@ const RestaurantProfile: React.FC = ({navigation}: any) => {
       <BodyContainer>
         <PlatesTitle>Pratos</PlatesTitle>
         <SearchBar
-          title={`Buscar em ${data.nome}`}
+          title={`Buscar em ${data?.nome}`}
           onChangeText={handleSearch}
         />
 
@@ -110,7 +130,7 @@ const RestaurantProfile: React.FC = ({navigation}: any) => {
         )}
 
         <FlatList
-          data={isFiltered ? filteredData : data.pratos}
+          data={isFiltered ? filteredData : data?.pratos}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <TouchableOpacity

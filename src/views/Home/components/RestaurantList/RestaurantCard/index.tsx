@@ -13,7 +13,6 @@ import {
 } from './styles';
 import {RestaurantsData} from '../../../../../types/restaurantData';
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
-import {useRestaurant} from '../../../../../services/context/restaurantContext';
 import {colors, screenHeight} from '../../../../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {compareRestaurant} from '../../../../../services/api/favorites';
@@ -28,7 +27,6 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>();
   const [fontSize, setFontSize] = useState(screenHeight * 0.019);
   const [heart, setHeart] = useState('heart-outline');
-  const {storeData} = useRestaurant();
 
   useEffect(() => {
     if (!!data.fotos) setImagePath({uri: data.fotos});
@@ -47,9 +45,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   );
 
   function handleNavigation() {
-    const response = storeData(data);
-    if (response !== null)
-      navigation.navigate('RestaurantProfile', {restaurant: data});
+    navigation.navigate('RestaurantProfile', {restaurantId: data.id});
   }
 
   return (
@@ -64,7 +60,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
             <Title style={{fontSize: fontSize}}>{data.nome}</Title>
           </TitleContainer>
           <InfoFooter>
-            <Category>{data.tipoComida?.nome}</Category>
+            <Category>{data.categoria}</Category>
             <RatingContainer>
               <Icon name="star" size={15} color={colors.red} />
               <RatingText>5.0</RatingText>

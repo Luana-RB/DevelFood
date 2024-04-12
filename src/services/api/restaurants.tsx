@@ -36,3 +36,19 @@ export async function getRestaurantsFiltered({page, filter}: GetFilterProps) {
     console.log(e);
   }
 }
+
+export async function getRestaurantById(id: string) {
+  try {
+    // const restaurants = await api.get(`/restaurante/listar?id=${id}`);
+    // return restaurants.data.content;
+    const restaurants = restaurantsMock;
+    const newData = restaurants?.filter((item: {id: string}) => {
+      const name = item.id.toUpperCase();
+      const text = id.toUpperCase();
+      return name.indexOf(text) > -1;
+    });
+    return newData[0];
+  } catch (e) {
+    console.log(e);
+  }
+}

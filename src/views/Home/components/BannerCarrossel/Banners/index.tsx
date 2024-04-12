@@ -6,14 +6,19 @@ import {sales} from '../../../../../mocks/sales';
 interface BannerProps {
   data: SalesData;
   index: number;
+  navigation: any;
 }
 
-const Banners: React.FC<BannerProps> = ({data, index}) => {
+const Banners: React.FC<BannerProps> = ({data, index, navigation}) => {
   const margin = index === sales.length - 1 ? 12 : 8;
 
   return (
     <Container
-      onPress={() => console.log(data.restaurantId)}
+      onPress={() =>
+        navigation.navigate('RestaurantProfile', {
+          restaurantId: data.restaurantId,
+        })
+      }
       style={{marginRight: margin}}>
       <Banner>
         <Image source={data.imagePath} resizeMode="cover" />

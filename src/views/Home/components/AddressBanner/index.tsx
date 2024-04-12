@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {AddressText, Container} from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../../../globalStyles';

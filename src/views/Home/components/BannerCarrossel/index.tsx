@@ -6,9 +6,13 @@ import CarrosselMarker from './CarrosselMarker';
 
 interface BannerCarrosselProps {
   data: SalesData[];
+  navigation: any;
 }
 
-const BannerCarrossel: React.FC<BannerCarrosselProps> = ({data}) => {
+const BannerCarrossel: React.FC<BannerCarrosselProps> = ({
+  data,
+  navigation,
+}) => {
   const carrosselRef = useRef<FlatList>(null);
   const [carrosselIndex, setCarrosselIndex] = useState(0);
 
@@ -33,7 +37,9 @@ const BannerCarrossel: React.FC<BannerCarrosselProps> = ({data}) => {
         horizontal
         data={data}
         keyExtractor={item => item.id}
-        renderItem={({item, index}) => <Banners data={item} index={index} />}
+        renderItem={({item, index}) => (
+          <Banners data={item} index={index} navigation={navigation} />
+        )}
         ref={carrosselRef}
       />
       <FlatList
@@ -49,9 +55,3 @@ const BannerCarrossel: React.FC<BannerCarrosselProps> = ({data}) => {
 };
 
 export default BannerCarrossel;
-
-// export const Carroussel = styled.View`
-//   width: 100%;
-//   height: ${screenHeight * 0.03}px;
-//   margin-top: -8px;
-// `;

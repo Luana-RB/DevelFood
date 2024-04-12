@@ -11,9 +11,9 @@ import CartBar from '../../components/CartBar';
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
 
+  const {token} = useToken();
   const [cart, setCart] = useState(false);
   const {numOfItems} = useCart();
-  const {token} = useToken();
 
   useEffect(() => {
     if (numOfItems > 0) setCart(true);
@@ -21,7 +21,7 @@ const Home: React.FC = ({navigation}: any) => {
   }, [numOfItems]);
 
   return (
-    <SafeAreaView style={{backgroundColor: colors.white, flex: 1}}>
+    <SafeAreaView style={styles.container}>
       <FocusAwareStatusBar
         barStyle="light-content"
         backgroundColor={colors.red}
@@ -39,6 +39,7 @@ const Home: React.FC = ({navigation}: any) => {
 export default Home;
 
 const styles = StyleSheet.create({
+  container: {backgroundColor: colors.white, flex: 1},
   cartContainer: {
     backgroundColor: colors.white,
     height: screenHeight * 0.1,

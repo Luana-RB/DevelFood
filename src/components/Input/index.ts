@@ -20,6 +20,7 @@ export const InputIcon = styled.Image`
 export const InputText = styled.TextInput`
   flex: 1;
   font-size: 14px;
+  color: ${colors.black};
 `;
 
 export const ErrorText = styled.Text`
