@@ -1,5 +1,10 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../../../../globalStyles';
+import {
+  colors,
+  fonts,
+  screenHeight,
+  screenWidth,
+} from '../../../../../globalStyles';
 import {Platform} from 'react-native';
 
 export const Container = styled.View`
@@ -74,7 +79,7 @@ export const InfoFooter = styled.View`
 `;
 
 export const Category = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XXS}px;
   color: ${colors.gray};
 `;
 
@@ -86,6 +91,6 @@ export const RatingContainer = styled.View`
 `;
 
 export const RatingText = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XXS}px;
   color: ${colors.red};
 `;

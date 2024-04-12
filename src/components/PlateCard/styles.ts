@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 import {Platform, StyleSheet} from 'react-native';
 
 export const Container = styled.View`
@@ -52,7 +52,7 @@ export const TitleContainer = styled.View`
   margin-bottom: ${screenHeight * 0.005}px;
 `;
 export const Title = styled.Text`
-  font-size: 16px;
+  font-size: ${fonts.M}px;
   flex-wrap: wrap;
   color: ${colors.red};
   font-weight: bold;
@@ -63,7 +63,7 @@ export const DescriptionContainer = styled.View`
   align-self: center;
 `;
 export const Description = styled.Text`
-  font-size: 10px;
+  font-size: ${fonts.XXS}px;
   flex-wrap: wrap;
   color: ${colors.gray};
 `;
@@ -76,7 +76,7 @@ export const FooterContainer = styled.View`
 `;
 
 export const Price = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   color: ${colors.black};
   font-weight: bold;
 `;

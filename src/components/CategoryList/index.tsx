@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, Text, View} from 'react-native';
 import CategoryCard from '../CategoryCard';
-import {colors} from '../../globalStyles';
+import {colors, fonts} from '../../globalStyles';
 
 const CategoryList: React.FC = () => {
   interface CategoryData {
@@ -33,7 +33,7 @@ const CategoryList: React.FC = () => {
       <Text
         style={{
           color: colors.black,
-          fontSize: 16,
+          fontSize: fonts.M,
           margin: 12,
         }}>
         Categorias
@@ -44,6 +44,7 @@ const CategoryList: React.FC = () => {
         keyExtractor={item => item.id}
         renderItem={({item}) => <CategoryCard name={item.name} />}
         horizontal
+        showsHorizontalScrollIndicator={false}
       />
     </View>
   );

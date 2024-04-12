@@ -1,5 +1,6 @@
-import {api, headers} from './api';
+import {api} from './api';
 import {restaurantsMock} from '../../mocks/restaurants';
+import {useToken} from '../context/tokenContext';
 
 interface GetProps {
   page: number;
@@ -9,8 +10,18 @@ interface GetFilterProps {
   filter: string;
 }
 
+const {token} = useToken();
+
+const header = {
+  Authorization: `Bearer ${token}`,
+};
+
 export async function getRestaurants({page}: GetProps) {
   try {
+    const {token} = useToken();
+    const header = {
+      Authorization: `Bearer ${token}`,
+    };
     // const restaurants = await api.get(`/restaurante/listar?page=${page}`);
     // return restaurants.data.content;
     const restaurants = restaurantsMock.slice(page, page + 7);
@@ -21,6 +32,10 @@ export async function getRestaurants({page}: GetProps) {
 }
 export async function getRestaurantsFiltered({page, filter}: GetFilterProps) {
   try {
+    const {token} = useToken();
+    const header = {
+      Authorization: `Bearer ${token}`,
+    };
     // const restaurants = await api.get(
     //   `/restaurante/listar?nome=${filter}&page=${page}`,
     // );

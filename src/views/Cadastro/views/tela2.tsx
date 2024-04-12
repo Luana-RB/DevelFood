@@ -27,6 +27,7 @@ const Tela2: React.FC = ({navigation}: any) => {
   const [nome, setNome] = useState('');
   const [sobrenome, setSobrenome] = useState('');
   const [cpf, setCpf] = useState('');
+  const [trueCpf, setTrueCpf] = useState(0);
   const [telefone, setTelefone] = useState('');
   const [errors, setErrors] = useState<Errors>({});
   const {storeInfo} = useCadastro();

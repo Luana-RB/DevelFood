@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const Container = styled.KeyboardAvoidingView`
   flex: 1;
@@ -15,20 +15,20 @@ export const Container = styled.KeyboardAvoidingView`
 `;
 
 export const Title = styled.Text`
-  font-size: 28px;
+  font-size: ${fonts.XXL}px;
   color: ${colors.black};
   margin: 10px;
 `;
 
-export const DescriptionContainer = styled.Text``;
+export const DescriptionContainer = styled.Text`
+  font-size: ${fonts.XS}px;
+`;
 
 export const Description = styled.Text`
-  font-size: 12px;
   color: ${colors.gray};
   margin-top: 8px;
 `;
 export const RestaurantName = styled.Text`
-  font-size: 12px;
   color: ${colors.black};
 `;
 
@@ -50,5 +50,5 @@ export const InputBox = styled.View`
 
 export const InputText = styled.TextInput`
   color: ${colors.black};
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
 `;

@@ -1,7 +1,11 @@
 import React from 'react';
 import Button from '../../../components/Button';
 import {useCadastro} from '../../../services/context/cadastroContext';
-import {getUserToken, postUser} from '../../../services/api/users';
+import {
+  getUserToken,
+  postCadastro,
+  postLogin,
+} from '../../../services/api/users';
 import {AuthContext} from '../../../services/context/authContext';
 import {
   BigLadyImage,
@@ -10,7 +14,7 @@ import {
   CadastroTitle,
   Container,
 } from './styles';
-import {UsersData} from '../../../types/userData';
+import {NewUsersData, UsersData} from '../../../types/userData';
 import {useToken} from '../../../services/context/tokenContext';
 import {View} from 'react-native';
 
@@ -20,17 +24,33 @@ const TelaFinal: React.FC = () => {
 
   async function handleSubmit() {
     const user = returnsCadastro();
-    const posted = postUser(user);
-    if (posted) {
-      const isTokenStored = await handleToken(user);
-      if (isTokenStored) {
-        signIn(user);
-      }
+    console.log('oui');
+    console.log(parseInt(user.info.cpf));
+    const newUser: NewUsersData = {
+      email: user.credentials.email,
+      senha: user.credentials.password,
+      primeiroNome: user.info.name,
+      segundoNome: user.info.surname,
+      cpf: user.info.cpf,
+      numeroCelular: user.info.cellphone,
+      apelido: user.adress.apelido,
+      cep: user.adress.cep,
+      rua: user.adress.rua,
+      cidade: user.adress.cidade,
+      bairro: user.adress.bairro,
+      estado: user.adress.estado,
+      numero: parseInt(user.adress.num),
+    };
+
+    const posted = await postCadastro(newUser);
+    const signed = await postLogin(user);
+    const isTokenStored = await handleToken(signed);
+    if (isTokenStored) {
+      signIn(user);
     }
   }
 
-  async function handleToken(user: UsersData) {
-    const token = getUserToken(user.credentials.email);
+  async function handleToken(token: any) {
     if (token) {
       const result = await storeToken(token);
       return result;

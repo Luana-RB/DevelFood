@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const Container = styled.View`
   flex-direction: row;
@@ -37,12 +37,12 @@ export const QuantityText = styled.Text`
 `;
 
 export const Title = styled.Text`
-  font-size: 14px;
+  font-size: ${fonts.S}px;
   color: ${colors.white};
 `;
 
 export const Price = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   color: ${colors.white};
   font-weight: bold;
 `;

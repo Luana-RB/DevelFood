@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const ButtonContainer = styled.TouchableOpacity`
   background-color: ${colors.red};
@@ -14,7 +14,7 @@ export const ButtonContainer = styled.TouchableOpacity`
 `;
 
 export const ButtonText = styled.Text`
-  font-size: 14px;
+  font-size: ${fonts.S}px;
   color: ${colors.white};
   font-weight: bold;
 `;

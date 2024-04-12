@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const Container = styled.SafeAreaView`
   background-color: ${colors.white};
@@ -20,11 +20,11 @@ export const HeaderTextContainer = styled.View`
 `;
 
 export const HeaderTitle = styled.Text`
-  font-size: 18px;
+  font-size: ${fonts.XL}px;
   color: ${colors.black};
 `;
 export const HeaderCategory = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   color: ${colors.gray};
 `;
 
@@ -46,7 +46,7 @@ export const BodyContainer = styled.View`
 `;
 
 export const PlatesTitle = styled.Text`
-  font-size: 18px;
+  font-size: ${fonts.L}px;
   color: ${colors.black};
   margin: ${screenHeight * 0.01}px ${screenWidth * 0.05}px;
 `;
