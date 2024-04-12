@@ -7,6 +7,7 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantList from './components/RestaurantList';
 import {useCart} from '../../services/context/cartContext';
 import CartBar from '../../components/CartBar';
+import ModalAvaliacao from '../ModalAvaliacao';
 
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
@@ -27,11 +28,12 @@ const Home: React.FC = ({navigation}: any) => {
         backgroundColor={colors.red}
       />
       <RestaurantList navigation={navigation} />
-      {cart && (
+      {/* {cart && (
         <View style={styles.cartContainer}>
           <CartBar margin={-40} />
         </View>
-      )}
+      )} */}
+      <ModalAvaliacao isOn={true} />
     </SafeAreaView>
   );
 };

@@ -9,4 +9,5 @@ export const colors = {
   brown: '#68484a',
   gray: '#bfbaba',
   lightGray: '#F0F0F5',
+  lowOpacity: 'rgba(43, 43, 46, 0.5)',
 };
