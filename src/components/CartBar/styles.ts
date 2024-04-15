@@ -6,7 +6,6 @@ export const Container = styled.View`
   justify-content: space-between;
   padding: 0px 15px;
   align-items: center;
-  align-self: center;
   width: 95%;
   height: ${screenHeight * 0.05}px;
   border-radius: 8px;

@@ -21,8 +21,8 @@ export function CustomHeartButton({route}: any) {
         const isFavoriteResult = compareFavorites(plate);
         setHeart(isFavoriteResult);
       } else if (route.name === 'RestaurantProfile') {
-        const {restaurant} = route.params;
-        const isFavoriteResult = compareRestaurant(restaurant.id);
+        const {restaurantId} = route.params;
+        const isFavoriteResult = compareRestaurant(restaurantId);
         setHeart(isFavoriteResult);
       }
     }, []),

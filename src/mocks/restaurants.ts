@@ -130,23 +130,23 @@ export const restaurantsMock: RestaurantsData[] = [
     fotos:
       'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     pratos: [
-      {id: '101', nome: 'Margherita Pizza', restaurantId: '9', preco: 1},
-      {id: '102', nome: 'Pepperoni Pizza', restaurantId: '9', preco: 1},
-      {id: '103', nome: 'Hawaiian Pizza', restaurantId: '9', preco: 1},
+      {id: '901', nome: 'Margherita Pizza', restaurantId: '9', preco: 1},
+      {id: '902', nome: 'Pepperoni Pizza', restaurantId: '9', preco: 1},
+      {id: '903', nome: 'Hawaiian Pizza', restaurantId: '9', preco: 1},
     ],
   },
   {
     id: '10',
-    nome: 'Burger Bistro',
+    nome: 'Burger BisEnd',
     cnpj: '23456789012345',
     telefone: '234-567-8901',
     categoria: 'Fast Food',
     fotos:
       'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     pratos: [
-      {id: '201', nome: 'Classic Burger', restaurantId: '10', preco: 1},
-      {id: '202', nome: 'Cheeseburger', restaurantId: '10', preco: 1},
-      {id: '203', nome: 'Veggie Burger', restaurantId: '10', preco: 1},
+      {id: '1001', nome: 'Classic Burger', restaurantId: '10', preco: 1},
+      {id: '1002', nome: 'Cheeseburger', restaurantId: '10', preco: 1},
+      {id: '1003', nome: 'Veggie Burger', restaurantId: '10', preco: 1},
     ],
   },
 ];

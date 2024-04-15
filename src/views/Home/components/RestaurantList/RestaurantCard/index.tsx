@@ -11,12 +11,11 @@ import {
   Title,
   TitleContainer,
 } from './styles';
-import {RestaurantsData} from '../../../../types/restaurantData';
+import {RestaurantsData} from '../../../../../types/restaurantData';
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
-import {useRestaurant} from '../../../../services/context/restaurantContext';
-import {colors, screenHeight} from '../../../../globalStyles';
+import {colors, screenHeight} from '../../../../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {compareRestaurant} from '../../../../services/api/favorites';
+import {compareRestaurant} from '../../../../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 
 interface RestaurantProps {
@@ -28,11 +27,10 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>();
   const [fontSize, setFontSize] = useState(screenHeight * 0.019);
   const [heart, setHeart] = useState('heart-outline');
-  const {storeData} = useRestaurant();
 
   useEffect(() => {
     if (!!data.fotos) setImagePath({uri: data.fotos});
-    else setImagePath(require('../../../../../assets/images/notFound.png'));
+    else setImagePath(require('../../../../../../assets/images/notFound.png'));
 
     if (data?.nome.length >= 19) setFontSize(screenHeight * 0.016);
     else if (data?.nome.length >= 15) setFontSize(screenHeight * 0.018);
@@ -47,9 +45,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   );
 
   function handleNavigation() {
-    const response = storeData(data);
-    if (response !== null)
-      navigation.navigate('RestaurantProfile', {restaurant: data});
+    navigation.navigate('RestaurantProfile', {restaurantId: data.id});
   }
 
   return (
@@ -64,7 +60,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
             <Title style={{fontSize: fontSize}}>{data.nome}</Title>
           </TitleContainer>
           <InfoFooter>
-            <Category>{data.tipoComida?.nome}</Category>
+            <Category>{data.categoria}</Category>
             <RatingContainer>
               <Icon name="star" size={15} color={colors.red} />
               <RatingText>5.0</RatingText>
