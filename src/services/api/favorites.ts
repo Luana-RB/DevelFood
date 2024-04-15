@@ -14,7 +14,8 @@ export function getFavorites() {
 export function addFavorite(plate: RestaurantPlate) {
   try {
     const user = users[0];
-    user.favorites.push(plate);
+    if (!user.favorites) user.favorites = [plate];
+    else user.favorites.push(plate);
   } catch (e) {
     console.log(e);
   }
@@ -24,7 +25,7 @@ export function removeFavorite(plate: RestaurantPlate) {
     const user = users[0];
     const favorites = user.favorites;
     if (favorites?.length === 0) return;
-    user.favorites = favorites.filter(item => item.id !== plate.id);
+    user.favorites = favorites!.filter(item => item.id !== plate.id);
   } catch (e) {
     console.log(e);
   }
@@ -35,7 +36,7 @@ export function compareFavorites(plate: RestaurantPlate) {
     const user = users[0];
     const favorites = user.favorites;
     if (favorites?.length === 0) return false;
-    const newFavorites = favorites.filter(item => item.id === plate.id);
+    const newFavorites = favorites!.filter(item => item.id === plate.id);
     if (newFavorites.length > 0) return true;
     return false;
   } catch (e) {
@@ -49,7 +50,7 @@ export function compareRestaurant(restaurantId: string) {
     const user = users[0];
     const favorites = user.favorites;
     if (favorites?.length === 0) return false;
-    const newFavorites = favorites.filter(item => {
+    const newFavorites = favorites!.filter(item => {
       return item.restaurantId === restaurantId;
     });
     if (newFavorites.length > 0) return true;
