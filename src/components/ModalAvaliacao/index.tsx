@@ -4,13 +4,11 @@ import {
   FlatList,
   KeyboardAvoidingView,
   Modal,
-  Platform,
   TouchableOpacity,
   View,
 } from 'react-native';
 import Button from '../Button';
 import {
-  Container,
   InputBox,
   InputText,
   RestaurantName,
@@ -73,7 +71,6 @@ const ModalAvaliacao: React.FC<ModalProps> = ({
     else {
       setLoading(true);
       const result = await sendAvaliation(score, comment, restaurant.id);
-      console.log(result);
       setTimeout(() => {
         if (result) setIsModalVisible(false);
       }, 2000);
