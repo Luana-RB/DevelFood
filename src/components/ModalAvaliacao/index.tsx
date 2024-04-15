@@ -2,6 +2,7 @@ import React, {Dispatch, SetStateAction, useState} from 'react';
 import {
   Alert,
   FlatList,
+  KeyboardAvoidingView,
   Modal,
   Platform,
   TouchableOpacity,
@@ -17,6 +18,7 @@ import {
   Title,
   DescriptionContainer,
   ListContainer,
+  styles,
 } from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors, screenHeight, screenWidth} from '../../globalStyles';
@@ -105,7 +107,11 @@ const ModalAvaliacao: React.FC<ModalProps> = ({
         visible={isModalVisible}
         onRequestClose={handleCancel}
         statusBarTranslucent={true}>
-        <Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <KeyboardAvoidingView
+          behavior={'position'}
+          enabled={true}
+          contentContainerStyle={styles.container}
+          style={styles.container}>
           <Title>Deu Bom?</Title>
           <DescriptionContainer>
             <Description>
@@ -137,7 +143,7 @@ const ModalAvaliacao: React.FC<ModalProps> = ({
           <View>
             <Button text="Enviar" handleSubmit={handleSend} loading={loading} />
           </View>
-        </Container>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );

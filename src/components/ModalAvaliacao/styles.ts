@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
+import {StyleSheet} from 'react-native';
 
 export const Container = styled.KeyboardAvoidingView`
   flex: 1;
@@ -52,3 +53,18 @@ export const InputText = styled.TextInput`
   color: ${colors.black};
   font-size: ${fonts.XS}px;
 `;
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: screenHeight * 0.7,
+    width: screenWidth,
+    borderRadius: 30,
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: screenHeight * 0.03,
+    position: 'absolute',
+    bottom: 0,
+  },
+});
