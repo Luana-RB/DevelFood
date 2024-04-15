@@ -1,25 +1,44 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   CartContainer,
-  CartIcon,
   Container,
   Price,
   QuantityContainer,
   QuantityText,
   Title,
 } from './styles';
+import {useCart} from '../../services/context/cartContext';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {colors} from '../../globalStyles';
 
-const CartBar: React.FC = () => {
+interface CartBarProps {
+  margin: number;
+}
+
+const CartBar: React.FC<CartBarProps> = ({margin}) => {
+  const {numOfItems, price} = useCart();
+  const [shownNum, setShownNum] = useState('0');
+  const [shownPrice, setShownPrice] = useState('0.00');
+
+  useEffect(() => {
+    if (numOfItems > 9) setShownNum('9+');
+    else setShownNum(String(numOfItems));
+
+    const centsFormat = price.toFixed(2);
+    const commaFormat = centsFormat.replace(/\./g, ',');
+    setShownPrice(commaFormat);
+  }, [numOfItems, price]);
+
   return (
-    <Container>
+    <Container style={{marginTop: margin}}>
       <CartContainer>
-        <CartIcon source={require('./assets/cart.png')} />
+        <Icon name="cart-variant" size={24} color={colors.white} />
         <QuantityContainer>
-          <QuantityText>9+</QuantityText>
+          <QuantityText>{shownNum}</QuantityText>
         </QuantityContainer>
       </CartContainer>
       <Title>Ver Carrinho</Title>
-      <Price>R$ 49,90</Price>
+      <Price>R$ {shownPrice}</Price>
     </Container>
   );
 };

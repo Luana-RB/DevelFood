@@ -28,6 +28,7 @@ import {
   NoResultImage,
   NoResultText,
 } from '../../components/NoResultComponent';
+import {useCart} from '../../services/context/cartContext';
 
 const RestaurantProfile: React.FC = ({navigation}: any) => {
   const [cart, setCart] = useState(false);
@@ -39,21 +40,21 @@ const RestaurantProfile: React.FC = ({navigation}: any) => {
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
-
+  const {numOfItems} = useCart();
   const {data} = useRestaurant();
+  if (!data) return;
 
   useEffect(() => {
-    if (data) {
-      if (data?.pratos !== undefined && data?.pratos?.length >= 1) {
-        setNotFound(false);
-        setPlateData(data?.pratos);
-      }
-      if (!!data.fotos) setImagePath({uri: data.fotos});
-      else setImagePath(require('../../../assets/images/notFound.png'));
+    if (data?.pratos !== undefined && data?.pratos?.length >= 1) {
+      setNotFound(false);
+      setPlateData(data?.pratos);
     }
-  }, []);
+    if (!!data.fotos) setImagePath({uri: data.fotos});
+    else setImagePath(require('../../../assets/images/notFound.png'));
 
-  if (!data) return;
+    if (numOfItems > 0) setCart(true);
+    else setCart(false);
+  }, [numOfItems]);
 
   async function handleSearch(text: string) {
     if (!text) setIsFiltered(false);
@@ -115,11 +116,11 @@ const RestaurantProfile: React.FC = ({navigation}: any) => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('PlateDetails', {
-                  prato: item,
+                  plate: item,
                   restaurant: data,
                 });
               }}>
-              <PlateCard data={item} setCart={setCart} />
+              <PlateCard data={item} />
             </TouchableOpacity>
           )}
           ListFooterComponent={<View style={{height: 70}} />}
@@ -133,9 +134,9 @@ const RestaurantProfile: React.FC = ({navigation}: any) => {
             backgroundColor: colors.white,
             flex: 1.7,
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
           }}>
-          <CartBar />
+          <CartBar margin={20} />
         </View>
       )}
     </Container>

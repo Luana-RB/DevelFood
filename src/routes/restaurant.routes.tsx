@@ -6,35 +6,38 @@ import React from 'react';
 import PlateDetail from '../views/PlateDetail';
 import {RootStackParamList} from '../types/restaurantData';
 import {CustomHeartButton} from '../components/CustomHeartButton';
+import {CartProvider} from '../services/context/cartContext';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 export function RestaurantStack() {
   return (
     <RestaurantProvider>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="RestaurantProfile"
-          component={RestaurantProfile}
-          options={({route}) => ({
-            title: '',
-            headerRight: () => <CustomHeartButton route={route} />,
-          })}
-        />
-        <Stack.Screen
-          name="PlateDetails"
-          component={PlateDetail}
-          options={({route}) => ({
-            title: '',
-            headerRight: () => <CustomHeartButton route={route} />,
-          })}
-        />
-      </Stack.Navigator>
+      <CartProvider>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="RestaurantProfile"
+            component={RestaurantProfile}
+            options={({route}) => ({
+              title: '',
+              headerRight: () => <CustomHeartButton route={route} />,
+            })}
+          />
+          <Stack.Screen
+            name="PlateDetails"
+            component={PlateDetail}
+            options={({route}) => ({
+              title: '',
+              headerRight: () => <CustomHeartButton route={route} />,
+            })}
+          />
+        </Stack.Navigator>
+      </CartProvider>
     </RestaurantProvider>
   );
 }

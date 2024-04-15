@@ -11,25 +11,19 @@ export const Container = styled.View`
   height: ${screenHeight * 0.05}px;
   border-radius: 8px;
   background-color: ${colors.red};
-  margin-top: -70px;
 `;
 
 export const CartContainer = styled.View`
-  width: 20%;
+  width: 10%;
   height: 100%;
   align-items: center;
-  justify-content: center;
-`;
-
-export const CartIcon = styled.Image`
-  margin-top: -${screenHeight * 0.01299}px;
-  width: ${screenWidth * 0.053}px;
-  height: ${screenHeight * 0.02299}px;
+  justify-content: flex-start;
+  padding-top: ${screenHeight * 0.01}px;
 `;
 
 export const QuantityContainer = styled.View`
   margin-left: 20px;
-  margin-top: -${screenHeight * 0.025}px;
+  margin-top: -${screenHeight * 0.035}px;
   border-radius: 50px;
   background-color: ${colors.white};
   width: 14px;
@@ -40,7 +34,7 @@ export const QuantityContainer = styled.View`
 
 export const QuantityText = styled.Text`
   color: ${colors.red};
-  font-size: 10px;
+  font-size: 7px;
 `;
 
 export const Title = styled.Text`

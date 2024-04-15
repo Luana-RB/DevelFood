@@ -1,9 +1,9 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import {AuthContext} from '../../services/context/authContext';
 import {useToken} from '../../services/context/tokenContext';
 import {SafeAreaView} from 'react-native';
-import {colors} from '../../globalStyles';
+import {colors, screenHeight} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantCard from './components/RestaurantCard';
 import {RestaurantsData} from '../../types/restaurantData';
@@ -18,6 +18,8 @@ import {
 import ListEmptyComponent from './components/ListEmptyComponent';
 import FooterList from './components/FooterList';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CartBar from '../../components/CartBar';
+import {useCart} from '../../services/context/cartContext';
 const DELAY = 1500;
 
 const Home: React.FC = ({navigation}: any) => {
@@ -31,6 +33,13 @@ const Home: React.FC = ({navigation}: any) => {
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
   const [filterPage, setFilterPage] = useState(0);
+  const [cart, setCart] = useState(false);
+  const {numOfItems} = useCart();
+
+  useEffect(() => {
+    if (numOfItems > 0) setCart(true);
+    else setCart(false);
+  }, [numOfItems]);
 
   async function loadAPI() {
     const restaurantes = await getRestaurants({page});
@@ -123,7 +132,7 @@ const Home: React.FC = ({navigation}: any) => {
           }}
         />
       </SearchBarContainer>
-      <View style={{flex: 1}}>
+      <View style={{flex: 4}}>
         <FlatList
           data={shownData}
           keyExtractor={(item, index) => index.toString()}
@@ -140,6 +149,17 @@ const Home: React.FC = ({navigation}: any) => {
         />
         <View style={{height: 60, width: '100%'}} />
       </View>
+      {cart && (
+        <View
+          style={{
+            backgroundColor: colors.white,
+            height: screenHeight * 0.1,
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}>
+          <CartBar margin={-40} />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
