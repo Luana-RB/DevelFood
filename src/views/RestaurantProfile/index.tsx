@@ -100,6 +100,13 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
     setIsFiltered(true);
   }
 
+  if (!data)
+    return (
+      <View style={{flex: 1, backgroundColor: colors.white}}>
+        <ActivityIndicator size={60} color={colors.red} style={{margin: 50}} />
+      </View>
+    );
+
   return (
     <Container>
       <FocusAwareStatusBar
@@ -108,7 +115,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       />
       <HeaderContainer>
         <HeaderTextContainer>
-          <HeaderTitle>{data?.nome}</HeaderTitle>
+          <HeaderTitle>{data?.name}</HeaderTitle>
           <HeaderCategory>{data?.categoria}</HeaderCategory>
         </HeaderTextContainer>
         <HeaderLogo source={imagePath} />
@@ -117,7 +124,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       <BodyContainer>
         <PlatesTitle>Pratos</PlatesTitle>
         <SearchBar
-          title={`Buscar em ${data?.nome}`}
+          title={`Buscar em ${data?.name}`}
           onChangeText={handleSearch}
         />
 

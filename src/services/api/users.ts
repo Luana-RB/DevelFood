@@ -5,81 +5,42 @@ import {api} from './api';
 export async function postCadastro(user: NewUsersData) {
   try {
     // const result = users.push(user);
-    const result = await api.post('login/registrar/cliente', user);
+    const result = await api.post('api/auth/cliente/cadastro', user);
     const status = result.status;
-    console.log(user, status);
     return true;
   } catch (e) {
     console.log('cadastro: ', e);
   }
 }
 
-export async function postLogin(user: UsersData) {
+export async function postLogin(email: string, password: string) {
   try {
     const credentials = {
-      email: user.credentials.email,
-      senha: user.credentials.password,
+      email,
+      password,
     };
-    const result = await api.post('login/efetuar', credentials);
-    console.log(result.status);
-    return result;
+    const result = await api.post('api/auth/login', credentials);
+    const token = JSON.stringify(result.data.token).replace(/"/g, '');
+    return token;
   } catch (e) {
     console.log('login', e);
+    return undefined;
   }
 }
 
 export function patchPassword(user: UsersData, password: string) {
   try {
-    const userId = user.credentials.id;
-    const users = getUsers();
-    if (users) {
-      const foundUser = users.find(user => user.credentials.id == userId);
-      if (foundUser) {
-        foundUser.credentials.password = password;
-        return true;
-      }
-    }
   } catch (e) {}
 }
 
-export function getUsers() {
-  try {
-    return users;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-export function getUserById(id: string) {
-  try {
-    const users = getUsers();
-    if (users) {
-      const user = users.find(user => user.credentials.id === id);
-      return user;
-    }
-  } catch (e) {
-    console.log('Usuário não encontrado', e);
-  }
-}
-
-export function getUserToken(email: string) {
-  try {
-    const user = users.find(user => user.credentials.email === email);
-    return user ? user.credentials.id : null;
-  } catch (e) {
-    console.log('Usuário não encontrado', e);
-  }
-}
-
-export function findUserIdByEmail(email: string) {
-  try {
-    const users = getUsers();
-    const user = users?.find(user => user.credentials.email === email);
-    return user ? user.credentials.id : undefined;
-  } catch (e) {
-    console.log(e);
-  }
-}
+// export function getUserToken(email: string) {
+//   try {
+//     const user = users.find(user => user.credentials.email === email);
+//     return user ? user.credentials.id : null;
+//   } catch (e) {
+//     console.log('Usuário não encontrado', e);
+//   }
+// }
 
 export function sendToken() {
   try {

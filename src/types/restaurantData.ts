@@ -1,6 +1,6 @@
 export interface RestaurantsData {
   id: string;
-  nome: string;
+  name: string;
   cnpj?: string;
   telefone?: string;
   fotos?: string;

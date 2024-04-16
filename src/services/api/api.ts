@@ -1,14 +1,18 @@
 import axios from 'axios';
-import {useToken} from '../context/tokenContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const api = axios.create({
-  baseURL: 'https://open-phoenix-secondly.ngrok-free.app',
+  baseURL: 'https://social-neutral-jaybird.ngrok-free.app',
 });
 
-export function getToken() {
-  const {token} = useToken();
-  const header = {
-    Authorization: `Bearer ${token}`,
-  };
-  return header;
+export async function getToken() {
+  const token = await AsyncStorage.getItem('userToken');
+  if (token) {
+    const header = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return header;
+  }
 }

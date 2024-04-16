@@ -1,9 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from '../views/Login';
-import {UsersData} from '../types/userData';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getUserById} from '../services/api/users';
 import {Image, Text, View} from 'react-native';
 import {colors} from '../globalStyles';
 import {NavigationContainer} from '@react-navigation/native';
@@ -15,8 +13,6 @@ import HomeTabs from './tabs.routes';
 const MainStack = createStackNavigator();
 
 export function MyStack() {
-  const [userData, setUserData] = useState<UsersData | null | undefined>(null);
-
   const initialLoginState = {
     isLoading: true,
     userToken: null,
@@ -61,34 +57,27 @@ export function MyStack() {
 
   const authContext = React.useMemo(
     () => ({
-      signIn: async (foundUser: UsersData) => {
-        const userToken = String(foundUser.credentials.id);
-
-        setUserData(foundUser);
-
+      signIn: async (token: string) => {
         try {
-          await AsyncStorage.setItem('userToken', userToken);
+          await AsyncStorage.setItem('userToken', token);
         } catch (e) {
           console.log(e);
         }
 
-        dispatch({type: 'LOGIN', id: userToken});
+        dispatch({type: 'LOGIN', id: token});
       },
 
       signOut: async () => {
         try {
           await AsyncStorage.removeItem('userToken');
-          setUserData(null);
         } catch (e) {
           console.log(e);
         }
 
         dispatch({type: 'LOGOUT', id: undefined});
       },
-
-      userData: userData,
     }),
-    [userData],
+    [],
   );
 
   useEffect(() => {
@@ -98,10 +87,6 @@ export function MyStack() {
 
       try {
         userToken = await AsyncStorage.getItem('userToken');
-        if (userToken) {
-          const userData = await getUserById(userToken);
-          setUserData(userData);
-        }
       } catch (e) {
         console.log(e);
       }

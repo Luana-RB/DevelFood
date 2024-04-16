@@ -9,7 +9,7 @@ type CadastroContextType = {
     newCpf: string,
     newTelefone: string,
   ) => Promise<unknown>;
-  storeEndereco: (
+  storeAddress: (
     newApelido: string,
     newCep: string,
     newRua: string,
@@ -128,7 +128,7 @@ export const CadastroProvider = ({children}: any) => {
     }
   };
 
-  const storeEndereco = async (
+  const storeAddress = async (
     newApelido: string,
     newCep: string,
     newRua: string,
@@ -159,7 +159,7 @@ export const CadastroProvider = ({children}: any) => {
       value={{
         storeCredentials,
         storeInfo,
-        storeEndereco,
+        storeAddress,
         returnsCadastro,
       }}>
       {children}

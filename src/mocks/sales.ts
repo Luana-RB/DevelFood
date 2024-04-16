@@ -10,7 +10,7 @@ export const sales: SalesData[] = [
   {
     id: '2',
     imagePath: require(image),
-    restaurantId: '2',
+    restaurantId: '3',
   },
   {
     id: '3',

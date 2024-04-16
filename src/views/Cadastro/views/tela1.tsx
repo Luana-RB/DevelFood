@@ -1,17 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StatusBar, TouchableOpacity} from 'react-native';
-import {
-  ErrorText,
-  InputContainer,
-  InputIcon,
-  InputText,
-} from '../../../components/Input';
+import {ErrorText, InputContainer, InputText} from '../../../components/Input';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
-import {getUserById, getUsers} from '../../../services/api/users';
 import validator from 'validator';
 import {useCadastro} from '../../../services/context/cadastroContext';
-import {UsersData} from '../../../types/userData';
 import {
   CheckContainer,
   CheckImage,
@@ -20,6 +13,7 @@ import {
   LadyImage,
 } from './styles';
 import {Errors} from '../../../types/errors';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tela1: React.FC = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -28,80 +22,42 @@ const Tela1: React.FC = ({navigation}: any) => {
   const [olhoIcone, setOlhoIcone] = useState(true);
   const [olhoIconeConfirma, setOlhoIconeConfirma] = useState(true);
   const [errors, setErrors] = useState<Errors>({});
-  const [users, setUsers] = useState<UsersData[]>([]);
 
   const {storeCredentials} = useCadastro();
-
-  useEffect(() => {
-    const fetchUsers = () => {
-      const usersFetched: UsersData[] | undefined = getUsers();
-      if (usersFetched) {
-        setUsers(usersFetched);
-      } else {
-        console.log('Falha ao buscar users');
-      }
-    };
-    fetchUsers();
-  }, []);
 
   function validateForm() {
     let errors: Errors = {};
 
     const emailError = validateEmail();
-    if (emailError) {
-      errors.email = emailError;
-    } else {
-      const user = findUserbyId();
-      if (user) {
-        errors.email = 'E-mail já cadastrado';
-      } else {
-        const senhaError = validateSenha();
-        if (senhaError) {
-          errors.password = senhaError;
-        } else {
-          const senhaConfirmaError = validateSenhaConfirma();
-          if (senhaConfirmaError) {
-            errors.passwordConfirm = senhaConfirmaError;
-          }
-        }
+    if (emailError) errors.email = emailError;
+    else {
+      // const user = findUserbyId();
+      // if (user) {
+      //   errors.email = 'E-mail já cadastrado';
+      // } else {
+      const senhaError = validateSenha();
+      if (senhaError) errors.password = senhaError;
+      else {
+        const senhaConfirmaError = validateSenhaConfirma();
+        if (senhaConfirmaError) errors.passwordConfirm = senhaConfirmaError;
       }
+      // }
     }
     return errors;
   }
 
   function validateEmail() {
-    if (!email.length) {
-      return 'Insira um e-mail';
-    }
-    if (!validator.isEmail(email)) {
-      return 'Insira um e-mail válido';
-    }
-  }
-
-  function findUserByEmail() {
-    const user = users.find(user => user.credentials.email === email);
-    return user ? user.credentials.id : undefined;
-  }
-
-  function findUserbyId() {
-    const userId = findUserByEmail();
-    if (userId) {
-      const user = getUserById(userId);
-      return user;
-    }
+    if (!email.length) return 'Insira um e-mail';
+    if (!validator.isEmail(email)) return 'Insira um e-mail válido';
   }
 
   function validateSenha() {
-    if (senha.length > 5) {
-      return undefined;
-    }
+    if (senha.length > 5) return undefined;
     return 'A senha deve ter mais que 5 caracteres';
   }
 
   function validateSenhaConfirma() {
-    if (senhaConfirma === senha) {
-      return undefined;
-    }
+    if (senhaConfirma === senha) return undefined;
     return 'As senhas devem ser iguais';
   }
 
@@ -111,9 +67,7 @@ const Tela1: React.FC = ({navigation}: any) => {
 
     if (Object.keys(newErrors).length === 0) {
       const credentials = await handleCredentials();
-      if (credentials) {
-        navigation.navigate('DadosPessoais');
-      }
+      if (credentials) navigation.navigate('DadosPessoais');
     }
   }
 
@@ -140,55 +94,81 @@ const Tela1: React.FC = ({navigation}: any) => {
       <LadyImage source={require('./assets/cadastro1.png')} />
       <FormContainer>
         <InputContainer>
-          <InputIcon source={require('../../../../assets/images/email.png')} />
+          <Icon
+            name="email-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
           <InputText
             placeholder="exemplo@email.com"
+            placeholderTextColor={colors.gray}
             value={email}
             onChangeText={setEmail}
           />
         </InputContainer>
         {errors.email && <ErrorText>{errors.email}</ErrorText>}
         <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/password.png')}
+          <Icon
+            name="lock-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
           />
           <InputText
             placeholder="senha"
+            placeholderTextColor={colors.gray}
             secureTextEntry={olhoIcone}
             value={senha}
             onChangeText={setSenha}
           />
           <TouchableOpacity onPress={handleSecureSenha}>
             {olhoIcone ? (
-              <InputIcon
-                source={require('../../../../assets/images/eye-slashed.png')}
+              <Icon
+                name="eye-off-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 10}}
               />
             ) : (
-              <InputIcon
-                source={require('../../../../assets/images/eye.png')}
+              <Icon
+                name="eye-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 10}}
               />
             )}
           </TouchableOpacity>
         </InputContainer>
         {errors.password && <ErrorText>{errors.password}</ErrorText>}
         <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/password.png')}
+          <Icon
+            name="lock-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
           />
           <InputText
             placeholder="confirmar senha"
+            placeholderTextColor={colors.gray}
             secureTextEntry={olhoIconeConfirma}
             value={senhaConfirma}
             onChangeText={setSenhaConfirma}
           />
           <TouchableOpacity onPress={handleSecureSenhaConfirma}>
             {olhoIconeConfirma ? (
-              <InputIcon
-                source={require('../../../../assets/images/eye-slashed.png')}
+              <Icon
+                name="eye-off-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 10}}
               />
             ) : (
-              <InputIcon
-                source={require('../../../../assets/images/eye.png')}
+              <Icon
+                name="eye-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 10}}
               />
             )}
           </TouchableOpacity>

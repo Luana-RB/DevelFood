@@ -7,8 +7,6 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantList from './components/RestaurantList';
 import {useCart} from '../../services/context/cartContext';
 import CartBar from '../../components/CartBar';
-import ModalAvaliacao from '../../components/ModalAvaliacao';
-import {restaurantsMock} from '../../mocks/restaurants';
 
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
@@ -16,7 +14,6 @@ const Home: React.FC = ({navigation}: any) => {
   const {token} = useToken();
   const [cart, setCart] = useState(false);
   const {numOfItems} = useCart();
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
 
   useEffect(() => {
     if (numOfItems > 0) setCart(true);
@@ -34,13 +31,6 @@ const Home: React.FC = ({navigation}: any) => {
         <View style={styles.cartContainer}>
           <CartBar margin={-40} />
         </View>
-      )}
-      {isModalVisible && (
-        <ModalAvaliacao
-          setIsModalVisible={setIsModalVisible}
-          restaurant={restaurantsMock[0]}
-          isModalVisible={isModalVisible}
-        />
       )}
     </SafeAreaView>
   );

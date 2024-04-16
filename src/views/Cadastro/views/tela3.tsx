@@ -10,11 +10,11 @@ import {
   Container,
   FormContainer,
   LadyImage,
-  PinIcon,
   RowContainer,
 } from './styles';
 import {MaskedTextInput} from 'react-native-mask-text';
 import {Errors} from '../../../types/errors';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tela3: React.FC = ({navigation}: any) => {
   const [apelido, setApelido] = useState('');
@@ -25,52 +25,7 @@ const Tela3: React.FC = ({navigation}: any) => {
   const [estado, setEstado] = useState('');
   const [num, setNum] = useState('');
   const [errors, setErrors] = useState<Errors>({});
-  const {storeEndereco} = useCadastro();
-
-  function validateApelido() {
-    if (!apelido) {
-      return 'Insira um apelido';
-    }
-  }
-
-  function validateCep() {
-    if (/\d{5}-\d{3}/.test(cep)) {
-      return undefined;
-    }
-    return 'Insira um CEP';
-  }
-
-  function validateRua() {
-    if (!rua) {
-      return 'Insira uma rua';
-    }
-  }
-
-  function validateCidade() {
-    if (!cidade) {
-      return 'Insira uma cidade';
-    }
-  }
-
-  function validateBairro() {
-    if (!bairro) {
-      return 'Insira um bairro';
-    }
-  }
-
-  function validateEstado() {
-    if (/[A-Za-z]{2}/.test(estado)) {
-      return undefined;
-    }
-    return 'Insira um estado';
-  }
-
-  function validateNum() {
-    if (/^[0-9]+$/.test(num)) {
-      return undefined;
-    }
-    return 'Insira um número';
-  }
+  const {storeAddress} = useCadastro();
 
   function validateForm() {
     let errors: Errors = {};
@@ -82,35 +37,46 @@ const Tela3: React.FC = ({navigation}: any) => {
     const estadoError = validateEstado();
     const numError = validateNum();
 
-    if (apelidoError) {
-      errors.apelido = apelidoError;
-    }
-
-    if (cepError) {
-      errors.cep = cepError;
-    }
-
-    if (ruaError) {
-      errors.rua = ruaError;
-    }
-
-    if (cidadeError) {
-      errors.cidade = cidadeError;
-    }
-
-    if (bairroError) {
-      errors.bairro = bairroError;
-    }
-
-    if (estadoError) {
-      errors.estado = estadoError;
-    }
-
-    if (numError) {
-      errors.num = numError;
-    }
+    if (apelidoError) errors.apelido = apelidoError;
+    if (cepError) errors.cep = cepError;
+    if (ruaError) errors.rua = ruaError;
+    if (cidadeError) errors.cidade = cidadeError;
+    if (bairroError) errors.bairro = bairroError;
+    if (estadoError) errors.estado = estadoError;
+    if (numError) errors.num = numError;
 
     return errors;
+  }
+
+  function validateApelido() {
+    if (!apelido) return 'Insira um apelido';
+  }
+
+  function validateCep() {
+    if (/\d{5}-\d{3}/.test(cep)) return undefined;
+    return 'Insira um CEP';
+  }
+
+  function validateRua() {
+    if (!rua) return 'Insira uma rua';
+  }
+
+  function validateCidade() {
+    if (!cidade) return 'Insira uma cidade';
+  }
+
+  function validateBairro() {
+    if (!bairro) return 'Insira um bairro';
+  }
+
+  function validateEstado() {
+    if (/[A-Za-z]{2}/.test(estado)) return undefined;
+    return 'Insira um estado';
+  }
+
+  function validateNum() {
+    if (/^[0-9]+$/.test(num)) return undefined;
+    return 'Insira um número';
   }
 
   async function handleSubmit() {
@@ -118,15 +84,13 @@ const Tela3: React.FC = ({navigation}: any) => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      const endereco = await handleEndereco();
-      if (endereco) {
-        navigation.navigate('TelaFinal');
-      }
+      const endereco = await handleAddress();
+      if (endereco) navigation.navigate('TelaFinal');
     }
   }
 
-  async function handleEndereco() {
-    const endereco = await storeEndereco(
+  async function handleAddress() {
+    const endereco = await storeAddress(
       apelido,
       cep,
       rua,
@@ -149,22 +113,35 @@ const Tela3: React.FC = ({navigation}: any) => {
       <LadyImage source={require('./assets/cadastro3.png')} />
       <FormContainer>
         <RowContainer>
-          <View>
-            <InputContainer style={{width: 160}}>
-              <PinIcon source={require('./assets/pin.png')} />
+          <View style={{width: '55%'}}>
+            <InputContainer style={{width: '100%'}}>
+              <Icon
+                name="map-marker-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 5}}
+              />
               <InputText
                 placeholder="Apelido do End."
+                placeholderTextColor={colors.gray}
                 value={apelido}
                 onChangeText={setApelido}
               />
             </InputContainer>
             {errors.apelido && <ErrorText>{errors.apelido}</ErrorText>}
           </View>
-          <View>
-            <InputContainer style={{width: 120}}>
-              <PinIcon source={require('./assets/pin.png')} />
+          <View style={{width: '40%'}}>
+            <InputContainer style={{width: '100%'}}>
+              <Icon
+                name="map-marker-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 5}}
+              />
               <MaskedTextInput
                 placeholder="CEP"
+                placeholderTextColor={colors.gray}
+                style={{color: colors.black}}
                 value={cep}
                 onChangeText={formatted => {
                   setCep(formatted as string);
@@ -177,34 +154,62 @@ const Tela3: React.FC = ({navigation}: any) => {
           </View>
         </RowContainer>
         <InputContainer>
-          <PinIcon source={require('./assets/pin.png')} />
-          <InputText placeholder="Rua" value={rua} onChangeText={setRua} />
+          <Icon
+            name="map-marker-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
+          <InputText
+            placeholder="Rua"
+            placeholderTextColor={colors.gray}
+            value={rua}
+            onChangeText={setRua}
+          />
         </InputContainer>
         {errors.rua && <ErrorText>{errors.rua}</ErrorText>}
         <InputContainer>
-          <PinIcon source={require('./assets/pin.png')} />
+          <Icon
+            name="map-marker-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
           <InputText
             placeholder="Cidade"
+            placeholderTextColor={colors.gray}
             value={cidade}
             onChangeText={setCidade}
           />
         </InputContainer>
         {errors.cidade && <ErrorText>{errors.cidade}</ErrorText>}
         <InputContainer>
-          <PinIcon source={require('./assets/pin.png')} />
+          <Icon
+            name="map-marker-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
           <InputText
             placeholder="Bairro"
+            placeholderTextColor={colors.gray}
             value={bairro}
             onChangeText={setBairro}
           />
         </InputContainer>
         {errors.bairro && <ErrorText>{errors.bairro}</ErrorText>}
         <RowContainer>
-          <View>
-            <InputContainer style={{width: 140}}>
-              <PinIcon source={require('./assets/pin.png')} />
+          <View style={{width: '47%'}}>
+            <InputContainer style={{width: '100%'}}>
+              <Icon
+                name="map-marker-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 8}}
+              />
               <InputText
                 placeholder="Estado"
+                placeholderTextColor={colors.gray}
                 value={estado}
                 onChangeText={setEstado}
                 maxLength={2}
@@ -212,11 +217,17 @@ const Tela3: React.FC = ({navigation}: any) => {
             </InputContainer>
             {errors.estado && <ErrorText>{errors.estado}</ErrorText>}
           </View>
-          <View>
-            <InputContainer style={{width: 140}}>
-              <PinIcon source={require('./assets/pin.png')} />
+          <View style={{width: '48%'}}>
+            <InputContainer style={{width: '100%'}}>
+              <Icon
+                name="map-marker-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 8}}
+              />
               <InputText
                 placeholder="Número"
+                placeholderTextColor={colors.gray}
                 value={num}
                 onChangeText={setNum}
                 keyboardType="numeric"

@@ -22,18 +22,16 @@ export interface UsersData {
 
 export interface NewUsersData {
   email: string;
-  senha: string;
-  primeiroNome: string;
-  segundoNome: string;
+  password: string;
+  firstName: string;
+  lastName: string;
   cpf: string;
-  numeroCelular: string;
-  apelido: string;
-  cep: string;
-  rua: string;
-  cidade: string;
-  bairro: string;
-  estado: string;
-  numero: number;
+  phone: string;
+  zipcode: string;
+  street: string;
+  city: string;
+  neighbourhood: string;
+  number: number;
 }
 export interface UserCredentials {
   id: string;
