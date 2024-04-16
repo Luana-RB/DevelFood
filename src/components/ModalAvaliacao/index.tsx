@@ -112,7 +112,7 @@ const ModalAvaliacao: React.FC<ModalProps> = ({
               Obrigado por escolher nosso app, você faz toda a diferença. :D
               Agora, queremos saber o que voce acha do nosso parceiro{' '}
             </Description>
-            <RestaurantName>{restaurant.nome}</RestaurantName>
+            <RestaurantName>{restaurant.name}</RestaurantName>
           </DescriptionContainer>
           <ListContainer>
             <FlatList

@@ -22,6 +22,8 @@ export async function postLogin(email: string, password: string) {
     const result = await api.post('api/auth/login', credentials);
     const token = JSON.stringify(result.data.token).replace(/"/g, '');
     return token;
+    //    const user = users.find(user => user.credentials.email === email);
+    // if (user?.credentials.password === password) return user.credentials.id;
   } catch (e) {
     console.log('login', e);
     return undefined;
