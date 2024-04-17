@@ -16,6 +16,7 @@ export function addFavorite(plate: RestaurantPlate) {
     const user = users[0];
     if (!user.favorites) user.favorites = [plate];
     else user.favorites.push(plate);
+    console.log(users[0].favorites);
   } catch (e) {
     console.log(e);
   }

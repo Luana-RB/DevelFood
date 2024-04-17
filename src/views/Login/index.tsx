@@ -113,7 +113,7 @@ const Login: React.FC = ({navigation}: any) => {
         {errors.email && <ErrorText>{errors.email}</ErrorText>}
         <ForgotPassContainer
           onPress={() => {
-            navigation.navigate('Recuperar Senha');
+            navigation.navigate('Recuperar_Senha');
           }}>
           <ForgotPassText>Esqueci minha senha</ForgotPassText>
         </ForgotPassContainer>

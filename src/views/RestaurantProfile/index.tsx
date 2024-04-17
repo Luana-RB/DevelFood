@@ -23,15 +23,11 @@ import {
   Line,
   PlatesTitle,
 } from './styles';
-import {
-  NoResultContainer,
-  NoResultImage,
-  NoResultText,
-} from '../../components/NoResultComponent';
 import {useCart} from '../../services/context/cartContext';
 import {getRestaurantById} from '../../services/api/restaurants';
 import {RestaurantProfileScreenProps} from '../../types/routeTypes';
 import ModalAvaliacao from '../../components/ModalAvaliacao';
+import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   route,
@@ -39,11 +35,9 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
 }) => {
   const [cart, setCart] = useState(false);
   const [data, setData] = useState<RestaurantsData>();
-  const [notFound, setNotFound] = useState(true);
   const [loading, setLoading] = useState(false);
   const [plateData, setPlateData] = useState<RestaurantPlate[]>([]);
-  const [filteredData, setFilteredData] = useState<RestaurantPlate[] | null>();
-  const [isFiltered, setIsFiltered] = useState(false);
+  const [shownData, setShownData] = useState<RestaurantPlate[] | null>();
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
@@ -54,8 +48,10 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   useEffect(() => {
     async function getData() {
       const newData = await getRestaurantById(restaurantId);
-      if (newData) setData(newData);
-      else {
+      if (newData) {
+        setData(newData);
+        setShownData(newData.pratos);
+      } else {
         Alert.alert('Falha ao encontrar restaurante');
         navigation.goBack();
       }
@@ -66,7 +62,6 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   useEffect(() => {
     if (data) {
       if (data.pratos !== undefined && data.pratos.length >= 1) {
-        setNotFound(false);
         setPlateData(data.pratos);
       }
       if (!!data.fotos) setImagePath({uri: data.fotos});
@@ -78,7 +73,11 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   }, [numOfItems, data]);
 
   async function handleSearch(text: string) {
-    if (!text) setIsFiltered(false);
+    if (text.length < 2) {
+      setShownData(plateData);
+      return;
+    }
+
     setLoading(true);
 
     setTimeout(function () {
@@ -91,13 +90,8 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       return itemData.indexOf(textData) > -1;
     });
 
-    if (!newData || newData.length === 0) {
-      setNotFound(true);
-      setLoading(false);
-    } else setNotFound(false);
-
-    setFilteredData(newData);
-    setIsFiltered(true);
+    if (!newData || newData.length === 0) setLoading(false);
+    setShownData(newData);
   }
 
   if (!data)
@@ -128,30 +122,19 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
           onChangeText={handleSearch}
         />
 
-        {notFound && (
-          <NoResultContainer style={{marginTop: 60}}>
-            <NoResultImage
-              source={require('../../../assets/images/notFoundRestaurant.png')}
-            />
-            <NoResultText>Nenhum prato encontrado</NoResultText>
-          </NoResultContainer>
-        )}
-
         <FlatList
-          data={isFiltered ? filteredData : data?.pratos}
+          data={shownData}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('PlateDetails', {
-                  plate: item,
-                  restaurant: data,
-                });
-              }}>
-              <PlateCard data={item} />
-            </TouchableOpacity>
+            <PlateCard data={item} navigation={navigation} />
           )}
           ListFooterComponent={<View style={{height: 70}} />}
+          ListEmptyComponent={
+            <ListEmptyComponent
+              text="Nenhum prato encontrado"
+              imagePath="restaurant"
+            />
+          }
           style={{flex: 5}}
         />
         {loading && <ActivityIndicator size={50} color={colors.red} />}

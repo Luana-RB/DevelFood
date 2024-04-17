@@ -1,8 +1,9 @@
 import {StackScreenProps} from '@react-navigation/stack';
 
 export type RootStackParamList = {
-  PlateDetails: {plate: any; restaurant: any};
+  PlateDetails: {plate: any; restaurantId: any};
   Home: any;
+  Favorites: any;
   RestaurantProfile: {restaurantId: any};
 };
 

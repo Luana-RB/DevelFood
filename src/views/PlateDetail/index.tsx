@@ -14,7 +14,12 @@ import {
   SubTitle,
   Title,
 } from './styles';
-import {Alert, ImageSourcePropType} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  ImageSourcePropType,
+  View,
+} from 'react-native';
 import {
   AddButton,
   AddText,
@@ -28,12 +33,15 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {useCart} from '../../services/context/cartContext';
 import {useFocusEffect} from '@react-navigation/native';
 import {PlateDetailsScreenProps} from '../../types/routeTypes';
+import {getRestaurantById} from '../../services/api/restaurants';
+import {RestaurantsData} from '../../types/restaurantData';
 
 const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
-  const {plate, restaurant} = route.params;
+  const {plate, restaurantId} = route.params;
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [thisPrice, setThisPrice] = useState('0,00');
+  const [restaurant, setRestaurant] = useState<RestaurantsData>();
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
   );
@@ -41,9 +49,14 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const {addItem, removeItem, removeQuantity, getQuantity} = useCart();
 
   useEffect(() => {
+    async function getData() {
+      const newData = await getRestaurantById(restaurantId);
+      setRestaurant(newData);
+    }
+    getData();
+
     if (!!plate.foto) setImagePath({uri: plate.foto});
     else setImagePath(require('../../../assets/images/notFound.png'));
-
     if (plate.descricao) formatDescription(plate.descricao);
 
     formatPrice(plate.preco);
@@ -85,6 +98,13 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
     setQuantity(quantity - 1);
   }
 
+  if (!restaurant)
+    return (
+      <View style={{flex: 1, backgroundColor: colors.white}}>
+        <ActivityIndicator size={60} color={colors.red} style={{margin: 50}} />
+      </View>
+    );
+
   return (
     <Container>
       <FocusAwareStatusBar
@@ -95,7 +115,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
         <PlateImage source={imagePath} />
         <HeaderContainer>
           <Title>{plate.nome}</Title>
-          <SubTitle>{restaurant.categoria}</SubTitle>
+          <SubTitle>{restaurant?.categoria}</SubTitle>
         </HeaderContainer>
         <DescriptionContainer>
           <Description>{description}</Description>
@@ -108,7 +128,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
             style={{marginVertical: 10, marginHorizontal: 15}}
           />
           <RestaurantName>
-            Vendido e entregue por {restaurant?.nome}
+            Vendido e entregue por {restaurant?.name}
           </RestaurantName>
         </RestaurantContainer>
       </BodyContainer>

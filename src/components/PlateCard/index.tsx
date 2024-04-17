@@ -27,12 +27,14 @@ import {colors} from '../../globalStyles';
 import {compareFavorites} from '../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
+import {TouchableOpacity} from 'react-native';
 
 interface PlateCardProps {
   data: RestaurantPlate;
+  navigation: any;
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data}) => {
+const PlateCard: React.FC<PlateCardProps> = ({data, navigation}) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
@@ -86,55 +88,63 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
   }
 
   return (
-    <Container>
-      <PlateImage source={imagePath} />
-      <Icon
-        name={heart}
-        color={colors.red}
-        style={styles.heartIcon}
-        size={20}
-      />
-      <BodyContainer>
-        <TextContainer>
-          <TitleContainer>
-            <Title>{data.nome}</Title>
-          </TitleContainer>
-          <DescriptionContainer>
-            <Description>{description}</Description>
-          </DescriptionContainer>
-        </TextContainer>
-        <FooterContainer>
-          <Price>R$ {thisPrice}</Price>
-          {quantity === 0 ? (
-            <AddButton onPress={handleAdd}>
-              <AddText>Adicionar</AddText>
-            </AddButton>
-          ) : (
-            <QuantityContainer>
-              {quantity === 1 ? (
-                <QuantityButton onPress={handleRemove}>
-                  <Icon
-                    name={'trash-can-outline'}
-                    color={colors.red}
-                    size={20}
-                  />
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('PlateDetails', {
+          plate: data,
+          restaurantId: data.restaurantId,
+        });
+      }}>
+      <Container>
+        <PlateImage source={imagePath} />
+        <Icon
+          name={heart}
+          color={colors.red}
+          style={styles.heartIcon}
+          size={20}
+        />
+        <BodyContainer>
+          <TextContainer>
+            <TitleContainer>
+              <Title>{data.nome}</Title>
+            </TitleContainer>
+            <DescriptionContainer>
+              <Description>{description}</Description>
+            </DescriptionContainer>
+          </TextContainer>
+          <FooterContainer>
+            <Price>R$ {thisPrice}</Price>
+            {quantity === 0 ? (
+              <AddButton onPress={handleAdd}>
+                <AddText>Adicionar</AddText>
+              </AddButton>
+            ) : (
+              <QuantityContainer>
+                {quantity === 1 ? (
+                  <QuantityButton onPress={handleRemove}>
+                    <Icon
+                      name={'trash-can-outline'}
+                      color={colors.red}
+                      size={20}
+                    />
+                  </QuantityButton>
+                ) : (
+                  <QuantityButton onPress={handleRemove}>
+                    <Icon name={'minus'} color={colors.red} size={20} />
+                  </QuantityButton>
+                )}
+                <QuantityBox>
+                  <QuantityText>{quantity}</QuantityText>
+                </QuantityBox>
+                <QuantityButton onPress={handleAdd}>
+                  <Icon name={'plus'} color={colors.red} size={20} />
                 </QuantityButton>
-              ) : (
-                <QuantityButton onPress={handleRemove}>
-                  <Icon name={'minus'} color={colors.red} size={20} />
-                </QuantityButton>
-              )}
-              <QuantityBox>
-                <QuantityText>{quantity}</QuantityText>
-              </QuantityBox>
-              <QuantityButton onPress={handleAdd}>
-                <Icon name={'plus'} color={colors.red} size={20} />
-              </QuantityButton>
-            </QuantityContainer>
-          )}
-        </FooterContainer>
-      </BodyContainer>
-    </Container>
+              </QuantityContainer>
+            )}
+          </FooterContainer>
+        </BodyContainer>
+      </Container>
+    </TouchableOpacity>
   );
 };
 
