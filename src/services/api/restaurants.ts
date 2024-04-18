@@ -1,5 +1,6 @@
-import {api, headers} from './api';
+import {api} from './api';
 import {restaurantsMock} from '../../mocks/restaurants';
+import {useToken} from '../context/tokenContext';
 
 interface GetProps {
   page: number;

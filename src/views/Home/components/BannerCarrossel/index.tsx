@@ -35,6 +35,7 @@ const BannerCarrossel: React.FC<BannerCarrosselProps> = ({
     <View style={{flex: 1, alignItems: 'center'}}>
       <FlatList
         horizontal
+        showsHorizontalScrollIndicator={false}
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item, index}) => (
@@ -44,6 +45,7 @@ const BannerCarrossel: React.FC<BannerCarrosselProps> = ({
       />
       <FlatList
         horizontal
+        showsHorizontalScrollIndicator={false}
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item, index}) => (

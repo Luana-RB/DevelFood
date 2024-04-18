@@ -22,7 +22,7 @@ import {
   QuantityButton,
   QuantityContainer,
   QuantityText,
-} from '../../components/AddButton';
+} from '../../components/AddButton/styles';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {useCart} from '../../services/context/cartContext';

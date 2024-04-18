@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const SearchBarContainer = styled.View`
   justify-content: flex-start;
@@ -16,6 +16,6 @@ export const SearchBarContainer = styled.View`
 
 export const SearchInput = styled.TextInput`
   flex: 1;
-  font-size: 14px;
+  font-size: ${fonts.S}px;
   color: ${colors.gray};
 `;

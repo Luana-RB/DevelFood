@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const NoResultContainer = styled.KeyboardAvoidingView`
   flex: 1;
@@ -16,6 +16,6 @@ export const NoResultImage = styled.Image`
 
 export const NoResultText = styled.Text`
   color: ${colors.black};
-  font-size: 18px;
+  font-size: ${fonts.L}px;
   margin: 20px;
 `;

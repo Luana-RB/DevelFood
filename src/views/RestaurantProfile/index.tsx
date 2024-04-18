@@ -31,6 +31,7 @@ import {
 import {useCart} from '../../services/context/cartContext';
 import {getRestaurantById} from '../../services/api/restaurants';
 import {RestaurantProfileScreenProps} from '../../types/routeTypes';
+import ModalAvaliacao from '../../components/ModalAvaliacao';
 
 const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   route,
@@ -48,11 +49,11 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   );
   const {numOfItems} = useCart();
   const {restaurantId} = route.params;
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
 
   useEffect(() => {
     async function getData() {
       const newData = await getRestaurantById(restaurantId);
-      console.log(newData);
       if (newData) setData(newData);
       else {
         Alert.alert('Falha ao encontrar restaurante');
@@ -158,6 +159,13 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
           }}>
           <CartBar margin={20} />
         </View>
+      )}
+      {isModalVisible && data && (
+        <ModalAvaliacao
+          setIsModalVisible={setIsModalVisible}
+          restaurant={data}
+          isModalVisible={isModalVisible}
+        />
       )}
     </Container>
   );

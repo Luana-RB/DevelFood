@@ -1,20 +1,30 @@
 import {users} from '../../mocks/users';
-import {UsersData} from '../../types/userData';
+import {NewUsersData, UsersData} from '../../types/userData';
+import {api} from './api';
 
-export function getUsers() {
+export async function postCadastro(user: NewUsersData) {
   try {
-    return users;
+    // const result = users.push(user);
+    const result = await api.post('login/registrar/cliente', user);
+    const status = result.status;
+    console.log(user, status);
+    return true;
   } catch (e) {
-    console.log(e);
+    console.log('cadastro: ', e);
   }
 }
 
-export function postUser(user: UsersData) {
+export async function postLogin(user: UsersData) {
   try {
-    const result = users.push(user);
+    const credentials = {
+      email: user.credentials.email,
+      senha: user.credentials.password,
+    };
+    const result = await api.post('login/efetuar', credentials);
+    console.log(result.status);
     return result;
   } catch (e) {
-    console.log(e);
+    console.log('login', e);
   }
 }
 
@@ -30,6 +40,14 @@ export function patchPassword(user: UsersData, password: string) {
       }
     }
   } catch (e) {}
+}
+
+export function getUsers() {
+  try {
+    return users;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export function getUserById(id: string) {
@@ -71,6 +89,7 @@ export function sendToken() {
     console.log(e);
   }
 }
+
 export function sendNumberCode() {
   try {
     const code = '1111';

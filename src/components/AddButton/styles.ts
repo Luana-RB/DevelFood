@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const AddButton = styled.TouchableOpacity`
   height: ${screenHeight * 0.03}px;
@@ -9,7 +9,7 @@ export const AddButton = styled.TouchableOpacity`
 `;
 
 export const AddText = styled.Text`
-  font-size: 14px;
+  font-size: ${fonts.S}px;
   color: ${colors.red};
   font-weight: bold;
 `;
@@ -38,7 +38,7 @@ export const QuantityBox = styled.View`
 `;
 
 export const QuantityText = styled.Text`
-  font-size: 10px;
+  font-size: ${fonts.XXS}px;
   color: ${colors.white};
 `;
 export const QuantityButton = styled.TouchableOpacity`

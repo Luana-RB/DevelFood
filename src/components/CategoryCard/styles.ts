@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const Container = styled.TouchableOpacity`
   width: ${screenWidth * 0.25}px;
@@ -14,6 +14,6 @@ export const Container = styled.TouchableOpacity`
 `;
 
 export const Name = styled.Text`
-  font-size: 14px;
+  font-size: ${fonts.S}px;
   color: ${colors.red};
 `;

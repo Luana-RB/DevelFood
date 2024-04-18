@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors} from '../../../globalStyles';
+import {colors, fonts} from '../../../globalStyles';
 
 export const Container = styled.ScrollView`
   flex: 1;
@@ -73,12 +73,12 @@ export const CadastroContainer = styled.View`
   width: 275px;
 `;
 export const CadastroTitle = styled.Text`
-  font-size: 28px;
+  font-size: ${fonts.XXL}px;
   color: ${colors.black};
   margin-bottom: 5px;
 `;
 export const CadastroText = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   color: ${colors.gray};
   margin-bottom: 110px;
 `;

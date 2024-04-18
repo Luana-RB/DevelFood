@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../../globalStyles';
 import {StyleSheet} from 'react-native';
 
 export const Container = styled.SafeAreaView`
@@ -50,20 +50,20 @@ export const TextContainer = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-size: 28px;
+  font-size: ${fonts.XXL}px;
   font-weight: bold;
   color: ${colors.black};
   text-align: center;
 `;
 export const SubTitle = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   font-weight: bold;
   color: ${colors.gray};
   flex-wrap: wrap;
   text-align: center;
 `;
 export const CodeText = styled.Text`
-  font-size: 14px;
+  font-size: ${fonts.S}px;
   font-weight: bold;
   color: ${colors.black};
   flex-wrap: wrap;

@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type TokenContextType = {
   token: string | null;
-  storeToken: (newToken: string) => Promise<unknown>;
+  storeToken: (newToken: any) => Promise<unknown>;
   removeStoredToken: () => Promise<void>;
 };
 
@@ -30,9 +30,9 @@ export const TokenProvider = ({children}: any) => {
     loadToken();
   }, []);
 
-  const storeToken = async (newToken: string) => {
+  const storeToken = async (newToken: any) => {
     try {
-      await AsyncStorage.setItem('userToken', newToken);
+      await AsyncStorage.setItem('userToken', String(newToken));
       setToken(newToken);
       return newToken;
     } catch (e) {

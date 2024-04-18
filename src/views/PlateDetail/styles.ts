@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const Container = styled.View`
   width: 100%;
@@ -32,13 +32,13 @@ export const HeaderContainer = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-size: 20px;
+  font-size: ${fonts.XL}px;
   color: ${colors.black};
   font-weight: bold;
 `;
 
 export const SubTitle = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   color: ${colors.gray};
 `;
 
@@ -49,7 +49,7 @@ export const DescriptionContainer = styled.View`
 `;
 
 export const Description = styled.Text`
-  font-size: 14px;
+  font-size: ${fonts.S}px;
   color: ${colors.black};
 `;
 
@@ -70,7 +70,7 @@ export const RestaurantIcon = styled.Image`
   margin: 20px;
 `;
 export const RestaurantName = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   color: ${colors.gray};
 `;
 
@@ -88,7 +88,7 @@ export const FooterContainer = styled.View`
 `;
 
 export const Price = styled.Text`
-  font-size: 16px;
+  font-size: ${fonts.M}px;
   color: ${colors.white};
   font-weight: bold;
 `;
