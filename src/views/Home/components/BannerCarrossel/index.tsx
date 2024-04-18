@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {Animated, FlatList, View} from 'react-native';
 import Banners from './Banners';
 import {SalesData} from '../../../../types/salesData';
 import CarrosselMarker from './CarrosselMarker';
@@ -15,6 +15,7 @@ const BannerCarrossel: React.FC<BannerCarrosselProps> = ({
 }) => {
   const carrosselRef = useRef<FlatList>(null);
   const [carrosselIndex, setCarrosselIndex] = useState(0);
+  const scrollX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     carrosselRef.current?.scrollToIndex({index: carrosselIndex});
@@ -31,25 +32,35 @@ const BannerCarrossel: React.FC<BannerCarrosselProps> = ({
     else setCarrosselIndex(0);
   }
 
+  const handleOnScroll = (event: any) => {
+    Animated.event(
+      [
+        {
+          nativeEvent: {
+            contentOffset: {
+              x: scrollX,
+            },
+          },
+        },
+      ],
+      {useNativeDriver: false},
+    )(event);
+  };
+
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <FlatList
         horizontal
+        showsHorizontalScrollIndicator={false}
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item, index}) => (
           <Banners data={item} index={index} navigation={navigation} />
         )}
         ref={carrosselRef}
+        onScroll={handleOnScroll}
       />
-      <FlatList
-        horizontal
-        data={data}
-        keyExtractor={item => item.id}
-        renderItem={({item, index}) => (
-          <CarrosselMarker show={index === carrosselIndex} />
-        )}
-      />
+      <CarrosselMarker data={data} scrollX={scrollX} />
     </View>
   );
 };
