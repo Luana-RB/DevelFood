@@ -14,6 +14,7 @@ import {
 } from './styles';
 import {Errors} from '../../../types/errors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {checkEmail} from '../../../services/api/users';
 
 const Tela1: React.FC = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -25,30 +26,27 @@ const Tela1: React.FC = ({navigation}: any) => {
 
   const {storeCredentials} = useCadastro();
 
-  function validateForm() {
+  async function validateForm() {
     let errors: Errors = {};
 
-    const emailError = validateEmail();
+    const emailError = await validateEmail();
     if (emailError) errors.email = emailError;
     else {
-      // const user = findUserbyId();
-      // if (user) {
-      //   errors.email = 'E-mail já cadastrado';
-      // } else {
       const senhaError = validateSenha();
       if (senhaError) errors.password = senhaError;
       else {
         const senhaConfirmaError = validateSenhaConfirma();
         if (senhaConfirmaError) errors.passwordConfirm = senhaConfirmaError;
       }
-      // }
     }
     return errors;
   }
 
-  function validateEmail() {
+  async function validateEmail() {
     if (!email.length) return 'Insira um e-mail';
     if (!validator.isEmail(email)) return 'Insira um e-mail válido';
+    const isRegistered = await checkEmail(email);
+    if (!isRegistered) return 'E-mail já cadastrado';
   }
 
   function validateSenha() {
@@ -62,7 +60,7 @@ const Tela1: React.FC = ({navigation}: any) => {
   }
 
   async function handleSubmit() {
-    const newErrors = validateForm();
+    const newErrors = await validateForm();
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {

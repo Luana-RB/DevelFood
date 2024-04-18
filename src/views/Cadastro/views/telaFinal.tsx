@@ -44,16 +44,17 @@ const TelaFinal: React.FC = ({navigation}: any) => {
   function formatUser(user: UsersData) {
     const newUser: NewUsersData = {
       email: user.credentials.email,
-      password: user.credentials.password,
-      firstName: user.info.name,
-      lastName: user.info.surname,
+      senha: user.credentials.password,
+      primeiroNome: user.info.name,
+      segundoNome: user.info.surname,
       cpf: user.info.cpf.replace(/\D/g, ''),
-      phone: user.info.cellphone.replace(/\D/g, ''),
-      zipcode: user.adress.cep.replace(/\D/g, ''),
-      street: user.adress.rua,
-      city: user.adress.cidade,
-      neighbourhood: user.adress.bairro,
-      number: parseInt(user.adress.num),
+      numeroCelular: user.info.cellphone.replace(/\D/g, ''),
+      cep: user.adress.cep.replace(/\D/g, ''),
+      rua: user.adress.rua,
+      cidade: user.adress.cidade,
+      bairro: user.adress.bairro,
+      estado: user.adress.estado,
+      numero: parseInt(user.adress.num),
     };
     return newUser;
   }

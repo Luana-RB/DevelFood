@@ -5,7 +5,7 @@ import {api} from './api';
 export async function postCadastro(user: NewUsersData) {
   try {
     // const result = users.push(user);
-    const result = await api.post('api/auth/cliente/cadastro', user);
+    const result = await api.post('/cliente/registrar/cliente', user);
     const status = result.status;
     return true;
   } catch (e) {
@@ -14,13 +14,13 @@ export async function postCadastro(user: NewUsersData) {
   }
 }
 
-export async function postLogin(email: string, password: string) {
+export async function postLogin(email: string, senha: string) {
   try {
     const credentials = {
       email,
-      password,
+      senha,
     };
-    const result = await api.post('api/auth/login', credentials);
+    const result = await api.post('/login/efetuar', credentials);
     const token = JSON.stringify(result.data.token).replace(/"/g, '');
     return token;
     //    const user = users.find(user => user.credentials.email === email);
@@ -36,14 +36,47 @@ export function patchPassword(user: UsersData, password: string) {
   } catch (e) {}
 }
 
-// export function getUserToken(email: string) {
-//   try {
-//     const user = users.find(user => user.credentials.email === email);
-//     return user ? user.credentials.id : null;
-//   } catch (e) {
-//     console.log('Usuário não encontrado', e);
-//   }
-// }
+export async function checkEmail(email: string) {
+  try {
+    const body = {
+      email,
+    };
+    const result = await api.post('/cliente/email', body);
+    if (result.status === 200) return true;
+    else return false;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
+
+export async function checkCpf(cpf: string) {
+  try {
+    const body = {
+      cpf,
+    };
+    const result = await api.post('/cliente/cpf', body);
+    if (result.status === 200) return true;
+    else return false;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
+
+export async function checkPhone(phone: string) {
+  try {
+    const body = {
+      numeroCelular: phone,
+    };
+    const result = await api.post('/cliente/telefone', body);
+    if (result.status === 200) return true;
+    else return false;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
 
 export function sendToken() {
   try {
