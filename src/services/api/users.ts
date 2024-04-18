@@ -10,6 +10,7 @@ export async function postCadastro(user: NewUsersData) {
     return true;
   } catch (e) {
     console.log('cadastro: ', e);
+    return false;
   }
 }
 

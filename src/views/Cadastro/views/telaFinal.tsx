@@ -12,9 +12,9 @@ import {
 } from './styles';
 import {NewUsersData, UsersData} from '../../../types/userData';
 import {useToken} from '../../../services/context/tokenContext';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 
-const TelaFinal: React.FC = () => {
+const TelaFinal: React.FC = ({navigation}: any) => {
   const {returnsCadastro} = useCadastro();
   const {storeToken} = useToken();
   const signIn = React.useContext(AuthContext)?.signIn ?? (() => {});
@@ -24,6 +24,12 @@ const TelaFinal: React.FC = () => {
     const newUser = formatUser(user);
 
     const posted = await postCadastro(newUser);
+    if (!posted) {
+      Alert.alert('Erro ao realizar cadastro');
+      navigation.popToTop();
+      return;
+    }
+
     const token = await postLogin(
       user.credentials.email,
       user.credentials.password,
