@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, fonts} from '../../../globalStyles';
+import {colors, fonts, screenWidth} from '../../../globalStyles';
 
 export const Container = styled.ScrollView`
   flex: 1;
@@ -37,40 +37,19 @@ export const BigLadyImage = styled.Image`
 export const FormContainer = styled.View`
   align-items: center;
   justify-content: center;
-`;
-
-export const PersonIcon = styled.Image`
-  width: 20px;
-  height: 20px;
-  margin-left: 15px;
-  margin-right: 14px;
-`;
-export const CellphoneIcon = styled.Image`
-  width: 21px;
-  height: 25px;
-  margin-left: 14px;
-  margin-right: 14px;
-`;
-export const DocumentIcon = styled.Image`
-  width: 29px;
-  height: 20px;
-  padding: 10px;
-  margin: 10px;
-`;
-export const PinIcon = styled.Image`
-  width: 11px;
-  height: 30px;
-  padding: 10px;
-  margin: 10px;
+  flex: 1;
 `;
 
 export const RowContainer = styled.View`
   flex-direction: row;
   gap: 15px;
+  width: ${screenWidth * 0.75}px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const CadastroContainer = styled.View`
-  width: 275px;
+  width: ${screenWidth * 0.7}px;
 `;
 export const CadastroTitle = styled.Text`
   font-size: ${fonts.XXL}px;

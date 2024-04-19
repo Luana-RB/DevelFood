@@ -60,7 +60,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
             <Title style={{fontSize: fontSize}}>{data.nome}</Title>
           </TitleContainer>
           <InfoFooter>
-            <Category>{data.categoria}</Category>
+            <Category>{data.tipoComida?.nome}</Category>
             <RatingContainer>
               <Icon name="star" size={15} color={colors.red} />
               <RatingText>5.0</RatingText>

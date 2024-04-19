@@ -139,7 +139,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
           <RestaurantCard data={item} navigation={navigation} />
         )}
       />
-      {/* <View style={{height: 60, width: '100%'}} /> */}
+      <View style={{height: 60, width: '100%'}} />
     </View>
   );
 };

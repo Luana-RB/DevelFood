@@ -27,7 +27,6 @@ export interface NewUsersData {
   segundoNome: string;
   cpf: string;
   numeroCelular: string;
-  apelido: string;
   cep: string;
   rua: string;
   cidade: string;

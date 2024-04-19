@@ -1,11 +1,7 @@
 import React from 'react';
 import Button from '../../../components/Button';
 import {useCadastro} from '../../../services/context/cadastroContext';
-import {
-  getUserToken,
-  postCadastro,
-  postLogin,
-} from '../../../services/api/users';
+import {postCadastro, postLogin} from '../../../services/api/users';
 import {AuthContext} from '../../../services/context/authContext';
 import {
   BigLadyImage,
@@ -16,48 +12,53 @@ import {
 } from './styles';
 import {NewUsersData, UsersData} from '../../../types/userData';
 import {useToken} from '../../../services/context/tokenContext';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 
-const TelaFinal: React.FC = () => {
+const TelaFinal: React.FC = ({navigation}: any) => {
   const {returnsCadastro} = useCadastro();
   const {storeToken} = useToken();
+  const signIn = React.useContext(AuthContext)?.signIn ?? (() => {});
 
   async function handleSubmit() {
     const user = returnsCadastro();
-    console.log('oui');
-    console.log(parseInt(user.info.cpf));
+    const newUser = formatUser(user);
+
+    const posted = await postCadastro(newUser);
+    if (!posted) {
+      Alert.alert('Erro ao realizar cadastro');
+      navigation.popToTop();
+      return;
+    }
+
+    const token = await postLogin(
+      user.credentials.email,
+      user.credentials.password,
+    );
+
+    if (token) {
+      const isTokenStored = await storeToken(token);
+      signIn(token);
+    }
+  }
+
+  function formatUser(user: UsersData) {
     const newUser: NewUsersData = {
       email: user.credentials.email,
       senha: user.credentials.password,
       primeiroNome: user.info.name,
       segundoNome: user.info.surname,
-      cpf: user.info.cpf,
-      numeroCelular: user.info.cellphone,
-      apelido: user.adress.apelido,
-      cep: user.adress.cep,
+      cpf: user.info.cpf.replace(/\D/g, ''),
+      numeroCelular: user.info.cellphone.replace(/\D/g, ''),
+      cep: user.adress.cep.replace(/\D/g, ''),
       rua: user.adress.rua,
       cidade: user.adress.cidade,
       bairro: user.adress.bairro,
       estado: user.adress.estado,
       numero: parseInt(user.adress.num),
     };
-
-    const posted = await postCadastro(newUser);
-    const signed = await postLogin(user);
-    const isTokenStored = await handleToken(signed);
-    if (isTokenStored) {
-      signIn(user);
-    }
+    return newUser;
   }
 
-  async function handleToken(token: any) {
-    if (token) {
-      const result = await storeToken(token);
-      return result;
-    }
-  }
-
-  const signIn = React.useContext(AuthContext)?.signIn ?? (() => {});
   return (
     <Container>
       <View

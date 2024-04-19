@@ -34,5 +34,6 @@ export const inputStyles = StyleSheet.create({
   InputText: {
     flex: 1,
     fontSize: fonts.S,
+    color: colors.black,
   },
 });
