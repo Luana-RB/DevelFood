@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
@@ -44,7 +44,7 @@ export const LogoImage = styled.Image`
 
 export const LogoText = styled.Text`
   font-family: Mogra-Regular;
-  font-size: 18px;
+  font-size: ${fonts.L}px;
   color: ${colors.red};
 `;
 
@@ -57,7 +57,7 @@ export const ForgotPassText = styled.Text`
   font-family: Roboto-Bold;
   font-weight: bold;
   color: ${colors.brown};
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
 `;
 
 export const Pepper = styled.ImageBackground`
@@ -77,7 +77,7 @@ export const SignInContainer = styled.View`
 export const SignInText = styled.Text`
   color: ${colors.black};
   font-family: Roboto-Bold;
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   font-weight: bold;
 `;
 
@@ -85,6 +85,6 @@ export const SignInButtonText = styled.Text`
   color: ${colors.red};
   font-family: Roboto-Bold;
   font-weight: bold;
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   margin-left: 5px;
 `;

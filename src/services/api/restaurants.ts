@@ -1,4 +1,4 @@
-import {api, headers} from './api';
+import {api, getToken} from './api';
 import {restaurantsMock} from '../../mocks/restaurants';
 
 interface GetProps {
@@ -11,44 +11,51 @@ interface GetFilterProps {
 
 export async function getRestaurants({page}: GetProps) {
   try {
-    // const restaurants = await api.get(`/restaurante/listar?page=${page}`);
-    // return restaurants.data.content;
-    const restaurants = restaurantsMock.slice(page, page + 7);
-    return restaurants;
+    const header = await getToken();
+    const restaurants = await api.get(
+      `/restaurante/listar?page=${page}`,
+      header,
+    );
+    return restaurants.data.content;
+    // const restaurants = restaurantsMock.slice(page, page + 7);
+    // return restaurants;
   } catch (e) {
-    console.log('get', e);
+    console.log('getAllRestaurants:', e);
   }
 }
 export async function getRestaurantsFiltered({page, filter}: GetFilterProps) {
   try {
-    // const restaurants = await api.get(
-    //   `/restaurante/listar?nome=${filter}&page=${page}`,
-    // );
-    // return restaurants.data.content;
-    const restaurants = restaurantsMock;
-    const newData = restaurants?.filter((item: {nome: string}) => {
-      const name = item.nome.toUpperCase();
-      const text = filter.toUpperCase();
-      return name.indexOf(text) > -1;
-    });
-    return newData;
+    const header = await getToken();
+    const restaurants = await api.get(
+      `/restaurante/listar?nome=${filter}&page=${page}`,
+      header,
+    );
+    return restaurants.data.content;
+    // const restaurants = restaurantsMock;
+    // const newData = restaurants?.filter((item: {nome: string}) => {
+    //   const name = item.nome.toUpperCase();
+    //   const text = filter.toUpperCase();
+    //   return name.indexOf(text) > -1;
+    // });
+    // return newData;
   } catch (e) {
-    console.log(e);
+    console.log('getFilteredRestaurants:', e);
   }
 }
 
 export async function getRestaurantById(id: string) {
   try {
-    // const restaurants = await api.get(`/restaurante/listar?id=${id}`);
-    // return restaurants.data.content;
-    const restaurants = restaurantsMock;
-    const newData = restaurants?.filter((item: {id: string}) => {
-      const name = item.id.toUpperCase();
-      const text = id.toUpperCase();
-      return name.indexOf(text) > -1;
-    });
-    return newData[0];
+    const header = await getToken();
+    const restaurants = await api.get(`/restaurante/listar/${id}`, header);
+    return restaurants.data;
+    // const restaurants = restaurantsMock;
+    // const newData = restaurants?.filter((item: {id: string}) => {
+    // const name = item.id.toUpperCase();
+    // const text = id.toUpperCase();
+    // return name.indexOf(text) > -1;
+    // });
+    // return newData[0];
   } catch (e) {
-    console.log(e);
+    console.log('getIdRestaurants:', e);
   }
 }

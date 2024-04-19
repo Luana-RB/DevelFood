@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../../components/Button';
 import {useCadastro} from '../../../services/context/cadastroContext';
-import {getUserToken, postUser} from '../../../services/api/users';
+import {postCadastro, postLogin} from '../../../services/api/users';
 import {AuthContext} from '../../../services/context/authContext';
 import {
   BigLadyImage,
@@ -10,34 +10,55 @@ import {
   CadastroTitle,
   Container,
 } from './styles';
-import {UsersData} from '../../../types/userData';
+import {NewUsersData, UsersData} from '../../../types/userData';
 import {useToken} from '../../../services/context/tokenContext';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 
-const TelaFinal: React.FC = () => {
+const TelaFinal: React.FC = ({navigation}: any) => {
   const {returnsCadastro} = useCadastro();
   const {storeToken} = useToken();
+  const signIn = React.useContext(AuthContext)?.signIn ?? (() => {});
 
   async function handleSubmit() {
     const user = returnsCadastro();
-    const posted = postUser(user);
-    if (posted) {
-      const isTokenStored = await handleToken(user);
-      if (isTokenStored) {
-        signIn(user);
-      }
-    }
-  }
+    const newUser = formatUser(user);
 
-  async function handleToken(user: UsersData) {
-    const token = getUserToken(user.credentials.email);
+    const posted = await postCadastro(newUser);
+    if (!posted) {
+      Alert.alert('Erro ao realizar cadastro');
+      navigation.popToTop();
+      return;
+    }
+
+    const token = await postLogin(
+      user.credentials.email,
+      user.credentials.password,
+    );
+
     if (token) {
-      const result = await storeToken(token);
-      return result;
+      const isTokenStored = await storeToken(token);
+      signIn(token);
     }
   }
 
-  const signIn = React.useContext(AuthContext)?.signIn ?? (() => {});
+  function formatUser(user: UsersData) {
+    const newUser: NewUsersData = {
+      email: user.credentials.email,
+      senha: user.credentials.password,
+      primeiroNome: user.info.name,
+      segundoNome: user.info.surname,
+      cpf: user.info.cpf.replace(/\D/g, ''),
+      numeroCelular: user.info.cellphone.replace(/\D/g, ''),
+      cep: user.adress.cep.replace(/\D/g, ''),
+      rua: user.adress.rua,
+      cidade: user.adress.cidade,
+      bairro: user.adress.bairro,
+      estado: user.adress.estado,
+      numero: parseInt(user.adress.num),
+    };
+    return newUser;
+  }
+
   return (
     <Container>
       <View

@@ -6,7 +6,7 @@ import {
   NoResultImage,
   NoResultText,
 } from '../../../../../components/NoResultComponent';
-const MAX_WAITING_TIME = 8000;
+const MAX_WAITING_TIME = 6000;
 
 export default function ListEmptyComponent() {
   const [show, setShow] = useState(false);

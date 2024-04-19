@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 import {StyleSheet} from 'react-native';
 export const InputContainer = styled.View`
   flex-direction: row;
@@ -19,12 +19,12 @@ export const InputIcon = styled.Image`
 
 export const InputText = styled.TextInput`
   flex: 1;
-  font-size: 14px;
+  font-size: ${fonts.S}px;
   color: ${colors.black};
 `;
 
 export const ErrorText = styled.Text`
-  font-size: 12px;
+  font-size: ${fonts.XS}px;
   color: ${colors.red};
   margin-top: -8px;
   margin-bottom: 2px;
@@ -33,6 +33,7 @@ export const ErrorText = styled.Text`
 export const inputStyles = StyleSheet.create({
   InputText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: fonts.S,
+    color: colors.black,
   },
 });

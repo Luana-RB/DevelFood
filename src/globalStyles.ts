@@ -9,4 +9,16 @@ export const colors = {
   brown: '#68484a',
   gray: '#bfbaba',
   lightGray: '#F0F0F5',
+  lowOpacity: 'rgba(43, 43, 46, 0.5)',
+  yellow: '#eccc50',
+};
+
+export const fonts = {
+  XXL: screenHeight * 0.032,
+  XL: screenHeight * 0.025,
+  L: screenHeight * 0.022,
+  M: screenHeight * 0.02,
+  S: screenHeight * 0.018,
+  XS: screenHeight * 0.017,
+  XXS: screenHeight * 0.015,
 };

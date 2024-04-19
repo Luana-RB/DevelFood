@@ -4,7 +4,6 @@ import Botao from '../../components/Button';
 import {useToken} from '../../services/context/tokenContext';
 import {AuthContext} from '../../services/context/authContext';
 import {colors} from '../../globalStyles';
-import {UsersData} from '../../types/userData';
 import {Errors} from '../../types/errors';
 import {
   BackGroundImagesContainer,
@@ -21,17 +20,9 @@ import {
   SignInContainer,
   SignInText,
 } from './styles';
-import {
-  findUserIdByEmail,
-  getUserById,
-  getUserToken,
-} from '../../services/api/users';
-import {
-  ErrorText,
-  InputContainer,
-  InputIcon,
-  InputText,
-} from '../../components/Input';
+import {postLogin} from '../../services/api/users';
+import {ErrorText, InputContainer, InputText} from '../../components/Input';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Login: React.FC = ({navigation}: any) => {
   const [olhoIcone, setOlhoIcone] = useState(true);
@@ -40,6 +31,7 @@ const Login: React.FC = ({navigation}: any) => {
   const [errors, setErrors] = useState<Errors>({});
 
   const {storeToken} = useToken();
+  const signIn = React.useContext(AuthContext)?.signIn ?? (() => {});
 
   function handleSecurePassword() {
     setOlhoIcone(!olhoIcone);
@@ -47,60 +39,18 @@ const Login: React.FC = ({navigation}: any) => {
 
   function validateForm() {
     let errors: Errors = {};
-
-    const user = getUser();
-    if (user) {
-      const passwordError = validatePassword(user);
-      if (passwordError) {
-        errors.password = passwordError;
-      }
-    } else {
-      errors.email = 'E-mail inválido';
-    }
-    return errors;
-  }
-
-  function getUser() {
-    const userId = findUserIdByEmail(email);
-    if (userId) {
-      const user = getUserById(userId);
-      return user;
-    }
-  }
-
-  function validatePassword(user: UsersData) {
-    if (user!.credentials.password === password) {
-      return undefined;
-    }
-    return 'Senha inválida';
+    if (!email && !password) errors.email = 'Insira email e senha';
+    else errors.email = 'E-mail ou senha inválidos';
+    setErrors(errors);
   }
 
   async function handleSubmit() {
-    const newErrors = validateForm();
-    setErrors(newErrors);
-    console.log(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      const isTokenStored = await handleToken();
-      console.log(isTokenStored);
-      if (isTokenStored) {
-        const user = getUser();
-        if (user) {
-          signIn(user);
-        }
-      }
-    }
-  }
-
-  async function handleToken() {
-    const token = getUserToken(email);
+    const token = await postLogin(email, password);
     if (token) {
-      const result = await storeToken(token);
-      return result;
-    }
+      const isTokenStored = await storeToken(token);
+      signIn(token);
+    } else validateForm();
   }
-
-  const signIn = React.useContext(AuthContext)?.signIn ?? (() => {});
 
   return (
     <Container>
@@ -115,7 +65,12 @@ const Login: React.FC = ({navigation}: any) => {
       </LogoContainer>
       <View style={{alignItems: 'center'}}>
         <InputContainer>
-          <InputIcon source={require('../../../assets/images/email.png')} />
+          <Icon
+            name="email-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
           <InputText
             placeholderTextColor={colors.gray}
             placeholder="Email"
@@ -123,9 +78,13 @@ const Login: React.FC = ({navigation}: any) => {
             onChangeText={setEmail}
           />
         </InputContainer>
-        {errors.email && <ErrorText>{errors.email}</ErrorText>}
         <InputContainer>
-          <InputIcon source={require('../../../assets/images/password.png')} />
+          <Icon
+            name="lock-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
           <InputText
             placeholderTextColor={colors.gray}
             placeholder="Senha"
@@ -135,15 +94,23 @@ const Login: React.FC = ({navigation}: any) => {
           />
           <TouchableOpacity onPress={handleSecurePassword}>
             {olhoIcone ? (
-              <InputIcon
-                source={require('../../../assets/images/eye-slashed.png')}
+              <Icon
+                name="eye-off-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 10}}
               />
             ) : (
-              <InputIcon source={require('../../../assets/images/eye.png')} />
+              <Icon
+                name="eye-outline"
+                size={25}
+                color={colors.gray}
+                style={{marginHorizontal: 10}}
+              />
             )}
           </TouchableOpacity>
         </InputContainer>
-        {errors.password && <ErrorText>{errors.password}</ErrorText>}
+        {errors.email && <ErrorText>{errors.email}</ErrorText>}
         <ForgotPassContainer
           onPress={() => {
             navigation.navigate('Recuperar Senha');

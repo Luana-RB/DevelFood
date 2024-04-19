@@ -31,6 +31,7 @@ import {
 import {useCart} from '../../services/context/cartContext';
 import {getRestaurantById} from '../../services/api/restaurants';
 import {RestaurantProfileScreenProps} from '../../types/routeTypes';
+import ModalAvaliacao from '../../components/ModalAvaliacao';
 
 const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   route,
@@ -48,11 +49,11 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   );
   const {numOfItems} = useCart();
   const {restaurantId} = route.params;
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
 
   useEffect(() => {
     async function getData() {
       const newData = await getRestaurantById(restaurantId);
-      console.log(newData);
       if (newData) setData(newData);
       else {
         Alert.alert('Falha ao encontrar restaurante');
@@ -99,6 +100,13 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
     setIsFiltered(true);
   }
 
+  if (!data)
+    return (
+      <View style={{flex: 1, backgroundColor: colors.white}}>
+        <ActivityIndicator size={60} color={colors.red} style={{margin: 50}} />
+      </View>
+    );
+
   return (
     <Container>
       <FocusAwareStatusBar
@@ -107,7 +115,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       />
       <HeaderContainer>
         <HeaderTextContainer>
-          <HeaderTitle>{data?.nome}</HeaderTitle>
+          <HeaderTitle>{data?.name}</HeaderTitle>
           <HeaderCategory>{data?.categoria}</HeaderCategory>
         </HeaderTextContainer>
         <HeaderLogo source={imagePath} />
@@ -116,7 +124,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       <BodyContainer>
         <PlatesTitle>Pratos</PlatesTitle>
         <SearchBar
-          title={`Buscar em ${data?.nome}`}
+          title={`Buscar em ${data?.name}`}
           onChangeText={handleSearch}
         />
 
@@ -158,6 +166,13 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
           }}>
           <CartBar margin={20} />
         </View>
+      )}
+      {isModalVisible && data && (
+        <ModalAvaliacao
+          setIsModalVisible={setIsModalVisible}
+          restaurant={data}
+          isModalVisible={isModalVisible}
+        />
       )}
     </Container>
   );

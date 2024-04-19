@@ -1,27 +1,20 @@
 import React, {useState} from 'react';
 import {StatusBar} from 'react-native';
-import {
-  ErrorText,
-  InputContainer,
-  InputText,
-  inputStyles,
-} from '../../../components/Input';
+import {ErrorText, InputContainer, InputText} from '../../../components/Input';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
 import {useCadastro} from '../../../services/context/cadastroContext';
 import {
-  CellphoneIcon,
   CheckContainer,
   CheckImage,
   Container,
-  DocumentIcon,
   FormContainer,
   LadyImage,
-  PersonIcon,
 } from './styles';
-
 import {MaskedTextInput} from 'react-native-mask-text';
 import {Errors} from '../../../types/errors';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {checkCpf, checkPhone} from '../../../services/api/users';
 
 const Tela2: React.FC = ({navigation}: any) => {
   const [nome, setNome] = useState('');
@@ -31,63 +24,49 @@ const Tela2: React.FC = ({navigation}: any) => {
   const [errors, setErrors] = useState<Errors>({});
   const {storeInfo} = useCadastro();
 
-  function validateForm() {
+  async function validateForm() {
     let errors: Errors = {};
     const nomeError = validateNome();
     const sobrenomeError = validateSobrenome();
-    const cpfError = validateCpf();
-    const telefoneError = validateTelefone();
+    const cpfError = await validateCpf();
+    const telefoneError = await validateTelefone();
 
-    if (nomeError) {
-      errors.name = nomeError;
-    }
-
-    if (sobrenomeError) {
-      errors.surname = sobrenomeError;
-    }
-
-    if (cpfError) {
-      errors.cpf = cpfError;
-    }
-
-    if (telefoneError) {
-      errors.cellphone = telefoneError;
-    }
+    if (nomeError) errors.name = nomeError;
+    if (sobrenomeError) errors.surname = sobrenomeError;
+    if (cpfError) errors.cpf = cpfError;
+    if (telefoneError) errors.cellphone = telefoneError;
 
     return errors;
   }
 
   function validateNome() {
-    if (!nome) {
-      return 'Insira um nome';
-    }
+    if (!nome) return 'Insira um nome';
   }
+
   function validateSobrenome() {
-    if (!sobrenome) {
-      return 'Insira um sobrenome';
-    }
+    if (!sobrenome) return 'Insira um sobrenome';
   }
-  function validateCpf() {
-    if (/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
-      return undefined;
-    }
-    return 'CPF inválido';
+
+  async function validateCpf() {
+    if (!/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) return 'CPF inválido';
+    const isRegistered = await checkCpf(cpf);
+    if (!isRegistered) return 'CPF já cadastrado';
+    return undefined;
   }
-  function validateTelefone() {
-    if (/\+\d{2} \d{5}-\d{4}/.test(telefone)) {
-      return undefined;
-    }
-    return 'Telefone inválido';
+
+  async function validateTelefone() {
+    if (!/\+\d{2} \d{5}-\d{4}/.test(telefone)) return 'Telefone inválido';
+    const isRegistered = await checkPhone(telefone);
+    if (!isRegistered) return 'Telefone já cadastrado';
+    return undefined;
   }
 
   async function handleSubmit() {
-    const newErrors = validateForm();
+    const newErrors = await validateForm();
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       const info = await handleInfo();
-      if (info) {
-        navigation.navigate('Endereço');
-      }
+      if (info) navigation.navigate('Endereço');
     }
   }
 
@@ -107,24 +86,46 @@ const Tela2: React.FC = ({navigation}: any) => {
       <LadyImage source={require('./assets/cadastro2.png')} />
       <FormContainer>
         <InputContainer>
-          <PersonIcon source={require('./assets/person.png')} />
-          <InputText placeholder="Nome" value={nome} onChangeText={setNome} />
+          <Icon
+            name="account-circle-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
+          <InputText
+            placeholderTextColor={colors.gray}
+            placeholder="Nome"
+            value={nome}
+            onChangeText={setNome}
+          />
         </InputContainer>
         {errors.name && <ErrorText>{errors.name}</ErrorText>}
         <InputContainer>
-          <PersonIcon source={require('./assets/person.png')} />
+          <Icon
+            name="account-circle-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
           <InputText
             placeholder="Sobrenome"
+            placeholderTextColor={colors.gray}
             value={sobrenome}
             onChangeText={setSobrenome}
           />
         </InputContainer>
         {errors.surname && <ErrorText>{errors.surname}</ErrorText>}
         <InputContainer>
-          <DocumentIcon source={require('./assets/document.png')} />
+          <Icon
+            name="card-account-details-outline"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
           <MaskedTextInput
-            style={inputStyles.InputText}
+            style={{color: colors.black}}
             placeholder="CPF"
+            placeholderTextColor={colors.gray}
             value={cpf}
             onChangeText={formatted => {
               setCpf(formatted as string);
@@ -135,10 +136,16 @@ const Tela2: React.FC = ({navigation}: any) => {
         </InputContainer>
         {errors.cpf && <ErrorText>{errors.cpf}</ErrorText>}
         <InputContainer>
-          <CellphoneIcon source={require('./assets/cellphone.png')} />
+          <Icon
+            name="cellphone"
+            size={25}
+            color={colors.gray}
+            style={{marginHorizontal: 8}}
+          />
           <MaskedTextInput
-            style={inputStyles.InputText}
+            style={{color: colors.black}}
             placeholder="Telefone"
+            placeholderTextColor={colors.gray}
             value={telefone}
             onChangeText={formatted => {
               setTelefone(formatted as string);
