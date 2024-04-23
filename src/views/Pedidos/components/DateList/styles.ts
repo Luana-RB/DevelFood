@@ -1,5 +1,10 @@
 import styled from 'styled-components/native';
-import {colors, fonts, screenWidth} from '../../../../globalStyles';
+import {
+  colors,
+  fonts,
+  screenHeight,
+  screenWidth,
+} from '../../../../globalStyles';
 
 export const Container = styled.View`
   width: ${screenWidth}px;
@@ -7,7 +12,8 @@ export const Container = styled.View`
 `;
 
 export const DateTitle = styled.Text`
-  margin-left: 16px;
+  margin-left: ${screenWidth * 0.04}px;
+  margin-bottom: -${screenHeight * 0.015}px;
   flex: 1;
   font-size: ${fonts.XS}px;
   color: ${colors.gray};
