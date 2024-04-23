@@ -32,8 +32,8 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
     if (!!data.fotos) setImagePath({uri: data.fotos});
     else setImagePath(require('../../../../../../assets/images/notFound.png'));
 
-    if (data?.name.length >= 19) setFontSize(screenHeight * 0.016);
-    else if (data?.name.length >= 15) setFontSize(screenHeight * 0.018);
+    if (data?.nome.length >= 19) setFontSize(screenHeight * 0.016);
+    else if (data?.nome.length >= 15) setFontSize(screenHeight * 0.018);
   }, []);
 
   useFocusEffect(
@@ -57,10 +57,10 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
         {imagePath && <BackGroundImage source={imagePath} resizeMode="cover" />}
         <InfoContainer>
           <TitleContainer>
-            <Title style={{fontSize: fontSize}}>{data.name}</Title>
+            <Title style={{fontSize: fontSize}}>{data.nome}</Title>
           </TitleContainer>
           <InfoFooter>
-            <Category>{data.foodTypeName}</Category>
+            <Category>{data.tipoComida?.nome}</Category>
             <RatingContainer>
               <Icon name="star" size={15} color={colors.red} />
               <RatingText>5.0</RatingText>

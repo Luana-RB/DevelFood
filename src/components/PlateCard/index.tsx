@@ -22,7 +22,7 @@ import {
   QuantityButton,
   QuantityContainer,
   QuantityText,
-} from '../AddButton';
+} from '../AddButton/styles';
 import {colors} from '../../globalStyles';
 import {compareFavorites} from '../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
