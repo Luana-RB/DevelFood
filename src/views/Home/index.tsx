@@ -7,13 +7,27 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantList from './components/RestaurantList';
 import {useCart} from '../../services/context/cartContext';
 import CartBar from '../../components/CartBar';
+import {getUserData} from '../../services/api/users';
+import {useUser} from '../../services/context/userContext';
 
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
 
-  const {token} = useToken();
+  const {userData, storeData} = useUser();
   const [cart, setCart] = useState(false);
   const {numOfItems} = useCart();
+
+  useEffect(() => {
+    async function getUser() {
+      if (!userData) {
+        console.log('home userData: ', userData);
+        const fetchedUserData = await getUserData();
+        console.log('fetchedUserData: ', fetchedUserData);
+        storeData(fetchedUserData);
+      }
+    }
+    getUser();
+  }, []);
 
   useEffect(() => {
     if (numOfItems > 0) setCart(true);

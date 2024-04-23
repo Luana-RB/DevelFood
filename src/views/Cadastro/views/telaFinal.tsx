@@ -49,12 +49,12 @@ const TelaFinal: React.FC = ({navigation}: any) => {
       segundoNome: user.info.surname,
       cpf: user.info.cpf.replace(/\D/g, ''),
       numeroCelular: user.info.cellphone.replace(/\D/g, ''),
-      cep: user.adress.cep.replace(/\D/g, ''),
-      rua: user.adress.rua,
-      cidade: user.adress.cidade,
-      bairro: user.adress.bairro,
-      estado: user.adress.estado,
-      numero: parseInt(user.adress.num),
+      cep: user.address.cep.replace(/\D/g, ''),
+      rua: user.address.rua,
+      cidade: user.address.cidade,
+      bairro: user.address.bairro,
+      estado: user.address.estado,
+      numero: parseInt(user.address.num),
     };
     return newUser;
   }

@@ -26,7 +26,7 @@ export const ForgotPasswordProvider = ({children}: any) => {
   const [user, setUser] = useState<UsersData>({
     credentials: {id: '', email: '', password: ''},
     info: {name: '', surname: '', cpf: '', cellphone: ''},
-    adress: {
+    address: {
       apelido: '',
       cep: '',
       rua: '',
@@ -50,7 +50,7 @@ export const ForgotPasswordProvider = ({children}: any) => {
     setUser({
       credentials: {id: '', email: '', password: ''},
       info: {name: '', surname: '', cpf: '', cellphone: ''},
-      adress: {
+      address: {
         apelido: '',
         cep: '',
         rua: '',

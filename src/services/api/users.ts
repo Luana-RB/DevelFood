@@ -1,6 +1,6 @@
 import {users} from '../../mocks/users';
 import {NewUsersData, UsersData} from '../../types/userData';
-import {api} from './api';
+import {api, getToken} from './api';
 
 export async function postCadastro(user: NewUsersData) {
   try {
@@ -94,4 +94,11 @@ export function sendNumberCode() {
   } catch (e) {
     console.log(e);
   }
+}
+
+export async function getUserData() {
+  // const header = await getToken();
+  // const user = await api.get(`/cliente`, header);
+  // return user.data;
+  return users[0];
 }

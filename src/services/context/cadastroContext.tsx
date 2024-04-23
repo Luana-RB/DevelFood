@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
-import {UserAdress, UserCredentials, UserInfo} from '../../types/userData';
+import {UserAddress, UserCredentials, UserInfo} from '../../types/userData';
 
 type CadastroContextType = {
   storeCredentials: (newEmail: string, newSenha: string) => Promise<unknown>;
@@ -21,7 +21,7 @@ type CadastroContextType = {
   returnsCadastro: () => {
     credentials: UserCredentials;
     info: UserInfo;
-    adress: UserAdress;
+    adress: UserAddress;
   };
 };
 
@@ -50,7 +50,7 @@ export const CadastroProvider = ({children}: any) => {
     cpf: '',
     cellphone: '',
   });
-  const [adress, setAdress] = useState<UserAdress>({
+  const [adress, setAdress] = useState<UserAddress>({
     apelido: '',
     cep: '',
     rua: '',

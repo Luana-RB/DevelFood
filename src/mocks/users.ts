@@ -13,7 +13,7 @@ export const users: UsersData[] = [
       cpf: '123.456.789-00',
       cellphone: '+1234567890',
     },
-    adress: {
+    address: {
       apelido: 'Home',
       cep: '12345-678',
       rua: 'Main Street',
@@ -44,7 +44,7 @@ export const users: UsersData[] = [
       cpf: '987.654.321-00',
       cellphone: '+0987654321',
     },
-    adress: {
+    address: {
       apelido: 'Work',
       cep: '54321-098',
       rua: 'Broadway',

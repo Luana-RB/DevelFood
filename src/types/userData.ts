@@ -16,7 +16,7 @@ import {RestaurantPlate} from './restaurantData';
 export interface UsersData {
   credentials: UserCredentials;
   info: UserInfo;
-  adress: UserAdress;
+  address: UserAddress;
   favorites?: RestaurantPlate[];
 }
 
@@ -47,7 +47,7 @@ export interface UserInfo {
   cellphone: string;
 }
 
-export interface UserAdress {
+export interface UserAddress {
   apelido: string;
   cep: string;
   rua: string;
