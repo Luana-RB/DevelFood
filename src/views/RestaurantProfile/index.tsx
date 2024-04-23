@@ -164,7 +164,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
             alignItems: 'center',
             justifyContent: 'flex-start',
           }}>
-          <CartBar margin={20} />
+          <CartBar margin={20} navigation={navigation}/>
         </View>
       )}
       {isModalVisible && data && (

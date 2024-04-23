@@ -43,7 +43,7 @@ const Home: React.FC = ({navigation}: any) => {
       <RestaurantList navigation={navigation} />
       {cart && (
         <View style={styles.cartContainer}>
-          <CartBar margin={-40} />
+          <CartBar margin={-40} navigation={navigation} />
         </View>
       )}
     </SafeAreaView>

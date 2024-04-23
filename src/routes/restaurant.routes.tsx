@@ -5,7 +5,10 @@ import React from 'react';
 import PlateDetail from '../views/PlateDetail';
 import {CustomHeartButton} from '../components/CustomHeartButton';
 import {CartProvider} from '../services/context/cartContext';
-import { RootStackParamList } from '../types/routeTypes';
+import {RootStackParamList} from '../types/routeTypes';
+import CartPage from '../views/CartPage';
+import {colors} from '../globalStyles';
+import {CustomCloseButton} from '../components/CustomCloseButton';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -32,6 +35,16 @@ export function RestaurantStack() {
           options={({route}) => ({
             title: '',
             headerRight: () => <CustomHeartButton route={route} />,
+          })}
+        />
+        <Stack.Screen
+          name="CartPage"
+          component={CartPage}
+          options={({route}) => ({
+            title: 'Compras',
+            headerStyle: {backgroundColor: colors.red},
+            headerTitleStyle: {color: colors.white},
+            headerLeft: () => <CustomCloseButton route={route} />,
           })}
         />
       </Stack.Navigator>
