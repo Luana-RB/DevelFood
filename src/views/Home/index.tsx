@@ -20,9 +20,7 @@ const Home: React.FC = ({navigation}: any) => {
   useEffect(() => {
     async function getUser() {
       if (!userData) {
-        console.log('home userData: ', userData);
         const fetchedUserData = await getUserData();
-        console.log('fetchedUserData: ', fetchedUserData);
         storeData(fetchedUserData);
       }
     }

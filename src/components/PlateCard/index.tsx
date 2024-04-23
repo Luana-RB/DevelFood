@@ -23,16 +23,17 @@ import {
   QuantityContainer,
   QuantityText,
 } from '../AddButton/styles';
-import {colors} from '../../globalStyles';
+import {colors, screenWidth} from '../../globalStyles';
 import {compareFavorites} from '../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
 
 interface PlateCardProps {
   data: RestaurantPlate;
+  small?: boolean;
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data}) => {
+const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
@@ -40,9 +41,12 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
   );
   const [thisPrice, setThisPrice] = useState('0,00');
   const [heart, setHeart] = useState('heart-outline');
+  const [size, setSize] = useState(screenWidth * 0.9);
   const {addItem, removeItem, removeQuantity, getQuantity, price} = useCart();
 
   useEffect(() => {
+    if (small) setSize(screenWidth * 0.8);
+
     if (!!data.foto) setImagePath({uri: data.foto});
     else setImagePath(require('../../../assets/images/notFound.png'));
 
@@ -86,7 +90,7 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
   }
 
   return (
-    <Container>
+    <Container style={{width: size}}>
       <PlateImage source={imagePath} />
       <Icon
         name={heart}
