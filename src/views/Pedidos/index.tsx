@@ -6,7 +6,7 @@ import {Container, Title} from './styles';
 import DateList from './components/DateList';
 import {OrderData, OrderDateData} from '../../types/orderData';
 import {getOrders} from '../../services/api/orders';
-import ListEmptyComponent from '../../components/ListEmptyComponent';
+import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const Pedidos: React.FC = () => {
   const [dataSorted, setDataSorted] = useState<OrderDateData[]>([]);
@@ -53,7 +53,12 @@ const Pedidos: React.FC = () => {
           keyExtractor={item => item.id}
           renderItem={({item}) => <DateList data={item} />}
           ListFooterComponent={<View style={{height: 400}} />}
-          ListEmptyComponent={<ListEmptyComponent />}
+          ListEmptyComponent={
+            <ListEmptyComponent
+              text="Você ainda não fez nenhum pedido"
+              imagePath="pedidos"
+            />
+          }
         />
       </Container>
     </SafeAreaView>

@@ -1,11 +1,28 @@
-import React, {useState} from 'react';
-import {ActivityIndicator} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, ImageSourcePropType} from 'react-native';
 import {colors} from '../../globalStyles';
 import {NoResultContainer, NoResultImage, NoResultText} from './styles';
 const MAX_WAITING_TIME = 6000;
 
-export default function ListEmptyComponent() {
+interface ListEmptyProps {
+  text: string;
+  imagePath: string;
+}
+
+export const ListEmptyComponent: React.FC<ListEmptyProps> = ({
+  text,
+  imagePath,
+}) => {
   const [show, setShow] = useState(false);
+  const [path, setPath] = useState<ImageSourcePropType>();
+
+  useEffect(() => {
+    if (imagePath === 'restaurant')
+      setPath(require('../../../assets/images/notFoundRestaurant.png'));
+    else if (imagePath === 'pedidos')
+      setPath(require('../../../assets/images/notFoundPedidos.png'));
+    else setPath(require('../../../assets/images/notFoundRestaurant.png'));
+  }, []);
 
   setTimeout(function () {
     setShow(true);
@@ -16,11 +33,9 @@ export default function ListEmptyComponent() {
   if (show) {
     return (
       <NoResultContainer>
-        <NoResultImage
-          source={require('../../../assets/images/notFoundRestaurant.png')}
-        />
-        <NoResultText>Nenhum restaurante encontrado</NoResultText>
+        <NoResultImage source={path} />
+        <NoResultText>{text}</NoResultText>
       </NoResultContainer>
     );
   } else return null;
-}
+};

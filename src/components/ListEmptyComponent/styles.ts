@@ -11,7 +11,7 @@ export const NoResultContainer = styled.KeyboardAvoidingView`
 
 export const NoResultImage = styled.Image`
   width: ${screenWidth * 0.9}px;
-  height: ${screenHeight * 0.25}px;
+  height: ${screenHeight * 0.3}px;
 `;
 
 export const NoResultText = styled.Text`
