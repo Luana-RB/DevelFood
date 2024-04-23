@@ -39,7 +39,7 @@ const CartBar: React.FC<CartBarProps> = ({margin, navigation}) => {
           <QuantityText>{shownNum}</QuantityText>
         </QuantityContainer>
       </CartContainer>
-      <TouchableOpacity onPress={navigation.navigate('CartPage')}>
+      <TouchableOpacity onPress={() => navigation.navigate('CartPage')}>
         <Title>Ver Carrinho</Title>
       </TouchableOpacity>
       <Price>R$ {shownPrice}</Price>

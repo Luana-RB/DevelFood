@@ -5,11 +5,11 @@ import {colors} from '../../globalStyles';
 
 export function CustomCloseButton({navigation}: any) {
   return (
-    <TouchableOpacity onPress={navigation.pop()}>
+    <TouchableOpacity onPress={() => navigation.pop()}>
       <Icon
         name="close"
         color={colors.white}
-        size={35}
+        size={30}
         style={{marginHorizontal: 20}}
       />
     </TouchableOpacity>

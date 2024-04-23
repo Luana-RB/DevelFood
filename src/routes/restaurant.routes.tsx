@@ -40,11 +40,12 @@ export function RestaurantStack() {
         <Stack.Screen
           name="CartPage"
           component={CartPage}
-          options={({route}) => ({
+          options={({navigation}) => ({
             title: 'Compras',
             headerStyle: {backgroundColor: colors.red},
             headerTitleStyle: {color: colors.white},
-            headerLeft: () => <CustomCloseButton route={route} />,
+            headerTitleAlign: 'center',
+            headerLeft: () => <CustomCloseButton navigation={navigation} />,
           })}
         />
       </Stack.Navigator>
