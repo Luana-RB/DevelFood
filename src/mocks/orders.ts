@@ -6,6 +6,7 @@ export const orders: OrderData[] = [
     fullPrice: 100,
     date: 'Segunda-Feira',
     status: 'Pedido Finalizado',
+    restaurantId: '1',
     plates: [
       {
         id: '101',
@@ -68,6 +69,7 @@ export const orders: OrderData[] = [
     id: '2',
     fullPrice: 100,
     date: 'Segunda-Feira',
+    restaurantId: '1',
     status: 'Pedido Finalizado',
     plates: [
       {
@@ -94,6 +96,7 @@ export const orders: OrderData[] = [
     id: '3',
     fullPrice: 100,
     date: 'Terça-Feira',
+    restaurantId: '2',
     status: 'Pedido Finalizado',
     plates: [
       {

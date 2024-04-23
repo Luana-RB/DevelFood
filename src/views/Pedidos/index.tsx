@@ -14,12 +14,12 @@ const Pedidos: React.FC = () => {
   useEffect(() => {
     async function inicializeData() {
       const orders = await getOrders();
-      if (orders) sortData(orders);
+      if (orders) sortOrdersByDate(orders);
     }
     inicializeData();
   }, []);
 
-  function sortData(orders: OrderData[]) {
+  function sortOrdersByDate(orders: OrderData[]) {
     orders.forEach(order => {
       const index = findDate(order);
       if (index == -1) {
@@ -29,15 +29,14 @@ const Pedidos: React.FC = () => {
           orderItems: [order],
         };
         dataSorted.push(newDate);
-      } else {
+      } else
         dataSorted[index].orderItems = [...dataSorted[index].orderItems, order];
-      }
     });
   }
 
   function findDate(order: OrderData) {
-    const thisDate = dataSorted.findIndex(date => date.date == order.date);
-    return thisDate;
+    const thisDateIndex = dataSorted.findIndex(date => date.date == order.date);
+    return thisDateIndex;
   }
 
   return (

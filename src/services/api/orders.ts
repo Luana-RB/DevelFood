@@ -2,8 +2,8 @@ import {orders} from '../../mocks/orders';
 
 export async function getOrders() {
   try {
-    const thisOrders = orders;
-    return thisOrders;
+    const userOrders = orders;
+    return userOrders;
   } catch (e) {
     console.log(e);
   }

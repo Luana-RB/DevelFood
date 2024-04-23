@@ -7,6 +7,7 @@ export interface OrderDateData {
 }
 
 export interface OrderData {
+  restaurantId: string;
   date: string;
   plates: RestaurantPlate[];
   id: string;

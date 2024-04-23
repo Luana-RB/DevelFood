@@ -28,19 +28,22 @@ const OrderCard: React.FC<OrderCardProps> = ({data}) => {
 
   useEffect(() => {
     async function callData() {
-      const restaurantData = await getRestaurantById(
-        data.plates[0].restaurantId,
-      );
-
+      const restaurantData = await getRestaurantById(data.restaurantId);
       if (restaurantData) {
-        if (!!restaurantData.fotos) setImagePath({uri: restaurantData.fotos});
-        else setImagePath(require('../../../../../assets/images/notFound.png'));
         setName(restaurantData.nome);
+        if (restaurantData.fotos) setImagePath({uri: restaurantData.fotos});
+        else setImagePath(require('../../../../../assets/images/notFound.png'));
       }
     }
     callData();
 
+    const formatedPlateNames = formatPlateNames();
+    setPlateNames(formatedPlateNames);
+  }, []);
+
+  function formatPlateNames() {
     let newPlateNames: string = '';
+
     data.plates.forEach((plate, index) => {
       if (!newPlateNames) newPlateNames = plate.nome;
       else {
@@ -51,8 +54,9 @@ const OrderCard: React.FC<OrderCardProps> = ({data}) => {
           newPlateNames = newPlateNames + '...';
       }
     });
-    setPlateNames(newPlateNames);
-  }, []);
+
+    return newPlateNames;
+  }
 
   return (
     <Container>
