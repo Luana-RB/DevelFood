@@ -3,7 +3,7 @@ import {RestaurantsData} from '../types/restaurantData';
 export const restaurantsMock: RestaurantsData[] = [
   {
     id: '1',
-    name: 'Pizza Palace',
+    nome: 'Pizza Palace',
     cnpj: '12345678901234',
     telefone: '123-456-7890',
     categoria: 'Pizza',
@@ -40,7 +40,7 @@ export const restaurantsMock: RestaurantsData[] = [
   },
   {
     id: '2',
-    name: 'Burger Bistro',
+    nome: 'Burger Bistro',
     cnpj: '23456789012345',
     telefone: '234-567-8901',
     categoria: 'Fast Food',
@@ -60,7 +60,7 @@ export const restaurantsMock: RestaurantsData[] = [
   },
   {
     id: '3',
-    name: 'Sushi Station',
+    nome: 'Sushi Station',
     cnpj: '34567890123456',
     telefone: '345-678-9012',
     categoria: 'Sushi',
@@ -69,7 +69,7 @@ export const restaurantsMock: RestaurantsData[] = [
   },
   {
     id: '4',
-    name: 'Pasta Place',
+    nome: 'Pasta Place',
     cnpj: '45678901234567',
     telefone: '456-789-0123',
     categoria: 'Almoço',
@@ -83,7 +83,7 @@ export const restaurantsMock: RestaurantsData[] = [
   },
   {
     id: '6',
-    name: 'Smoothies Shop',
+    nome: 'Smoothies Shop',
     cnpj: '67890123456789',
     telefone: '678-901-2345',
     categoria: 'Sobremesa',
@@ -95,7 +95,7 @@ export const restaurantsMock: RestaurantsData[] = [
   },
   {
     id: '7',
-    name: 'Coffee Corner',
+    nome: 'Coffee Corner',
     cnpj: '78901234567890',
     telefone: '789-012-3456',
     pratos: [
@@ -106,7 +106,7 @@ export const restaurantsMock: RestaurantsData[] = [
   },
   {
     id: '8',
-    name: 'Doughnuts Den',
+    nome: 'Doughnuts Den',
     cnpj: '89012345678901',
     telefone: '890-123-4567',
     categoria: 'Sobremesa',
@@ -123,7 +123,7 @@ export const restaurantsMock: RestaurantsData[] = [
   },
   {
     id: '9',
-    name: 'Pizza Palace',
+    nome: 'Pizza Palace',
     cnpj: '12345678901234',
     telefone: '123-456-7890',
     categoria: 'Pizza',
@@ -137,7 +137,7 @@ export const restaurantsMock: RestaurantsData[] = [
   },
   {
     id: '10',
-    name: 'Burger BisEnd',
+    nome: 'Burger BisEnd',
     cnpj: '23456789012345',
     telefone: '234-567-8901',
     categoria: 'Fast Food',

@@ -152,7 +152,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
             </TouchableOpacity>
           )}
           ListFooterComponent={<View style={{height: 70}} />}
-          style={{flex: 5}}
+          style={{flex: 5, backgroundColor: 'blue'}}
         />
         {loading && <ActivityIndicator size={50} color={colors.red} />}
       </BodyContainer>
