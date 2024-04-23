@@ -25,19 +25,25 @@ import {
   RestaurantTitle,
   Subtitle,
 } from './styles';
-import {users} from '../../mocks/users';
 import {useCart} from '../../services/context/cartContext';
 import {useUser} from '../../services/context/userContext';
 import {getRestaurantById} from '../../services/api/restaurants';
 
 const CartPage: React.FC = () => {
-  const {items} = useCart();
+  const {items, price} = useCart();
   const {userData} = useUser();
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
+  const [shownPrice, setShownPrice] = useState('0.00');
+
+  useEffect(() => {
+    const centsFormat = price.toFixed(2);
+    const commaFormat = centsFormat.replace(/\./g, ',');
+    setShownPrice(commaFormat);
+  }, [price]);
 
   useEffect(() => {
     async function callData() {
@@ -87,7 +93,7 @@ const CartPage: React.FC = () => {
             data={items}
             keyExtractor={item => item.id}
             renderItem={({item}) => <PlateCard data={item} small={true} />}
-            ListFooterComponent={<View style={{height: 40}} />}
+            ListFooterComponent={<View style={{height: 200}} />}
           />
         </ItemContainer>
         <EndOrderBarContainer>
@@ -96,7 +102,7 @@ const CartPage: React.FC = () => {
             <TouchableOpacity>
               <EndOrderText>Finalizar pedido</EndOrderText>
             </TouchableOpacity>
-            <Price></Price>
+            <Price>R$ {shownPrice}</Price>
           </EndOrderBar>
         </EndOrderBarContainer>
       </Container>
