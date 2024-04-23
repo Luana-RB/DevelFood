@@ -27,7 +27,7 @@ import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
-} from '../../components/NoResultComponent';
+} from '../../components/ListEmptyComponent/styles';
 import {useCart} from '../../services/context/cartContext';
 import {getRestaurantById} from '../../services/api/restaurants';
 import {RestaurantProfileScreenProps} from '../../types/routeTypes';

@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import {ActivityIndicator} from 'react-native';
-import {colors} from '../../../../../globalStyles';
-import {
-  NoResultContainer,
-  NoResultImage,
-  NoResultText,
-} from '../../../../../components/NoResultComponent';
+import {colors} from '../../globalStyles';
+import {NoResultContainer, NoResultImage, NoResultText} from './styles';
 const MAX_WAITING_TIME = 6000;
 
 export default function ListEmptyComponent() {
@@ -21,7 +17,7 @@ export default function ListEmptyComponent() {
     return (
       <NoResultContainer>
         <NoResultImage
-          source={require('../../../../../../assets/images/notFoundRestaurant.png')}
+          source={require('../../../assets/images/notFoundRestaurant.png')}
         />
         <NoResultText>Nenhum restaurante encontrado</NoResultText>
       </NoResultContainer>
