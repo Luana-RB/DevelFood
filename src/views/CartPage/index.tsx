@@ -96,16 +96,16 @@ const CartPage: React.FC = () => {
             ListFooterComponent={<View style={{height: 200}} />}
           />
         </ItemContainer>
-        <EndOrderBarContainer>
-          <EndOrderBar>
-            <Icon name="currency-usd" size={25} color={colors.white} />
-            <TouchableOpacity>
-              <EndOrderText>Finalizar pedido</EndOrderText>
-            </TouchableOpacity>
-            <Price>R$ {shownPrice}</Price>
-          </EndOrderBar>
-        </EndOrderBarContainer>
       </Container>
+      <EndOrderBarContainer>
+        <EndOrderBar>
+          <Icon name="currency-usd" size={25} color={colors.white} />
+          <TouchableOpacity>
+            <EndOrderText>Finalizar pedido</EndOrderText>
+          </TouchableOpacity>
+          <Price>R$ {shownPrice}</Price>
+        </EndOrderBar>
+      </EndOrderBarContainer>
     </SafeAreaView>
   );
 };

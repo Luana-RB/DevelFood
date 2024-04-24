@@ -83,14 +83,13 @@ export const EndOrderBarContainer = styled.View`
   justify-content: center;
   width: 100%;
   height: ${screenHeight * 0.1}px;
-  margin-top: ${screenHeight * 0.76}px;
+  margin-bottom: 60px;
   background-color: ${colors.white};
-  position: absolute;
 `;
 
 export const EndOrderBar = styled.View`
   width: 95%;
-  height: ${screenHeight * 0.06}px;
+  height: ${screenHeight * 0.05}px;
   border-radius: 8px;
   background-color: ${colors.red};
   flex-direction: row;
