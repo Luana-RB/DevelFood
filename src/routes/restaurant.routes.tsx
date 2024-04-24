@@ -9,6 +9,7 @@ import {RootStackParamList} from '../types/routeTypes';
 import CartPage from '../views/CartPage';
 import {colors} from '../globalStyles';
 import {CustomCloseButton} from '../components/CustomCloseButton';
+import CheckoutOrder from '../views/CheckoutOrder';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -40,6 +41,17 @@ export function RestaurantStack() {
         <Stack.Screen
           name="CartPage"
           component={CartPage}
+          options={({navigation}) => ({
+            title: 'Compras',
+            headerStyle: {backgroundColor: colors.red},
+            headerTitleStyle: {color: colors.white},
+            headerTitleAlign: 'center',
+            headerLeft: () => <CustomCloseButton navigation={navigation} />,
+          })}
+        />
+        <Stack.Screen
+          name="CheckoutOrder"
+          component={CheckoutOrder}
           options={({navigation}) => ({
             title: 'Compras',
             headerStyle: {backgroundColor: colors.red},

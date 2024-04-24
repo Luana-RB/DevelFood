@@ -10,7 +10,7 @@ import {
   CadastroTitle,
   Container,
 } from './styles';
-import {NewUsersData, UsersData} from '../../../types/userData';
+import {UserData, UsersData} from '../../../types/userData';
 import {useToken} from '../../../services/context/tokenContext';
 import {Alert, View} from 'react-native';
 
@@ -42,7 +42,7 @@ const TelaFinal: React.FC = ({navigation}: any) => {
   }
 
   function formatUser(user: UsersData) {
-    const newUser: NewUsersData = {
+    const newUser: UserData = {
       email: user.credentials.email,
       senha: user.credentials.password,
       primeiroNome: user.info.name,

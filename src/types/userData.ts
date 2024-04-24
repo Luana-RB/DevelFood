@@ -1,18 +1,5 @@
 import {RestaurantPlate} from './restaurantData';
 
-// "email" : "vitor.arruda33234425@gmail.com",
-// "senha" : "12345",
-// "primeiroNome" : "Vito",
-// "segundoNome" : "Arruda",
-// "cpf": 71574757410,
-// "numeroCelular" : "81984223077",
-// "apelido" : "Casa 1",
-// "cep" : "54753-442",
-// "rua" : "Rua rui Barbosa",
-// "cidade" : "Jp city",
-// "bairro" : "Casa amararela",
-// "estado" : "PE",
-// "numero" : 590
 export interface UsersData {
   credentials: UserCredentials;
   info: UserInfo;

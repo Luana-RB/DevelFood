@@ -9,7 +9,7 @@ import {
   InputContainer,
   InputIcon,
   InputText,
-} from '../../../components/Input';
+} from '../../../components/Input/styles';
 import {
   BarContainer,
   BarImage,

@@ -35,11 +35,14 @@ import {useUser} from '../../services/context/userContext';
 import {getRestaurantById} from '../../services/api/restaurants';
 import PLateCardWithScroll from './components/PLateCardWithScroll';
 import {useFocusEffect} from '@react-navigation/native';
+import {postRequest} from '../../services/api/orders';
+import {OrderData} from '../../types/orderData';
 
 const CartPage: React.FC = ({navigation}: any) => {
   const {items, price} = useCart();
   const {userData} = useUser();
   const [name, setName] = useState('');
+  const [restaurantId, setRestaurantId] = useState('');
   const [category, setCategory] = useState('');
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
@@ -58,6 +61,7 @@ const CartPage: React.FC = ({navigation}: any) => {
         const restaurantData = await getRestaurantById(items[0].restaurantId);
         if (restaurantData) {
           setName(restaurantData.nome);
+          setRestaurantId(restaurantData.id);
           if (restaurantData.categoria) setCategory(restaurantData.categoria);
           if (restaurantData.fotos) setImagePath({uri: restaurantData.fotos});
           else setImagePath(require('../../../assets/images/notFound.png'));
@@ -70,7 +74,15 @@ const CartPage: React.FC = ({navigation}: any) => {
     }, []),
   );
 
-  useEffect(() => {}, []);
+  async function handleSubmit() {
+    const order: OrderData = {
+      restaurantId,
+      plates: items,
+      date: String(new Date()), //formatar data
+    };
+    const orderId = await postRequest(order);
+    navigation.navigate('CheckoutOrder', orderId);
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>

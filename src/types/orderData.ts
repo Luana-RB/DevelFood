@@ -10,7 +10,7 @@ export interface OrderData {
   restaurantId: string;
   date: string;
   plates: RestaurantPlate[];
-  id: string;
-  fullPrice: number;
-  status: string;
+  id?: string;
+  fullPrice?: number;
+  status?: string;
 }
