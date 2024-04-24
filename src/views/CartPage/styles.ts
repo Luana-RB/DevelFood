@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, fonts, screenHeight} from '../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
 import {Platform} from 'react-native';
 
 export const Container = styled.View`
@@ -101,6 +101,7 @@ export const EndOrderText = styled.Text`
   color: ${colors.white};
   margin-left: 37%;
 `;
+
 export const Price = styled.Text`
   font-size: ${fonts.XS}px;
   color: ${colors.white};

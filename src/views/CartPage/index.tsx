@@ -1,9 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {colors} from '../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import PlateCard from '../../components/PlateCard';
 import {
   AddressContainer,
   AddressImage,
@@ -28,8 +33,10 @@ import {
 import {useCart} from '../../services/context/cartContext';
 import {useUser} from '../../services/context/userContext';
 import {getRestaurantById} from '../../services/api/restaurants';
+import PLateCardWithScroll from './components/PLateCardWithScroll';
+import {useFocusEffect} from '@react-navigation/native';
 
-const CartPage: React.FC = () => {
+const CartPage: React.FC = ({navigation}: any) => {
   const {items, price} = useCart();
   const {userData} = useUser();
   const [name, setName] = useState('');
@@ -45,18 +52,25 @@ const CartPage: React.FC = () => {
     setShownPrice(commaFormat);
   }, [price]);
 
-  useEffect(() => {
-    async function callData() {
-      const restaurantData = await getRestaurantById(items[0].restaurantId);
-      if (restaurantData) {
-        setName(restaurantData.nome);
-        if (restaurantData.categoria) setCategory(restaurantData.categoria);
-        if (restaurantData.fotos) setImagePath({uri: restaurantData.fotos});
-        else setImagePath(require('../../../assets/images/notFound.png'));
+  useFocusEffect(
+    React.useCallback(() => {
+      async function callData() {
+        const restaurantData = await getRestaurantById(items[0].restaurantId);
+        if (restaurantData) {
+          setName(restaurantData.nome);
+          if (restaurantData.categoria) setCategory(restaurantData.categoria);
+          if (restaurantData.fotos) setImagePath({uri: restaurantData.fotos});
+          else setImagePath(require('../../../assets/images/notFound.png'));
+        } else {
+          Alert.alert('Falha carregar dados do pedido');
+          navigation.goBack();
+        }
       }
-    }
-    callData();
-  }, []);
+      callData();
+    }, []),
+  );
+
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -92,7 +106,7 @@ const CartPage: React.FC = () => {
             style={{flex: 1}}
             data={items}
             keyExtractor={item => item.id}
-            renderItem={({item}) => <PlateCard data={item} small={true} />}
+            renderItem={({item}) => <PLateCardWithScroll item={item} />}
             ListFooterComponent={<View style={{height: 200}} />}
           />
         </ItemContainer>
