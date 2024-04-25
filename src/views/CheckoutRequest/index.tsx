@@ -12,7 +12,8 @@ const CheckoutRequest: React.FC<CheckoutRequestScreenProps> = ({
   const {requestId} = route.params;
 
   function handleSubmit() {
-    navigation.replace('RequestDetail', requestId);
+    console.log(requestId);
+    navigation.replace('RequestDetail', {requestId: requestId});
   }
 
   return (

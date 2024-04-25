@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, SafeAreaView, View} from 'react-native';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
@@ -30,15 +30,20 @@ import {
 import {useUser} from '../../services/context/userContext';
 import PlateCard from '../../components/PlateCard';
 import {restaurantsMock} from '../../mocks/restaurants';
+import {RequestDetailScreenProps} from '../../types/routeTypes';
 
-const RequestDetail: React.FC = () => {
+const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
   const {userData} = useUser();
   const [plateData, setPlateData] = useState();
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
   const [name, setName] = useState('MCDonalds');
+  const {requestId} = route.params;
 
+  useEffect(() => {
+    console.log(requestId);
+  }, []);
   return (
     <SafeAreaView style={{flex: 1}}>
       <FocusAwareStatusBar
