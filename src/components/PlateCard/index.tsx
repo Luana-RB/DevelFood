@@ -43,9 +43,13 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
   const [heart, setHeart] = useState('heart-outline');
   const [size, setSize] = useState(screenWidth * 0.9);
   const {addItem, removeItem, removeQuantity, getQuantity, price} = useCart();
+  let maxLength = 20;
 
   useEffect(() => {
-    if (small) setSize(screenWidth * 0.8);
+    if (small) {
+      setSize(screenWidth * 0.8);
+      maxLength = 12;
+    }
 
     if (!!data.image) setImagePath({uri: data.image});
     else setImagePath(require('../../../assets/images/notFound.png'));
@@ -53,7 +57,7 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
     if (!!data.description) {
       const text = data.description;
       const words = text.split(' ');
-      const firstWords = words.slice(0, 20);
+      const firstWords = words.slice(0, maxLength);
       const newDescription = firstWords.join(' ');
       setDescription(newDescription);
     }
