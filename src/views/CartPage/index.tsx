@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
-import {colors} from '../../globalStyles';
+import {colors, screenHeight} from '../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   AddressContainer,
@@ -38,6 +38,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {postRequest} from '../../services/api/requests';
 import {RequestPlatesData, RequestSendData} from '../../types/requestData';
 import {months, weekDays} from '../../types/enums';
+import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const CartPage: React.FC = ({navigation}: any) => {
   const {items, price, resetContext} = useCart();
@@ -49,18 +50,19 @@ const CartPage: React.FC = ({navigation}: any) => {
     require('../../../assets/images/notFound.png'),
   );
   const [shownPrice, setShownPrice] = useState('0.00');
-  const [reseted, setReseted] = useState(false);
+  const [listEmpty, setListEmpty] = useState(false);
 
   useEffect(() => {
     const centsFormat = price.toFixed(2);
     const commaFormat = centsFormat.replace(/\./g, ',');
     setShownPrice(commaFormat);
-    if (!reseted && items.length < 1) navigation.goBack();
+    if (items.length < 1) setListEmpty(true);
+    else setListEmpty(false);
   }, [price]);
 
   useFocusEffect(
     React.useCallback(() => {
-      callRestaurantData();
+      if (!listEmpty) callRestaurantData();
     }, []),
   );
 
@@ -113,7 +115,6 @@ const CartPage: React.FC = ({navigation}: any) => {
     };
     const requestId = await postRequest(request);
     resetContext();
-    setReseted(true);
     navigation.reset({
       index: 1,
       routes: [
@@ -126,6 +127,24 @@ const CartPage: React.FC = ({navigation}: any) => {
         },
       ],
     });
+  }
+
+  if (listEmpty) {
+    return (
+      <SafeAreaView style={{flex: 1}}>
+        <FocusAwareStatusBar
+          backgroundColor={colors.red}
+          barStyle="light-content"
+        />
+        <Container style={{paddingTop: screenHeight * 0.2}}>
+          <ListEmptyComponent
+            text="Seu Carrinho está vazio"
+            imagePath="carrinho"
+            load={true}
+          />
+        </Container>
+      </SafeAreaView>
+    );
   }
 
   return (
