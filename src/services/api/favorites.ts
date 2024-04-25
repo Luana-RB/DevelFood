@@ -1,6 +1,6 @@
 import {users} from '../../mocks/users';
 import {PlateData} from '../../types/restaurantData';
-import {getPlateData} from './plates';
+import {getPlateDataById} from './plates';
 
 export function getFavorites() {
   try {
@@ -53,7 +53,7 @@ export async function compareRestaurant(restaurantId: string) {
     if (favorites?.length === 0) return false;
     const response = await Promise.all(
       favorites.map(async item => {
-        const plateData = await getPlateData(item.plateId);
+        const plateData = await getPlateDataById(item.plateId);
         return plateData && plateData.restaurantId === restaurantId;
       }),
     );

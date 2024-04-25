@@ -8,6 +8,7 @@ export const requests: RequestData[] = [
     status: 'Pedido Finalizado',
     paymentType: 'dinheiro',
     restaurantId: '1',
+    addressId: '1',
     plates: [
       {
         id: '101',
@@ -55,6 +56,7 @@ export const requests: RequestData[] = [
     restaurantId: '1',
     paymentType: 'dinheiro',
     status: 'Pedido Finalizado',
+    addressId: '1',
     plates: [
       {
         id: '101',
@@ -76,6 +78,7 @@ export const requests: RequestData[] = [
     date: 'Terça-Feira',
     paymentType: 'dinheiro',
     restaurantId: '2',
+    addressId: '1',
     status: 'Pedido Finalizado',
     plates: [
       {
