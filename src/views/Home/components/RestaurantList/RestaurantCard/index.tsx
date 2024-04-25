@@ -11,7 +11,7 @@ import {
   Title,
   TitleContainer,
 } from './styles';
-import {RestaurantsData} from '../../../../../types/restaurantData';
+import {RestaurantData} from '../../../../../types/restaurantData';
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
 import {colors, screenHeight} from '../../../../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -19,7 +19,7 @@ import {compareRestaurant} from '../../../../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 
 interface RestaurantProps {
-  data: RestaurantsData;
+  data: RestaurantData;
   navigation: any;
 }
 
@@ -29,18 +29,21 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   const [heart, setHeart] = useState('heart-outline');
 
   useEffect(() => {
-    if (!!data.fotos) setImagePath({uri: data.fotos});
+    if (!!data.image) setImagePath({uri: data.image});
     else setImagePath(require('../../../../../../assets/images/notFound.png'));
 
-    if (data?.nome.length >= 19) setFontSize(screenHeight * 0.016);
-    else if (data?.nome.length >= 15) setFontSize(screenHeight * 0.018);
+    if (data?.name.length >= 19) setFontSize(screenHeight * 0.016);
+    else if (data?.name.length >= 15) setFontSize(screenHeight * 0.018);
   }, []);
 
   useFocusEffect(
     React.useCallback(() => {
-      const isFavorite = compareRestaurant(data.id);
-      if (isFavorite) setHeart('heart');
-      else setHeart('heart-outline');
+      async function loadData() {
+        const isFavorite = await compareRestaurant(data.id);
+        if (isFavorite) setHeart('heart');
+        else setHeart('heart-outline');
+      }
+      loadData();
     }, []),
   );
 
@@ -57,10 +60,10 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
         {imagePath && <BackGroundImage source={imagePath} resizeMode="cover" />}
         <InfoContainer>
           <TitleContainer>
-            <Title style={{fontSize: fontSize}}>{data.nome}</Title>
+            <Title style={{fontSize: fontSize}}>{data.name}</Title>
           </TitleContainer>
           <InfoFooter>
-            <Category>{data.tipoComida?.nome}</Category>
+            <Category>{data.foodType?.name}</Category>
             <RatingContainer>
               <Icon name="star" size={15} color={colors.red} />
               <RatingText>5.0</RatingText>

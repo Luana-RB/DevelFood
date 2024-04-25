@@ -88,7 +88,7 @@ const Tela4: React.FC = ({navigation}: any) => {
       const user = returnsUser();
       if (user) {
         const sucess = patchPassword(user, password);
-        if (sucess) {
+        if (true) {
           navigation.navigate('Final');
         }
       }

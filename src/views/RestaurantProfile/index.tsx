@@ -10,7 +10,7 @@ import SearchBar from '../../components/SearchBar';
 import PlateCard from '../../components/PlateCard';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {colors} from '../../globalStyles';
-import {RestaurantPlate, RestaurantsData} from '../../types/restaurantData';
+import {PlateData, RestaurantData} from '../../types/restaurantData';
 import CartBar from '../../components/CartBar';
 import {
   BodyContainer,
@@ -38,11 +38,11 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   navigation,
 }) => {
   const [cart, setCart] = useState(false);
-  const [data, setData] = useState<RestaurantsData>();
+  const [data, setData] = useState<RestaurantData>();
   const [notFound, setNotFound] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [plateData, setPlateData] = useState<RestaurantPlate[]>([]);
-  const [filteredData, setFilteredData] = useState<RestaurantPlate[] | null>();
+  const [plateData, setPlateData] = useState<PlateData[]>([]);
+  const [filteredData, setFilteredData] = useState<PlateData[] | null>();
   const [isFiltered, setIsFiltered] = useState(false);
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
@@ -65,11 +65,11 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
 
   useEffect(() => {
     if (data) {
-      if (data.pratos !== undefined && data.pratos.length >= 1) {
+      if (data.plates !== undefined && data.plates.length >= 1) {
         setNotFound(false);
-        setPlateData(data.pratos);
+        setPlateData(data.plates);
       }
-      if (!!data.fotos) setImagePath({uri: data.fotos});
+      if (!!data.image) setImagePath({uri: data.image});
       else setImagePath(require('../../../assets/images/notFound.png'));
 
       if (numOfItems > 0) setCart(true);
@@ -85,8 +85,8 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       setLoading(false);
     }, 2000);
 
-    const newData = plateData?.filter((item: {nome: string}) => {
-      const itemData = item.nome.toUpperCase();
+    const newData = plateData?.filter((item: {name: string}) => {
+      const itemData = item.name.toUpperCase();
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
@@ -115,8 +115,8 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       />
       <HeaderContainer>
         <HeaderTextContainer>
-          <HeaderTitle>{data?.nome}</HeaderTitle>
-          <HeaderCategory>{data?.categoria}</HeaderCategory>
+          <HeaderTitle>{data?.name}</HeaderTitle>
+          <HeaderCategory>{data?.foodType?.name}</HeaderCategory>
         </HeaderTextContainer>
         <HeaderLogo source={imagePath} />
       </HeaderContainer>
@@ -124,7 +124,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       <BodyContainer>
         <PlatesTitle>Pratos</PlatesTitle>
         <SearchBar
-          title={`Buscar em ${data?.nome}`}
+          title={`Buscar em ${data?.name}`}
           onChangeText={handleSearch}
         />
 
@@ -138,7 +138,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
         )}
 
         <FlatList
-          data={isFiltered ? filteredData : data?.pratos}
+          data={isFiltered ? filteredData : data?.plates}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <TouchableOpacity
@@ -164,7 +164,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
             alignItems: 'center',
             justifyContent: 'flex-start',
           }}>
-          <CartBar margin={20} navigation={navigation}/>
+          <CartBar margin={20} navigation={navigation} />
         </View>
       )}
       {isModalVisible && data && (

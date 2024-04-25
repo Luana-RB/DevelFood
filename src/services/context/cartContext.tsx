@@ -1,14 +1,15 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
-import {RestaurantPlate} from '../../types/restaurantData';
+import {PlateData} from '../../types/restaurantData';
+import {RequestPlatesData} from '../../types/requestData';
 
 type CartContextType = {
-  items: RestaurantPlate[];
+  items: RequestPlatesData[];
   numOfItems: number;
   price: number;
-  getQuantity: (newItem: RestaurantPlate) => number;
-  addItem: (newItem: RestaurantPlate) => boolean;
-  removeItem: (newItem: RestaurantPlate, quantity: number) => void;
-  removeQuantity: (newItem: RestaurantPlate) => void;
+  getQuantity: (newItem: PlateData) => number;
+  addItem: (newItem: PlateData) => boolean;
+  removeItem: (newItem: PlateData, quantity: number) => void;
+  removeQuantity: (newItem: PlateData) => void;
   resetContext: () => void;
 };
 
@@ -23,7 +24,7 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({children}: any) => {
-  const [items, setItems] = useState<RestaurantPlate[]>([]);
+  const [items, setItems] = useState<RequestPlatesData[]>([]);
   const [numOfItems, setNumOfItems] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
 
@@ -32,30 +33,36 @@ export const CartProvider = ({children}: any) => {
     if (numOfItems < 1) setPrice(0);
   }, []);
 
-  const addItem = (newItem: RestaurantPlate) => {
+  const addItem = (newItem: PlateData) => {
     try {
       let belongs = false;
+      const listItem: RequestPlatesData = {
+        id: newItem.id,
+        restaurantId: newItem.restaurantId,
+        quantity: 1,
+      };
 
       items.forEach(item => {
-        if (item.id === newItem.id) {
+        if (item.id === listItem.id) {
           belongs = true;
           item.quantity = item.quantity! + 1;
         }
       });
 
-      if (!belongs) {
+      if (belongs) {
+        setPrice(price + newItem.price);
+        return true;
+      } else {
         const sameRestaurant = checkRestaurant(newItem.restaurantId);
         if (sameRestaurant) {
-          newItem.quantity = 1;
-          items.push(newItem);
+          items.push(listItem);
           setNumOfItems(numOfItems + 1);
-          setPrice(price + newItem.preco);
+          setPrice(price + newItem.price);
           return true;
         } else return false;
       }
-      setPrice(price + newItem.preco);
-      return true;
     } catch (e) {
+      console.log(e);
       return false;
     }
   };
@@ -66,7 +73,7 @@ export const CartProvider = ({children}: any) => {
     return restaurantId === baseId;
   }
 
-  const getQuantity = (newItem: RestaurantPlate) => {
+  const getQuantity = (newItem: PlateData) => {
     let quantity: number | undefined = 0;
     items.forEach(item => {
       if (item.id === newItem.id) quantity = item.quantity!;
@@ -74,18 +81,18 @@ export const CartProvider = ({children}: any) => {
     return quantity;
   };
 
-  const removeItem = (newItem: RestaurantPlate, quantity: number) => {
+  const removeItem = (newItem: PlateData, quantity: number) => {
     const newArray = items.filter(item => item.id !== newItem.id);
     setItems(newArray);
     setNumOfItems(numOfItems - 1);
-    setPrice(price - newItem.preco * quantity);
+    setPrice(price - newItem.price * quantity);
   };
 
-  function removeQuantity(newItem: RestaurantPlate) {
+  function removeQuantity(newItem: PlateData) {
     items.forEach(item => {
       if (item.id === newItem.id) {
         item.quantity = item.quantity! - 1;
-        setPrice(price - newItem.preco);
+        setPrice(price - newItem.price);
       }
     });
   }

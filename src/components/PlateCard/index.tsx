@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {RestaurantPlate} from '../../types/restaurantData';
+import {PlateData} from '../../types/restaurantData';
 import {
   BodyContainer,
   Container,
@@ -29,7 +29,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
 
 interface PlateCardProps {
-  data: RestaurantPlate;
+  data: PlateData;
   small?: boolean;
 }
 
@@ -47,18 +47,18 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
   useEffect(() => {
     if (small) setSize(screenWidth * 0.8);
 
-    if (!!data.foto) setImagePath({uri: data.foto});
+    if (!!data.image) setImagePath({uri: data.image});
     else setImagePath(require('../../../assets/images/notFound.png'));
 
-    if (!!data.descricao) {
-      const text = data.descricao;
+    if (!!data.description) {
+      const text = data.description;
       const words = text.split(' ');
       const firstWords = words.slice(0, 20);
       const newDescription = firstWords.join(' ');
       setDescription(newDescription);
     }
 
-    const centsFormat = data.preco.toFixed(2);
+    const centsFormat = data.price.toFixed(2);
     const commaFormat = centsFormat.replace(/\./g, ',');
     setThisPrice(commaFormat);
   }, []);
@@ -101,7 +101,7 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
       <BodyContainer>
         <TextContainer>
           <TitleContainer>
-            <Title>{data.nome}</Title>
+            <Title>{data.name}</Title>
           </TitleContainer>
           <DescriptionContainer>
             <Description>{description}</Description>

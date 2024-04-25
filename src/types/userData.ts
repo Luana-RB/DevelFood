@@ -1,45 +1,44 @@
-import {RestaurantPlate} from './restaurantData';
-
-export interface UsersData {
+export interface UserData {
+  id?: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  cpf: string;
+  phone: string;
+  address: UserAddress[];
+  favorites: Favorites[];
+}
+export interface UserStoreData {
   credentials: UserCredentials;
   info: UserInfo;
-  address: UserAddress;
-  favorites?: RestaurantPlate[];
+  address: UserAddress[];
+  favorites?: Favorites[];
 }
 
-export interface NewUsersData {
-  email: string;
-  senha: string;
-  primeiroNome: string;
-  segundoNome: string;
-  cpf: string;
-  numeroCelular: string;
-  cep: string;
-  rua: string;
-  cidade: string;
-  bairro: string;
-  estado: string;
-  numero: number;
+interface Favorites {
+  plateId: string;
 }
 export interface UserCredentials {
-  id: string;
+  id?: string;
   email: string;
   password: string;
 }
 
 export interface UserInfo {
-  name: string;
-  surname: string;
+  firstName: string;
+  lastName: string;
   cpf: string;
-  cellphone: string;
+  phone: string;
 }
 
 export interface UserAddress {
-  apelido: string;
+  addressName: string;
+  addressId?: string;
   cep: string;
-  rua: string;
-  cidade: string;
-  bairro: string;
-  estado: string;
-  num: string;
+  street: string;
+  city: string;
+  neighbourhood: string;
+  state: string;
+  number: string;
 }

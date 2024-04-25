@@ -35,8 +35,10 @@ import {useUser} from '../../services/context/userContext';
 import {getRestaurantById} from '../../services/api/restaurants';
 import PLateCardWithScroll from './components/PLateCardWithScroll';
 import {useFocusEffect} from '@react-navigation/native';
-import {postRequest} from '../../services/api/orders';
-import {OrderData} from '../../types/orderData';
+import {postRequest} from '../../services/api/requests';
+import {RequestData, RequestSendData} from '../../types/requestData';
+import {getPlateData} from '../../services/api/plates';
+import {PlateData} from '../../types/restaurantData';
 
 const CartPage: React.FC = ({navigation}: any) => {
   const {items, price} = useCart();
@@ -44,6 +46,7 @@ const CartPage: React.FC = ({navigation}: any) => {
   const [name, setName] = useState('');
   const [restaurantId, setRestaurantId] = useState('');
   const [category, setCategory] = useState('');
+  const [platesData, setPlatesData] = useState<PlateData[]>();
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
@@ -57,31 +60,50 @@ const CartPage: React.FC = ({navigation}: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      async function callData() {
-        const restaurantData = await getRestaurantById(items[0].restaurantId);
-        if (restaurantData) {
-          setName(restaurantData.nome);
-          setRestaurantId(restaurantData.id);
-          if (restaurantData.categoria) setCategory(restaurantData.categoria);
-          if (restaurantData.fotos) setImagePath({uri: restaurantData.fotos});
-          else setImagePath(require('../../../assets/images/notFound.png'));
-        } else {
-          Alert.alert('Falha carregar dados do pedido');
-          navigation.goBack();
-        }
-      }
-      callData();
+      callRestaurantData();
+      callPlatesData();
     }, []),
   );
 
+  async function callPlatesData() {
+    const platePromises = items.map(async item => await getPlateData(item.id));
+    try {
+      const plateArray = await Promise.all(platePromises);
+      if (plateArray) setPlatesData(plateArray.filter(Boolean) as PlateData[]);
+      else {
+        Alert.alert('Falha carregar dados do pedido');
+        navigation.goBack();
+      }
+    } catch (error) {
+      Alert.alert('Falha carregar dados do pedido');
+      navigation.goBack();
+    }
+  }
+
+  async function callRestaurantData() {
+    const restaurantData = await getRestaurantById(items[0].restaurantId);
+    if (restaurantData) {
+      setName(restaurantData.name);
+      setRestaurantId(restaurantData.id);
+      if (restaurantData.foodType?.name)
+        setCategory(restaurantData.foodType?.name);
+      if (restaurantData.image) setImagePath({uri: restaurantData.image});
+      else setImagePath(require('../../../assets/images/notFound.png'));
+    } else {
+      Alert.alert('Falha carregar dados do pedido');
+      navigation.goBack();
+    }
+  }
+
   async function handleSubmit() {
-    const order: OrderData = {
+    const request: RequestSendData = {
       restaurantId,
       plates: items,
+      paymentType: 'dinheiro',
       date: String(new Date()), //formatar data
     };
-    const orderId = await postRequest(order);
-    navigation.navigate('CheckoutOrder', orderId);
+    const requestId = await postRequest(request);
+    navigation.navigate('CheckoutRequest', requestId);
   }
 
   return (
@@ -98,9 +120,11 @@ const CartPage: React.FC = ({navigation}: any) => {
           <AddressTextContainer>
             <Subtitle>Entregar em:</Subtitle>
             <AddressTitle>
-              Rua {userData?.address.rua} {userData?.address.num}
+              Rua {userData?.address[0].street} {userData?.address[0].number}
             </AddressTitle>
-            <AddressSubtitle>{userData?.address.bairro}</AddressSubtitle>
+            <AddressSubtitle>
+              {userData?.address[0].neighbourhood}
+            </AddressSubtitle>
           </AddressTextContainer>
           <Icon name="chevron-right" size={25} color={colors.gray} />
         </AddressContainer>
@@ -116,7 +140,7 @@ const CartPage: React.FC = ({navigation}: any) => {
           <ItemTitle>Meus Itens</ItemTitle>
           <FlatList
             style={{flex: 1}}
-            data={items}
+            data={platesData}
             keyExtractor={item => item.id}
             renderItem={({item}) => <PLateCardWithScroll item={item} />}
             ListFooterComponent={<View style={{height: 200}} />}
@@ -126,7 +150,7 @@ const CartPage: React.FC = ({navigation}: any) => {
       <EndOrderBarContainer>
         <EndOrderBar>
           <Icon name="currency-usd" size={25} color={colors.white} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleSubmit}>
             <EndOrderText>Finalizar pedido</EndOrderText>
           </TouchableOpacity>
           <Price>R$ {shownPrice}</Price>

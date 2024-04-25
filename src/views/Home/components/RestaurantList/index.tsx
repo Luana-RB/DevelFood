@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
-import {RestaurantsData} from '../../../../types/restaurantData';
+import {RestaurantData} from '../../../../types/restaurantData';
 import {getRestaurants} from '../../../../services/api/restaurants';
 import {
   SearchBarContainer,
@@ -23,8 +23,8 @@ interface RestaurantListProps {
 }
 const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<RestaurantsData[]>([]);
-  const [shownData, setShownData] = useState<RestaurantsData[]>([]);
+  const [data, setData] = useState<RestaurantData[]>([]);
+  const [shownData, setShownData] = useState<RestaurantData[]>([]);
   const [endedList, setEndedList] = useState(false);
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);

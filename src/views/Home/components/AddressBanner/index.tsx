@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {AddressText, Container} from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../../../globalStyles';
-import {UserAddress} from '../../../../types/userData';
 import {useUser} from '../../../../services/context/userContext';
 
 const AddressBanner: React.FC = () => {
@@ -12,11 +11,11 @@ const AddressBanner: React.FC = () => {
   useEffect(() => {
     const addressText =
       'rua ' +
-      userData?.address?.rua +
+      userData?.address[0].street +
       ' ' +
-      userData?.address?.num +
+      userData?.address[0].number +
       ', ' +
-      userData?.address?.bairro;
+      userData?.address[0].neighbourhood;
     setText(addressText);
   }, [userData]);
 

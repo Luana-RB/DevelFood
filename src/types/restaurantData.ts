@@ -1,17 +1,25 @@
-export interface RestaurantsData {
+export interface RestaurantData {
   id: string;
-  nome: string;
+  name: string;
   cnpj?: string;
-  telefone?: string;
-  fotos?: string;
-  categoria?: string;
-  pratos?: RestaurantPlate[];
-  tipoComida?: {
-    id: string;
-    nome: string;
+  phone?: string;
+  image?: string;
+  rating: number;
+  plates?: PlateData[];
+  address: {
+    addressId: string;
+    cep: string;
+    street: string;
+    city: string;
+    neigbourhood: string;
+    state: string;
+    number: string;
   };
-  foodTypeName?: string;
-  foodTypeId?: string;
+
+  foodType?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface RestaurantCredentials {
@@ -25,14 +33,13 @@ export interface RestaurantInfo {
   imageUrl?: string;
   rating: number;
 }
-export interface RestaurantPlate {
+export interface PlateData {
   id: string;
-  nome: string;
-  preco: number;
-  descricao?: string;
-  foto?: string;
+  name: string;
+  price: number;
+  description?: string;
+  image?: string;
   restaurantId: string;
-  quantity?: number;
 }
 
 export interface RestaurantAdress {

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {findUserIdByEmail, getUserById} from '../../../services/api/users';
 import {useForgotPassword} from '../../../services/context/newPasswordContext';
 import {Errors} from '../../../types/errors';
 import Button from '../../../components/Button';
@@ -29,18 +28,7 @@ const Tela1: React.FC = ({navigation}: any) => {
   async function validateForm() {
     let errors: Errors = {};
 
-    const userId = findUserIdByEmail(email);
-    if (userId) {
-      const user = getUserById(userId);
-      if (user) {
-        const sucess = await storeUser(user);
-        if (!sucess) {
-          errors.email = 'Falha ao encontrar usuário';
-        }
-      }
-    } else {
-      errors.email = 'E-mail não encontrado';
-    }
+  
     return errors;
   }
 

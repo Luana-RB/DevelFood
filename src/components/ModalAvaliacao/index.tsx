@@ -20,12 +20,12 @@ import {
 } from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors, screenHeight, screenWidth} from '../../globalStyles';
-import {RestaurantsData} from '../../types/restaurantData';
+import {RestaurantData} from '../../types/restaurantData';
 import {sendAvaliation} from '../../services/api/avaliation';
 
 interface ModalProps {
   setIsModalVisible: Dispatch<SetStateAction<boolean>>;
-  restaurant: RestaurantsData;
+  restaurant: RestaurantData;
   isModalVisible: boolean;
 }
 
@@ -115,7 +115,7 @@ const ModalAvaliacao: React.FC<ModalProps> = ({
               Obrigado por escolher nosso app, você faz toda a diferença. :D
               Agora, queremos saber o que voce acha do nosso parceiro{' '}
             </Description>
-            <RestaurantName>{restaurant.nome}</RestaurantName>
+            <RestaurantName>{restaurant.name}</RestaurantName>
           </DescriptionContainer>
           <ListContainer>
             <FlatList

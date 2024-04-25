@@ -10,10 +10,10 @@ import {DeleteContainer, DeleteText} from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PlateCard from '../../../../components/PlateCard';
 import {colors} from '../../../../globalStyles';
-import {RestaurantPlate} from '../../../../types/restaurantData';
+import {PlateData} from '../../../../types/restaurantData';
 import {useCart} from '../../../../services/context/cartContext';
 interface PlateCardWithSCrollProps {
-  item: RestaurantPlate;
+  item: PlateData;
 }
 
 const PLateCardWithScroll: React.FC<PlateCardWithSCrollProps> = ({item}) => {

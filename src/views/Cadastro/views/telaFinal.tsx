@@ -10,7 +10,7 @@ import {
   CadastroTitle,
   Container,
 } from './styles';
-import {UserData, UsersData} from '../../../types/userData';
+import {UserData, UserStoreData} from '../../../types/userData';
 import {useToken} from '../../../services/context/tokenContext';
 import {Alert, View} from 'react-native';
 
@@ -41,20 +41,26 @@ const TelaFinal: React.FC = ({navigation}: any) => {
     }
   }
 
-  function formatUser(user: UsersData) {
+  function formatUser(user: UserStoreData) {
     const newUser: UserData = {
       email: user.credentials.email,
-      senha: user.credentials.password,
-      primeiroNome: user.info.name,
-      segundoNome: user.info.surname,
+      password: user.credentials.password,
+      firstName: user.info.firstName,
+      lastName: user.info.lastName,
       cpf: user.info.cpf.replace(/\D/g, ''),
-      numeroCelular: user.info.cellphone.replace(/\D/g, ''),
-      cep: user.address.cep.replace(/\D/g, ''),
-      rua: user.address.rua,
-      cidade: user.address.cidade,
-      bairro: user.address.bairro,
-      estado: user.address.estado,
-      numero: parseInt(user.address.num),
+      phone: user.info.phone.replace(/\D/g, ''),
+      address: [
+        {
+          addressName: user.address[0].addressName,
+          cep: user.address[0].cep.replace(/\D/g, ''),
+          street: user.address[0].street,
+          city: user.address[0].city,
+          neighbourhood: user.address[0].neighbourhood,
+          state: user.address[0].state,
+          number: user.address[0].number,
+        },
+      ],
+      favorites: [],
     };
     return newUser;
   }
