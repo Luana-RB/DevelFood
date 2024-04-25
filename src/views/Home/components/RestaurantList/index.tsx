@@ -11,7 +11,7 @@ import RestaurantCard from './RestaurantCard';
 import {getRestaurantsFiltered} from '../../../../services/api/restaurants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FooterList from './FooterList';
-import ListEmptyComponent from './ListEmptyComponent';
+import {ListEmptyComponent} from '../../../../components/ListEmptyComponent';
 import AddressBanner from '../AddressBanner';
 import BannerCarrossel from '../BannerCarrossel';
 import {sales} from '../../../../mocks/sales';
@@ -131,7 +131,12 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
         numColumns={2}
         onEndReached={onEnd}
         onEndReachedThreshold={0.2}
-        ListEmptyComponent={<ListEmptyComponent />}
+        ListEmptyComponent={
+          <ListEmptyComponent
+            text="Nenhum restaurante encontrado"
+            imagePath="restaurant"
+          />
+        }
         ListFooterComponent={
           <FooterList load={loading} shownData={shownData.length === 0} />
         }

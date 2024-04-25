@@ -27,7 +27,7 @@ import {
   NoResultContainer,
   NoResultImage,
   NoResultText,
-} from '../../components/NoResultComponent';
+} from '../../components/ListEmptyComponent/styles';
 import {useCart} from '../../services/context/cartContext';
 import {getRestaurantById} from '../../services/api/restaurants';
 import {RestaurantProfileScreenProps} from '../../types/routeTypes';
@@ -115,7 +115,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       />
       <HeaderContainer>
         <HeaderTextContainer>
-          <HeaderTitle>{data?.name}</HeaderTitle>
+          <HeaderTitle>{data?.nome}</HeaderTitle>
           <HeaderCategory>{data?.categoria}</HeaderCategory>
         </HeaderTextContainer>
         <HeaderLogo source={imagePath} />
@@ -124,7 +124,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       <BodyContainer>
         <PlatesTitle>Pratos</PlatesTitle>
         <SearchBar
-          title={`Buscar em ${data?.name}`}
+          title={`Buscar em ${data?.nome}`}
           onChangeText={handleSearch}
         />
 
