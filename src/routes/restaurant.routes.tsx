@@ -10,6 +10,7 @@ import CartPage from '../views/CartPage';
 import {colors} from '../globalStyles';
 import {CustomCloseButton} from '../components/CustomCloseButton';
 import CheckoutRequest from '../views/CheckoutRequest';
+import RequestDetail from '../views/RequestDetail';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -61,6 +62,19 @@ export function RestaurantStack() {
             headerTitleAlign: 'center',
             headerLeft: () => (
               <CustomCloseButton handleSubmit={() => navigation.popToTop()} />
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="RequestDetail"
+          component={RequestDetail}
+          options={({navigation, route}) => ({
+            title: `Pedido Nº ${route.params.requestId}`,
+            headerStyle: {backgroundColor: colors.red},
+            headerTitleStyle: {color: colors.white},
+            headerTitleAlign: 'center',
+            headerLeft: () => (
+              <CustomCloseButton handleSubmit={() => navigation.goBack()} />
             ),
           })}
         />
