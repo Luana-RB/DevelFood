@@ -1,9 +1,8 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {PlateData} from '../../types/restaurantData';
-import {RequestPlatesData} from '../../types/requestData';
 
 type CartContextType = {
-  items: RequestPlatesData[];
+  items: PlateData[];
   numOfItems: number;
   price: number;
   getQuantity: (newItem: PlateData) => number;
@@ -24,7 +23,7 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({children}: any) => {
-  const [items, setItems] = useState<RequestPlatesData[]>([]);
+  const [items, setItems] = useState<PlateData[]>([]);
   const [numOfItems, setNumOfItems] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
 
@@ -36,33 +35,27 @@ export const CartProvider = ({children}: any) => {
   const addItem = (newItem: PlateData) => {
     try {
       let belongs = false;
-      const listItem: RequestPlatesData = {
-        id: newItem.id,
-        restaurantId: newItem.restaurantId,
-        quantity: 1,
-      };
 
       items.forEach(item => {
-        if (item.id === listItem.id) {
+        if (item.id === newItem.id) {
           belongs = true;
           item.quantity = item.quantity! + 1;
         }
       });
 
-      if (belongs) {
-        setPrice(price + newItem.price);
-        return true;
-      } else {
+      if (!belongs) {
         const sameRestaurant = checkRestaurant(newItem.restaurantId);
         if (sameRestaurant) {
-          items.push(listItem);
+          newItem.quantity = 1;
+          items.push(newItem);
           setNumOfItems(numOfItems + 1);
           setPrice(price + newItem.price);
           return true;
         } else return false;
       }
+      setPrice(price + newItem.price);
+      return true;
     } catch (e) {
-      console.log(e);
       return false;
     }
   };

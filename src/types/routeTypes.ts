@@ -5,7 +5,7 @@ export type RootStackParamList = {
   Home: any;
   RestaurantProfile: {restaurantId: any};
   CartPage: any;
-  CheckoutOrder: {orderId: string};
+  CheckoutRequest: {requestId: string};
 };
 
 export type PlateDetailsScreenProps = StackScreenProps<
@@ -16,7 +16,7 @@ export type RestaurantProfileScreenProps = StackScreenProps<
   RootStackParamList,
   'RestaurantProfile'
 >;
-export type CheckoutOrderScreenProps = StackScreenProps<
+export type CheckoutRequestScreenProps = StackScreenProps<
   RootStackParamList,
-  'CheckoutOrder'
+  'CheckoutRequest'
 >;

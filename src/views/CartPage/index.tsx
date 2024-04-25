@@ -36,57 +36,40 @@ import {getRestaurantById} from '../../services/api/restaurants';
 import PLateCardWithScroll from './components/PLateCardWithScroll';
 import {useFocusEffect} from '@react-navigation/native';
 import {postRequest} from '../../services/api/requests';
-import {RequestData, RequestSendData} from '../../types/requestData';
-import {getPlateData} from '../../services/api/plates';
-import {PlateData} from '../../types/restaurantData';
+import {RequestPlatesData, RequestSendData} from '../../types/requestData';
+import {months, weekDays} from '../../types/enums';
 
 const CartPage: React.FC = ({navigation}: any) => {
-  const {items, price} = useCart();
+  const {items, price, resetContext} = useCart();
   const {userData} = useUser();
   const [name, setName] = useState('');
   const [restaurantId, setRestaurantId] = useState('');
   const [category, setCategory] = useState('');
-  const [platesData, setPlatesData] = useState<PlateData[]>();
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
   const [shownPrice, setShownPrice] = useState('0.00');
+  const [reseted, setReseted] = useState(false);
 
   useEffect(() => {
     const centsFormat = price.toFixed(2);
     const commaFormat = centsFormat.replace(/\./g, ',');
     setShownPrice(commaFormat);
+    if (!reseted && items.length < 1) navigation.goBack();
   }, [price]);
 
   useFocusEffect(
     React.useCallback(() => {
       callRestaurantData();
-      callPlatesData();
     }, []),
   );
-
-  async function callPlatesData() {
-    const platePromises = items.map(async item => await getPlateData(item.id));
-    try {
-      const plateArray = await Promise.all(platePromises);
-      if (plateArray) setPlatesData(plateArray.filter(Boolean) as PlateData[]);
-      else {
-        Alert.alert('Falha carregar dados do pedido');
-        navigation.goBack();
-      }
-    } catch (error) {
-      Alert.alert('Falha carregar dados do pedido');
-      navigation.goBack();
-    }
-  }
 
   async function callRestaurantData() {
     const restaurantData = await getRestaurantById(items[0].restaurantId);
     if (restaurantData) {
       setName(restaurantData.name);
       setRestaurantId(restaurantData.id);
-      if (restaurantData.foodType?.name)
-        setCategory(restaurantData.foodType?.name);
+      setCategory(restaurantData.foodType?.name);
       if (restaurantData.image) setImagePath({uri: restaurantData.image});
       else setImagePath(require('../../../assets/images/notFound.png'));
     } else {
@@ -95,15 +78,54 @@ const CartPage: React.FC = ({navigation}: any) => {
     }
   }
 
+  function formatPlateData() {
+    const plateArray: RequestPlatesData[] = items.map(item => {
+      const formattedItem: RequestPlatesData = {
+        id: item.id,
+        quantity: item.quantity || 0,
+        restaurantId: item.restaurantId,
+        observation: 'observação',
+      };
+      return formattedItem;
+    });
+    return plateArray;
+  }
+
+  function formatDate() {
+    const date = new Date();
+    const weekDay = weekDays[date.getDay()];
+    const monthDay = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    const dateString =
+      String(weekDay) + String(monthDay) + String(month) + String(year);
+    return dateString;
+  }
+
   async function handleSubmit() {
+    const platesToSend = formatPlateData();
+    const date = formatDate();
     const request: RequestSendData = {
       restaurantId,
-      plates: items,
+      plates: platesToSend,
       paymentType: 'dinheiro',
-      date: String(new Date()), //formatar data
+      date,
     };
     const requestId = await postRequest(request);
-    navigation.navigate('CheckoutRequest', requestId);
+    resetContext();
+    setReseted(true);
+    navigation.reset({
+      index: 1,
+      routes: [
+        {name: 'Home'},
+        {
+          name: 'CheckoutRequest',
+          params: {
+            requestId,
+          },
+        },
+      ],
+    });
   }
 
   return (
@@ -140,7 +162,7 @@ const CartPage: React.FC = ({navigation}: any) => {
           <ItemTitle>Meus Itens</ItemTitle>
           <FlatList
             style={{flex: 1}}
-            data={platesData}
+            data={items}
             keyExtractor={item => item.id}
             renderItem={({item}) => <PLateCardWithScroll item={item} />}
             ListFooterComponent={<View style={{height: 200}} />}

@@ -81,11 +81,8 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
   }
 
   function handleRemove() {
-    if (quantity === 1) {
-      const quantityInCart = getQuantity(data);
-      removeItem(data, quantityInCart);
-    } else if (quantity > 1) removeQuantity(data);
-
+    if (quantity === 1) removeItem(data, 1);
+    else if (quantity > 1) removeQuantity(data);
     setQuantity(quantity - 1);
   }
 

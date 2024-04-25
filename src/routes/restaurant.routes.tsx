@@ -9,14 +9,14 @@ import {RootStackParamList} from '../types/routeTypes';
 import CartPage from '../views/CartPage';
 import {colors} from '../globalStyles';
 import {CustomCloseButton} from '../components/CustomCloseButton';
-import CheckoutOrder from '../views/CheckoutOrder';
+import CheckoutRequest from '../views/CheckoutRequest';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 export function RestaurantStack() {
   return (
     <CartProvider>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
           component={Home}
@@ -46,18 +46,22 @@ export function RestaurantStack() {
             headerStyle: {backgroundColor: colors.red},
             headerTitleStyle: {color: colors.white},
             headerTitleAlign: 'center',
-            headerLeft: () => <CustomCloseButton navigation={navigation} />,
+            headerLeft: () => (
+              <CustomCloseButton handleSubmit={() => navigation.pop()} />
+            ),
           })}
         />
         <Stack.Screen
-          name="CheckoutOrder"
-          component={CheckoutOrder}
+          name="CheckoutRequest"
+          component={CheckoutRequest}
           options={({navigation}) => ({
-            title: 'Compras',
+            title: 'Checkout',
             headerStyle: {backgroundColor: colors.red},
             headerTitleStyle: {color: colors.white},
             headerTitleAlign: 'center',
-            headerLeft: () => <CustomCloseButton navigation={navigation} />,
+            headerLeft: () => (
+              <CustomCloseButton handleSubmit={() => navigation.popToTop()} />
+            ),
           })}
         />
       </Stack.Navigator>

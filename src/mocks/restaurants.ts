@@ -159,6 +159,7 @@ export const restaurantsMock: RestaurantData[] = [
       neigbourhood: 'neighbourhood',
       number: '12345',
     },
+    foodType: {name: 'Fast Food', id: '1'},
     rating: 1,
     plates: [
       {id: '701', name: 'Espresso', restaurantId: '7', price: 1},

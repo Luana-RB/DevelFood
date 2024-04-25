@@ -41,12 +41,12 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const {addItem, removeItem, removeQuantity, getQuantity} = useCart();
 
   useEffect(() => {
-    if (!!plate.foto) setImagePath({uri: plate.foto});
+    if (!!plate.image) setImagePath({uri: plate.image});
     else setImagePath(require('../../../assets/images/notFound.png'));
 
-    if (plate.descricao) formatDescription(plate.descricao);
+    if (plate.description) formatDescription(plate.description);
 
-    formatPrice(plate.preco);
+    formatPrice(plate.price);
   }, []);
 
   useFocusEffect(
@@ -94,8 +94,8 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
       <BodyContainer>
         <PlateImage source={imagePath} />
         <HeaderContainer>
-          <Title>{plate.nome}</Title>
-          <SubTitle>{restaurant.categoria}</SubTitle>
+          <Title>{plate.name}</Title>
+          <SubTitle>{restaurant.foodType.name}</SubTitle>
         </HeaderContainer>
         <DescriptionContainer>
           <Description>{description}</Description>
@@ -108,7 +108,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
             style={{marginVertical: 10, marginHorizontal: 15}}
           />
           <RestaurantName>
-            Vendido e entregue por {restaurant?.nome}
+            Vendido e entregue por {restaurant?.name}
           </RestaurantName>
         </RestaurantContainer>
       </BodyContainer>

@@ -3,9 +3,9 @@ import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../globalStyles';
 
-export function CustomCloseButton({navigation}: any) {
+export function CustomCloseButton({handleSubmit}: any) {
   return (
-    <TouchableOpacity onPress={() => navigation.pop()}>
+    <TouchableOpacity onPress={handleSubmit}>
       <Icon
         name="close"
         color={colors.white}

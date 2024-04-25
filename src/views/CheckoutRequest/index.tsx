@@ -1,18 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {colors} from '../../globalStyles';
 import Button from '../../components/Button';
 import {Container, Image, Text, Title} from './styles';
-import {CheckoutOrderScreenProps} from '../../types/routeTypes';
+import {CheckoutRequestScreenProps} from '../../types/routeTypes';
 
-const CheckoutOrder: React.FC<CheckoutOrderScreenProps> = ({
+const CheckoutRequest: React.FC<CheckoutRequestScreenProps> = ({
   navigation,
   route,
 }: any) => {
-  const {orderId} = route.params;
+  const {requestId} = route.params;
 
   function handleSubmit() {
-    navigation.navigate('OrderDetails', orderId);
+    // navigation.navigate('RequestDetails', requestId);
   }
 
   return (
@@ -32,4 +32,4 @@ const CheckoutOrder: React.FC<CheckoutOrderScreenProps> = ({
   );
 };
 
-export default CheckoutOrder;
+export default CheckoutRequest;

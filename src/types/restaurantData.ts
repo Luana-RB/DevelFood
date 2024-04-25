@@ -16,7 +16,7 @@ export interface RestaurantData {
     number: string;
   };
 
-  foodType?: {
+  foodType: {
     id: string;
     name: string;
   };
@@ -40,6 +40,7 @@ export interface PlateData {
   description?: string;
   image?: string;
   restaurantId: string;
+  quantity?: number;
 }
 
 export interface RestaurantAdress {
