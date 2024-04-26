@@ -23,13 +23,10 @@ export const users: UserData[] = [
       },
     ],
     favorites: [
+      {plateId: '102'},
       {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
+      {plateId: '103'},
+      {plateId: '201'},
     ],
   },
   {

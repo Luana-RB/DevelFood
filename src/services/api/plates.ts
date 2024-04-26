@@ -6,12 +6,17 @@ export async function getPlateDataById(id: string) {
     // const header = await getToken();
     // const plateData = await api.get(`/plates/${id}`, header);
     const restaurantArray = restaurantsMock;
-    let plateData = null;
-    restaurantArray.some(restaurant => {
-      plateData = restaurant.plates?.find(plate => plate.id === id);
-      return plateData;
-    });
-    if (plateData) return plateData;
+    for (let i = 0; i < restaurantArray.length; i++) {
+      const restaurant = restaurantArray[i];
+      let lenght = 0;
+      if (restaurant.plates?.length) lenght = restaurant.plates?.length;
+
+      for (let index = 0; index < lenght; i++) {
+        if (restaurant.plates && restaurant.plates[index].id === id)
+          return restaurant.plates[index];
+      }
+    }
+    return undefined;
   } catch (e) {
     console.log(e);
   }

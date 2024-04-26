@@ -6,6 +6,7 @@ export function getFavorites() {
   try {
     const user = users[0];
     const favorites = user.favorites;
+    console.log(favorites);
     return favorites;
   } catch (e) {
     console.log(e);
@@ -48,20 +49,23 @@ export function compareFavorites(plate: PlateData) {
 
 export async function compareRestaurant(restaurantId: string) {
   try {
-    // const user = users[0];
-    // const favorites = user.favorites;
-    // if (favorites?.length === 0) return false;
-    // const response = await Promise.all(
-    //   favorites.map(async item => {
-    //     const plateData: PlateData|undefined = await getPlateDataById(item.plateId);
-    //     if(plateData) if(plateData.restaurantId)
-    //     return plateData && plateData.restaurantId === restaurantId;
-    //   }),
-    // );
+    const user = users[0];
+    const favorites = user.favorites;
+    if (favorites?.length === 0) return false;
 
-    // const anyMatched = response.some(matched => matched === true);
-    // return anyMatched;
-    return true;
+    const response = await Promise.all(
+      favorites.map(async item => {
+        const plateData = await getPlateDataById(item.plateId);
+        if (plateData) {
+          const id = plateData.restaurantId;
+          return plateData.restaurantId === restaurantId;
+        }
+        return false;
+      }),
+    );
+
+    const anyMatched = response.some(matched => matched === true);
+    return anyMatched;
   } catch (e) {
     console.log('compareRestaurant:', e);
     return false;

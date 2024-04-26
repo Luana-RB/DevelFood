@@ -6,24 +6,36 @@ import CategoryList from '../../components/CategoryList';
 import PlateCard from '../../components/PlateCard';
 import {Container} from './styles';
 import {getFavorites} from '../../services/api/favorites';
-import {RestaurantPlate} from '../../types/restaurantData';
 import SearchBar from '../../components/SearchBar';
 import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 import {useFocusEffect} from '@react-navigation/native';
+import {PlateData} from '../../types/restaurantData';
+import {Favorites} from '../../types/userData';
+import {getPlateDataById} from '../../services/api/plates';
 
 const Favoritos: React.FC = ({navigation}: any) => {
-  const [data, setData] = useState<RestaurantPlate[]>();
-  const [shownData, setShownData] = useState<RestaurantPlate[] | null>();
+  const [data, setData] = useState<(PlateData | undefined)[]>([]);
+  const [shownData, setShownData] = useState<(PlateData | undefined)[]>([]);
 
   useFocusEffect(
     React.useCallback(() => {
-      const favorites = getFavorites();
-      if (favorites) {
-        setData([...favorites]);
-        setShownData([...favorites]);
-      }
+      getFavoritesData();
     }, []),
   );
+
+  async function getFavoritesData() {
+    const favorites: Favorites[] | undefined = await getFavorites();
+    if (favorites) {
+      const platePromises = favorites.map(async plate => {
+        const plateId = plate.plateId;
+        const plateData = await getPlateDataById(plateId);
+        return plateData;
+      });
+
+      const plates = await Promise.all(platePromises);
+      setData(plates);
+    }
+  }
 
   function handleSearch(text: string) {
     if (text.length < 2) {
@@ -31,8 +43,8 @@ const Favoritos: React.FC = ({navigation}: any) => {
       return;
     }
 
-    const newData = data?.filter((item: {nome: string}) => {
-      const itemData = item.nome.toUpperCase();
+    const newData = (data as PlateData[]).filter(item => {
+      const itemData = item.name.toUpperCase();
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
@@ -52,10 +64,14 @@ const Favoritos: React.FC = ({navigation}: any) => {
       <FlatList
         style={{marginTop: 20}}
         data={shownData}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <PlateCard data={item} navigation={navigation} />
-        )}
+        keyExtractor={(item, index) => String(index)}
+        renderItem={({item}) => {
+          return item ? (
+            <PlateCard data={item} navigation={navigation} />
+          ) : (
+            <View />
+          );
+        }}
         ListEmptyComponent={
           <ListEmptyComponent
             text="Você não possui favoritos"

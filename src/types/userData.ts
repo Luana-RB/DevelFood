@@ -16,7 +16,7 @@ export interface UserStoreData {
   favorites?: Favorites[];
 }
 
-interface Favorites {
+export interface Favorites {
   plateId: string;
 }
 export interface UserCredentials {
