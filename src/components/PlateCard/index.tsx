@@ -24,17 +24,17 @@ import {
   QuantityText,
 } from '../AddButton/styles';
 import {colors, screenWidth} from '../../globalStyles';
-import {compareFavorites} from '../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
 import {TouchableOpacity} from 'react-native';
+import {compareFavoritePlates} from '../../services/api/favorites';
 
 interface PlateCardProps {
   data: PlateData;
   small?: boolean;
   finished?: boolean;
   number?: number;
-  navigation: any
+  navigation: any;
 }
 
 const PlateCard: React.FC<PlateCardProps> = ({
@@ -42,7 +42,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
   small,
   finished,
   number,
-navigation
+  navigation,
 }) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
@@ -79,7 +79,7 @@ navigation
 
   useFocusEffect(
     React.useCallback(() => {
-      const isFavorite = compareFavorites(data);
+      const isFavorite = compareFavoritePlates(data);
       if (isFavorite) setHeart('heart');
       else setHeart('heart-outline');
 
@@ -108,66 +108,66 @@ navigation
           restaurantId: data.restaurantId,
         });
       }}>
-    <Container style={{width: size}}>
-      <PlateImage source={imagePath} />
-      {!small && (
-        <Icon
-          name={heart}
-          color={colors.red}
-          style={styles.heartIcon}
-          size={20}
-        />
-      )}
+      <Container style={{width: size}}>
+        <PlateImage source={imagePath} />
+        {!small && (
+          <Icon
+            name={heart}
+            color={colors.red}
+            style={styles.heartIcon}
+            size={20}
+          />
+        )}
 
-      <BodyContainer>
-        <TextContainer>
-          <TitleContainer>
-            <Title>{data.name}</Title>
-          </TitleContainer>
-          <DescriptionContainer>
-            <Description>{description}</Description>
-          </DescriptionContainer>
-        </TextContainer>
-        <FooterContainer>
-          <Price>R$ {thisPrice}</Price>
-          {!finished &&
-            (quantity === 0 ? (
-              <AddButton onPress={handleAdd}>
-                <AddText>Adicionar</AddText>
-              </AddButton>
-            ) : (
+        <BodyContainer>
+          <TextContainer>
+            <TitleContainer>
+              <Title>{data.name}</Title>
+            </TitleContainer>
+            <DescriptionContainer>
+              <Description>{description}</Description>
+            </DescriptionContainer>
+          </TextContainer>
+          <FooterContainer>
+            <Price>R$ {thisPrice}</Price>
+            {!finished &&
+              (quantity === 0 ? (
+                <AddButton onPress={handleAdd}>
+                  <AddText>Adicionar</AddText>
+                </AddButton>
+              ) : (
+                <QuantityContainer>
+                  {quantity === 1 ? (
+                    <QuantityButton onPress={handleRemove}>
+                      <Icon
+                        name={'trash-can-outline'}
+                        color={colors.red}
+                        size={20}
+                      />
+                    </QuantityButton>
+                  ) : (
+                    <QuantityButton onPress={handleRemove}>
+                      <Icon name={'minus'} color={colors.red} size={20} />
+                    </QuantityButton>
+                  )}
+                  <QuantityBox>
+                    <QuantityText>{quantity}</QuantityText>
+                  </QuantityBox>
+                  <QuantityButton onPress={handleAdd}>
+                    <Icon name={'plus'} color={colors.red} size={20} />
+                  </QuantityButton>
+                </QuantityContainer>
+              ))}
+            {finished && (
               <QuantityContainer>
-                {quantity === 1 ? (
-                  <QuantityButton onPress={handleRemove}>
-                    <Icon
-                      name={'trash-can-outline'}
-                      color={colors.red}
-                      size={20}
-                    />
-                  </QuantityButton>
-                ) : (
-                  <QuantityButton onPress={handleRemove}>
-                    <Icon name={'minus'} color={colors.red} size={20} />
-                  </QuantityButton>
-                )}
-                <QuantityBox>
-                  <QuantityText>{quantity}</QuantityText>
+                <QuantityBox style={{}}>
+                  <QuantityText>{number}</QuantityText>
                 </QuantityBox>
-                <QuantityButton onPress={handleAdd}>
-                  <Icon name={'plus'} color={colors.red} size={20} />
-                </QuantityButton>
               </QuantityContainer>
-            ))}
-          {finished && (
-            <QuantityContainer>
-              <QuantityBox style={{}}>
-                <QuantityText>{number}</QuantityText>
-              </QuantityBox>
-            </QuantityContainer>
-          )}
-        </FooterContainer>
-      </BodyContainer>
-    </Container>
+            )}
+          </FooterContainer>
+        </BodyContainer>
+      </Container>
     </TouchableOpacity>
   );
 };

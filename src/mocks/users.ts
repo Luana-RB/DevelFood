@@ -22,12 +22,8 @@ export const users: UserData[] = [
         number: '123',
       },
     ],
-    favorites: [
-      {plateId: '102'},
-      {plateId: '401'},
-      {plateId: '103'},
-      {plateId: '201'},
-    ],
+    favoritePlates: [{id: '102'}, {id: '401'}, {id: '103'}, {id: '201'}],
+    favoriteRestaurants: [{id: '2'}, {id: '3'}],
   },
   {
     id: '2',
@@ -50,6 +46,7 @@ export const users: UserData[] = [
         number: '456',
       },
     ],
-    favorites: [],
+    favoritePlates: [],
+    favoriteRestaurants: [],
   },
 ];

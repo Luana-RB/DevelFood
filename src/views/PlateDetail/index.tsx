@@ -33,12 +33,13 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {useCart} from '../../services/context/cartContext';
 import {useFocusEffect} from '@react-navigation/native';
 import {PlateDetailsScreenProps} from '../../types/routeTypes';
-import {getRestaurantById} from '../../services/api/restaurants';
 import {RestaurantData} from '../../types/restaurantData';
+import {getRestaurantById} from '../../services/api/restaurants';
 
 const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
-  const {plate, restaurant} = route.params;
+  const {plate, restaurantId} = route.params;
   const [quantity, setQuantity] = useState(0);
+  const [restaurant, setRestaurant] = useState<RestaurantData>();
   const [description, setDescription] = useState('');
   const [thisPrice, setThisPrice] = useState('0,00');
 
@@ -49,6 +50,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const {addItem, removeItem, removeQuantity, getQuantity} = useCart();
 
   useEffect(() => {
+    loadRestaurantData();
     if (!!plate.image) setImagePath({uri: plate.image});
     else setImagePath(require('../../../assets/images/notFound.png'));
     if (plate.description) formatDescription(plate.description);
@@ -56,6 +58,10 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
     formatPrice(plate.price);
   }, []);
 
+  async function loadRestaurantData() {
+    const restaurantData = await getRestaurantById(restaurantId);
+    if (restaurantData) setRestaurant(restaurantData);
+  }
   useFocusEffect(
     React.useCallback(() => {
       const newQuantity = getQuantity(plate);

@@ -60,7 +60,8 @@ const TelaFinal: React.FC = ({navigation}: any) => {
           number: user.address[0].number,
         },
       ],
-      favorites: [],
+      favoritePlates: [],
+      favoriteRestaurants: [],
     };
     return newUser;
   }

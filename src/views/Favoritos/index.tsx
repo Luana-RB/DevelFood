@@ -5,17 +5,17 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import CategoryList from '../../components/CategoryList';
 import PlateCard from '../../components/PlateCard';
 import {Container} from './styles';
-import {getFavorites} from '../../services/api/favorites';
 import SearchBar from '../../components/SearchBar';
 import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 import {useFocusEffect} from '@react-navigation/native';
 import {PlateData} from '../../types/restaurantData';
 import {Favorites} from '../../types/userData';
 import {getPlateDataById} from '../../services/api/plates';
+import {getFavoritePlates} from '../../services/api/favorites';
 
 const Favoritos: React.FC = ({navigation}: any) => {
-  const [data, setData] = useState<(PlateData | undefined)[]>([]);
-  const [shownData, setShownData] = useState<(PlateData | undefined)[]>([]);
+  const [data, setData] = useState<PlateData[]>([]);
+  const [shownData, setShownData] = useState<PlateData[]>([]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -24,16 +24,17 @@ const Favoritos: React.FC = ({navigation}: any) => {
   );
 
   async function getFavoritesData() {
-    const favorites: Favorites[] | undefined = await getFavorites();
+    const favorites: Favorites[] | undefined = await getFavoritePlates();
+    const plates: PlateData[] = [];
     if (favorites) {
-      const platePromises = favorites.map(async plate => {
-        const plateId = plate.plateId;
+      for (let i = 0; i < favorites.length; i++) {
+        const plateId = favorites[i].id;
         const plateData = await getPlateDataById(plateId);
-        return plateData;
-      });
-
-      const plates = await Promise.all(platePromises);
+        if (plateData) plates.push(plateData);
+      }
+      console.log(plates);
       setData(plates);
+      setShownData(plates);
     }
   }
 
@@ -64,14 +65,10 @@ const Favoritos: React.FC = ({navigation}: any) => {
       <FlatList
         style={{marginTop: 20}}
         data={shownData}
-        keyExtractor={(item, index) => String(index)}
-        renderItem={({item}) => {
-          return item ? (
-            <PlateCard data={item} navigation={navigation} />
-          ) : (
-            <View />
-          );
-        }}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <PlateCard data={item} navigation={navigation} />
+        )}
         ListEmptyComponent={
           <ListEmptyComponent
             text="Você não possui favoritos"

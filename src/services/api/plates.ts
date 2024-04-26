@@ -1,6 +1,4 @@
 import {plates} from '../../mocks/plates';
-import {restaurantsMock} from '../../mocks/restaurants';
-import {PlateData} from '../../types/restaurantData';
 import {api, getToken} from './api';
 
 export async function getPlateDataById(id: string) {
