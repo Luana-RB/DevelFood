@@ -123,7 +123,7 @@ const Tela2: React.FC = ({navigation}: any) => {
             style={{marginHorizontal: 8}}
           />
           <MaskedTextInput
-            style={{color: colors.black}}
+            style={{color: colors.black, width: '90%'}}
             placeholder="CPF"
             placeholderTextColor={colors.gray}
             value={cpf}

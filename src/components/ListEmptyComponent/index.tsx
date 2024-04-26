@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, ImageSourcePropType} from 'react-native';
 import {colors} from '../../globalStyles';
-import {
-  NoResultContainer,
-  NoResultImage,
-  NoResultText,
-} from '../NoResultComponent';
+import {NoResultContainer, NoResultImage, NoResultText} from './styles';
 const MAX_WAITING_TIME = 6000;
 
 interface ListEmptyProps {
@@ -25,6 +21,8 @@ export const ListEmptyComponent: React.FC<ListEmptyProps> = ({
       setPath(require('../../../assets/images/notFoundRestaurant.png'));
     else if (imagePath === 'favorites')
       setPath(require('../../../assets/images/notFoundFavorites.png'));
+    else if (imagePath === 'pedidos')
+      setPath(require('../../../assets/images/notFoundPedidos.png'));
     else setPath(require('../../../assets/images/notFoundRestaurant.png'));
   }, []);
 
