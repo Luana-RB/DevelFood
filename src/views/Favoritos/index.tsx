@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import {colors, screenHeight} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import CategoryList from '../../components/CategoryList';
@@ -118,7 +118,15 @@ const Favoritos: React.FC = ({navigation}: any) => {
           data={shownData}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <PlateCard data={item} navigation={navigation} />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('PlateDetails', {
+                  plate: item,
+                  restaurantId: item.restaurantId,
+                });
+              }}>
+              <PlateCard data={item} navigation={navigation} />
+            </TouchableOpacity>
           )}
           ListEmptyComponent={
             <ListEmptyComponent

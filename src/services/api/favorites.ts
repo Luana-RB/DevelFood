@@ -6,7 +6,6 @@ export function getFavoritePlates() {
   try {
     const user = users[0];
     const favorites = user.favoritePlates;
-    console.log(favorites);
     return favorites;
   } catch (e) {
     console.log(e);
@@ -16,7 +15,6 @@ export function getFavoritesRestaurants() {
   try {
     const user = users[0];
     const favorites = user.favoriteRestaurants;
-    console.log(favorites);
     return favorites;
   } catch (e) {
     console.log(e);

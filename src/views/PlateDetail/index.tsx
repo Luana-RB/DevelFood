@@ -54,8 +54,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
     if (!!plate.image) setImagePath({uri: plate.image});
     else setImagePath(require('../../../assets/images/notFound.png'));
     if (plate.description) formatDescription(plate.description);
-
-    formatPrice(plate.price);
+    if (plate.price) formatPrice(plate.price);
   }, []);
 
   async function loadRestaurantData() {
