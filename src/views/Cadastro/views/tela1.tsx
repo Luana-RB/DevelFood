@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {StatusBar, TouchableOpacity} from 'react-native';
-import {ErrorText, InputContainer, InputText} from '../../../components/Input';
+import {
+  ErrorText,
+  InputContainer,
+  InputText,
+} from '../../../components/Input/styles';
 import Button from '../../../components/Button';
 import {colors} from '../../../globalStyles';
 import validator from 'validator';

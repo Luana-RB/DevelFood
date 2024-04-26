@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {TextInput, View} from 'react-native';
 import Button from '../../../components/Button';
-import {ErrorText} from '../../../components/Input';
+import {ErrorText} from '../../../components/Input/styles';
 import {sendNumberCode} from '../../../services/api/users';
 import {
   BarContainer,

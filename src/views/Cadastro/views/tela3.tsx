@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {StatusBar, View} from 'react-native';
-import {ErrorText, InputContainer, InputText} from '../../../components/Input';
+import {
+  ErrorText,
+  InputContainer,
+  InputText,
+} from '../../../components/Input/styles';
 import {colors} from '../../../globalStyles';
 import {useCadastro} from '../../../services/context/cadastroContext';
 import Button from '../../../components/Button';

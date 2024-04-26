@@ -34,14 +34,14 @@ import {useCart} from '../../services/context/cartContext';
 import {useFocusEffect} from '@react-navigation/native';
 import {PlateDetailsScreenProps} from '../../types/routeTypes';
 import {getRestaurantById} from '../../services/api/restaurants';
-import {RestaurantsData} from '../../types/restaurantData';
+import {RestaurantData} from '../../types/restaurantData';
 
 const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
-  const {plate, restaurantId} = route.params;
+  const {plate, restaurant} = route.params;
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [thisPrice, setThisPrice] = useState('0,00');
-  const [restaurant, setRestaurant] = useState<RestaurantsData>();
+
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
   );
@@ -49,17 +49,11 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const {addItem, removeItem, removeQuantity, getQuantity} = useCart();
 
   useEffect(() => {
-    async function getData() {
-      const newData = await getRestaurantById(restaurantId);
-      setRestaurant(newData);
-    }
-    getData();
-
-    if (!!plate.foto) setImagePath({uri: plate.foto});
+    if (!!plate.image) setImagePath({uri: plate.image});
     else setImagePath(require('../../../assets/images/notFound.png'));
-    if (plate.descricao) formatDescription(plate.descricao);
+    if (plate.description) formatDescription(plate.description);
 
-    formatPrice(plate.preco);
+    formatPrice(plate.price);
   }, []);
 
   useFocusEffect(
@@ -114,8 +108,8 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
       <BodyContainer>
         <PlateImage source={imagePath} />
         <HeaderContainer>
-          <Title>{plate.nome}</Title>
-          <SubTitle>{restaurant?.categoria}</SubTitle>
+          <Title>{plate.name}</Title>
+          <SubTitle>{restaurant.foodType.name}</SubTitle>
         </HeaderContainer>
         <DescriptionContainer>
           <Description>{description}</Description>

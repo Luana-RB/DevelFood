@@ -4,7 +4,7 @@ import SearchBar from '../../components/SearchBar';
 import PlateCard from '../../components/PlateCard';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {colors} from '../../globalStyles';
-import {RestaurantPlate, RestaurantsData} from '../../types/restaurantData';
+import {PlateData, RestaurantData} from '../../types/restaurantData';
 import CartBar from '../../components/CartBar';
 import {
   BodyContainer,
@@ -28,13 +28,13 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   navigation,
 }) => {
   const [cart, setCart] = useState(false);
-  const [data, setData] = useState<RestaurantsData>();
-  const [loading, setLoading] = useState(false);
-  const [plateData, setPlateData] = useState<RestaurantPlate[]>([]);
-  const [shownData, setShownData] = useState<RestaurantPlate[] | null>();
+  const [data, setData] = useState<RestaurantData>();
+  const [plateData, setPlateData] = useState<PlateData[]>([]);
+  const [shownData, setShownData] = useState<PlateData[]>([]);
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
+
   const {numOfItems} = useCart();
   const {restaurantId} = route.params;
   const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
@@ -42,10 +42,8 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   useEffect(() => {
     async function getData() {
       const newData = await getRestaurantById(restaurantId);
-      if (newData) {
-        setData(newData);
-        setShownData(newData.pratos);
-      } else {
+      if (newData) setData(newData);
+      else {
         Alert.alert('Falha ao encontrar restaurante');
         navigation.goBack();
       }
@@ -55,10 +53,10 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
 
   useEffect(() => {
     if (data) {
-      if (data.pratos !== undefined && data.pratos.length >= 1) {
-        setPlateData(data.pratos);
-      }
-      if (!!data.fotos) setImagePath({uri: data.fotos});
+      if (data.plates !== undefined && data.plates.length >= 1)
+        setPlateData(data.plates);
+
+      if (!!data.image) setImagePath({uri: data.image});
       else setImagePath(require('../../../assets/images/notFound.png'));
 
       if (numOfItems > 0) setCart(true);
@@ -72,19 +70,12 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       return;
     }
 
-    setLoading(true);
-
-    setTimeout(function () {
-      setLoading(false);
-    }, 2000);
-
-    const newData = plateData?.filter((item: {nome: string}) => {
-      const itemData = item.nome.toUpperCase();
+    const newData = plateData?.filter((item: {name: string}) => {
+      const itemData = item.name.toUpperCase();
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
 
-    if (!newData || newData.length === 0) setLoading(false);
     setShownData(newData);
   }
 
@@ -103,8 +94,8 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       />
       <HeaderContainer>
         <HeaderTextContainer>
-          <HeaderTitle>{data?.nome}</HeaderTitle>
-          <HeaderCategory>{data?.categoria}</HeaderCategory>
+          <HeaderTitle>{data?.name}</HeaderTitle>
+          <HeaderCategory>{data?.foodType?.name}</HeaderCategory>
         </HeaderTextContainer>
         <HeaderLogo source={imagePath} />
       </HeaderContainer>
@@ -112,11 +103,11 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
       <BodyContainer>
         <PlatesTitle>Pratos</PlatesTitle>
         <SearchBar
-          title={`Buscar em ${data?.nome}`}
+          title={`Buscar em ${data?.name}`}
           onChangeText={handleSearch}
         />
-
         <FlatList
+          style={{flex: 5}}
           data={shownData}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
@@ -129,9 +120,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
               imagePath="restaurant"
             />
           }
-          style={{flex: 5}}
         />
-        {loading && <ActivityIndicator size={50} color={colors.red} />}
       </BodyContainer>
       {cart && (
         <View
@@ -141,7 +130,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
             alignItems: 'center',
             justifyContent: 'flex-start',
           }}>
-          <CartBar margin={20} />
+          <CartBar margin={20} navigation={navigation} />
         </View>
       )}
       {isModalVisible && data && (

@@ -22,7 +22,11 @@ export function CustomHeartButton({route}: any) {
         setHeart(isFavoriteResult);
       } else if (route.name === 'RestaurantProfile') {
         const {restaurantId} = route.params;
-        const isFavoriteResult = compareRestaurant(restaurantId);
+        checkIfRestaurantIsFavorited(restaurantId);
+      }
+
+      async function checkIfRestaurantIsFavorited(restaurantId: string) {
+        const isFavoriteResult = await compareRestaurant(restaurantId);
         setHeart(isFavoriteResult);
       }
     }, []),

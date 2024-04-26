@@ -2,21 +2,24 @@ import React from 'react';
 import {FlatList, View} from 'react-native';
 import {BodyContainer, Container, DateTitle} from './styles';
 import OrderCard from '../OrderCard';
-import {OrderDateData} from '../../../../types/orderData';
+import {RequestDateData} from '../../../../types/requestData';
 
 interface DateListProps {
-  data: OrderDateData;
+  data: RequestDateData;
+  navigation: any;
 }
 
-const DateList: React.FC<DateListProps> = ({data}) => {
+const DateList: React.FC<DateListProps> = ({data, navigation}) => {
   return (
     <Container>
       <DateTitle>{data.date}</DateTitle>
       <BodyContainer>
         <FlatList
-          data={data.orderItems}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => <OrderCard data={item} />}
+          data={data.requestItems}
+          keyExtractor={item => item.id!}
+          renderItem={({item}) => (
+            <OrderCard data={item} navigation={navigation} />
+          )}
           ListFooterComponent={<View style={{height: 20}} />}
           style={{width: '100%'}}
         />

@@ -1,11 +1,11 @@
 import React, {createContext, useContext, useState} from 'react';
-import {UsersData} from '../../types/userData';
+import {UserStoreData} from '../../types/userData';
 
 type ForgotPasswordContextType = {
-  user: UsersData;
+  user: UserStoreData;
   token: string;
-  storeUser: (user: UsersData) => Promise<true | undefined>;
-  returnsUser: () => UsersData | undefined;
+  storeUser: (user: UserStoreData) => Promise<true | undefined>;
+  returnsUser: () => UserStoreData | undefined;
   storeToken: (token: string) => Promise<void>;
 };
 
@@ -23,18 +23,21 @@ export const useForgotPassword = () => {
 
 export const ForgotPasswordProvider = ({children}: any) => {
   const [token, setToken] = useState('');
-  const [user, setUser] = useState<UsersData>({
+  const [user, setUser] = useState<UserStoreData>({
     credentials: {id: '', email: '', password: ''},
-    info: {name: '', surname: '', cpf: '', cellphone: ''},
-    adress: {
-      apelido: '',
-      cep: '',
-      rua: '',
-      cidade: '',
-      bairro: '',
-      estado: '',
-      num: '',
-    },
+    info: {firstName: '', lastName: '', cpf: '', phone: ''},
+    address: [
+      {
+        addressName: '',
+        cep: '',
+        street: '',
+        city: '',
+        neighbourhood: '',
+        state: '',
+        number: '',
+      },
+    ],
+    favorites: [],
   });
 
   const returnsUser = () => {
@@ -49,20 +52,23 @@ export const ForgotPasswordProvider = ({children}: any) => {
     setToken('');
     setUser({
       credentials: {id: '', email: '', password: ''},
-      info: {name: '', surname: '', cpf: '', cellphone: ''},
-      adress: {
-        apelido: '',
-        cep: '',
-        rua: '',
-        cidade: '',
-        bairro: '',
-        estado: '',
-        num: '',
-      },
+      info: {firstName: '', lastName: '', cpf: '', phone: ''},
+      address: [
+        {
+          addressName: '',
+          cep: '',
+          street: '',
+          city: '',
+          neighbourhood: '',
+          state: '',
+          number: '',
+        },
+      ],
+      favorites: [],
     });
   };
 
-  const storeUser = async (user: UsersData) => {
+  const storeUser = async (user: UserStoreData) => {
     try {
       setUser(user);
       return true;

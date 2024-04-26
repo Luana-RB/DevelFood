@@ -21,7 +21,11 @@ import {
   SignInText,
 } from './styles';
 import {postLogin} from '../../services/api/users';
-import {ErrorText, InputContainer, InputText} from '../../components/Input';
+import {
+  ErrorText,
+  InputContainer,
+  InputText,
+} from '../../components/Input/styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Login: React.FC = ({navigation}: any) => {

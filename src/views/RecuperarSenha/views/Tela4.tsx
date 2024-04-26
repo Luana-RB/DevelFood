@@ -9,7 +9,7 @@ import {
   InputContainer,
   InputIcon,
   InputText,
-} from '../../../components/Input';
+} from '../../../components/Input/styles';
 import {
   BarContainer,
   BarImage,
@@ -88,7 +88,7 @@ const Tela4: React.FC = ({navigation}: any) => {
       const user = returnsUser();
       if (user) {
         const sucess = patchPassword(user, password);
-        if (sucess) {
+        if (true) {
           navigation.navigate('Final');
         }
       }

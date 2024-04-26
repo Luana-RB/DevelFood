@@ -10,12 +10,14 @@ import {
 import {useCart} from '../../services/context/cartContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../globalStyles';
+import {TouchableOpacity} from 'react-native';
 
 interface CartBarProps {
   margin: number;
+  navigation: any;
 }
 
-const CartBar: React.FC<CartBarProps> = ({margin}) => {
+const CartBar: React.FC<CartBarProps> = ({margin, navigation}) => {
   const {numOfItems, price} = useCart();
   const [shownNum, setShownNum] = useState('0');
   const [shownPrice, setShownPrice] = useState('0.00');
@@ -37,7 +39,9 @@ const CartBar: React.FC<CartBarProps> = ({margin}) => {
           <QuantityText>{shownNum}</QuantityText>
         </QuantityContainer>
       </CartContainer>
-      <Title>Ver Carrinho</Title>
+      <TouchableOpacity onPress={() => navigation.navigate('CartPage')}>
+        <Title>Ver Carrinho</Title>
+      </TouchableOpacity>
       <Price>R$ {shownPrice}</Price>
     </Container>
   );

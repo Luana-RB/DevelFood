@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {RestaurantPlate} from '../../types/restaurantData';
+import {PlateData} from '../../types/restaurantData';
 import {
   BodyContainer,
   Container,
@@ -23,18 +23,27 @@ import {
   QuantityContainer,
   QuantityText,
 } from '../AddButton/styles';
-import {colors} from '../../globalStyles';
+import {colors, screenWidth} from '../../globalStyles';
 import {compareFavorites} from '../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
 import {TouchableOpacity} from 'react-native';
 
 interface PlateCardProps {
-  data: RestaurantPlate;
-  navigation: any;
+  data: PlateData;
+  small?: boolean;
+  finished?: boolean;
+  number?: number;
+  navigation: any
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data, navigation}) => {
+const PlateCard: React.FC<PlateCardProps> = ({
+  data,
+  small,
+  finished,
+  number,
+navigation
+}) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
@@ -42,21 +51,28 @@ const PlateCard: React.FC<PlateCardProps> = ({data, navigation}) => {
   );
   const [thisPrice, setThisPrice] = useState('0,00');
   const [heart, setHeart] = useState('heart-outline');
+  const [size, setSize] = useState(screenWidth * 0.9);
   const {addItem, removeItem, removeQuantity, getQuantity, price} = useCart();
+  let maxLength = 20;
 
   useEffect(() => {
-    if (!!data.foto) setImagePath({uri: data.foto});
+    if (small) {
+      setSize(screenWidth * 0.8);
+      maxLength = 12;
+    }
+
+    if (!!data.image) setImagePath({uri: data.image});
     else setImagePath(require('../../../assets/images/notFound.png'));
 
-    if (!!data.descricao) {
-      const text = data.descricao;
+    if (!!data.description) {
+      const text = data.description;
       const words = text.split(' ');
-      const firstWords = words.slice(0, 20);
+      const firstWords = words.slice(0, maxLength);
       const newDescription = firstWords.join(' ');
       setDescription(newDescription);
     }
 
-    const centsFormat = data.preco.toFixed(2);
+    const centsFormat = data.price.toFixed(2);
     const commaFormat = centsFormat.replace(/\./g, ',');
     setThisPrice(commaFormat);
   }, []);
@@ -79,11 +95,8 @@ const PlateCard: React.FC<PlateCardProps> = ({data, navigation}) => {
   }
 
   function handleRemove() {
-    if (quantity === 1) {
-      const quantityInCart = getQuantity(data);
-      removeItem(data, quantityInCart);
-    } else if (quantity > 1) removeQuantity(data);
-
+    if (quantity === 1) removeItem(data, 1);
+    else if (quantity > 1) removeQuantity(data);
     setQuantity(quantity - 1);
   }
 
@@ -95,26 +108,30 @@ const PlateCard: React.FC<PlateCardProps> = ({data, navigation}) => {
           restaurantId: data.restaurantId,
         });
       }}>
-      <Container>
-        <PlateImage source={imagePath} />
+    <Container style={{width: size}}>
+      <PlateImage source={imagePath} />
+      {!small && (
         <Icon
           name={heart}
           color={colors.red}
           style={styles.heartIcon}
           size={20}
         />
-        <BodyContainer>
-          <TextContainer>
-            <TitleContainer>
-              <Title>{data.nome}</Title>
-            </TitleContainer>
-            <DescriptionContainer>
-              <Description>{description}</Description>
-            </DescriptionContainer>
-          </TextContainer>
-          <FooterContainer>
-            <Price>R$ {thisPrice}</Price>
-            {quantity === 0 ? (
+      )}
+
+      <BodyContainer>
+        <TextContainer>
+          <TitleContainer>
+            <Title>{data.name}</Title>
+          </TitleContainer>
+          <DescriptionContainer>
+            <Description>{description}</Description>
+          </DescriptionContainer>
+        </TextContainer>
+        <FooterContainer>
+          <Price>R$ {thisPrice}</Price>
+          {!finished &&
+            (quantity === 0 ? (
               <AddButton onPress={handleAdd}>
                 <AddText>Adicionar</AddText>
               </AddButton>
@@ -140,10 +157,17 @@ const PlateCard: React.FC<PlateCardProps> = ({data, navigation}) => {
                   <Icon name={'plus'} color={colors.red} size={20} />
                 </QuantityButton>
               </QuantityContainer>
-            )}
-          </FooterContainer>
-        </BodyContainer>
-      </Container>
+            ))}
+          {finished && (
+            <QuantityContainer>
+              <QuantityBox style={{}}>
+                <QuantityText>{number}</QuantityText>
+              </QuantityBox>
+            </QuantityContainer>
+          )}
+        </FooterContainer>
+      </BodyContainer>
+    </Container>
     </TouchableOpacity>
   );
 };
