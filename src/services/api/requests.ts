@@ -15,7 +15,7 @@ export async function getRequestById(id: string) {
   try {
     //const header = await getToken();
     // const request = await api.get(`/cliente/pedidos/${id}`, header)
-    const request = requests[0];
+    const request = requests.find(item => item.id === id);
     return request;
   } catch (e) {
     console.log(e);

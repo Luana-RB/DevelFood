@@ -27,23 +27,74 @@ import {
   StatusText,
   Subtitle,
 } from './styles';
-import {useUser} from '../../services/context/userContext';
 import PlateCard from '../../components/PlateCard';
-import {restaurantsMock} from '../../mocks/restaurants';
 import {RequestDetailScreenProps} from '../../types/routeTypes';
+import {getRequestById} from '../../services/api/requests';
+import {getAddressById} from '../../services/api/address';
+import {PlateData, RestaurantData} from '../../types/restaurantData';
+import {getRestaurantById} from '../../services/api/restaurants';
+import {UserAddress} from '../../types/userData';
+import {statusIcon, statusText} from '../../types/enums';
 
 const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
-  const {userData} = useUser();
-  const [plateData, setPlateData] = useState();
+  const [plates, setPlates] = useState<PlateData[]>();
+  const [restaurant, setRestaurant] = useState<RestaurantData>();
+  const [address, setAddress] = useState<UserAddress>();
+  const [day, setDay] = useState<String>('');
+  const [month, setMonth] = useState<String>('');
+  const [status, setStatus] = useState<string>('');
+  const [fullPrice, setFullPrice] = useState<string>('0,00');
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
-  const [name, setName] = useState('MCDonalds');
   const {requestId} = route.params;
 
   useEffect(() => {
-    console.log(requestId);
+    async function loadData() {
+      const requestData = await getRequestById(requestId);
+      if (requestData) {
+        const addressData = await getAddressById(requestData.addressId);
+        const restaurantData = await getRestaurantById(
+          requestData.restaurantId,
+        );
+        const dateData = requestData.date;
+        const statusData = requestData.status;
+        const fullpriceData = requestData.fullPrice;
+        const plateData = requestData.plates;
+
+        if (addressData) setAddress(addressData[0]);
+        if (restaurantData) {
+          if (restaurantData.image) setImagePath({uri: restaurantData.image});
+          else setImagePath(require('../../../assets/images/notFound.png'));
+          setRestaurant(restaurantData);
+        }
+        formatDay(dateData);
+        formatMonth(dateData);
+        if (statusData) setStatus(statusData);
+        if (fullpriceData) formatFullPrice(fullpriceData);
+        setPlates(plateData);
+      }
+    }
+    loadData();
   }, []);
+
+  function formatDay(dateData: string) {
+    const dayData = dateData.match(/\d{2}/);
+    if (dayData) setDay(dayData[0]);
+  }
+  function formatMonth(dateData: string) {
+    const monthAbreviation = dateData.substring(7, 10);
+    const monthUpperCase =
+      monthAbreviation.substring(0, 1).toUpperCase() +
+      monthAbreviation.substring(1);
+    if (monthUpperCase) setMonth(monthUpperCase);
+  }
+  function formatFullPrice(fullPriceData: number) {
+    const centsFormat = fullPriceData.toFixed(2);
+    const commaFormat = centsFormat.replace(/\./g, ',');
+    setFullPrice(commaFormat);
+  }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <FocusAwareStatusBar
@@ -58,43 +109,42 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
           <AddressTextContainer>
             <Subtitle>Entregar em:</Subtitle>
             <AddressTitle>
-              Rua {userData?.address[0].street} {userData?.address[0].number}
+              Rua {address?.street} {address?.number}
             </AddressTitle>
-            <AddressSubtitle>
-              {userData?.address[0].neighbourhood}
-            </AddressSubtitle>
+            <AddressSubtitle>{address?.neighbourhood}</AddressSubtitle>
           </AddressTextContainer>
           <DateContainer>
-            <DateDay>05</DateDay>
-            <DateMonth>Jul</DateMonth>
+            <DateDay>{day}</DateDay>
+            <DateMonth>{month}</DateMonth>
           </DateContainer>
         </AddressContainer>
         <RestaurantContainer>
           <RestaurantImage source={imagePath} />
           <RestaurantTextContainer>
             <Subtitle>Restaurante:</Subtitle>
-            <RestaurantTitle>{name}</RestaurantTitle>
+            <RestaurantTitle>{restaurant?.name}</RestaurantTitle>
           </RestaurantTextContainer>
           <StatusContainer>
             <StatusBox>
-              <Icon
-                name="clock-time-eight-outline"
-                size={35}
-                color={colors.black}
-              />
+              <Icon name={statusIcon[status]} size={35} color={colors.black} />
             </StatusBox>
-            <StatusText>Aguardando aprovação</StatusText>
+            <StatusText>{statusText[status]}</StatusText>
           </StatusContainer>
         </RestaurantContainer>
         <Line />
         <ItemContainer>
           <FullPriceContainer>
             <FullPriceTitle>Total pago</FullPriceTitle>
-            <FullPriceText>R$ 300,00</FullPriceText>
+            <View style={{flexDirection: 'row'}}>
+              <FullPriceText>R$ </FullPriceText>
+              <FullPriceText style={{fontWeight: 'bold'}}>
+                {fullPrice}
+              </FullPriceText>
+            </View>
           </FullPriceContainer>
           <FlatList
             style={{flex: 1}}
-            data={restaurantsMock[0].plates}
+            data={plates}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
               <PlateCard small={true} data={item} finished={true} number={1} />
