@@ -52,14 +52,10 @@ export async function compareRestaurant(restaurantId: string) {
     const user = users[0];
     const favorites = user.favorites;
     if (favorites?.length === 0) return false;
-
     const response = await Promise.all(
-      favorites.map(async item => {
+      favorites.map(async (item): Promise<boolean> => {
         const plateData = await getPlateDataById(item.plateId);
-        if (plateData) {
-          const id = plateData.restaurantId;
-          return plateData.restaurantId === restaurantId;
-        }
+        if (plateData) return plateData.restaurantId === restaurantId;
         return false;
       }),
     );
