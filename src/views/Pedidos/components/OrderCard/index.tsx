@@ -11,12 +11,13 @@ import {
 } from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../../../globalStyles';
-import {OrderData} from '../../../../types/orderData';
+import {RequestData} from '../../../../types/requestData';
 import {getRestaurantById} from '../../../../services/api/restaurants';
+import {PlateData} from '../../../../types/restaurantData';
 const MAX_LENGTH_ORDER = 60;
 
 interface OrderCardProps {
-  data: OrderData;
+  data: RequestData;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({data}) => {
@@ -30,8 +31,8 @@ const OrderCard: React.FC<OrderCardProps> = ({data}) => {
     async function callData() {
       const restaurantData = await getRestaurantById(data.restaurantId);
       if (restaurantData) {
-        setName(restaurantData.nome);
-        if (restaurantData.fotos) setImagePath({uri: restaurantData.fotos});
+        setName(restaurantData.name);
+        if (restaurantData.image) setImagePath({uri: restaurantData.image});
         else setImagePath(require('../../../../../assets/images/notFound.png'));
       }
     }
@@ -44,12 +45,12 @@ const OrderCard: React.FC<OrderCardProps> = ({data}) => {
   function formatPlateNames() {
     let newPlateNames: string = '';
 
-    data.plates.forEach((plate, index) => {
-      if (!newPlateNames) newPlateNames = plate.nome;
+    data.plates.forEach((plate: PlateData, index: number) => {
+      if (!newPlateNames) newPlateNames = plate.name;
       else {
-        const newName = newPlateNames + ' + ' + plate.nome;
+        const newName = newPlateNames + ' + ' + plate.name;
         if (newName.length < MAX_LENGTH_ORDER)
-          newPlateNames = newPlateNames + ' + ' + plate.nome;
+          newPlateNames = newPlateNames + ' + ' + plate.name;
         else if (index == data.plates.length - 1)
           newPlateNames = newPlateNames + '...';
       }

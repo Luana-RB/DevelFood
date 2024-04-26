@@ -32,8 +32,8 @@ export async function getRestaurantsFiltered({page, filter}: GetFilterProps) {
     // );
     // return restaurants.data.content;
     const restaurants = restaurantsMock;
-    const newData = restaurants?.filter((item: {nome: string}) => {
-      const name = item.nome.toUpperCase();
+    const newData = restaurants?.filter((item: {name: string}) => {
+      const name = item.name.toUpperCase();
       const text = filter.toUpperCase();
       return name.indexOf(text) > -1;
     });

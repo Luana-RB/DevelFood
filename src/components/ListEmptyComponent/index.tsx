@@ -7,20 +7,25 @@ const MAX_WAITING_TIME = 6000;
 interface ListEmptyProps {
   text: string;
   imagePath: string;
+  load?: boolean;
 }
 
 export const ListEmptyComponent: React.FC<ListEmptyProps> = ({
   text,
+  load,
   imagePath,
 }) => {
   const [show, setShow] = useState(false);
   const [path, setPath] = useState<ImageSourcePropType>();
 
   useEffect(() => {
+    if (load) setShow(true);
     if (imagePath === 'restaurant')
       setPath(require('../../../assets/images/notFoundRestaurant.png'));
     else if (imagePath === 'pedidos')
       setPath(require('../../../assets/images/notFoundPedidos.png'));
+    else if (imagePath === 'carrinho')
+      setPath(require('../../../assets/images/notFoundCarrinho.png'));
     else setPath(require('../../../assets/images/notFoundRestaurant.png'));
   }, []);
 

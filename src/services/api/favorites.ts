@@ -1,5 +1,6 @@
 import {users} from '../../mocks/users';
-import {RestaurantPlate} from '../../types/restaurantData';
+import {PlateData} from '../../types/restaurantData';
+import {getPlateData} from './plates';
 
 export function getFavorites() {
   try {
@@ -11,32 +12,32 @@ export function getFavorites() {
   }
 }
 
-export function addFavorite(plate: RestaurantPlate) {
+export function addFavorite(plate: PlateData) {
   try {
     const user = users[0];
-    if (!user.favorites) user.favorites = [plate];
-    else user.favorites.push(plate);
+    if (!user.favorites) user.favorites = [{plateId: plate.id}];
+    else user.favorites.push({plateId: plate.id});
   } catch (e) {
     console.log(e);
   }
 }
-export function removeFavorite(plate: RestaurantPlate) {
+export function removeFavorite(plate: PlateData) {
   try {
     const user = users[0];
     const favorites = user.favorites;
     if (favorites?.length === 0) return;
-    user.favorites = favorites!.filter(item => item.id !== plate.id);
+    user.favorites = favorites!.filter(item => item.plateId !== plate.id);
   } catch (e) {
     console.log(e);
   }
 }
 
-export function compareFavorites(plate: RestaurantPlate) {
+export function compareFavorites(plate: PlateData) {
   try {
     const user = users[0];
     const favorites = user.favorites;
     if (favorites?.length === 0) return false;
-    const newFavorites = favorites!.filter(item => item.id === plate.id);
+    const newFavorites = favorites!.filter(item => item.plateId === plate.id);
     if (newFavorites.length > 0) return true;
     return false;
   } catch (e) {
@@ -45,16 +46,20 @@ export function compareFavorites(plate: RestaurantPlate) {
   }
 }
 
-export function compareRestaurant(restaurantId: string) {
+export async function compareRestaurant(restaurantId: string) {
   try {
     const user = users[0];
     const favorites = user.favorites;
     if (favorites?.length === 0) return false;
-    const newFavorites = favorites!.filter(item => {
-      return item.restaurantId === restaurantId;
-    });
-    if (newFavorites.length > 0) return true;
-    return false;
+    const response = await Promise.all(
+      favorites.map(async item => {
+        const plateData = await getPlateData(item.plateId);
+        return plateData && plateData.restaurantId === restaurantId;
+      }),
+    );
+
+    const anyMatched = response.some(matched => matched === true);
+    return anyMatched;
   } catch (e) {
     console.log('compareRestaurant:', e);
     return false;

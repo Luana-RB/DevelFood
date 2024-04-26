@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {RestaurantPlate} from '../../types/restaurantData';
+import {PlateData} from '../../types/restaurantData';
 import {
   BodyContainer,
   Container,
@@ -23,16 +23,17 @@ import {
   QuantityContainer,
   QuantityText,
 } from '../AddButton/styles';
-import {colors} from '../../globalStyles';
+import {colors, screenWidth} from '../../globalStyles';
 import {compareFavorites} from '../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
 
 interface PlateCardProps {
-  data: RestaurantPlate;
+  data: PlateData;
+  small?: boolean;
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data}) => {
+const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
@@ -40,21 +41,28 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
   );
   const [thisPrice, setThisPrice] = useState('0,00');
   const [heart, setHeart] = useState('heart-outline');
+  const [size, setSize] = useState(screenWidth * 0.9);
   const {addItem, removeItem, removeQuantity, getQuantity, price} = useCart();
+  let maxLength = 20;
 
   useEffect(() => {
-    if (!!data.foto) setImagePath({uri: data.foto});
+    if (small) {
+      setSize(screenWidth * 0.8);
+      maxLength = 12;
+    }
+
+    if (!!data.image) setImagePath({uri: data.image});
     else setImagePath(require('../../../assets/images/notFound.png'));
 
-    if (!!data.descricao) {
-      const text = data.descricao;
+    if (!!data.description) {
+      const text = data.description;
       const words = text.split(' ');
-      const firstWords = words.slice(0, 20);
+      const firstWords = words.slice(0, maxLength);
       const newDescription = firstWords.join(' ');
       setDescription(newDescription);
     }
 
-    const centsFormat = data.preco.toFixed(2);
+    const centsFormat = data.price.toFixed(2);
     const commaFormat = centsFormat.replace(/\./g, ',');
     setThisPrice(commaFormat);
   }, []);
@@ -77,16 +85,13 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
   }
 
   function handleRemove() {
-    if (quantity === 1) {
-      const quantityInCart = getQuantity(data);
-      removeItem(data, quantityInCart);
-    } else if (quantity > 1) removeQuantity(data);
-
+    if (quantity === 1) removeItem(data, 1);
+    else if (quantity > 1) removeQuantity(data);
     setQuantity(quantity - 1);
   }
 
   return (
-    <Container>
+    <Container style={{width: size}}>
       <PlateImage source={imagePath} />
       <Icon
         name={heart}
@@ -97,7 +102,7 @@ const PlateCard: React.FC<PlateCardProps> = ({data}) => {
       <BodyContainer>
         <TextContainer>
           <TitleContainer>
-            <Title>{data.nome}</Title>
+            <Title>{data.name}</Title>
           </TitleContainer>
           <DescriptionContainer>
             <Description>{description}</Description>

@@ -1,152 +1,245 @@
-import {RestaurantsData} from '../types/restaurantData';
+import {RestaurantData} from '../types/restaurantData';
 
-export const restaurantsMock: RestaurantsData[] = [
+export const restaurantsMock: RestaurantData[] = [
   {
     id: '1',
-    nome: 'Pizza Palace',
+    name: 'Pizza Palace',
     cnpj: '12345678901234',
-    telefone: '123-456-7890',
-    categoria: 'Pizza',
-    fotos:
+    phone: '123-456-7890',
+    rating: 1,
+    address: {
+      addressId: '1',
+      cep: '123',
+      street: 'street',
+      city: 'city',
+      state: 'state',
+      neigbourhood: 'neighbourhood',
+      number: '12345',
+    },
+    foodType: {name: 'Pizza', id: '1'},
+    image:
       'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    pratos: [
+    plates: [
       {
         id: '101',
-        nome: 'Margherita Pizza',
-        descricao:
+        name: 'Margherita Pizza',
+        description:
           'Uma pizza de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
-        preco: 49.9,
+        price: 49.9,
         restaurantId: '1',
-        foto: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image:
+          'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
         id: '102',
-        nome: 'Pepperoni Pizza',
-        descricao:
+        name: 'Pepperoni Pizza',
+        description:
           'Uma pizza de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
-        preco: 49.9,
+        price: 49.9,
         restaurantId: '1',
       },
       {
         id: '103',
-        nome: 'Hawaiian Pizza',
-        descricao:
+        name: 'Hawaiian Pizza',
+        description:
           'Uma pizza de camarão com fritas que é uma ótima opção para pedir quando se está com a família',
-        preco: 49.9,
+        price: 49.9,
         restaurantId: '1',
       },
-      {id: '104', nome: 'Hawaiian Pizza', restaurantId: '1', preco: 1},
+      {id: '104', name: 'Hawaiian Pizza', restaurantId: '1', price: 1},
     ],
   },
   {
     id: '2',
-    nome: 'Burger Bistro',
+    name: 'Burger Bistro',
     cnpj: '23456789012345',
-    telefone: '234-567-8901',
-    categoria: 'Fast Food',
-    fotos:
+    phone: '234-567-8901',
+    address: {
+      addressId: '1',
+      cep: '123',
+      street: 'street',
+      city: 'city',
+      state: 'state',
+      neigbourhood: 'neighbourhood',
+      number: '12345',
+    },
+    rating: 1,
+    foodType: {name: 'Fast Food', id: '1'},
+    image:
       'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    pratos: [
+    plates: [
       {
         id: '201',
-        preco: 1.0,
+        price: 1.0,
         restaurantId: '2',
-        nome: 'Classic Burger',
-        foto: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        name: 'Classic Burger',
+        image:
+          'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
-      {id: '202', nome: 'Cheeseburger', restaurantId: '2', preco: 1.5},
-      {id: '203', nome: 'Veggie Burger', restaurantId: '2', preco: 1.0},
+      {id: '202', name: 'Cheeseburger', restaurantId: '2', price: 1.5},
+      {id: '203', name: 'Veggie Burger', restaurantId: '2', price: 1.0},
     ],
   },
   {
     id: '3',
-    nome: 'Sushi Station',
+    name: 'Sushi Station',
     cnpj: '34567890123456',
-    telefone: '345-678-9012',
-    categoria: 'Sushi',
-    fotos:
+    phone: '345-678-9012',
+    address: {
+      addressId: '1',
+      cep: '123',
+      street: 'street',
+      city: 'city',
+      state: 'state',
+      neigbourhood: 'neighbourhood',
+      number: '12345',
+    },
+    rating: 1,
+    foodType: {name: 'Sushi', id: '1'},
+    image:
       'https://plus.unsplash.com/premium_photo-1670333291474-cb722ca783a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: '4',
-    nome: 'Pasta Place',
+    name: 'Pasta Place',
     cnpj: '45678901234567',
-    telefone: '456-789-0123',
-    categoria: 'Almoço',
-    fotos:
+    address: {
+      addressId: '1',
+      cep: '123',
+      street: 'street',
+      city: 'city',
+      state: 'state',
+      neigbourhood: 'neighbourhood',
+      number: '12345',
+    },
+    phone: '456-789-0123',
+    rating: 1,
+    foodType: {name: 'Fast Food', id: '1'},
+    image:
       'https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    pratos: [
-      {id: '401', nome: 'Spaghetti Carbonara', restaurantId: '4', preco: 1.0},
-      {id: '402', nome: 'Lasagna', restaurantId: '4', preco: 1.0},
-      {id: '403', nome: 'Penne Arrabbiata', restaurantId: '4', preco: 1.0},
+    plates: [
+      {id: '401', name: 'Spaghetti Carbonara', restaurantId: '4', price: 1.0},
+      {id: '402', name: 'Lasagna', restaurantId: '4', price: 1.0},
+      {id: '403', name: 'Penne Arrabbiata', restaurantId: '4', price: 1.0},
     ],
   },
   {
     id: '6',
-    nome: 'Smoothies Shop',
+    name: 'Smoothies Shop',
     cnpj: '67890123456789',
-    telefone: '678-901-2345',
-    categoria: 'Sobremesa',
-    pratos: [
-      {id: '601', nome: 'Strawberry Smoothie', restaurantId: '6', preco: 1},
-      {id: '602', nome: 'Mango Smoothie', restaurantId: '6', preco: 1},
-      {id: '603', nome: 'Blueberry Smoothie', restaurantId: '6', preco: 1},
+    address: {
+      addressId: '1',
+      cep: '123',
+      street: 'street',
+      city: 'city',
+      state: 'state',
+      neigbourhood: 'neighbourhood',
+      number: '12345',
+    },
+    phone: '678-901-2345',
+    rating: 1,
+    foodType: {name: 'Fast Food', id: '1'},
+    plates: [
+      {id: '601', name: 'Strawberry Smoothie', restaurantId: '6', price: 1},
+      {id: '602', name: 'Mango Smoothie', restaurantId: '6', price: 1},
+      {id: '603', name: 'Blueberry Smoothie', restaurantId: '6', price: 1},
     ],
   },
   {
     id: '7',
-    nome: 'Coffee Corner',
+    name: 'Coffee Corner',
     cnpj: '78901234567890',
-    telefone: '789-012-3456',
-    pratos: [
-      {id: '701', nome: 'Espresso', restaurantId: '7', preco: 1},
-      {id: '702', nome: 'Latte', restaurantId: '7', preco: 1},
-      {id: '703', nome: 'Cappuccino', restaurantId: '7', preco: 1},
+    phone: '789-012-3456',
+    address: {
+      addressId: '1',
+      cep: '123',
+      street: 'street',
+      city: 'city',
+      state: 'state',
+      neigbourhood: 'neighbourhood',
+      number: '12345',
+    },
+    foodType: {name: 'Fast Food', id: '1'},
+    rating: 1,
+    plates: [
+      {id: '701', name: 'Espresso', restaurantId: '7', price: 1},
+      {id: '702', name: 'Latte', restaurantId: '7', price: 1},
+      {id: '703', name: 'Cappuccino', restaurantId: '7', price: 1},
     ],
   },
   {
     id: '8',
-    nome: 'Doughnuts Den',
+    name: 'Doughnuts Den',
     cnpj: '89012345678901',
-    telefone: '890-123-4567',
-    categoria: 'Sobremesa',
-    pratos: [
-      {id: '801', nome: 'Glazed Doughnut', restaurantId: '8', preco: 1},
+    address: {
+      addressId: '1',
+      cep: '123',
+      street: 'street',
+      city: 'city',
+      state: 'state',
+      neigbourhood: 'neighbourhood',
+      number: '12345',
+    },
+    phone: '890-123-4567',
+    rating: 1,
+    foodType: {name: 'Fast Food', id: '1'},
+    plates: [
+      {id: '801', name: 'Glazed Doughnut', restaurantId: '8', price: 1},
       {
         id: '802',
-        nome: 'Chocolate Glazed Doughnut',
+        name: 'Chocolate Glazed Doughnut',
         restaurantId: '8',
-        preco: 1,
+        price: 1,
       },
-      {id: '803', nome: 'Sprinkle Doughnut', restaurantId: '8', preco: 1},
+      {id: '803', name: 'Sprinkle Doughnut', restaurantId: '8', price: 1},
     ],
   },
   {
     id: '9',
-    nome: 'Pizza Palace',
+    name: 'Pizza Palace',
     cnpj: '12345678901234',
-    telefone: '123-456-7890',
-    categoria: 'Pizza',
-    fotos:
+    phone: '123-456-7890',
+    address: {
+      addressId: '1',
+      cep: '123',
+      street: 'street',
+      city: 'city',
+      state: 'state',
+      neigbourhood: 'neighbourhood',
+      number: '12345',
+    },
+    rating: 1,
+    foodType: {name: 'Pizza', id: '1'},
+    image:
       'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    pratos: [
-      {id: '901', nome: 'Margherita Pizza', restaurantId: '9', preco: 1},
-      {id: '902', nome: 'Pepperoni Pizza', restaurantId: '9', preco: 1},
-      {id: '903', nome: 'Hawaiian Pizza', restaurantId: '9', preco: 1},
+    plates: [
+      {id: '901', name: 'Margherita Pizza', restaurantId: '9', price: 1},
+      {id: '902', name: 'Pepperoni Pizza', restaurantId: '9', price: 1},
+      {id: '903', name: 'Hawaiian Pizza', restaurantId: '9', price: 1},
     ],
   },
   {
     id: '10',
-    nome: 'Burger BisEnd',
+    name: 'Burger BisEnd',
     cnpj: '23456789012345',
-    telefone: '234-567-8901',
-    categoria: 'Fast Food',
-    fotos:
+    phone: '234-567-8901',
+    address: {
+      addressId: '1',
+      cep: '123',
+      street: 'street',
+      city: 'city',
+      state: 'state',
+      neigbourhood: 'neighbourhood',
+      number: '12345',
+    },
+    rating: 1,
+    foodType: {name: 'Fast Food', id: '1'},
+    image:
       'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    pratos: [
-      {id: '1001', nome: 'Classic Burger', restaurantId: '10', preco: 1},
-      {id: '1002', nome: 'Cheeseburger', restaurantId: '10', preco: 1},
-      {id: '1003', nome: 'Veggie Burger', restaurantId: '10', preco: 1},
+    plates: [
+      {id: '1001', name: 'Classic Burger', restaurantId: '10', price: 1},
+      {id: '1002', name: 'Cheeseburger', restaurantId: '10', price: 1},
+      {id: '1003', name: 'Veggie Burger', restaurantId: '10', price: 1},
     ],
   },
 ];

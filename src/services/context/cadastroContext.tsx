@@ -1,27 +1,27 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
-import {UserAdress, UserCredentials, UserInfo} from '../../types/userData';
+import React, {createContext, useContext, useState} from 'react';
+import {UserAddress, UserCredentials, UserInfo} from '../../types/userData';
 
 type CadastroContextType = {
-  storeCredentials: (newEmail: string, newSenha: string) => Promise<unknown>;
+  storeCredentials: (newEmail: string, newPassword: string) => Promise<unknown>;
   storeInfo: (
-    newNome: string,
-    newSobrenome: string,
+    newFisrtName: string,
+    newLastName: string,
     newCpf: string,
-    newTelefone: string,
+    newPhone: string,
   ) => Promise<unknown>;
   storeAddress: (
-    newApelido: string,
+    newAddressName: string,
     newCep: string,
-    newRua: string,
-    newCidade: string,
-    newBairro: string,
-    newEstado: string,
-    newNum: string,
+    newStreet: string,
+    newCity: string,
+    newNeighbourhood: string,
+    newState: string,
+    newNumber: string,
   ) => Promise<unknown>;
   returnsCadastro: () => {
     credentials: UserCredentials;
     info: UserInfo;
-    adress: UserAdress;
+    address: UserAddress[];
   };
 };
 
@@ -38,69 +38,64 @@ export const useCadastro = () => {
 };
 
 export const CadastroProvider = ({children}: any) => {
-  const [id, setId] = useState('');
   const [credentials, setCredentials] = useState<UserCredentials>({
-    id: '',
     email: '',
     password: '',
   });
   const [info, setInfo] = useState<UserInfo>({
-    name: '',
-    surname: '',
+    firstName: '',
+    lastName: '',
     cpf: '',
-    cellphone: '',
+    phone: '',
   });
-  const [adress, setAdress] = useState<UserAdress>({
-    apelido: '',
-    cep: '',
-    rua: '',
-    cidade: '',
-    bairro: '',
-    estado: '',
-    num: '',
-  });
-
-  useEffect(() => {
-    function createId() {
-      const thisId = String(Math.random());
-      setId(thisId);
-    }
-    createId();
-  }, []);
+  const [address, setAddress] = useState<UserAddress[]>([
+    {
+      addressName: '',
+      cep: '',
+      street: '',
+      city: '',
+      neighbourhood: '',
+      state: '',
+      number: '',
+    },
+  ]);
 
   const returnsCadastro = () => {
-    const cadastro = {credentials, info, adress};
+    const cadastro = {credentials, info, address};
     cleanContext();
     return cadastro;
   };
 
   const cleanContext = () => {
-    setId('');
     setCredentials({
-      id: '',
       email: '',
       password: '',
     });
     setInfo({
-      name: '',
-      surname: '',
+      firstName: '',
+      lastName: '',
       cpf: '',
-      cellphone: '',
+      phone: '',
     });
-    setAdress({
-      apelido: '',
-      cep: '',
-      rua: '',
-      cidade: '',
-      bairro: '',
-      estado: '',
-      num: '',
-    });
+    setAddress([
+      {
+        addressName: '',
+        cep: '',
+        street: '',
+        city: '',
+        neighbourhood: '',
+        state: '',
+        number: '',
+      },
+    ]);
   };
 
   const storeCredentials = async (newEmail: string, newPassword: string) => {
     try {
-      const newCredentials = {id, email: newEmail, password: newPassword};
+      const newCredentials: UserCredentials = {
+        email: newEmail,
+        password: newPassword,
+      };
       setCredentials(newCredentials);
       return newEmail;
     } catch (e) {
@@ -109,46 +104,48 @@ export const CadastroProvider = ({children}: any) => {
   };
 
   const storeInfo = async (
-    newName: string,
-    newSurname: string,
+    newFirstName: string,
+    newLastName: string,
     newCpf: string,
-    newCellphone: string,
+    newPhone: string,
   ) => {
     try {
-      const newInfo = {
-        name: newName,
-        surname: newSurname,
+      const newInfo: UserInfo = {
+        firstName: newFirstName,
+        lastName: newLastName,
         cpf: newCpf,
-        cellphone: newCellphone,
+        phone: newPhone,
       };
       setInfo(newInfo);
-      return newName;
+      return newFirstName;
     } catch (e) {
       return e;
     }
   };
 
   const storeAddress = async (
-    newApelido: string,
+    newAddressName: string,
     newCep: string,
-    newRua: string,
-    newCidade: string,
-    newBairro: string,
-    newEstado: string,
-    newNum: string,
+    newStreet: string,
+    newCity: string,
+    newNeighbourhood: string,
+    newState: string,
+    newNumber: string,
   ) => {
     try {
-      const newAdress = {
-        apelido: newApelido,
-        cep: newCep,
-        rua: newRua,
-        cidade: newCidade,
-        bairro: newBairro,
-        estado: newEstado,
-        num: newNum,
-      };
-      setAdress(newAdress);
-      return newApelido;
+      const newAdress: UserAddress[] = [
+        {
+          addressName: newAddressName,
+          cep: newCep,
+          street: newStreet,
+          city: newCity,
+          neighbourhood: newNeighbourhood,
+          state: newState,
+          number: newNumber,
+        },
+      ];
+      setAddress(newAdress);
+      return newAddressName;
     } catch (e) {
       return e;
     }

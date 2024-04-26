@@ -1,5 +1,4 @@
 import React from 'react';
-import {UsersData} from '../../types/userData';
 
 interface AuthContextValue {
   signIn: (token: string) => Promise<void>;

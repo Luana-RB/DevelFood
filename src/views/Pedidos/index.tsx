@@ -4,37 +4,40 @@ import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {Container, Title} from './styles';
 import DateList from './components/DateList';
-import {OrderData, OrderDateData} from '../../types/orderData';
-import {getOrders} from '../../services/api/orders';
+import {RequestData, RequestDateData} from '../../types/requestData';
+import {getRequests} from '../../services/api/requests';
 import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const Pedidos: React.FC = () => {
-  const [dataSorted, setDataSorted] = useState<OrderDateData[]>([]);
+  const [dataSorted, setDataSorted] = useState<RequestDateData[]>([]);
 
   useEffect(() => {
     async function inicializeData() {
-      const orders = await getOrders();
+      const orders = await getRequests();
       if (orders) sortOrdersByDate(orders);
     }
     inicializeData();
   }, []);
 
-  function sortOrdersByDate(orders: OrderData[]) {
+  function sortOrdersByDate(orders: RequestData[]) {
     orders.forEach(order => {
       const index = findDate(order);
       if (index == -1) {
-        const newDate: OrderDateData = {
+        const newDate: RequestDateData = {
           id: String(dataSorted.length + 1),
           date: order.date,
-          orderItems: [order],
+          requestItems: [order],
         };
         dataSorted.push(newDate);
       } else
-        dataSorted[index].orderItems = [...dataSorted[index].orderItems, order];
+        dataSorted[index].requestItems = [
+          ...dataSorted[index].requestItems,
+          order,
+        ];
     });
   }
 
-  function findDate(order: OrderData) {
+  function findDate(order: RequestData) {
     const thisDateIndex = dataSorted.findIndex(date => date.date == order.date);
     return thisDateIndex;
   }

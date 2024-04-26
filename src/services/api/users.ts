@@ -1,8 +1,8 @@
 import {users} from '../../mocks/users';
-import {NewUsersData, UsersData} from '../../types/userData';
-import {api} from './api';
+import {UserData, UserStoreData} from '../../types/userData';
+import {api, getToken} from './api';
 
-export async function postCadastro(user: NewUsersData) {
+export async function postCadastro(user: UserData) {
   try {
     // const result = users.push(user);
     const result = await api.post('/cliente/registrar/cliente', user);
@@ -14,11 +14,11 @@ export async function postCadastro(user: NewUsersData) {
   }
 }
 
-export async function postLogin(email: string, senha: string) {
+export async function postLogin(email: string, password: string) {
   try {
     const credentials = {
       email,
-      senha,
+      password,
     };
     const result = await api.post('/login/efetuar', credentials);
     const token = JSON.stringify(result.data.token).replace(/"/g, '');
@@ -31,7 +31,7 @@ export async function postLogin(email: string, senha: string) {
   }
 }
 
-export function patchPassword(user: UsersData, password: string) {
+export function patchPassword(user: UserStoreData, password: string) {
   try {
   } catch (e) {}
 }
@@ -94,4 +94,11 @@ export function sendNumberCode() {
   } catch (e) {
     console.log(e);
   }
+}
+
+export async function getUserData() {
+  // const header = await getToken();
+  // const user = await api.get(`/cliente`, header);
+  // return user.data;
+  return users[0];
 }
