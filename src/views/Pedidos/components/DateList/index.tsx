@@ -6,9 +6,10 @@ import {RequestDateData} from '../../../../types/requestData';
 
 interface DateListProps {
   data: RequestDateData;
+  navigation: any;
 }
 
-const DateList: React.FC<DateListProps> = ({data}) => {
+const DateList: React.FC<DateListProps> = ({data, navigation}) => {
   return (
     <Container>
       <DateTitle>{data.date}</DateTitle>
@@ -16,7 +17,9 @@ const DateList: React.FC<DateListProps> = ({data}) => {
         <FlatList
           data={data.requestItems}
           keyExtractor={item => item.id!}
-          renderItem={({item}) => <OrderCard data={item} />}
+          renderItem={({item}) => (
+            <OrderCard data={item} navigation={navigation} />
+          )}
           ListFooterComponent={<View style={{height: 20}} />}
           style={{width: '100%'}}
         />

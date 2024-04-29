@@ -31,9 +31,16 @@ import {useCart} from '../../services/context/cartContext';
 interface PlateCardProps {
   data: PlateData;
   small?: boolean;
+  finished?: boolean;
+  number?: number;
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
+const PlateCard: React.FC<PlateCardProps> = ({
+  data,
+  small,
+  finished,
+  number,
+}) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
@@ -93,12 +100,15 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
   return (
     <Container style={{width: size}}>
       <PlateImage source={imagePath} />
-      <Icon
-        name={heart}
-        color={colors.red}
-        style={styles.heartIcon}
-        size={20}
-      />
+      {!small && (
+        <Icon
+          name={heart}
+          color={colors.red}
+          style={styles.heartIcon}
+          size={20}
+        />
+      )}
+
       <BodyContainer>
         <TextContainer>
           <TitleContainer>
@@ -110,31 +120,39 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
         </TextContainer>
         <FooterContainer>
           <Price>R$ {thisPrice}</Price>
-          {quantity === 0 ? (
-            <AddButton onPress={handleAdd}>
-              <AddText>Adicionar</AddText>
-            </AddButton>
-          ) : (
+          {!finished &&
+            (quantity === 0 ? (
+              <AddButton onPress={handleAdd}>
+                <AddText>Adicionar</AddText>
+              </AddButton>
+            ) : (
+              <QuantityContainer>
+                {quantity === 1 ? (
+                  <QuantityButton onPress={handleRemove}>
+                    <Icon
+                      name={'trash-can-outline'}
+                      color={colors.red}
+                      size={20}
+                    />
+                  </QuantityButton>
+                ) : (
+                  <QuantityButton onPress={handleRemove}>
+                    <Icon name={'minus'} color={colors.red} size={20} />
+                  </QuantityButton>
+                )}
+                <QuantityBox>
+                  <QuantityText>{quantity}</QuantityText>
+                </QuantityBox>
+                <QuantityButton onPress={handleAdd}>
+                  <Icon name={'plus'} color={colors.red} size={20} />
+                </QuantityButton>
+              </QuantityContainer>
+            ))}
+          {finished && (
             <QuantityContainer>
-              {quantity === 1 ? (
-                <QuantityButton onPress={handleRemove}>
-                  <Icon
-                    name={'trash-can-outline'}
-                    color={colors.red}
-                    size={20}
-                  />
-                </QuantityButton>
-              ) : (
-                <QuantityButton onPress={handleRemove}>
-                  <Icon name={'minus'} color={colors.red} size={20} />
-                </QuantityButton>
-              )}
-              <QuantityBox>
-                <QuantityText>{quantity}</QuantityText>
+              <QuantityBox style={{}}>
+                <QuantityText>{number}</QuantityText>
               </QuantityBox>
-              <QuantityButton onPress={handleAdd}>
-                <Icon name={'plus'} color={colors.red} size={20} />
-              </QuantityButton>
             </QuantityContainer>
           )}
         </FooterContainer>

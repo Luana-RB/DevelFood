@@ -8,7 +8,7 @@ import {RequestData, RequestDateData} from '../../types/requestData';
 import {getRequests} from '../../services/api/requests';
 import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
-const Pedidos: React.FC = () => {
+const Pedidos: React.FC = ({navigation}: any) => {
   const [dataSorted, setDataSorted] = useState<RequestDateData[]>([]);
 
   useEffect(() => {
@@ -53,7 +53,9 @@ const Pedidos: React.FC = () => {
         <FlatList
           data={dataSorted}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <DateList data={item} />}
+          renderItem={({item}) => (
+            <DateList data={item} navigation={navigation} />
+          )}
           ListFooterComponent={<View style={{height: 400}} />}
           ListEmptyComponent={
             <ListEmptyComponent

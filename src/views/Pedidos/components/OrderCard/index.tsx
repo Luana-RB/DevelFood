@@ -18,9 +18,10 @@ const MAX_LENGTH_ORDER = 60;
 
 interface OrderCardProps {
   data: RequestData;
+  navigation: any;
 }
 
-const OrderCard: React.FC<OrderCardProps> = ({data}) => {
+const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   const [name, setName] = useState('');
   const [plateNames, setPlateNames] = useState('');
   const [imagePath, setImagePath] = useState(
@@ -60,7 +61,10 @@ const OrderCard: React.FC<OrderCardProps> = ({data}) => {
   }
 
   return (
-    <Container>
+    <Container
+      onPress={() =>
+        navigation.navigate('RequestDetail', {requestId: data.id})
+      }>
       <Logo source={imagePath} />
       <TextContainer>
         <Title>{name}</Title>

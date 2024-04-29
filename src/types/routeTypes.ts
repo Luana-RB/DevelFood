@@ -2,10 +2,12 @@ import {StackScreenProps} from '@react-navigation/stack';
 
 export type RootStackParamList = {
   PlateDetails: {plate: any; restaurant: any};
+  Historico: any;
   Home: any;
   RestaurantProfile: {restaurantId: any};
   CartPage: any;
   CheckoutRequest: {requestId: string};
+  RequestDetail: {requestId: string};
 };
 
 export type PlateDetailsScreenProps = StackScreenProps<
@@ -19,4 +21,8 @@ export type RestaurantProfileScreenProps = StackScreenProps<
 export type CheckoutRequestScreenProps = StackScreenProps<
   RootStackParamList,
   'CheckoutRequest'
+>;
+export type RequestDetailScreenProps = StackScreenProps<
+  RootStackParamList,
+  'RequestDetail'
 >;

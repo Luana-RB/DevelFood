@@ -1,8 +1,7 @@
 import {restaurantsMock} from '../../mocks/restaurants';
-import {PlateData} from '../../types/restaurantData';
 import {api, getToken} from './api';
 
-export async function getPlateData(id: string): Promise<PlateData | undefined> {
+export async function getPlateDataById(id: string) {
   try {
     // const header = await getToken();
     // const plateData = await api.get(`/plates/${id}`, header);

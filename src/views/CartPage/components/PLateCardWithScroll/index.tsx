@@ -50,7 +50,7 @@ const PLateCardWithScroll: React.FC<PlateCardWithSCrollProps> = ({item}) => {
         onRight.value = true;
       }
     });
-    
+
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{translateX: position.value}],
   }));

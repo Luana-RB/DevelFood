@@ -7,6 +7,7 @@ import {Text} from 'react-native';
 import {RestaurantStack} from './restaurant.routes';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {UserProvider} from '../services/context/userContext';
+import {PedidosStack} from './pedidos.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -80,18 +81,8 @@ function HomeTabs() {
         />
         <Tab.Screen
           name="Pedidos"
-          component={Pedidos}
-          options={{
-            title: 'Meus Pedidos',
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              color: colors.white,
-              fontSize: 16,
-            },
-            headerStyle: {
-              backgroundColor: colors.red,
-            },
-          }}
+          component={PedidosStack}
+          options={{headerShown: false}}
         />
         <Tab.Screen
           name="Perfil"

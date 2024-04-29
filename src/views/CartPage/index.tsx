@@ -104,17 +104,7 @@ const CartPage: React.FC = ({navigation}: any) => {
     return dateString;
   }
 
-  async function handleSubmit() {
-    const platesToSend = formatPlateData();
-    const date = formatDate();
-    const request: RequestSendData = {
-      restaurantId,
-      plates: platesToSend,
-      paymentType: 'dinheiro',
-      date,
-    };
-    const requestId = await postRequest(request);
-    resetContext();
+  function handleNavigation(requestId: string) {
     navigation.reset({
       index: 1,
       routes: [
@@ -127,6 +117,26 @@ const CartPage: React.FC = ({navigation}: any) => {
         },
       ],
     });
+  }
+
+  function handleRequest() {
+    const platesToSend = formatPlateData();
+    const date = formatDate();
+    const request: RequestSendData = {
+      restaurantId,
+      plates: platesToSend,
+      paymentType: 'dinheiro',
+      addressId: userData?.address[0].addressId ?? '1',
+      date,
+    };
+    return request;
+  }
+
+  async function handleSubmit() {
+    const request = handleRequest();
+    const requestId = await postRequest(request);
+    resetContext();
+    if (requestId) handleNavigation(requestId);
   }
 
   if (listEmpty) {

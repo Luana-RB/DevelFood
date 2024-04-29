@@ -14,6 +14,7 @@ export interface RequestData {
   id?: string;
   fullPrice?: number;
   status?: string;
+  addressId: string;
 }
 export interface RequestSendData {
   restaurantId: string;
@@ -23,6 +24,7 @@ export interface RequestSendData {
   id?: string;
   fullPrice?: number;
   status?: string;
+  addressId: string;
 }
 
 export interface RequestPlatesData {
