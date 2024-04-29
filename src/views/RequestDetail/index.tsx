@@ -50,33 +50,29 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
   const {requestId} = route.params;
 
   useEffect(() => {
-    async function loadData() {
-      const requestData = await getRequestById(requestId);
-      if (requestData) {
-        const addressData = await getAddressById(requestData.addressId);
-        const restaurantData = await getRestaurantById(
-          requestData.restaurantId,
-        );
-        const dateData = requestData.date;
-        const statusData = requestData.status;
-        const fullpriceData = requestData.fullPrice;
-        const plateData = requestData.plates;
-
-        if (addressData) setAddress(addressData[0]);
-        if (restaurantData) {
-          if (restaurantData.image) setImagePath({uri: restaurantData.image});
-          else setImagePath(require('../../../assets/images/notFound.png'));
-          setRestaurant(restaurantData);
-        }
-        formatDay(dateData);
-        formatMonth(dateData);
-        if (statusData) setStatus(statusData);
-        if (fullpriceData) formatFullPrice(fullpriceData);
-        setPlates(plateData);
-      }
-    }
     loadData();
   }, []);
+
+  async function loadData() {
+    const requestData = await getRequestById(requestId);
+    if (requestData) {
+      const data = {...requestData};
+
+      const addressData = await getAddressById(data.addressId);
+      const restaurantData = await getRestaurantById(data.restaurantId);
+      if (addressData) setAddress(addressData[0]);
+      if (restaurantData) {
+        if (restaurantData.image) setImagePath({uri: restaurantData.image});
+        else setImagePath(require('../../../assets/images/notFound.png'));
+        setRestaurant(restaurantData);
+      }
+      formatDay(data.date);
+      formatMonth(data.date);
+      if (data.status) setStatus(data.status);
+      if (data.fullPrice) formatFullPrice(data.fullPrice);
+      setPlates(data.plates);
+    }
+  }
 
   function formatDay(dateData: string) {
     const dayData = dateData.match(/\d{2}/);
