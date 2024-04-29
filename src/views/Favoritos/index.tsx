@@ -141,7 +141,7 @@ const Favoritos: React.FC = ({navigation}: any) => {
           style={{margin: 10}}
         />
         <SearchInput
-          placeholder={'Buscar Restaurantes'}
+          placeholder={'Buscar Pratos Favoritos'}
           placeholderTextColor={colors.gray}
           value={filter}
           onChangeText={text => {
