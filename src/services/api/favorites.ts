@@ -6,7 +6,7 @@ export function getFavoritePlates(page: number) {
   try {
     const user = users[0];
     const favorites = user.favoritePlates;
-    const favoritesPaginated = favorites.slice(page, page + 4);
+    const favoritesPaginated = favorites.slice(page, page + 5);
     return favoritesPaginated;
   } catch (e) {
     console.log(e);

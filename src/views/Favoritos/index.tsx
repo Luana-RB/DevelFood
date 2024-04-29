@@ -40,11 +40,18 @@ const Favoritos: React.FC = ({navigation}: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      setFilter('');
+      reset();
       handleAll('');
-      setEndedList(false);
     }, []),
   );
+
+  function reset() {
+    setFilter('');
+    setData([]);
+    setShownData([]);
+    setPage(0);
+    setEndedList(false);
+  }
 
   async function loadAPI() {
     const favorites = await getFavoritePlates(page);
