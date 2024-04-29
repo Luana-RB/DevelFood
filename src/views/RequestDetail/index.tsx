@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {FlatList, SafeAreaView, View} from 'react-native';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
@@ -35,8 +35,13 @@ import {PlateData, RestaurantData} from '../../types/restaurantData';
 import {getRestaurantById} from '../../services/api/restaurants';
 import {UserAddress} from '../../types/userData';
 import {statusIcon, statusText} from '../../types/enums';
+import {useFocusEffect} from '@react-navigation/native';
+const DELAY = 2000;
 
-const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
+const RequestDetail: React.FC<RequestDetailScreenProps> = ({
+  route,
+  navigation,
+}) => {
   const [plates, setPlates] = useState<PlateData[]>();
   const [restaurant, setRestaurant] = useState<RestaurantData>();
   const [address, setAddress] = useState<UserAddress>();
@@ -49,9 +54,14 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
   );
   const {requestId} = route.params;
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      loadData();
+      setInterval(() => {
+        loadData();
+      }, DELAY);
+    }, []),
+  );
 
   async function loadData() {
     const requestData = await getRequestById(requestId);
@@ -60,15 +70,15 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
 
       const addressData = await getAddressById(data.addressId);
       const restaurantData = await getRestaurantById(data.restaurantId);
-      if (addressData) setAddress(addressData[0]);
-      if (restaurantData) {
+      if (addressData && addressData[0] !== address) setAddress(addressData[0]);
+      if (restaurantData && restaurantData !== restaurant) {
         if (restaurantData.image) setImagePath({uri: restaurantData.image});
         else setImagePath(require('../../../assets/images/notFound.png'));
         setRestaurant(restaurantData);
       }
       formatDay(data.date);
       formatMonth(data.date);
-      if (data.status) setStatus(data.status);
+      if (data.status && data.status !== status) setStatus(data.status);
       if (data.fullPrice) formatFullPrice(data.fullPrice);
       setPlates(data.plates);
     }
@@ -76,19 +86,19 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
 
   function formatDay(dateData: string) {
     const dayData = dateData.match(/\d{2}/);
-    if (dayData) setDay(dayData[0]);
+    if (dayData && dayData[0] !== day) setDay(dayData[0]);
   }
   function formatMonth(dateData: string) {
     const monthAbreviation = dateData.substring(7, 10);
     const monthUpperCase =
       monthAbreviation.substring(0, 1).toUpperCase() +
       monthAbreviation.substring(1);
-    if (monthUpperCase) setMonth(monthUpperCase);
+    if (monthUpperCase && monthUpperCase !== month) setMonth(monthUpperCase);
   }
   function formatFullPrice(fullPriceData: number) {
     const centsFormat = fullPriceData.toFixed(2);
     const commaFormat = centsFormat.replace(/\./g, ',');
-    setFullPrice(commaFormat);
+    if (commaFormat !== fullPrice) setFullPrice(commaFormat);
   }
 
   return (
@@ -143,7 +153,13 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
             data={plates}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
-              <PlateCard small={true} data={item} finished={true} number={1} />
+              <PlateCard
+                small={true}
+                data={item}
+                finished={true}
+                number={1}
+                navigation={navigation}
+              />
             )}
             ListFooterComponent={<View style={{height: 200}} />}
           />

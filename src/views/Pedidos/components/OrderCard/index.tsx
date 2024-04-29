@@ -14,6 +14,7 @@ import {colors} from '../../../../globalStyles';
 import {RequestData} from '../../../../types/requestData';
 import {getRestaurantById} from '../../../../services/api/restaurants';
 import {PlateData} from '../../../../types/restaurantData';
+import {statusIcon, statusText} from '../../../../types/enums';
 const MAX_LENGTH_ORDER = 60;
 
 interface OrderCardProps {
@@ -24,24 +25,28 @@ interface OrderCardProps {
 const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   const [name, setName] = useState('');
   const [plateNames, setPlateNames] = useState('');
+  const [icon, setIcon] = useState('check-bold');
+  const [status, setStatus] = useState('Aguardando');
   const [imagePath, setImagePath] = useState(
     require('../../../../../assets/images/notFound.png'),
   );
 
   useEffect(() => {
-    async function callData() {
-      const restaurantData = await getRestaurantById(data.restaurantId);
-      if (restaurantData) {
-        setName(restaurantData.name);
-        if (restaurantData.image) setImagePath({uri: restaurantData.image});
-        else setImagePath(require('../../../../../assets/images/notFound.png'));
-      }
-    }
     callData();
-
     const formatedPlateNames = formatPlateNames();
     setPlateNames(formatedPlateNames);
-  }, []);
+    formatStatusIcon();
+    formatStatusName();
+  }, [data]);
+
+  async function callData() {
+    const restaurantData = await getRestaurantById(data.restaurantId);
+    if (restaurantData) {
+      setName(restaurantData.name);
+      if (restaurantData.image) setImagePath({uri: restaurantData.image});
+      else setImagePath(require('../../../../../assets/images/notFound.png'));
+    }
+  }
 
   function formatPlateNames() {
     let newPlateNames: string = '';
@@ -60,6 +65,17 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
     return newPlateNames;
   }
 
+  function formatStatusIcon() {
+    if (data.status) {
+      setIcon(statusIcon[data.status]);
+    } else setIcon('check-bold');
+  }
+  function formatStatusName() {
+    if (data.status) {
+      setStatus(statusText[data.status]);
+    } else setStatus('check-bold');
+  }
+
   return (
     <Container
       onPress={() =>
@@ -69,8 +85,8 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
       <TextContainer>
         <Title>{name}</Title>
         <StatusContainer>
-          <Icon name="check-bold" size={15} color={colors.red} />
-          <StatusText>{data.status}</StatusText>
+          <Icon name={icon} size={15} color={colors.red} />
+          <StatusText>{status}</StatusText>
           <OrderNumber>Nº {data.id}</OrderNumber>
         </StatusContainer>
         <OrderText>{plateNames}</OrderText>
