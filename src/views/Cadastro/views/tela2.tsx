@@ -53,15 +53,15 @@ const Tela2: React.FC = ({navigation}: any) => {
 
   async function validateCpf() {
     if (!/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) return 'CPF inválido';
-    const isRegistered = await checkCpf(cpf);
-    if (!isRegistered) return 'CPF já cadastrado';
+    // const isRegistered = await checkCpf(cpf);
+    // if (!isRegistered) return 'CPF já cadastrado';
     return undefined;
   }
 
   async function validateTelefone() {
     if (!/\+\d{2} \d{5}-\d{4}/.test(telefone)) return 'Telefone inválido';
-    const isRegistered = await checkPhone(telefone);
-    if (!isRegistered) return 'Telefone já cadastrado';
+    // const isRegistered = await checkPhone(telefone);
+    // if (!isRegistered) return 'Telefone já cadastrado';
     return undefined;
   }
 

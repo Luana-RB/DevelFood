@@ -4,9 +4,9 @@ import {api, getToken} from './api';
 
 export async function postCadastro(user: UserData) {
   try {
-    // const result = users.push(user);
-    const result = await api.post('/cliente/registrar/cliente', user);
-    const status = result.status;
+    const result = users.push(user);
+    // const result = await api.post('/cliente/registrar/cliente', user);
+    // const status = result.status;
     return true;
   } catch (e) {
     console.log('cadastro: ', e);
@@ -16,15 +16,15 @@ export async function postCadastro(user: UserData) {
 
 export async function postLogin(email: string, password: string) {
   try {
-    const credentials = {
-      email,
-      password,
-    };
-    const result = await api.post('/login/efetuar', credentials);
-    const token = JSON.stringify(result.data.token).replace(/"/g, '');
-    return token;
-    //    const user = users.find(user => user.credentials.email === email);
-    // if (user?.credentials.password === password) return user.credentials.id;
+    // const credentials = {
+    //   email,
+    //   password,
+    // };
+    // const result = await api.post('/login/efetuar', credentials);
+    // const token = JSON.stringify(result.data.token).replace(/"/g, '');
+    // return token;
+    const user = users.find(user => user.email === email);
+    if (user?.password === password) return 'user.id';
   } catch (e) {
     console.log('login', e);
     return undefined;
