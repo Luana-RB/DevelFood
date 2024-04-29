@@ -26,7 +26,6 @@ import {
 import {colors, screenWidth} from '../../globalStyles';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
-import {TouchableOpacity} from 'react-native';
 import {compareFavoritePlates} from '../../services/api/favorites';
 
 interface PlateCardProps {
@@ -42,7 +41,6 @@ const PlateCard: React.FC<PlateCardProps> = ({
   small,
   finished,
   number,
-  navigation,
 }) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
@@ -152,7 +150,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
             ))}
           {finished && (
             <QuantityContainer>
-              <QuantityBox style={{}}>
+              <QuantityBox>
                 <QuantityText>{number}</QuantityText>
               </QuantityBox>
             </QuantityContainer>

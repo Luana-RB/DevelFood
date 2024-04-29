@@ -157,7 +157,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
                 small={true}
                 data={item}
                 finished={true}
-                number={1}
+                number={item.quantity ?? 1}
                 navigation={navigation}
               />
             )}
