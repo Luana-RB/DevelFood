@@ -126,9 +126,7 @@ const CartPage: React.FC = ({navigation}: any) => {
       restaurantId,
       plates: platesToSend,
       paymentType: 'dinheiro',
-      addressId: userData?.address[0].addressId
-        ? userData?.address[0].addressId
-        : '1',
+      addressId: userData?.address[0].addressId ?? '1',
       date,
     };
     return request;
