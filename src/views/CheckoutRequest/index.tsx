@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {colors} from '../../globalStyles';
 import Button from '../../components/Button';
@@ -12,7 +12,7 @@ const CheckoutRequest: React.FC<CheckoutRequestScreenProps> = ({
   const {requestId} = route.params;
 
   function handleSubmit() {
-    // navigation.navigate('RequestDetails', requestId);
+    navigation.replace('RequestDetail', {requestId: requestId});
   }
 
   return (

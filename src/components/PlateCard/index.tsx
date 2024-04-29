@@ -24,16 +24,26 @@ import {
   QuantityText,
 } from '../AddButton/styles';
 import {colors, screenWidth} from '../../globalStyles';
-import {compareFavorites} from '../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
+import {TouchableOpacity} from 'react-native';
+import {compareFavoritePlates} from '../../services/api/favorites';
 
 interface PlateCardProps {
   data: PlateData;
   small?: boolean;
+  finished?: boolean;
+  number?: number;
+  navigation: any;
 }
 
-const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
+const PlateCard: React.FC<PlateCardProps> = ({
+  data,
+  small,
+  finished,
+  number,
+  navigation,
+}) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
@@ -69,7 +79,7 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      const isFavorite = compareFavorites(data);
+      const isFavorite = compareFavoritePlates(data);
       if (isFavorite) setHeart('heart');
       else setHeart('heart-outline');
 
@@ -93,12 +103,14 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
   return (
     <Container style={{width: size}}>
       <PlateImage source={imagePath} />
-      <Icon
-        name={heart}
-        color={colors.red}
-        style={styles.heartIcon}
-        size={20}
-      />
+      {!small && (
+        <Icon
+          name={heart}
+          color={colors.red}
+          style={styles.heartIcon}
+          size={20}
+        />
+      )}
       <BodyContainer>
         <TextContainer>
           <TitleContainer>
@@ -110,31 +122,39 @@ const PlateCard: React.FC<PlateCardProps> = ({data, small}) => {
         </TextContainer>
         <FooterContainer>
           <Price>R$ {thisPrice}</Price>
-          {quantity === 0 ? (
-            <AddButton onPress={handleAdd}>
-              <AddText>Adicionar</AddText>
-            </AddButton>
-          ) : (
+          {!finished &&
+            (quantity === 0 ? (
+              <AddButton onPress={handleAdd}>
+                <AddText>Adicionar</AddText>
+              </AddButton>
+            ) : (
+              <QuantityContainer>
+                {quantity === 1 ? (
+                  <QuantityButton onPress={handleRemove}>
+                    <Icon
+                      name={'trash-can-outline'}
+                      color={colors.red}
+                      size={20}
+                    />
+                  </QuantityButton>
+                ) : (
+                  <QuantityButton onPress={handleRemove}>
+                    <Icon name={'minus'} color={colors.red} size={20} />
+                  </QuantityButton>
+                )}
+                <QuantityBox>
+                  <QuantityText>{quantity}</QuantityText>
+                </QuantityBox>
+                <QuantityButton onPress={handleAdd}>
+                  <Icon name={'plus'} color={colors.red} size={20} />
+                </QuantityButton>
+              </QuantityContainer>
+            ))}
+          {finished && (
             <QuantityContainer>
-              {quantity === 1 ? (
-                <QuantityButton onPress={handleRemove}>
-                  <Icon
-                    name={'trash-can-outline'}
-                    color={colors.red}
-                    size={20}
-                  />
-                </QuantityButton>
-              ) : (
-                <QuantityButton onPress={handleRemove}>
-                  <Icon name={'minus'} color={colors.red} size={20} />
-                </QuantityButton>
-              )}
-              <QuantityBox>
-                <QuantityText>{quantity}</QuantityText>
+              <QuantityBox style={{}}>
+                <QuantityText>{number}</QuantityText>
               </QuantityBox>
-              <QuantityButton onPress={handleAdd}>
-                <Icon name={'plus'} color={colors.red} size={20} />
-              </QuantityButton>
             </QuantityContainer>
           )}
         </FooterContainer>

@@ -9,6 +9,7 @@ import {AuthContext} from '../services/context/authContext';
 import Cadastro from '../views/Cadastro';
 import ForgotPasswordStack from './newPassword.routes';
 import HomeTabs from './tabs.routes';
+import {CartProvider} from '../services/context/cartContext';
 
 const MainStack = createStackNavigator();
 
@@ -120,37 +121,39 @@ export function MyStack() {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <MainStack.Navigator>
-          {loginState.userToken !== null ? (
-            <MainStack.Screen
-              name="Home"
-              component={HomeTabs}
-              options={{headerShown: false}}
-            />
-          ) : (
-            <>
+        <CartProvider>
+          <MainStack.Navigator>
+            {loginState.userToken !== null ? (
               <MainStack.Screen
-                name="Login"
-                component={Login}
+                name="Home"
+                component={HomeTabs}
                 options={{headerShown: false}}
               />
-              <MainStack.Screen
-                name="Cadastro"
-                component={Cadastro}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <MainStack.Screen
-                name="Recuperar Senha"
-                component={ForgotPasswordStack}
-                options={{
-                  headerShown: false,
-                }}
-              />
-            </>
-          )}
-        </MainStack.Navigator>
+            ) : (
+              <>
+                <MainStack.Screen
+                  name="Login"
+                  component={Login}
+                  options={{headerShown: false}}
+                />
+                <MainStack.Screen
+                  name="Cadastro"
+                  component={Cadastro}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <MainStack.Screen
+                  name="Recuperar Senha"
+                  component={ForgotPasswordStack}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+              </>
+            )}
+          </MainStack.Navigator>
+        </CartProvider>
       </NavigationContainer>
     </AuthContext.Provider>
   );

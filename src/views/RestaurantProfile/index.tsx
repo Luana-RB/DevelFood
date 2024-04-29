@@ -145,10 +145,10 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
               onPress={() => {
                 navigation.navigate('PlateDetails', {
                   plate: item,
-                  restaurant: data,
+                  restaurantId: data.id,
                 });
               }}>
-              <PlateCard data={item} />
+              <PlateCard data={item} navigation={navigation} />
             </TouchableOpacity>
           )}
           ListFooterComponent={<View style={{height: 70}} />}

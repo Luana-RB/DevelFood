@@ -6,7 +6,7 @@ import {
   SearchBarContainer,
   SearchInput,
 } from '../../../../components/SearchBar/styles';
-import {colors} from '../../../../globalStyles';
+import {colors, fonts} from '../../../../globalStyles';
 import RestaurantCard from './RestaurantCard';
 import {getRestaurantsFiltered} from '../../../../services/api/restaurants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,7 +15,7 @@ import {ListEmptyComponent} from '../../../../components/ListEmptyComponent';
 import AddressBanner from '../AddressBanner';
 import BannerCarrossel from '../BannerCarrossel';
 import {sales} from '../../../../mocks/sales';
-import CategoryList from '../../../../components/CategoryList';
+import CategoryList, {CategoryText} from '../../../../components/CategoryList';
 const DELAY = 1500;
 
 interface RestaurantListProps {
@@ -57,7 +57,6 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
       setShownData(data);
       if (loading || endedList) return;
       setLoading(true);
-      setShownData(data);
       const restaurantList = await loadAPI();
       if (!restaurantList) {
         setEndedList(true);
@@ -106,6 +105,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
           <View>
             <AddressBanner />
             <BannerCarrossel data={sales} navigation={navigation} />
+            <CategoryText>Categorias</CategoryText>
             <CategoryList />
             <SearchBarContainer>
               <Icon

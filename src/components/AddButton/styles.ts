@@ -31,7 +31,7 @@ export const QuantityBox = styled.View`
   border-width: 1px;
   border-color: ${colors.red};
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   margin-right: -7px;
   margin-left: -2px;
   margin-top: 3px;
@@ -40,6 +40,7 @@ export const QuantityBox = styled.View`
 export const QuantityText = styled.Text`
   font-size: ${fonts.XXS}px;
   color: ${colors.white};
+  margin-top: -1px;
 `;
 export const QuantityButton = styled.TouchableOpacity`
   height: 60%;

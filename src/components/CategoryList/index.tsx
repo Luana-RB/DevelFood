@@ -2,6 +2,7 @@ import React from 'react';
 import {FlatList, Text, View} from 'react-native';
 import CategoryCard from '../CategoryCard';
 import {colors, fonts} from '../../globalStyles';
+import styled from 'styled-components/native';
 
 const CategoryList: React.FC = () => {
   interface CategoryData {
@@ -30,14 +31,6 @@ const CategoryList: React.FC = () => {
 
   return (
     <View>
-      <Text
-        style={{
-          color: colors.black,
-          fontSize: fonts.M,
-          margin: 12,
-        }}>
-        Categorias
-      </Text>
       <FlatList
         style={{marginHorizontal: 5}}
         data={data}
@@ -51,3 +44,9 @@ const CategoryList: React.FC = () => {
 };
 
 export default CategoryList;
+
+export const CategoryText = styled.Text`
+  color: ${colors.black};
+  font-size: ${fonts.M}px;
+  margin: 12px;
+`;

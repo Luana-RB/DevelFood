@@ -22,6 +22,8 @@ export const ListEmptyComponent: React.FC<ListEmptyProps> = ({
     if (load) setShow(true);
     if (imagePath === 'restaurant')
       setPath(require('../../../assets/images/notFoundRestaurant.png'));
+    else if (imagePath === 'favorites')
+      setPath(require('../../../assets/images/notFoundFavorites.png'));
     else if (imagePath === 'pedidos')
       setPath(require('../../../assets/images/notFoundPedidos.png'));
     else if (imagePath === 'carrinho')

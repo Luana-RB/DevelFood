@@ -22,15 +22,17 @@ export const users: UserData[] = [
         number: '123',
       },
     ],
-    favorites: [
-      {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
-      {plateId: '101'},
+    favoritePlates: [
+      {id: '102'},
+      {id: '401'},
+      {id: '103'},
+      {id: '201'},
+      {id: '202'},
+      {id: '203'},
+      {id: '601'},
+      {id: '602'},
     ],
+    favoriteRestaurants: [{id: '2'}, {id: '3'}],
   },
   {
     id: '2',
@@ -44,7 +46,7 @@ export const users: UserData[] = [
     address: [
       {
         addressName: 'Work',
-        addressId: '1',
+        addressId: '2',
         cep: '54321-098',
         street: 'Broadway',
         city: 'Los Angeles',
@@ -53,6 +55,7 @@ export const users: UserData[] = [
         number: '456',
       },
     ],
-    favorites: [],
+    favoritePlates: [],
+    favoriteRestaurants: [],
   },
 ];
