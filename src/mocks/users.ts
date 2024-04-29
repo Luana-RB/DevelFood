@@ -22,7 +22,16 @@ export const users: UserData[] = [
         number: '123',
       },
     ],
-    favoritePlates: [{id: '102'}, {id: '401'}, {id: '103'}, {id: '201'}],
+    favoritePlates: [
+      {id: '102'},
+      {id: '401'},
+      {id: '103'},
+      {id: '201'},
+      {id: '202'},
+      {id: '203'},
+      {id: '601'},
+      {id: '602'},
+    ],
     favoriteRestaurants: [{id: '2'}, {id: '3'}],
   },
   {

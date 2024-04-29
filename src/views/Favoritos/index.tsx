@@ -10,7 +10,10 @@ import {useFocusEffect} from '@react-navigation/native';
 import {PlateData} from '../../types/restaurantData';
 import {Favorites} from '../../types/userData';
 import {getPlateDataById} from '../../services/api/plates';
-import {getFavoritePlates} from '../../services/api/favorites';
+import {
+  getFavoritePlates,
+  getFavoritePlatesFiltered,
+} from '../../services/api/favorites';
 import {useCart} from '../../services/context/cartContext';
 import CartBar from '../../components/CartBar';
 import {
@@ -24,47 +27,77 @@ const Favoritos: React.FC = ({navigation}: any) => {
   const [data, setData] = useState<PlateData[]>([]);
   const [shownData, setShownData] = useState<PlateData[]>([]);
   const [cart, setCart] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('');
+  const [page, setPage] = useState(0);
   const {numOfItems} = useCart();
-
-  useFocusEffect(
-    React.useCallback(() => {
-      getFavoritesData();
-    }, []),
-  );
+  const [endedList, setEndedList] = useState(false);
 
   useEffect(() => {
     if (numOfItems > 0) setCart(true);
     else setCart(false);
   }, [numOfItems, data]);
 
-  async function getFavoritesData() {
-    const favorites: Favorites[] | undefined = await getFavoritePlates();
-    const plates: PlateData[] = [];
-    if (favorites) {
-      for (let i = 0; i < favorites.length; i++) {
-        const plateId = favorites[i].id;
-        const plateData = await getPlateDataById(plateId);
-        if (plateData) plates.push(plateData);
+  useFocusEffect(
+    React.useCallback(() => {
+      setFilter('');
+      handleAll('');
+      setEndedList(false);
+    }, []),
+  );
+
+  async function loadAPI() {
+    const favorites = await getFavoritePlates(page);
+    setPage(page + 5);
+    return favorites;
+  }
+  async function loadSearch(filter: string) {
+    const newData = await getFavoritePlatesFiltered(page, filter);
+    //setFilterPage(filterPage + 1);
+    if (newData) {
+      if (newData.length === 0) {
+        return [];
+      } else {
+        return newData;
       }
-      setData(plates);
-      setShownData(plates);
     }
   }
 
-  function handleSearch(text: string) {
-    if (text.length < 2) {
-      setShownData(data);
-      return;
+  async function getPlateData(favorites: Favorites[]) {
+    const plates: PlateData[] = [];
+    for (let i = 0; i < favorites.length; i++) {
+      const plateId = favorites[i].id;
+      const plateData = await getPlateDataById(plateId);
+      if (plateData) plates.push(plateData);
     }
+    return plates;
+  }
 
-    const newData = (data as PlateData[]).filter(item => {
-      const itemData = item.name.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
+  async function handleAll(filter: string) {
+    if (filter.length < 2) {
+      setShownData(data);
+      if (loading || endedList) return;
+      setLoading(true);
+      const favorites = await loadAPI();
+      if (!favorites) {
+        setEndedList(true);
+        setLoading(false);
+        return;
+      }
+      if (favorites.length === 0) setEndedList(true);
+      const plates = await getPlateData(favorites);
+      setData([...data, ...plates]);
+      setShownData([...data, ...plates]);
+    } else {
+      const favoritesFiltered = await loadSearch(filter);
+      if (!favoritesFiltered) return;
+      setShownData(favoritesFiltered);
+    }
+    setLoading(false);
+  }
 
-    setShownData(newData);
+  function onEnd() {
+    handleAll(filter);
   }
 
   const debounce = (
@@ -82,7 +115,7 @@ const Favoritos: React.FC = ({navigation}: any) => {
   const debouncedWaitSearch = useCallback(
     debounce(filter => {
       setShownData([]);
-      handleSearch(filter);
+      handleAll(filter);
     }, DELAY),
     [data],
   );
@@ -116,6 +149,8 @@ const Favoritos: React.FC = ({navigation}: any) => {
         <FlatList
           style={{marginTop: 20}}
           data={shownData}
+          onEndReached={onEnd}
+          onEndReachedThreshold={0.2}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <TouchableOpacity

@@ -2,11 +2,32 @@ import {users} from '../../mocks/users';
 import {PlateData, RestaurantData} from '../../types/restaurantData';
 import {getPlateDataById} from './plates';
 
-export function getFavoritePlates() {
+export function getFavoritePlates(page: number) {
   try {
     const user = users[0];
     const favorites = user.favoritePlates;
-    return favorites;
+    const favoritesPaginated = favorites.slice(page, page + 4);
+    return favoritesPaginated;
+  } catch (e) {
+    console.log(e);
+  }
+}
+export async function getFavoritePlatesFiltered(page: number, filter: string) {
+  try {
+    const user = users[0];
+    const favorites = user.favoritePlates;
+    const plates: PlateData[] = [];
+    for (let i = 0; i < favorites.length; i++) {
+      const plateId = favorites[i].id;
+      const plateData = await getPlateDataById(plateId);
+      if (plateData) plates.push(plateData);
+    }
+    const newData = plates?.filter((item: {name: string}) => {
+      const name = item.name.toUpperCase();
+      const text = filter.toUpperCase();
+      return name.indexOf(text) > -1;
+    });
+    return newData;
   } catch (e) {
     console.log(e);
   }
