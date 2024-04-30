@@ -6,7 +6,6 @@ export async function getRequests() {
   try {
     const header = await getToken();
     const userRequests = await api.get('/api/pedidos/cliente', header);
-    console.log(userRequests.data);
     // const userOrders = requests;
     return userRequests.data.content;
   } catch (e) {

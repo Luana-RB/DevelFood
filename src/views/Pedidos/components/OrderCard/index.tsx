@@ -67,14 +67,14 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   }
 
   function formatStatusIcon() {
-    if (data.status) {
-      setIcon(statusIcon[data.status]);
+    if (data.stateService) {
+      setIcon(statusIcon[data.stateService]);
     } else setIcon('check-bold');
   }
   function formatStatusName() {
-    if (data.status) {
-      setStatus(statusText[data.status]);
-    } else setStatus('check-bold');
+    if (data.stateService) {
+      setStatus(statusText[data.stateService]);
+    } else setStatus('Aguardando');
   }
 
   return (

@@ -16,6 +16,7 @@ export interface RequestData {
   id?: string;
   fullPrice?: number;
   status?: string;
+  stateService?: string;
   addressId: string;
 }
 export interface RequestSendData {

@@ -56,7 +56,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
   useEffect(() => {
     if (small) {
       setSize(screenWidth * 0.8);
-      maxLength = 12;
+      maxLength = 6;
     }
 
     if (!!data.image) setImagePath({uri: data.image});

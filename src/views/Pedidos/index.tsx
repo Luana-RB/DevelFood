@@ -13,7 +13,6 @@ const DELAY = 2000;
 const Pedidos: React.FC = ({navigation}: any) => {
   const [dataSorted, setDataSorted] = useState<RequestDateData[]>([]);
 
-<<<<<<< Updated upstream
   useFocusEffect(
     React.useCallback(() => {
       inicializeData();
@@ -22,16 +21,6 @@ const Pedidos: React.FC = ({navigation}: any) => {
       }, DELAY);
     }, []),
   );
-
-  async function inicializeData() {
-    const orders = await getRequests();
-    if (orders) sortOrdersByDate(orders);
-  }
-=======
-  useEffect(() => {
-    inicializeData();
-  }, []);
->>>>>>> Stashed changes
 
   async function inicializeData() {
     const orders = await getRequests();
@@ -51,7 +40,6 @@ const Pedidos: React.FC = ({navigation}: any) => {
       item => item.id === order.id,
     );
     if (!existingOrder) {
-      // If order does not exist, add it to the requestItems array
       dataSorted[index].requestItems = [
         ...dataSorted[index].requestItems,
         order,

@@ -68,8 +68,8 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
     if (requestData) {
       const data = {...requestData};
 
-      const addressData = await getAddressById(data.addressId);
-      const restaurantData = await getRestaurantById(data.restaurantId);
+      const addressData = await getAddressById();
+      const restaurantData = await getRestaurantById(data.restaurant.id);
       if (addressData && addressData[0] !== address) setAddress(addressData[0]);
       if (restaurantData && restaurantData !== restaurant) {
         if (restaurantData.image) setImagePath({uri: restaurantData.image});
@@ -78,9 +78,13 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
       }
       formatDay(data.date);
       formatMonth(data.date);
-      if (data.status && data.status !== status) setStatus(data.status);
-      if (data.fullPrice) formatFullPrice(data.fullPrice);
-      setPlates(data.plates);
+      if (data.stateService && data.stateService !== status)
+        setStatus(data.stateService);
+      if (data.totalValue) formatFullPrice(data.totalValue);
+      const plateArray = data.requestItemList.map(
+        (item: {plate: PlateData}) => item.plate,
+      );
+      setPlates(plateArray);
     }
   }
 
