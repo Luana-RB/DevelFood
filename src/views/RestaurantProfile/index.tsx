@@ -148,7 +148,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
                   restaurantId: data.id,
                 });
               }}>
-              <PlateCard data={item} navigation={navigation} />
+              <PlateCard data={item} />
             </TouchableOpacity>
           )}
           ListFooterComponent={<View style={{height: 70}} />}

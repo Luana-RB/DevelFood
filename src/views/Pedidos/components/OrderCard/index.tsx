@@ -13,9 +13,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../../../globalStyles';
 import {RequestData} from '../../../../types/requestData';
 import {getRestaurantById} from '../../../../services/api/restaurants';
-import {PlateData} from '../../../../types/restaurantData';
 import {statusIcon, statusText} from '../../../../types/enums';
-import {getRequestById} from '../../../../services/api/requests';
+import {ActivityIndicator} from 'react-native';
 const MAX_LENGTH_ORDER = 60;
 
 interface OrderCardProps {
@@ -25,6 +24,7 @@ interface OrderCardProps {
 
 const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   const [name, setName] = useState('');
+  const [loading, setLoading] = useState(true);
   const [plateNames, setPlateNames] = useState('');
   const [icon, setIcon] = useState('check-bold');
   const [status, setStatus] = useState('Aguardando');
@@ -39,6 +39,10 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
     formatStatusIcon();
     formatStatusName();
   }, [data]);
+
+  useEffect(() => {
+    if (name.length > 0) setLoading(false);
+  }, [name]);
 
   async function callData() {
     const restaurantData = await getRestaurantById(data.restaurant!.id);
@@ -76,6 +80,13 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
       setStatus(statusText[data.stateService]);
     } else setStatus('Aguardando');
   }
+
+  if (loading)
+    return (
+      <Container style={{alignItems: 'center', justifyContent: 'center'}}>
+        <ActivityIndicator size={30} color={colors.red} />
+      </Container>
+    );
 
   return (
     <Container

@@ -33,7 +33,6 @@ interface PlateCardProps {
   small?: boolean;
   finished?: boolean;
   number?: number;
-  navigation: any;
 }
 
 const PlateCard: React.FC<PlateCardProps> = ({

@@ -38,11 +38,8 @@ import {statusIcon, statusText} from '../../types/enums';
 import {useFocusEffect} from '@react-navigation/native';
 const DELAY = 2000;
 
-const RequestDetail: React.FC<RequestDetailScreenProps> = ({
-  route,
-  navigation,
-}) => {
-  const [plates, setPlates] = useState<PlateData[]>();
+const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
+  const [plates, setPlates] = useState<any[]>();
   const [restaurant, setRestaurant] = useState<RestaurantData>();
   const [address, setAddress] = useState<UserAddress>();
   const [day, setDay] = useState<String>('');
@@ -88,9 +85,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
       if (data.stateService && data.stateService !== status)
         setStatus(data.stateService);
       if (data.totalValue) formatFullPrice(data.totalValue);
-      const plateArray = data.requestItemList.map(
-        (item: {plate: PlateData}) => item.plate,
-      );
+      const plateArray = data.requestItemList;
       setPlates(plateArray);
     }
   }
@@ -167,14 +162,13 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
           <FlatList
             style={{flex: 1}}
             data={plates}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.plate.id}
             renderItem={({item}) => (
               <PlateCard
                 small={true}
-                data={item}
+                data={item.plate}
                 finished={true}
                 number={item.quantity ?? 1}
-                navigation={navigation}
               />
             )}
             ListFooterComponent={<View style={{height: 200}} />}
