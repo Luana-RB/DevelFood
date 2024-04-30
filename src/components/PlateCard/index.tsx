@@ -24,15 +24,17 @@ import {
   QuantityText,
 } from '../AddButton/styles';
 import {colors, screenWidth} from '../../globalStyles';
-import {compareFavorites} from '../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
+import {TouchableOpacity} from 'react-native';
+import {compareFavoritePlates} from '../../services/api/favorites';
 
 interface PlateCardProps {
   data: PlateData;
   small?: boolean;
   finished?: boolean;
   number?: number;
+  navigation: any;
 }
 
 const PlateCard: React.FC<PlateCardProps> = ({
@@ -40,6 +42,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
   small,
   finished,
   number,
+  navigation,
 }) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
@@ -76,7 +79,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
 
   useFocusEffect(
     React.useCallback(() => {
-      const isFavorite = compareFavorites(data);
+      const isFavorite = compareFavoritePlates(data);
       if (isFavorite) setHeart('heart');
       else setHeart('heart-outline');
 
@@ -108,7 +111,6 @@ const PlateCard: React.FC<PlateCardProps> = ({
           size={20}
         />
       )}
-
       <BodyContainer>
         <TextContainer>
           <TitleContainer>

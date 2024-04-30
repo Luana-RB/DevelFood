@@ -15,8 +15,8 @@ import {RestaurantData} from '../../../../../types/restaurantData';
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
 import {colors, screenHeight} from '../../../../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {compareRestaurant} from '../../../../../services/api/favorites';
 import {useFocusEffect} from '@react-navigation/native';
+import {compareFavoriteRestaurant} from '../../../../../services/api/favorites';
 
 interface RestaurantProps {
   data: RestaurantData;
@@ -39,7 +39,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   useFocusEffect(
     React.useCallback(() => {
       async function loadData() {
-        const isFavorite = await compareRestaurant(data.id);
+        const isFavorite = await compareFavoriteRestaurant(data);
         if (isFavorite) setHeart('heart');
         else setHeart('heart-outline');
       }

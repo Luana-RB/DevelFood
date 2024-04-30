@@ -7,7 +7,8 @@ export interface UserData {
   cpf: string;
   phone: string;
   address: UserAddress[];
-  favorites: Favorites[];
+  favoritePlates: Favorites[];
+  favoriteRestaurants: Favorites[];
 }
 export interface UserStoreData {
   credentials: UserCredentials;
@@ -16,8 +17,8 @@ export interface UserStoreData {
   favorites?: Favorites[];
 }
 
-interface Favorites {
-  plateId: string;
+export interface Favorites {
+  id: string;
 }
 export interface UserCredentials {
   id?: string;

@@ -14,7 +14,12 @@ import {
   SubTitle,
   Title,
 } from './styles';
-import {Alert, ImageSourcePropType} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  ImageSourcePropType,
+  View,
+} from 'react-native';
 import {
   AddButton,
   AddText,
@@ -28,12 +33,16 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {useCart} from '../../services/context/cartContext';
 import {useFocusEffect} from '@react-navigation/native';
 import {PlateDetailsScreenProps} from '../../types/routeTypes';
+import {RestaurantData} from '../../types/restaurantData';
+import {getRestaurantById} from '../../services/api/restaurants';
 
 const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
-  const {plate, restaurant} = route.params;
+  const {plate, restaurantId} = route.params;
   const [quantity, setQuantity] = useState(0);
+  const [restaurant, setRestaurant] = useState<RestaurantData>();
   const [description, setDescription] = useState('');
   const [thisPrice, setThisPrice] = useState('0,00');
+
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
   );
@@ -41,14 +50,17 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const {addItem, removeItem, removeQuantity, getQuantity} = useCart();
 
   useEffect(() => {
+    loadRestaurantData();
     if (!!plate.image) setImagePath({uri: plate.image});
     else setImagePath(require('../../../assets/images/notFound.png'));
-
     if (plate.description) formatDescription(plate.description);
-
-    formatPrice(plate.price);
+    if (plate.price) formatPrice(plate.price);
   }, []);
 
+  async function loadRestaurantData() {
+    const restaurantData = await getRestaurantById(restaurantId);
+    if (restaurantData) setRestaurant(restaurantData);
+  }
   useFocusEffect(
     React.useCallback(() => {
       const newQuantity = getQuantity(plate);
@@ -84,6 +96,13 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
 
     setQuantity(quantity - 1);
   }
+
+  if (!restaurant)
+    return (
+      <View style={{flex: 1, backgroundColor: colors.white}}>
+        <ActivityIndicator size={60} color={colors.red} style={{margin: 50}} />
+      </View>
+    );
 
   return (
     <Container>

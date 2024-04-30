@@ -34,6 +34,7 @@ export const QuantityContainer = styled.View`
 export const QuantityText = styled.Text`
   color: ${colors.red};
   font-size: 7px;
+  align-self: center;
 `;
 
 export const Title = styled.Text`
