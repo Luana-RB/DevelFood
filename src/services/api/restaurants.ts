@@ -44,7 +44,6 @@ export async function getRestaurantById(id: string) {
   try {
     const header = await getToken();
     const restaurants = await api.get(`/api/restaurantes/${id}`, header);
-    console.log(restaurants.data);
     return restaurants.data;
     // const restaurants = restaurantsMock;
     // const newData = restaurants?.filter((item: {id: string}) => {

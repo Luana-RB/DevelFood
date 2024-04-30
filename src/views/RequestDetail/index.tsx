@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {FlatList, SafeAreaView, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
 import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -47,6 +47,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
   const [address, setAddress] = useState<UserAddress>();
   const [day, setDay] = useState<String>('');
   const [month, setMonth] = useState<String>('');
+  const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<string>('');
   const [fullPrice, setFullPrice] = useState<string>('0,00');
   const [imagePath, setImagePath] = useState(
@@ -62,7 +63,13 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
       }, DELAY);
     }, []),
   );
+  useEffect(() => {
+    checkLoading();
+  }, [status]);
 
+  function checkLoading() {
+    if (status.length > 0) setLoading(false);
+  }
   async function loadData() {
     const requestData = await getRequestById(requestId);
     if (requestData) {
@@ -104,6 +111,11 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
     const commaFormat = centsFormat.replace(/\./g, ',');
     if (commaFormat !== fullPrice) setFullPrice(commaFormat);
   }
+
+  if (loading)
+    return (
+      <ActivityIndicator size={50} color={colors.red} style={{margin: 20}} />
+    );
 
   return (
     <SafeAreaView style={{flex: 1}}>

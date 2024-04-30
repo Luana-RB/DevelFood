@@ -122,7 +122,7 @@ const CartPage: React.FC = ({navigation}: any) => {
     const platesToSend = formatPlateData();
     const date = formatDate();
     const request: RequestSendData = {
-      restaurantId,
+      restaurantId: items[0].restaurantId,
       requestPlates: platesToSend,
       paymentType: 'DINHEIRO',
       //addressId: userData?.address[0].addressId ?? '1',

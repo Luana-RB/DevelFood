@@ -6,6 +6,7 @@ export interface RestaurantData {
   image?: string;
   rating: number;
   plates?: PlateData[];
+  plateList?: PlateData[];
   address?: {
     addressId: string;
     cep: string;
