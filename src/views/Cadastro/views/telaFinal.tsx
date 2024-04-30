@@ -62,6 +62,20 @@ const TelaFinal: React.FC = ({navigation}: any) => {
       ],
       favoritePlates: [],
       favoriteRestaurants: [],
+
+      //     const newUser = {
+      //       firstName: 'Teste',
+      //       lastName: 'Luana',
+      //       cpf: '81131652749',
+      //       phone: '29836447391',
+      //       email: 'client84@msn.com',
+      //       street: 'Rua do Palácio',
+      //       number: '12',
+      //       neighbourhood: 'Parque Shalom',
+      //       zipcode: 12345678,
+      //       city: 'Sorocaba',
+      //       password: '123456789',
+      // >>>>>>> Stashed changes
     };
     return newUser;
   }

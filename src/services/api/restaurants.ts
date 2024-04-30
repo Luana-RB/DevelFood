@@ -45,17 +45,17 @@ export async function getRestaurantsFiltered({page, filter}: GetFilterProps) {
 
 export async function getRestaurantById(id: string) {
   try {
-    // const header = await getToken();
-    // const restaurants = await api.get(`/restaurante/buscar/${id}`, header);
-    // return restaurants.data;
-    const restaurants = restaurantsMock;
-    const newData = restaurants?.filter((item: {id: string}) => {
-      const name = item.id.toUpperCase();
-      const text = id.toUpperCase();
-      return name.indexOf(text) > -1;
-    });
-    return newData[0];
+    const header = await getToken();
+    const restaurants = await api.get(`/api/restaurantes/${id}`, header);
+    return restaurants.data;
+    // const restaurants = restaurantsMock;
+    // const newData = restaurants?.filter((item: {id: string}) => {
+    //   const name = item.id.toUpperCase();
+    //   const text = id.toUpperCase();
+    //   return name.indexOf(text) > -1;
+    // });
+    // return newData[0];
   } catch (e) {
-    console.log('getIdRestaurants:', e);
+    console.log(id, 'getIdRestaurants:', e);
   }
 }

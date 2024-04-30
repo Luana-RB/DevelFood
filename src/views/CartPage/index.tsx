@@ -42,7 +42,7 @@ import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const CartPage: React.FC = ({navigation}: any) => {
   const {items, price, resetContext} = useCart();
-  const {userData} = useUser();
+  const {userAddress} = useUser();
   const [name, setName] = useState('');
   const [restaurantId, setRestaurantId] = useState('');
   const [category, setCategory] = useState('');
@@ -83,9 +83,8 @@ const CartPage: React.FC = ({navigation}: any) => {
   function formatPlateData() {
     const plateArray: RequestPlatesData[] = items.map(item => {
       const formattedItem: RequestPlatesData = {
-        id: item.id,
+        plateId: item.id,
         quantity: item.quantity || 0,
-        restaurantId: item.restaurantId,
         observation: 'observação',
       };
       return formattedItem;
@@ -124,10 +123,10 @@ const CartPage: React.FC = ({navigation}: any) => {
     const date = formatDate();
     const request: RequestSendData = {
       restaurantId,
-      plates: platesToSend,
-      paymentType: 'dinheiro',
-      addressId: userData?.address[0].addressId ?? '1',
-      date,
+      requestPlates: platesToSend,
+      paymentType: 'DINHEIRO',
+      //addressId: userData?.address[0].addressId ?? '1',
+      // date,
     };
     return request;
   }
@@ -171,11 +170,9 @@ const CartPage: React.FC = ({navigation}: any) => {
           <AddressTextContainer>
             <Subtitle>Entregar em:</Subtitle>
             <AddressTitle>
-              Rua {userData?.address[0].street} {userData?.address[0].number}
+              Rua {userAddress?.street} {userAddress?.number}
             </AddressTitle>
-            <AddressSubtitle>
-              {userData?.address[0].neighbourhood}
-            </AddressSubtitle>
+            <AddressSubtitle>{userAddress?.neighbourhood}</AddressSubtitle>
           </AddressTextContainer>
           <Icon name="chevron-right" size={25} color={colors.gray} />
         </AddressContainer>

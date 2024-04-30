@@ -9,11 +9,12 @@ import {useCart} from '../../services/context/cartContext';
 import CartBar from '../../components/CartBar';
 import {getUserData} from '../../services/api/users';
 import {useUser} from '../../services/context/userContext';
+import {getAddressById} from '../../services/api/address';
 
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
 
-  const {userData, storeData} = useUser();
+  const {userData, storeData, storeAddress, userAddress} = useUser();
   const [cart, setCart] = useState(false);
   const {numOfItems} = useCart();
 
@@ -22,6 +23,8 @@ const Home: React.FC = ({navigation}: any) => {
       if (!userData) {
         const fetchedUserData = await getUserData();
         storeData(fetchedUserData);
+        const fetchedUserAddress = await getAddressById();
+        storeAddress(fetchedUserAddress);
       }
     }
     getUser();

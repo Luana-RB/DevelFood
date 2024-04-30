@@ -1,9 +1,11 @@
 import React, {createContext, useContext, useState} from 'react';
-import {UserData} from '../../types/userData';
+import {UserAddress, UserData} from '../../types/userData';
 
 type UserContextType = {
   userData: UserData | undefined;
+  userAddress: UserAddress | undefined;
   storeData: (data: UserData) => Promise<unknown>;
+  storeAddress: (data: UserAddress) => Promise<unknown>;
   removeData: () => Promise<void>;
 };
 
@@ -17,10 +19,19 @@ export const useUser = () => {
 
 export const UserProvider = ({children}: any) => {
   const [userData, setUserData] = useState<UserData | undefined>();
+  const [userAddress, setUserAddress] = useState<UserAddress | undefined>();
 
   const storeData = async (data: UserData) => {
     try {
       setUserData(data);
+      return data;
+    } catch (e) {
+      return e;
+    }
+  };
+  const storeAddress = async (data: UserAddress) => {
+    try {
+      setUserAddress(data);
       return data;
     } catch (e) {
       return e;
@@ -32,7 +43,8 @@ export const UserProvider = ({children}: any) => {
   };
 
   return (
-    <UserContext.Provider value={{userData, storeData, removeData}}>
+    <UserContext.Provider
+      value={{userData, userAddress, storeData, storeAddress, removeData}}>
       {children}
     </UserContext.Provider>
   );

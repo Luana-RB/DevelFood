@@ -15,6 +15,7 @@ import {RequestData} from '../../../../types/requestData';
 import {getRestaurantById} from '../../../../services/api/restaurants';
 import {PlateData} from '../../../../types/restaurantData';
 import {statusIcon, statusText} from '../../../../types/enums';
+import {getRequestById} from '../../../../services/api/requests';
 const MAX_LENGTH_ORDER = 60;
 
 interface OrderCardProps {
@@ -40,7 +41,7 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   }, [data]);
 
   async function callData() {
-    const restaurantData = await getRestaurantById(data.restaurantId);
+    const restaurantData = await getRestaurantById(data.restaurant!.id);
     if (restaurantData) {
       setName(restaurantData.name);
       if (restaurantData.image) setImagePath({uri: restaurantData.image});
@@ -50,17 +51,17 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
 
   function formatPlateNames() {
     let newPlateNames: string = '';
-
-    data.plates.forEach((plate: PlateData, index: number) => {
-      if (!newPlateNames) newPlateNames = plate.name;
-      else {
-        const newName = newPlateNames + ' + ' + plate.name;
-        if (newName.length < MAX_LENGTH_ORDER)
-          newPlateNames = newPlateNames + ' + ' + plate.name;
-        else if (index == data.plates.length - 1)
-          newPlateNames = newPlateNames + '...';
-      }
-    });
+    if (data.itemsList && data.itemsList.length > 0)
+      data.itemsList.forEach((plate: any, index: number) => {
+        if (!newPlateNames) newPlateNames = plate.plate.name;
+        else {
+          const newName = newPlateNames + ' + ' + plate.plate.name;
+          if (newName.length < MAX_LENGTH_ORDER)
+            newPlateNames = newPlateNames + ' + ' + plate.plate.name;
+          else if (index == data.plates.length - 1)
+            newPlateNames = newPlateNames + '...';
+        }
+      });
 
     return newPlateNames;
   }
