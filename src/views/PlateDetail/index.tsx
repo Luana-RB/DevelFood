@@ -114,7 +114,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
         <PlateImage source={imagePath} />
         <HeaderContainer>
           <Title>{plate.name}</Title>
-          <SubTitle>{restaurant.foodType.name}</SubTitle>
+          <SubTitle>{restaurant.foodType?.name}</SubTitle>
         </HeaderContainer>
         <DescriptionContainer>
           <Description>{description}</Description>

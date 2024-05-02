@@ -52,16 +52,17 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
 
   useEffect(() => {
-    async function getData() {
-      const newData = await getRestaurantById(restaurantId);
-      if (newData) setData(newData);
-      else {
-        Alert.alert('Falha ao encontrar restaurante');
-        navigation.goBack();
-      }
-    }
     getData();
   }, []);
+
+  async function getData() {
+    const newData = await getRestaurantById(restaurantId);
+    if (newData) setData(newData);
+    else {
+      Alert.alert('Falha ao encontrar restaurante');
+      navigation.goBack();
+    }
+  }
 
   useEffect(() => {
     if (data) {
@@ -145,7 +146,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
               onPress={() => {
                 navigation.navigate('PlateDetails', {
                   plate: item,
-                  restaurantId: data.id,
+                  restaurantId: restaurantId,
                 });
               }}>
               <PlateCard data={item} />
