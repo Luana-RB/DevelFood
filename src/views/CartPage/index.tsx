@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Alert,
   FlatList,
   SafeAreaView,
@@ -7,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
-import {colors, screenHeight} from '../../globalStyles';
+import {colors, screenHeight, screenWidth} from '../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   AddressContainer,
@@ -44,7 +45,7 @@ const CartPage: React.FC = ({navigation}: any) => {
   const {items, price, resetContext} = useCart();
   const {userAddress} = useUser();
   const [name, setName] = useState('');
-  const [restaurantId, setRestaurantId] = useState('');
+  const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState('');
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
@@ -70,7 +71,6 @@ const CartPage: React.FC = ({navigation}: any) => {
     const restaurantData = await getRestaurantById(items[0].restaurantId);
     if (restaurantData) {
       setName(restaurantData.name);
-      setRestaurantId(restaurantData.id);
       setCategory(restaurantData.foodType?.name);
       if (restaurantData.image) setImagePath({uri: restaurantData.image});
       else setImagePath(require('../../../assets/images/notFound.png'));
@@ -132,10 +132,14 @@ const CartPage: React.FC = ({navigation}: any) => {
   }
 
   async function handleSubmit() {
+    setLoading(true);
     const request = handleRequest();
     const requestId = await postRequest(request);
     resetContext();
-    if (requestId) handleNavigation(requestId);
+    if (requestId) {
+      setLoading(false);
+      handleNavigation(requestId);
+    }
   }
 
   if (listEmpty) {
@@ -198,9 +202,14 @@ const CartPage: React.FC = ({navigation}: any) => {
       <EndOrderBarContainer>
         <EndOrderBar>
           <Icon name="currency-usd" size={25} color={colors.white} />
-          <TouchableOpacity onPress={handleSubmit}>
-            <EndOrderText>Finalizar pedido</EndOrderText>
-          </TouchableOpacity>
+          {loading ? (
+            <ActivityIndicator size={20} color={colors.white} />
+          ) : (
+            <TouchableOpacity onPress={handleSubmit}>
+              <EndOrderText>Finalizar pedido</EndOrderText>
+            </TouchableOpacity>
+          )}
+
           <Price>R$ {shownPrice}</Price>
         </EndOrderBar>
       </EndOrderBarContainer>
