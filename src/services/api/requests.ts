@@ -7,6 +7,7 @@ export async function getRequests() {
     const header = await getToken();
     const userRequests = await api.get('/api/pedidos/cliente', header);
     // const userOrders = requests;
+    console.log('all requests');
     return userRequests.data.content;
   } catch (e) {
     console.log(e);
@@ -17,6 +18,7 @@ export async function getRequestById(id: string) {
     const header = await getToken();
     const request = await api.get(`/api/pedidos/cliente/${id}`, header);
     // const request = requests.find(item => item.id === id);
+    console.log('id request');
     return request.data;
   } catch (e) {
     console.log(e);

@@ -31,12 +31,12 @@ import PlateCard from '../../components/PlateCard';
 import {RequestDetailScreenProps} from '../../types/routeTypes';
 import {getRequestById} from '../../services/api/requests';
 import {getAddressById} from '../../services/api/address';
-import {PlateData, RestaurantData} from '../../types/restaurantData';
+import {RestaurantData} from '../../types/restaurantData';
 import {getRestaurantById} from '../../services/api/restaurants';
 import {UserAddress} from '../../types/userData';
-import {statusIcon, statusText} from '../../types/enums';
+import {monthText, statusIcon, statusText} from '../../types/enums';
 import {useFocusEffect} from '@react-navigation/native';
-const DELAY = 2000;
+const DELAY = 10000;
 
 const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
   const [plates, setPlates] = useState<any[]>();
@@ -51,14 +51,15 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
     require('../../../assets/images/notFound.png'),
   );
   const {requestId} = route.params;
+  const [fetch, setFetch] = useState(true);
 
   useFocusEffect(
     React.useCallback(() => {
-      loadData();
+      if (fetch) loadData();
       setInterval(() => {
-        loadData();
+        setFetch(true);
       }, DELAY);
-    }, []),
+    }, [fetch]),
   );
   useEffect(() => {
     checkLoading();
@@ -88,19 +89,24 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
       const plateArray = data.requestItemList;
       setPlates(plateArray);
     }
+    setFetch(false);
   }
 
   function formatDay(dateData: string) {
-    const dayData = dateData.match(/\d{2}/);
-    if (dayData && dayData[0] !== day) setDay(dayData[0]);
+    const dayData = dateData.substring(8, 10);
+    if (dayData && dayData[0] !== day) setDay(dayData[0] + dayData[1]);
   }
+
   function formatMonth(dateData: string) {
-    const monthAbreviation = dateData.substring(7, 10);
-    const monthUpperCase =
-      monthAbreviation.substring(0, 1).toUpperCase() +
-      monthAbreviation.substring(1);
-    if (monthUpperCase && monthUpperCase !== month) setMonth(monthUpperCase);
+    if (dateData) {
+      const monthAbreviation = dateData.substring(5, 7);
+      const monthName = monthText[monthAbreviation];
+      const monthUpperCase =
+        monthName.substring(0, 1).toUpperCase() + monthName.substring(1);
+      if (monthUpperCase && monthUpperCase !== month) setMonth(monthUpperCase);
+    }
   }
+
   function formatFullPrice(fullPriceData: number) {
     const centsFormat = fullPriceData.toFixed(2);
     const commaFormat = centsFormat.replace(/\./g, ',');
