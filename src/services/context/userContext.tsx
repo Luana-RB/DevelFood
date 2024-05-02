@@ -5,7 +5,7 @@ type UserContextType = {
   userData: UserData | undefined;
   userAddress: UserAddress | undefined;
   storeData: (data: UserData) => Promise<unknown>;
-  storeAddress: (data: UserAddress) => Promise<unknown>;
+  storeAddress: (data: UserAddress[]) => Promise<unknown>;
   removeData: () => Promise<void>;
 };
 
@@ -29,9 +29,9 @@ export const UserProvider = ({children}: any) => {
       return e;
     }
   };
-  const storeAddress = async (data: UserAddress) => {
+  const storeAddress = async (data: UserAddress[]) => {
     try {
-      setUserAddress(data);
+      setUserAddress(data[0]);
       return data;
     } catch (e) {
       return e;

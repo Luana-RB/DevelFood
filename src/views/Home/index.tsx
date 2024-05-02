@@ -19,14 +19,6 @@ const Home: React.FC = ({navigation}: any) => {
   const {numOfItems} = useCart();
 
   useEffect(() => {
-    async function getUser() {
-      if (!userData) {
-        const fetchedUserData = await getUserData();
-        storeData(fetchedUserData);
-        const fetchedUserAddress = await getAddressById();
-        storeAddress(fetchedUserAddress);
-      }
-    }
     getUser();
   }, []);
 
@@ -35,6 +27,14 @@ const Home: React.FC = ({navigation}: any) => {
     else setCart(false);
   }, [numOfItems]);
 
+  async function getUser() {
+    if (!userData) {
+      const fetchedUserData = await getUserData();
+      storeData(fetchedUserData);
+      const fetchedUserAddress = await getAddressById();
+      storeAddress(fetchedUserAddress);
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <FocusAwareStatusBar
