@@ -18,9 +18,9 @@ const Pedidos: React.FC = ({navigation}: any) => {
   useFocusEffect(
     React.useCallback(() => {
       if (fetch) inicializeData();
-      // setInterval(() => {
-      //   setFetch(true);
-      // }, DELAY);
+      setInterval(() => {
+        setFetch(true);
+      }, DELAY);
     }, [fetch]),
   );
 
