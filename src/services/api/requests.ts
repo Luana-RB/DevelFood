@@ -5,7 +5,7 @@ import {api, getToken} from './api';
 export async function getRequests() {
   try {
     const header = await getToken();
-    const userRequests = await api.get('/api/pedidos/cliente', header);
+    const userRequests = await api.get('/pedido/cliente', header);
     // const userOrders = requests;
     console.log('all requests');
     return userRequests.data.content;
@@ -16,7 +16,7 @@ export async function getRequests() {
 export async function getRequestById(id: string) {
   try {
     const header = await getToken();
-    const request = await api.get(`/api/pedidos/cliente/${id}`, header);
+    const request = await api.get(`/pedido/status/${id}`, header);
     // const request = requests.find(item => item.id === id);
     console.log('id request');
     return request.data;
@@ -37,7 +37,7 @@ export async function getRequestPlateData(id: string) {
 export async function postRequest(order: RequestSendData) {
   try {
     const header = await getToken();
-    const userRequests = await api.post('/api/pedidos', order, header);
+    const userRequests = await api.post('/pedido/fazer', order, header);
     return userRequests.data.id;
     // const userOrders = requests;
     // return userOrders[0].id;

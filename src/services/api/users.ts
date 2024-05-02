@@ -6,7 +6,7 @@ export async function postCadastro(user: any) {
   try {
     // const result = users.push(user);
     console.log(user);
-    const result = await api.post('/api/auth/cliente/cadastro', user);
+    const result = await api.post('/cliente/registrar/cliente', user);
     const status = result.status;
     return true;
   } catch (e) {
@@ -21,7 +21,7 @@ export async function postLogin(email: string, password: string) {
       email,
       password,
     };
-    const result = await api.post('/api/auth/login', credentials);
+    const result = await api.post('/login/efetuar', credentials);
     const token = JSON.stringify(result.data.token).replace(/"/g, '');
     return token;
     // const user = users.find(user => user.email === email);
@@ -100,7 +100,7 @@ export function sendNumberCode() {
 export async function getUserData() {
   try {
     const header = await getToken();
-    const user = await api.get(`/api/cliente/`, header);
+    const user = await api.get(`/cliente/visualizar`, header);
     return user.data;
     // return users[0];
   } catch (e) {

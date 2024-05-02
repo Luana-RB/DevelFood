@@ -49,8 +49,8 @@ const Tela1: React.FC = ({navigation}: any) => {
   async function validateEmail() {
     if (!email.length) return 'Insira um e-mail';
     if (!validator.isEmail(email)) return 'Insira um e-mail válido';
-    // const isRegistered = await checkEmail(email);
-    // if (!isRegistered) return 'E-mail já cadastrado';
+    const isRegistered = await checkEmail(email);
+    if (!isRegistered) return 'E-mail já cadastrado';
   }
 
   function validateSenha() {

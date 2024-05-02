@@ -14,7 +14,11 @@ export async function sendAvaliation(
     };
     console.log(avaliation);
     console.log(header);
-    const response = await api.post('/api/avaliacoes', avaliation, header);
+    const response = await api.post(
+      '/avalicacao/restaurante',
+      avaliation,
+      header,
+    );
     // const response = `${restaurantId}: ${avaliation.grade} ${avaliation.comment}`;
 
     return response;
