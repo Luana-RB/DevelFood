@@ -167,13 +167,6 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
           <CartBar margin={20} navigation={navigation} />
         </View>
       )}
-      {isModalVisible && data && (
-        <ModalAvaliacao
-          setIsModalVisible={setIsModalVisible}
-          restaurant={data}
-          isModalVisible={isModalVisible}
-        />
-      )}
     </Container>
   );
 };

@@ -36,11 +36,17 @@ import {getRestaurantById} from '../../services/api/restaurants';
 import {UserAddress} from '../../types/userData';
 import {monthText, statusIcon, statusText} from '../../types/enums';
 import {useFocusEffect} from '@react-navigation/native';
-const DELAY = 10000;
+import {useModal} from '../../services/context/modalContext';
+import ModalController from '../../components/ModalAvaliacao/controller';
+const DELAY = 50000;
 
-const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
+const RequestDetail: React.FC<RequestDetailScreenProps> = ({
+  route,
+  navigation,
+}) => {
   const [plates, setPlates] = useState<any[]>();
   const [restaurant, setRestaurant] = useState<RestaurantData>();
+  const [restaurantId, setThisRestaurantId] = useState('');
   const [address, setAddress] = useState<UserAddress>();
   const [day, setDay] = useState<String>('');
   const [month, setMonth] = useState<String>('');
@@ -52,6 +58,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
   );
   const {requestId} = route.params;
   const [fetch, setFetch] = useState(true);
+  const {setIsModal, setRestaurantId, setRestaurantName} = useModal();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -61,8 +68,10 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
       }, DELAY);
     }, [fetch]),
   );
+
   useEffect(() => {
     checkLoading();
+    if (status === 'PEDIDO_FINALIZADO') handleFinished();
   }, [status]);
 
   function checkLoading() {
@@ -72,6 +81,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
     const requestData = await getRequestById(requestId);
     if (requestData) {
       const data = {...requestData};
+      setThisRestaurantId(data.restaurant.id);
 
       const addressData = await getAddressById();
       const restaurantData = await getRestaurantById(data.restaurant.id);
@@ -111,6 +121,14 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
     const centsFormat = fullPriceData.toFixed(2);
     const commaFormat = centsFormat.replace(/\./g, ',');
     if (commaFormat !== fullPrice) setFullPrice(commaFormat);
+  }
+
+  function handleFinished() {
+    if (restaurant) {
+      setRestaurantId(restaurantId);
+      setRestaurantName(restaurant.name);
+    }
+    ModalController.showModal();
   }
 
   if (loading)

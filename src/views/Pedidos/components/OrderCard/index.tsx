@@ -15,6 +15,8 @@ import {RequestData} from '../../../../types/requestData';
 import {getRestaurantById} from '../../../../services/api/restaurants';
 import {statusIcon, statusText} from '../../../../types/enums';
 import {ActivityIndicator} from 'react-native';
+import {useModal} from '../../../../services/context/modalContext';
+import ModalController from '../../../../components/ModalAvaliacao/controller';
 const MAX_LENGTH_ORDER = 60;
 
 interface OrderCardProps {
@@ -31,6 +33,7 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   const [imagePath, setImagePath] = useState(
     require('../../../../../assets/images/notFound.png'),
   );
+  const {setIsModal, setRestaurantId, setRestaurantName} = useModal();
 
   useEffect(() => {
     callData();
@@ -41,8 +44,9 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   }, [data]);
 
   useEffect(() => {
-    if (name.length > 0) setLoading(false);
-  }, [name]);
+    if (status.length > 0) setLoading(false);
+    if (data.stateService === 'PEDIDO_FINALIZADO') handleFinished(data);
+  }, [status]);
 
   async function callData() {
     const restaurantData = await getRestaurantById(data.restaurant!.id);
@@ -79,6 +83,13 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
     if (data.stateService) {
       setStatus(statusText[data.stateService]);
     } else setStatus('Aguardando');
+  }
+  function handleFinished(order: RequestData) {
+    if (order.restaurant) {
+      setRestaurantId(order.restaurant.id);
+      setRestaurantName(order.restaurant.name);
+    }
+    ModalController.showModal();
   }
 
   if (loading)
