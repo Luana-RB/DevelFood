@@ -33,7 +33,7 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   const [imagePath, setImagePath] = useState(
     require('../../../../../assets/images/notFound.png'),
   );
-  const {setIsModal, setRestaurantId, setRestaurantName} = useModal();
+  const {setRequestId, setRestaurantId, setRestaurantName} = useModal();
 
   useEffect(() => {
     callData();
@@ -85,9 +85,10 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
     } else setStatus('Aguardando');
   }
   function handleFinished(order: RequestData) {
-    if (order.restaurant) {
+    if (order.restaurant && order.id) {
       setRestaurantId(order.restaurant.id);
       setRestaurantName(order.restaurant.name);
+      setRequestId(order.id);
     }
     ModalController.showModal();
   }

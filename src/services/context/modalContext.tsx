@@ -3,15 +3,15 @@ import React, {
   SetStateAction,
   createContext,
   useContext,
-  useEffect,
   useState,
 } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type ModalContextType = {
   isModal: boolean | undefined;
   restaurantId: string | undefined;
   restaurantName: string | undefined;
+  requestId: string | undefined;
+  setRequestId: Dispatch<SetStateAction<string>>;
   setIsModal: Dispatch<SetStateAction<boolean>>;
   setRestaurantId: Dispatch<SetStateAction<string>>;
   setRestaurantName: Dispatch<SetStateAction<string>>;
@@ -31,12 +31,14 @@ export const useModal = () => {
 export const ModalProvider = ({children}: any) => {
   const [isModal, setIsModal] = useState(false);
   const [restaurantId, setRestaurantId] = useState('');
+  const [requestId, setRequestId] = useState('');
   const [restaurantName, setRestaurantName] = useState('');
 
   function reset() {
     setIsModal(false);
     setRestaurantId('');
     setRestaurantName('');
+    setRequestId('');
   }
 
   return (
@@ -44,8 +46,10 @@ export const ModalProvider = ({children}: any) => {
       value={{
         isModal,
         restaurantId,
+        requestId,
         restaurantName,
         setIsModal,
+        setRequestId,
         setRestaurantId,
         setRestaurantName,
         reset,

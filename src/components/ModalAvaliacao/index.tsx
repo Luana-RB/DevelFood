@@ -35,7 +35,7 @@ const ModalAvaliacao = () => {
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const {restaurantId, restaurantName, reset} = useModal();
+  const {requestId, restaurantId, restaurantName, reset} = useModal();
 
   const modalRef = useRef<CustomModalRef>();
 
@@ -89,8 +89,10 @@ const ModalAvaliacao = () => {
     else {
       setLoading(true);
       if (restaurantId) {
-        const result = await sendAvaliation(score, comment, restaurantId);
-        if (result) clearModal();
+        if (requestId) {
+          const result = await sendAvaliation(score, comment, requestId);
+          if (result) clearModal();
+        }
       }
     }
   }

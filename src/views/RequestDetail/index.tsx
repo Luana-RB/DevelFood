@@ -58,7 +58,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
   );
   const {requestId} = route.params;
   const [fetch, setFetch] = useState(true);
-  const {setIsModal, setRestaurantId, setRestaurantName} = useModal();
+  const {setRequestId, setRestaurantId, setRestaurantName} = useModal();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -71,7 +71,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
 
   useEffect(() => {
     checkLoading();
-    if (status === 'PEDIDO_FINALIZADO') handleFinished();
+    if (status === 'PEDIDO_REALIZADO') handleFinished();
   }, [status]);
 
   function checkLoading() {
@@ -127,6 +127,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
     if (restaurant) {
       setRestaurantId(restaurantId);
       setRestaurantName(restaurant.name);
+      setRequestId(requestId);
     }
     ModalController.showModal();
   }
