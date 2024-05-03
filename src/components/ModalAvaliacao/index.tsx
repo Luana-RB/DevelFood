@@ -1,4 +1,10 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Alert,
   FlatList,
@@ -20,23 +26,35 @@ import {
 } from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors, screenHeight, screenWidth} from '../../globalStyles';
-import {RestaurantData} from '../../types/restaurantData';
 import {sendAvaliation} from '../../services/api/avaliation';
+import {useModal} from '../../services/context/modalContext';
+import ModalController, {CustomModalRef} from './controller';
 
-interface ModalProps {
-  setIsModalVisible: Dispatch<SetStateAction<boolean>>;
-  restaurant: RestaurantData;
-  isModalVisible: boolean;
-}
-
-const ModalAvaliacao: React.FC<ModalProps> = ({
-  setIsModalVisible,
-  restaurant,
-  isModalVisible,
-}) => {
+const ModalAvaliacao = () => {
   const [score, setScore] = useState(0);
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const {restaurantId, restaurantName, reset} = useModal();
+
+  const modalRef = useRef<CustomModalRef>();
+
+  useLayoutEffect(() => {
+    ModalController.setModalRef(modalRef);
+  }, []);
+
+  useImperativeHandle(
+    modalRef,
+    () => ({
+      show: () => {
+        setModalVisible(true);
+      },
+      hide: () => {
+        setModalVisible(false);
+      },
+    }),
+    [],
+  );
 
   const data = [
     {
@@ -70,28 +88,33 @@ const ModalAvaliacao: React.FC<ModalProps> = ({
     if (score === 0) Alert.alert('Responda o formulário');
     else {
       setLoading(true);
-      const result = await sendAvaliation(score, comment, restaurant.id);
-      setTimeout(() => {
-        if (result) setIsModalVisible(false);
-      }, 2000);
+      if (restaurantId) {
+        const result = await sendAvaliation(score, comment, restaurantId);
+        if (result) clearModal();
+      }
     }
   }
 
-  function handleCancel() {
-    setIsModalVisible(false);
+  function clearModal() {
+    setComment('');
+    setLoading(false);
+    setScore(0);
+    reset();
+    ModalController.hideModal();
   }
 
   function handleStar(id: number) {
     setScore(id);
   }
 
+  if (!modalVisible) return;
   return (
     <View
       style={{
         position: 'absolute',
       }}>
       <TouchableOpacity
-        onPress={handleCancel}
+        onPress={clearModal}
         style={{
           height: screenHeight,
           width: screenWidth,
@@ -101,8 +124,8 @@ const ModalAvaliacao: React.FC<ModalProps> = ({
       <Modal
         animationType="slide"
         transparent={true}
-        visible={isModalVisible}
-        onRequestClose={handleCancel}
+        visible={modalVisible}
+        onRequestClose={clearModal}
         statusBarTranslucent={true}>
         <KeyboardAvoidingView
           behavior={'position'}
@@ -115,7 +138,7 @@ const ModalAvaliacao: React.FC<ModalProps> = ({
               Obrigado por escolher nosso app, você faz toda a diferença. :D
               Agora, queremos saber o que voce acha do nosso parceiro{' '}
             </Description>
-            <RestaurantName>{restaurant.name}</RestaurantName>
+            <RestaurantName>{restaurantName}</RestaurantName>
           </DescriptionContainer>
           <ListContainer>
             <FlatList
@@ -146,4 +169,4 @@ const ModalAvaliacao: React.FC<ModalProps> = ({
   );
 };
 
-export default ModalAvaliacao;
+export default forwardRef(ModalAvaliacao);

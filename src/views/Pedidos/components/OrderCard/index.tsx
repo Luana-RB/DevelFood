@@ -13,7 +13,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../../../globalStyles';
 import {RequestData} from '../../../../types/requestData';
 import {getRestaurantById} from '../../../../services/api/restaurants';
-import {PlateData} from '../../../../types/restaurantData';
+import {statusIcon, statusText} from '../../../../types/enums';
+import {ActivityIndicator} from 'react-native';
+import {useModal} from '../../../../services/context/modalContext';
+import ModalController from '../../../../components/ModalAvaliacao/controller';
 const MAX_LENGTH_ORDER = 60;
 
 interface OrderCardProps {
@@ -23,42 +26,78 @@ interface OrderCardProps {
 
 const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   const [name, setName] = useState('');
+  const [loading, setLoading] = useState(true);
   const [plateNames, setPlateNames] = useState('');
+  const [icon, setIcon] = useState('check-bold');
+  const [status, setStatus] = useState('Aguardando');
   const [imagePath, setImagePath] = useState(
     require('../../../../../assets/images/notFound.png'),
   );
+  const {setIsModal, setRestaurantId, setRestaurantName} = useModal();
 
   useEffect(() => {
-    async function callData() {
-      const restaurantData = await getRestaurantById(data.restaurantId);
-      if (restaurantData) {
-        setName(restaurantData.name);
-        if (restaurantData.image) setImagePath({uri: restaurantData.image});
-        else setImagePath(require('../../../../../assets/images/notFound.png'));
-      }
-    }
     callData();
-
     const formatedPlateNames = formatPlateNames();
     setPlateNames(formatedPlateNames);
-  }, []);
+    formatStatusIcon();
+    formatStatusName();
+  }, [data]);
+
+  useEffect(() => {
+    if (status.length > 0) setLoading(false);
+    if (data.stateService === 'PEDIDO_FINALIZADO') handleFinished(data);
+  }, [status]);
+
+  async function callData() {
+    const restaurantData = await getRestaurantById(data.restaurant!.id);
+    if (restaurantData) {
+      setName(restaurantData.name);
+      if (restaurantData.image) setImagePath({uri: restaurantData.image});
+      else setImagePath(require('../../../../../assets/images/notFound.png'));
+    }
+  }
 
   function formatPlateNames() {
     let newPlateNames: string = '';
-
-    data.plates.forEach((plate: PlateData, index: number) => {
-      if (!newPlateNames) newPlateNames = plate.name;
-      else {
-        const newName = newPlateNames + ' + ' + plate.name;
-        if (newName.length < MAX_LENGTH_ORDER)
-          newPlateNames = newPlateNames + ' + ' + plate.name;
-        else if (index == data.plates.length - 1)
-          newPlateNames = newPlateNames + '...';
-      }
-    });
+    if (data.itemsList && data.itemsList.length > 0)
+      data.itemsList.forEach((plate: any, index: number) => {
+        if (!newPlateNames) newPlateNames = plate.plate.name;
+        else {
+          const newName = newPlateNames + ' + ' + plate.plate.name;
+          if (newName.length < MAX_LENGTH_ORDER)
+            newPlateNames = newPlateNames + ' + ' + plate.plate.name;
+          else if (index == data.plates.length - 1)
+            newPlateNames = newPlateNames + '...';
+        }
+      });
 
     return newPlateNames;
   }
+
+  function formatStatusIcon() {
+    if (data.stateService) {
+      setIcon(statusIcon[data.stateService]);
+    } else setIcon('check-bold');
+  }
+  function formatStatusName() {
+    if (data.stateService) {
+      setStatus(statusText[data.stateService]);
+    } else setStatus('Aguardando');
+  }
+  function handleFinished(order: RequestData) {
+    if (order.restaurant) {
+      setRestaurantId(order.restaurant.id);
+      setRestaurantName(order.restaurant.name);
+    }
+    ModalController.showModal();
+  }
+
+  if (loading)
+    return (
+      <Container style={{alignItems: 'center', justifyContent: 'center'}}>
+        <ActivityIndicator size={30} color={colors.red} />
+      </Container>
+    );
 
   return (
     <Container
@@ -69,8 +108,8 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
       <TextContainer>
         <Title>{name}</Title>
         <StatusContainer>
-          <Icon name="check-bold" size={15} color={colors.red} />
-          <StatusText>{data.status}</StatusText>
+          <Icon name={icon} size={15} color={colors.red} />
+          <StatusText>{status}</StatusText>
           <OrderNumber>Nº {data.id}</OrderNumber>
         </StatusContainer>
         <OrderText>{plateNames}</OrderText>

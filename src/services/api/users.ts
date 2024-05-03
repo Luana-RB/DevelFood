@@ -2,10 +2,11 @@ import {users} from '../../mocks/users';
 import {UserData, UserStoreData} from '../../types/userData';
 import {api, getToken} from './api';
 
-export async function postCadastro(user: UserData) {
+export async function postCadastro(user: any) {
   try {
     // const result = users.push(user);
-    const result = await api.post('/cliente/registrar/cliente', user);
+    console.log(user);
+    const result = await api.post('/api/auth/cliente/cadastro', user);
     const status = result.status;
     return true;
   } catch (e) {
@@ -20,11 +21,11 @@ export async function postLogin(email: string, password: string) {
       email,
       password,
     };
-    const result = await api.post('/login/efetuar', credentials);
+    const result = await api.post('/api/auth/login', credentials);
     const token = JSON.stringify(result.data.token).replace(/"/g, '');
     return token;
-    //    const user = users.find(user => user.credentials.email === email);
-    // if (user?.credentials.password === password) return user.credentials.id;
+    // const user = users.find(user => user.email === email);
+    // if (user?.password === password) return 'user.credentials.id';
   } catch (e) {
     console.log('login', e);
     return undefined;
@@ -97,8 +98,12 @@ export function sendNumberCode() {
 }
 
 export async function getUserData() {
-  // const header = await getToken();
-  // const user = await api.get(`/cliente`, header);
-  // return user.data;
-  return users[0];
+  try {
+    const header = await getToken();
+    const user = await api.get(`/api/cliente/`, header);
+    return user.data;
+    // return users[0];
+  } catch (e) {
+    console.log('user data ', e);
+  }
 }

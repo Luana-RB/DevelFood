@@ -36,7 +36,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
 
   async function loadAPI() {
     const restaurantes = await getRestaurants({page});
-    setPage(page + 7);
+    setPage(page + 1);
     return restaurantes;
   }
 

@@ -52,22 +52,23 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
 
   useEffect(() => {
-    async function getData() {
-      const newData = await getRestaurantById(restaurantId);
-      if (newData) setData(newData);
-      else {
-        Alert.alert('Falha ao encontrar restaurante');
-        navigation.goBack();
-      }
-    }
     getData();
   }, []);
 
+  async function getData() {
+    const newData = await getRestaurantById(restaurantId);
+    if (newData) setData(newData);
+    else {
+      Alert.alert('Falha ao encontrar restaurante');
+      navigation.goBack();
+    }
+  }
+
   useEffect(() => {
     if (data) {
-      if (data.plates !== undefined && data.plates.length >= 1) {
+      if (data.plateList !== undefined && data.plateList.length >= 1) {
         setNotFound(false);
-        setPlateData(data.plates);
+        setPlateData(data.plateList);
       }
       if (!!data.image) setImagePath({uri: data.image});
       else setImagePath(require('../../../assets/images/notFound.png'));
@@ -138,17 +139,17 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
         )}
 
         <FlatList
-          data={isFiltered ? filteredData : data?.plates}
+          data={isFiltered ? filteredData : data?.plateList}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('PlateDetails', {
                   plate: item,
-                  restaurantId: data.id,
+                  restaurantId: restaurantId,
                 });
               }}>
-              <PlateCard data={item} navigation={navigation} />
+              <PlateCard data={item} />
             </TouchableOpacity>
           )}
           ListFooterComponent={<View style={{height: 70}} />}
@@ -166,13 +167,6 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
           }}>
           <CartBar margin={20} navigation={navigation} />
         </View>
-      )}
-      {isModalVisible && data && (
-        <ModalAvaliacao
-          setIsModalVisible={setIsModalVisible}
-          restaurant={data}
-          isModalVisible={isModalVisible}
-        />
       )}
     </Container>
   );

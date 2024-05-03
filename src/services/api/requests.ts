@@ -1,33 +1,47 @@
 import {requests} from '../../mocks/requests';
 import {RequestSendData} from '../../types/requestData';
+import {api, getToken} from './api';
 
 export async function getRequests() {
   try {
-    //const header = await getToken();
-    // const userRequests = await api.get('/cliente/pedidos', header)
-    const userOrders = requests;
-    return userOrders;
+    const header = await getToken();
+    const userRequests = await api.get('/api/pedidos/cliente', header);
+    // const userOrders = requests;
+    console.log('all requests');
+    return userRequests.data.content;
   } catch (e) {
     console.log(e);
   }
 }
 export async function getRequestById(id: string) {
   try {
-    //const header = await getToken();
-    // const request = await api.get(`/cliente/pedidos/${id}`, header)
-    const request = requests.find(item => item.id === id);
-    return request;
+    const header = await getToken();
+    const request = await api.get(`/api/pedidos/cliente/${id}`, header);
+    // const request = requests.find(item => item.id === id);
+    console.log('id request');
+    return request.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+export async function getRequestPlateData(id: string) {
+  try {
+    const header = await getToken();
+    const request = await api.get(`/api/pedidos/cliente/${id}`, header);
+    // const request = requests.find(item => item.id === id);
+    return request.data.requestPlates;
   } catch (e) {
     console.log(e);
   }
 }
 export async function postRequest(order: RequestSendData) {
   try {
-    //const header = await getToken();
-    // const userRequests = await api.post('/cliente/pedidos', order, header)
-    const userOrders = requests;
-    return userOrders[0].id;
+    const header = await getToken();
+    const userRequests = await api.post('/api/pedidos', order, header);
+    return userRequests.data.id;
+    // const userOrders = requests;
+    // return userOrders[0].id;
   } catch (e) {
-    console.log(e);
+    console.log('post request ', e);
   }
 }

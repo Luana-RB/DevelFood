@@ -26,7 +26,6 @@ import {
 import {colors, screenWidth} from '../../globalStyles';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCart} from '../../services/context/cartContext';
-import {TouchableOpacity} from 'react-native';
 import {compareFavoritePlates} from '../../services/api/favorites';
 
 interface PlateCardProps {
@@ -34,7 +33,6 @@ interface PlateCardProps {
   small?: boolean;
   finished?: boolean;
   number?: number;
-  navigation: any;
 }
 
 const PlateCard: React.FC<PlateCardProps> = ({
@@ -42,7 +40,6 @@ const PlateCard: React.FC<PlateCardProps> = ({
   small,
   finished,
   number,
-  navigation,
 }) => {
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState('');
@@ -58,7 +55,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
   useEffect(() => {
     if (small) {
       setSize(screenWidth * 0.8);
-      maxLength = 12;
+      maxLength = 6;
     }
 
     if (!!data.image) setImagePath({uri: data.image});
@@ -152,7 +149,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
             ))}
           {finished && (
             <QuantityContainer>
-              <QuantityBox style={{}}>
+              <QuantityBox>
                 <QuantityText>{number}</QuantityText>
               </QuantityBox>
             </QuantityContainer>

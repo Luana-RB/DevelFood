@@ -10,6 +10,7 @@ export type RootStackParamList = {
   CartPage: any;
   CheckoutRequest: {requestId: string};
   RequestDetail: {requestId: string};
+  Modal: any;
 };
 
 export type PlateDetailsScreenProps = StackScreenProps<

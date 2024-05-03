@@ -1,4 +1,4 @@
-import {PlateData} from './restaurantData';
+import {PlateData, RestaurantData} from './restaurantData';
 
 export interface RequestDateData {
   id: string;
@@ -7,29 +7,32 @@ export interface RequestDateData {
 }
 
 export interface RequestData {
-  restaurantId: string;
+  restaurantId?: string;
+  restaurant?: RestaurantData;
   plates: PlateData[];
+  itemsList?: PlateData[];
   date: string;
   paymentType: string;
   id?: string;
   fullPrice?: number;
   status?: string;
+  stateService?: string;
   addressId: string;
 }
 export interface RequestSendData {
   restaurantId: string;
-  plates: RequestPlatesData[];
-  date: string;
+  requestPlates: RequestPlatesData[];
+  date?: string;
   paymentType: string;
   id?: string;
   fullPrice?: number;
   status?: string;
-  addressId: string;
+  addressId?: string;
 }
 
 export interface RequestPlatesData {
-  id: string;
-  restaurantId: string;
+  plateId: string;
+  restaurantId?: string;
   quantity: number;
   observation?: string;
 }

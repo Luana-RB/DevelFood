@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Alert,
   FlatList,
   SafeAreaView,
@@ -7,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
-import {colors, screenHeight} from '../../globalStyles';
+import {colors, screenHeight, screenWidth} from '../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   AddressContainer,
@@ -42,9 +43,9 @@ import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const CartPage: React.FC = ({navigation}: any) => {
   const {items, price, resetContext} = useCart();
-  const {userData} = useUser();
+  const {userAddress} = useUser();
   const [name, setName] = useState('');
-  const [restaurantId, setRestaurantId] = useState('');
+  const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState('');
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
@@ -70,7 +71,6 @@ const CartPage: React.FC = ({navigation}: any) => {
     const restaurantData = await getRestaurantById(items[0].restaurantId);
     if (restaurantData) {
       setName(restaurantData.name);
-      setRestaurantId(restaurantData.id);
       setCategory(restaurantData.foodType?.name);
       if (restaurantData.image) setImagePath({uri: restaurantData.image});
       else setImagePath(require('../../../assets/images/notFound.png'));
@@ -83,9 +83,8 @@ const CartPage: React.FC = ({navigation}: any) => {
   function formatPlateData() {
     const plateArray: RequestPlatesData[] = items.map(item => {
       const formattedItem: RequestPlatesData = {
-        id: item.id,
+        plateId: item.id,
         quantity: item.quantity || 0,
-        restaurantId: item.restaurantId,
         observation: 'observação',
       };
       return formattedItem;
@@ -123,20 +122,24 @@ const CartPage: React.FC = ({navigation}: any) => {
     const platesToSend = formatPlateData();
     const date = formatDate();
     const request: RequestSendData = {
-      restaurantId,
-      plates: platesToSend,
-      paymentType: 'dinheiro',
-      addressId: userData?.address[0].addressId ?? '1',
-      date,
+      restaurantId: items[0].restaurantId,
+      requestPlates: platesToSend,
+      paymentType: 'DINHEIRO',
+      //addressId: userData?.address[0].addressId ?? '1',
+      // date,
     };
     return request;
   }
 
   async function handleSubmit() {
+    setLoading(true);
     const request = handleRequest();
     const requestId = await postRequest(request);
     resetContext();
-    if (requestId) handleNavigation(requestId);
+    if (requestId) {
+      setLoading(false);
+      handleNavigation(requestId);
+    }
   }
 
   if (listEmpty) {
@@ -171,11 +174,9 @@ const CartPage: React.FC = ({navigation}: any) => {
           <AddressTextContainer>
             <Subtitle>Entregar em:</Subtitle>
             <AddressTitle>
-              Rua {userData?.address[0].street} {userData?.address[0].number}
+              Rua {userAddress?.street} {userAddress?.number}
             </AddressTitle>
-            <AddressSubtitle>
-              {userData?.address[0].neighbourhood}
-            </AddressSubtitle>
+            <AddressSubtitle>{userAddress?.neighbourhood}</AddressSubtitle>
           </AddressTextContainer>
           <Icon name="chevron-right" size={25} color={colors.gray} />
         </AddressContainer>
@@ -201,9 +202,14 @@ const CartPage: React.FC = ({navigation}: any) => {
       <EndOrderBarContainer>
         <EndOrderBar>
           <Icon name="currency-usd" size={25} color={colors.white} />
-          <TouchableOpacity onPress={handleSubmit}>
-            <EndOrderText>Finalizar pedido</EndOrderText>
-          </TouchableOpacity>
+          {loading ? (
+            <ActivityIndicator size={20} color={colors.white} />
+          ) : (
+            <TouchableOpacity onPress={handleSubmit}>
+              <EndOrderText>Finalizar pedido</EndOrderText>
+            </TouchableOpacity>
+          )}
+
           <Price>R$ {shownPrice}</Price>
         </EndOrderBar>
       </EndOrderBarContainer>

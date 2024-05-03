@@ -94,6 +94,7 @@ export const EndOrderBar = styled.View`
   flex-direction: row;
   padding: 0px 15px;
   align-items: center;
+  justify-content: space-between;
 `;
 export const EndOrderText = styled.Text`
   font-size: ${fonts.S}px;

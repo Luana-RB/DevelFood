@@ -99,6 +99,7 @@ export const StatusBox = styled.View`
   background-color: ${colors.white};
 `;
 export const StatusText = styled.Text`
+  height: 40px;
   color: ${colors.red};
   font-size: ${fonts.XXS}px;
   flex-wrap: wrap;

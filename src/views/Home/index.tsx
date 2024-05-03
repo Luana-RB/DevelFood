@@ -9,21 +9,16 @@ import {useCart} from '../../services/context/cartContext';
 import CartBar from '../../components/CartBar';
 import {getUserData} from '../../services/api/users';
 import {useUser} from '../../services/context/userContext';
+import {getAddressById} from '../../services/api/address';
 
 const Home: React.FC = ({navigation}: any) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
 
-  const {userData, storeData} = useUser();
+  const {userData, storeData, storeAddress, userAddress} = useUser();
   const [cart, setCart] = useState(false);
   const {numOfItems} = useCart();
 
   useEffect(() => {
-    async function getUser() {
-      if (!userData) {
-        const fetchedUserData = await getUserData();
-        storeData(fetchedUserData);
-      }
-    }
     getUser();
   }, []);
 
@@ -32,6 +27,14 @@ const Home: React.FC = ({navigation}: any) => {
     else setCart(false);
   }, [numOfItems]);
 
+  async function getUser() {
+    if (!userData) {
+      const fetchedUserData = await getUserData();
+      storeData(fetchedUserData);
+      const fetchedUserAddress = await getAddressById();
+      storeAddress(fetchedUserAddress);
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <FocusAwareStatusBar

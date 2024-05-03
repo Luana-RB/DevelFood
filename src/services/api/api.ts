@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const api = axios.create({
-  baseURL: 'https://open-phoenix-secondly.ngrok-free.app',
+  baseURL: 'https://social-neutral-jaybird.ngrok-free.app',
 });
 
 export async function getToken() {

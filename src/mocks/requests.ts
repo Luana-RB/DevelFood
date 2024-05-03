@@ -15,36 +15,26 @@ export const requests: RequestData[] = [
         name: 'MCLanche Feliz',
         price: 10,
         restaurantId: '1',
+        quantity: 2,
         image:
           'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
         id: '102',
-        name: 'MCLanche Feliz',
+        name: 'Batata Frita',
         price: 10,
+        quantity: 2,
         restaurantId: '1',
       },
       {
         id: '103',
-        name: 'MCLanche Feliz',
+        name: 'Refrigerante',
         price: 10,
         restaurantId: '1',
       },
       {
         id: '104',
-        name: 'MCLanche Feliz',
-        price: 10,
-        restaurantId: '1',
-      },
-      {
-        id: '105',
-        name: 'MCLanche Feliz',
-        price: 10,
-        restaurantId: '1',
-      },
-      {
-        id: '106',
-        name: 'MCLanche Feliz',
+        name: 'BigMC',
         price: 10,
         restaurantId: '1',
       },
@@ -58,6 +48,33 @@ export const requests: RequestData[] = [
     restaurantId: '1',
     paymentType: 'dinheiro',
     status: 'PEDIDO_REALIZADO',
+    addressId: '1',
+    plates: [
+      {
+        id: '101',
+        name: 'MCLanche Feliz',
+        price: 10,
+        image:
+          'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        restaurantId: '1',
+      },
+      {
+        id: '102',
+        name: 'BigMC',
+        price: 10,
+        image:
+          'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        restaurantId: '1',
+      },
+    ],
+  },
+  {
+    id: '4',
+    fullPrice: 20,
+    date: 'Seg 02 Fevereiro 2022',
+    restaurantId: '1',
+    paymentType: 'dinheiro',
+    status: 'PEDIDO_PRONTO',
     addressId: '1',
     plates: [
       {
@@ -95,7 +112,7 @@ export const requests: RequestData[] = [
       },
       {
         id: '102',
-        name: 'MCLanche Feliz',
+        name: 'Refrigerante',
         price: 10,
         restaurantId: '2',
       },

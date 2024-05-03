@@ -42,26 +42,33 @@ const TelaFinal: React.FC = ({navigation}: any) => {
   }
 
   function formatUser(user: UserStoreData) {
-    const newUser: UserData = {
+    const newUser = {
       email: user.credentials.email,
       password: user.credentials.password,
       firstName: user.info.firstName,
       lastName: user.info.lastName,
       cpf: user.info.cpf.replace(/\D/g, ''),
       phone: user.info.phone.replace(/\D/g, ''),
-      address: [
-        {
-          addressName: user.address[0].addressName,
-          cep: user.address[0].cep.replace(/\D/g, ''),
-          street: user.address[0].street,
-          city: user.address[0].city,
-          neighbourhood: user.address[0].neighbourhood,
-          state: user.address[0].state,
-          number: user.address[0].number,
-        },
-      ],
-      favoritePlates: [],
-      favoriteRestaurants: [],
+      zipcode: user.address[0].cep.replace(/\D/g, ''),
+      street: user.address[0].street,
+      city: user.address[0].city,
+      neighbourhood: user.address[0].neighbourhood,
+      state: user.address[0].state,
+      number: user.address[0].number,
+
+      //     const newUser = {
+      //       firstName: 'Teste',
+      //       lastName: 'Luana',
+      //       cpf: '81131652749',
+      //       phone: '29836447391',
+      //       email: 'client84@msn.com',
+      //       street: 'Rua do Palácio',
+      //       number: '12',
+      //       neighbourhood: 'Parque Shalom',
+      //       zipcode: 12345678,
+      //       city: 'Sorocaba',
+      //       password: '123456789',
+      // >>>>>>> Stashed changes
     };
     return newUser;
   }

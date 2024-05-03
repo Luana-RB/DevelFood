@@ -6,18 +6,20 @@ import {useUser} from '../../../../services/context/userContext';
 
 const AddressBanner: React.FC = () => {
   const [text, setText] = useState('');
-  const {userData} = useUser();
+  const {userAddress} = useUser();
 
   useEffect(() => {
-    const addressText =
-      'rua ' +
-      userData?.address[0].street +
-      ' ' +
-      userData?.address[0].number +
-      ', ' +
-      userData?.address[0].neighbourhood;
-    setText(addressText);
-  }, [userData]);
+    if (userAddress) {
+      const addressText =
+        'rua ' +
+        userAddress.street +
+        ' ' +
+        userAddress.number +
+        ', ' +
+        userAddress.neighbourhood;
+      setText(addressText);
+    }
+  }, [userAddress]);
 
   return (
     <Container>

@@ -4,6 +4,8 @@ import SplashScreen from 'react-native-splash-screen';
 import {TokenProvider} from './src/services/context/tokenContext';
 import {MyStack} from './src/routes/stack.routes';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {ModalProvider} from './src/services/context/modalContext';
+import ModalAvaliacao from './src/components/ModalAvaliacao';
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -13,7 +15,10 @@ function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <TokenProvider>
-        <MyStack />
+        <ModalProvider>
+          <MyStack />
+          <ModalAvaliacao />
+        </ModalProvider>
       </TokenProvider>
     </GestureHandlerRootView>
   );
