@@ -28,7 +28,7 @@ import {
   QuantityContainer,
   QuantityText,
 } from '../../components/AddButton/styles';
-import {colors} from '../../globalStyles';
+import {colors, fonts, screenWidth} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {useCart} from '../../services/context/cartContext';
 import {useFocusEffect} from '@react-navigation/native';
@@ -42,6 +42,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const [restaurant, setRestaurant] = useState<RestaurantData>();
   const [description, setDescription] = useState('');
   const [thisPrice, setThisPrice] = useState('0,00');
+  const [sizeFont, setSize] = useState(fonts.XS);
 
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>(
     require('../../../assets/images/notFound.png'),
@@ -60,7 +61,10 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   async function loadRestaurantData() {
     const restaurantData = await getRestaurantById(restaurantId);
     if (restaurantData) setRestaurant(restaurantData);
+    if (restaurantData.name.length > 15) setSize(fonts.XXS);
+    else setSize(fonts.XS);
   }
+
   useFocusEffect(
     React.useCallback(() => {
       const newQuantity = getQuantity(plate);
@@ -83,7 +87,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   }
 
   function handleAdd() {
-    const response = addItem(plate);
+    const response = addItem(plate, restaurantId);
     if (response) setQuantity(quantity + 1);
     else Alert.alert('Faça pedidos em um restaurante por vez');
   }
@@ -126,7 +130,7 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
             color={colors.red}
             style={{marginVertical: 10, marginHorizontal: 15}}
           />
-          <RestaurantName>
+          <RestaurantName style={{fontSize: sizeFont}}>
             Vendido e entregue por {restaurant?.name}
           </RestaurantName>
         </RestaurantContainer>

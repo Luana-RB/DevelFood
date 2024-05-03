@@ -4,6 +4,7 @@ export interface RestaurantData {
   cnpj?: string;
   phone?: string;
   image?: string;
+  photo?: string;
   rating: number;
   plates?: PlateData[];
   plateList?: PlateData[];

@@ -36,6 +36,7 @@ export interface UserInfo {
 export interface UserAddress {
   addressName: string;
   addressId?: string;
+  id?: string;
   cep: string;
   street: string;
   city: string;

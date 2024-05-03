@@ -15,7 +15,7 @@ const DateList: React.FC<DateListProps> = ({data, navigation}) => {
       <DateTitle>{data.date}</DateTitle>
       <BodyContainer>
         <FlatList
-          data={data.requestItems}
+          data={data.requests}
           keyExtractor={item => item.id!}
           renderItem={({item}) => (
             <OrderCard data={item} navigation={navigation} />

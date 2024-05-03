@@ -3,14 +3,13 @@ import {PlateData, RestaurantData} from './restaurantData';
 export interface RequestDateData {
   id: string;
   date: string;
-  requestItems: RequestData[];
+  requests: RequestData[];
 }
 
 export interface RequestData {
   restaurantId?: string;
   restaurant?: RestaurantData;
   plates: PlateData[];
-  itemsList?: PlateData[];
   date: string;
   paymentType: string;
   id?: string;
@@ -21,7 +20,7 @@ export interface RequestData {
 }
 export interface RequestSendData {
   restaurantId: string;
-  requestPlates: RequestPlatesData[];
+  plates: RequestPlatesData[];
   date?: string;
   paymentType: string;
   id?: string;
@@ -31,7 +30,7 @@ export interface RequestSendData {
 }
 
 export interface RequestPlatesData {
-  plateId: string;
+  id: string;
   restaurantId?: string;
   quantity: number;
   observation?: string;

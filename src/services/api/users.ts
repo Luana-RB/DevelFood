@@ -100,8 +100,8 @@ export function sendNumberCode() {
 export async function getUserData() {
   try {
     const header = await getToken();
-    const user = await api.get(`/cliente/visualizar`, header);
-    return user.data;
+    const userData = await api.get(`/cliente/visualizar`, header);
+    return userData.data;
     // return users[0];
   } catch (e) {
     console.log('user data ', e);

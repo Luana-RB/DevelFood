@@ -40,10 +40,7 @@ import {useModal} from '../../services/context/modalContext';
 import ModalController from '../../components/ModalAvaliacao/controller';
 const DELAY = 50000;
 
-const RequestDetail: React.FC<RequestDetailScreenProps> = ({
-  route,
-  navigation,
-}) => {
+const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
   const [plates, setPlates] = useState<any[]>();
   const [restaurant, setRestaurant] = useState<RestaurantData>();
   const [restaurantId, setThisRestaurantId] = useState('');
@@ -93,10 +90,9 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
       }
       formatDay(data.date);
       formatMonth(data.date);
-      if (data.stateService && data.stateService !== status)
-        setStatus(data.stateService);
-      if (data.totalValue) formatFullPrice(data.totalValue);
-      const plateArray = data.requestItemList;
+      if (data.status && data.status !== status) setStatus(data.status);
+      if (data.fullPrice) formatFullPrice(data.fullPrice);
+      const plateArray = data.plates;
       setPlates(plateArray);
     }
     setFetch(false);
@@ -187,11 +183,12 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({
           <FlatList
             style={{flex: 1}}
             data={plates}
-            keyExtractor={item => item.plate.id}
+            keyExtractor={item => item.id}
             renderItem={({item}) => (
               <PlateCard
+                restaurantId={restaurantId}
                 small={true}
-                data={item.plate}
+                data={item}
                 finished={true}
                 number={item.quantity ?? 1}
               />

@@ -33,12 +33,14 @@ interface PlateCardProps {
   small?: boolean;
   finished?: boolean;
   number?: number;
+  restaurantId: string;
 }
 
 const PlateCard: React.FC<PlateCardProps> = ({
   data,
   small,
   finished,
+  restaurantId,
   number,
 }) => {
   const [quantity, setQuantity] = useState(0);
@@ -49,7 +51,14 @@ const PlateCard: React.FC<PlateCardProps> = ({
   const [thisPrice, setThisPrice] = useState('0,00');
   const [heart, setHeart] = useState('heart-outline');
   const [size, setSize] = useState(screenWidth * 0.9);
-  const {addItem, removeItem, removeQuantity, getQuantity, price} = useCart();
+  const {
+    addItem,
+    removeItem,
+    removeQuantity,
+    getQuantity,
+    price,
+    setRestaurantId,
+  } = useCart();
   let maxLength = 20;
 
   useEffect(() => {
@@ -86,7 +95,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
   );
 
   function handleAdd() {
-    const response = addItem(data);
+    const response = addItem(data, restaurantId);
     if (response) setQuantity(quantity + 1);
     else Alert.alert('Faça pedidos em um restaurante por vez');
   }

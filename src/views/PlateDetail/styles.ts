@@ -70,7 +70,6 @@ export const RestaurantIcon = styled.Image`
   margin: 20px;
 `;
 export const RestaurantName = styled.Text`
-  font-size: ${fonts.XS}px;
   color: ${colors.gray};
 `;
 

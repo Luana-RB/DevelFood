@@ -66,9 +66,9 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
 
   useEffect(() => {
     if (data) {
-      if (data.plateList !== undefined && data.plateList.length >= 1) {
+      if (data.plates !== undefined && data.plates.length >= 1) {
         setNotFound(false);
-        setPlateData(data.plateList);
+        setPlateData(data.plates);
       }
       if (!!data.image) setImagePath({uri: data.image});
       else setImagePath(require('../../../assets/images/notFound.png'));
@@ -139,7 +139,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
         )}
 
         <FlatList
-          data={isFiltered ? filteredData : data?.plateList}
+          data={isFiltered ? filteredData : data?.plates}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <TouchableOpacity
@@ -149,7 +149,7 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
                   restaurantId: restaurantId,
                 });
               }}>
-              <PlateCard data={item} />
+              <PlateCard data={item} restaurantId={restaurantId} />
             </TouchableOpacity>
           )}
           ListFooterComponent={<View style={{height: 70}} />}

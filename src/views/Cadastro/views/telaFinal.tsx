@@ -49,6 +49,7 @@ const TelaFinal: React.FC = ({navigation}: any) => {
       lastName: user.info.lastName,
       cpf: user.info.cpf.replace(/\D/g, ''),
       phone: user.info.phone.replace(/\D/g, ''),
+      addressName: user.address[0].addressName,
       cep: user.address[0].cep.replace(/\D/g, ''),
       street: user.address[0].street,
       city: user.address[0].city,

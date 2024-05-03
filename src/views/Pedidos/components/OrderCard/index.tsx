@@ -17,6 +17,7 @@ import {statusIcon, statusText} from '../../../../types/enums';
 import {ActivityIndicator} from 'react-native';
 import {useModal} from '../../../../services/context/modalContext';
 import ModalController from '../../../../components/ModalAvaliacao/controller';
+import {PlateData} from '../../../../types/restaurantData';
 const MAX_LENGTH_ORDER = 60;
 
 interface OrderCardProps {
@@ -59,13 +60,14 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
 
   function formatPlateNames() {
     let newPlateNames: string = '';
-    if (data.itemsList && data.itemsList.length > 0)
-      data.itemsList.forEach((plate: any, index: number) => {
-        if (!newPlateNames) newPlateNames = plate.plate.name;
+
+    if (data.plates && data.plates.length > 0)
+      data.plates.forEach((plate: PlateData, index: number) => {
+        if (!newPlateNames) newPlateNames = plate.name;
         else {
-          const newName = newPlateNames + ' + ' + plate.plate.name;
+          const newName = newPlateNames + ' + ' + plate.name;
           if (newName.length < MAX_LENGTH_ORDER)
-            newPlateNames = newPlateNames + ' + ' + plate.plate.name;
+            newPlateNames = newPlateNames + ' + ' + plate.name;
           else if (index == data.plates.length - 1)
             newPlateNames = newPlateNames + '...';
         }
@@ -75,13 +77,13 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   }
 
   function formatStatusIcon() {
-    if (data.stateService) {
-      setIcon(statusIcon[data.stateService]);
+    if (data.status) {
+      setIcon(statusIcon[data.status]);
     } else setIcon('check-bold');
   }
   function formatStatusName() {
-    if (data.stateService) {
-      setStatus(statusText[data.stateService]);
+    if (data.status) {
+      setStatus(statusText[data.status]);
     } else setStatus('Aguardando');
   }
   function handleFinished(order: RequestData) {

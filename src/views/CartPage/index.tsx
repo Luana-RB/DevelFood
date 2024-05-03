@@ -42,7 +42,7 @@ import {months, weekDays} from '../../types/enums';
 import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const CartPage: React.FC = ({navigation}: any) => {
-  const {items, price, resetContext} = useCart();
+  const {items, price, resetContext, restaurantId} = useCart();
   const {userAddress} = useUser();
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -68,7 +68,7 @@ const CartPage: React.FC = ({navigation}: any) => {
   );
 
   async function callRestaurantData() {
-    const restaurantData = await getRestaurantById(items[0].restaurantId);
+    const restaurantData = await getRestaurantById(restaurantId);
     if (restaurantData) {
       setName(restaurantData.name);
       setCategory(restaurantData.foodType?.name);
@@ -83,7 +83,7 @@ const CartPage: React.FC = ({navigation}: any) => {
   function formatPlateData() {
     const plateArray: RequestPlatesData[] = items.map(item => {
       const formattedItem: RequestPlatesData = {
-        plateId: item.id,
+        id: item.id,
         quantity: item.quantity || 0,
         observation: 'observação',
       };
@@ -92,15 +92,29 @@ const CartPage: React.FC = ({navigation}: any) => {
     return plateArray;
   }
 
-  function formatDate() {
-    const date = new Date();
-    const weekDay = weekDays[date.getDay()];
-    const monthDay = date.getDate();
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-    const dateString =
-      String(weekDay) + String(monthDay) + String(month) + String(year);
-    return dateString;
+  async function handleSubmit() {
+    setLoading(true);
+    const request = handleRequest();
+    const requestId = await postRequest(request);
+    if (requestId) {
+      resetContext();
+      setLoading(false);
+      handleNavigation(requestId);
+    } else {
+      Alert.alert('Pedido não pode ser realizado');
+    }
+  }
+
+  function handleRequest() {
+    const platesToSend = formatPlateData();
+    const address = userAddress?.id;
+    const request: RequestSendData = {
+      restaurantId: restaurantId,
+      plates: platesToSend,
+      paymentType: 'DINHEIRO',
+      addressId: address ?? '1',
+    };
+    return request;
   }
 
   function handleNavigation(requestId: string) {
@@ -116,30 +130,6 @@ const CartPage: React.FC = ({navigation}: any) => {
         },
       ],
     });
-  }
-
-  function handleRequest() {
-    const platesToSend = formatPlateData();
-    const date = formatDate();
-    const request: RequestSendData = {
-      restaurantId: items[0].restaurantId,
-      requestPlates: platesToSend,
-      paymentType: 'DINHEIRO',
-      //addressId: userData?.address[0].addressId ?? '1',
-      // date,
-    };
-    return request;
-  }
-
-  async function handleSubmit() {
-    setLoading(true);
-    const request = handleRequest();
-    const requestId = await postRequest(request);
-    resetContext();
-    if (requestId) {
-      setLoading(false);
-      handleNavigation(requestId);
-    }
   }
 
   if (listEmpty) {

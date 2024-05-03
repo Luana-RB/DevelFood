@@ -50,24 +50,21 @@ const Pedidos: React.FC = ({navigation}: any) => {
   }
 
   function checkIfOrderExists(order: RequestData, index: number) {
-    const existingOrder = dataSorted[index].requestItems.find(
+    const existingOrder = dataSorted[index].requests.find(
       item => item.id === order.id,
     );
     if (!existingOrder) {
-      dataSorted[index].requestItems = [
-        ...dataSorted[index].requestItems,
-        order,
-      ];
+      dataSorted[index].requests = [...dataSorted[index].requests, order];
     } else {
       const hasChanged = Object.keys(order).some(
         key => (existingOrder as any)[key] !== (order as any)[key],
       );
 
       if (hasChanged) {
-        const updatedRequestItems = dataSorted[index].requestItems.map(item =>
+        const updatedrequests = dataSorted[index].requests.map(item =>
           item.id === order.id ? order : item,
         );
-        dataSorted[index].requestItems = updatedRequestItems;
+        dataSorted[index].requests = updatedrequests;
       }
     }
 
@@ -80,7 +77,7 @@ const Pedidos: React.FC = ({navigation}: any) => {
       const newDate: RequestDateData = {
         id: String(dataSorted.length + 1),
         date: formatedDate,
-        requestItems: [order],
+        requests: [order],
       };
       dataSorted.push(newDate);
     }

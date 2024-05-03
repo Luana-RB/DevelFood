@@ -141,7 +141,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
           <FooterList load={loading} shownData={shownData.length === 0} />
         }
         renderItem={({item}) => (
-          <RestaurantCard data={item} navigation={navigation} />
+          <RestaurantCard list={item} navigation={navigation} />
         )}
       />
       <View style={{height: 60, width: '100%'}} />

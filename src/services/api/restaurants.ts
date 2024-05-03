@@ -16,6 +16,7 @@ export async function getRestaurants({page}: GetProps) {
       `/restaurante/listar?page=${page}`,
       header,
     );
+
     return restaurants.data.content;
     // const restaurants = restaurantsMock.slice(page, page + 7);
     // return restaurants;
@@ -46,7 +47,7 @@ export async function getRestaurantsFiltered({page, filter}: GetFilterProps) {
 export async function getRestaurantById(id: string) {
   try {
     const header = await getToken();
-    const restaurants = await api.get(`/api/restaurantes/${id}`, header);
+    const restaurants = await api.get(`/restaurante/buscar/${id}`, header);
     return restaurants.data;
     // const restaurants = restaurantsMock;
     // const newData = restaurants?.filter((item: {id: string}) => {

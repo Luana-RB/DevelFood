@@ -5,11 +5,13 @@ type CartContextType = {
   items: PlateData[];
   numOfItems: number;
   price: number;
+  restaurantId: string;
   getQuantity: (newItem: PlateData) => number;
-  addItem: (newItem: PlateData) => boolean;
+  addItem: (newItem: PlateData, newRestaurantId: string) => boolean;
   removeItem: (newItem: PlateData, quantity: number) => void;
   removeQuantity: (newItem: PlateData) => void;
   resetContext: () => void;
+  setRestaurantId: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -26,13 +28,14 @@ export const CartProvider = ({children}: any) => {
   const [items, setItems] = useState<PlateData[]>([]);
   const [numOfItems, setNumOfItems] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
+  const [restaurantId, setRestaurantId] = useState<string>('');
 
   useEffect(() => {
     setNumOfItems(items.length);
     if (numOfItems < 1) setPrice(0);
   }, []);
 
-  const addItem = (newItem: PlateData) => {
+  const addItem = (newItem: PlateData, newRestaurantId: string) => {
     try {
       let belongs = false;
 
@@ -44,7 +47,7 @@ export const CartProvider = ({children}: any) => {
       });
 
       if (!belongs) {
-        const sameRestaurant = checkRestaurant(newItem.restaurantId);
+        const sameRestaurant = checkRestaurant(newRestaurantId);
         if (sameRestaurant) {
           newItem.quantity = 1;
           items.push(newItem);
@@ -60,10 +63,12 @@ export const CartProvider = ({children}: any) => {
     }
   };
 
-  function checkRestaurant(restaurantId: string) {
-    if (items.length === 0) return true;
-    const baseId = items[0].restaurantId;
-    return restaurantId === baseId;
+  function checkRestaurant(newRestaurantId: string) {
+    if (items.length === 0) {
+      setRestaurantId(newRestaurantId);
+      return true;
+    }
+    return newRestaurantId === restaurantId;
   }
 
   const getQuantity = (newItem: PlateData) => {
@@ -94,6 +99,7 @@ export const CartProvider = ({children}: any) => {
     setItems([]);
     setNumOfItems(0);
     setPrice(0);
+    setRestaurantId('');
   };
 
   return (
@@ -102,6 +108,8 @@ export const CartProvider = ({children}: any) => {
         items,
         numOfItems,
         price,
+        restaurantId,
+        setRestaurantId,
         getQuantity,
         addItem,
         removeItem,

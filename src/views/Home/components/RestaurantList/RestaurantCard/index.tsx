@@ -11,7 +11,6 @@ import {
   Title,
   TitleContainer,
 } from './styles';
-import {RestaurantData} from '../../../../../types/restaurantData';
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
 import {colors, screenHeight} from '../../../../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -19,14 +18,16 @@ import {useFocusEffect} from '@react-navigation/native';
 import {compareFavoriteRestaurant} from '../../../../../services/api/favorites';
 
 interface RestaurantProps {
-  data: RestaurantData;
+  list: any;
   navigation: any;
 }
 
-const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
+const RestaurantCard: React.FC<RestaurantProps> = ({list, navigation}) => {
   const [imagePath, setImagePath] = useState<ImageSourcePropType | undefined>();
   const [fontSize, setFontSize] = useState(screenHeight * 0.019);
   const [heart, setHeart] = useState('heart-outline');
+  const data = list.restaurant;
+  const rating = list.rating;
 
   useEffect(() => {
     if (!!data.image) setImagePath({uri: data.image});
@@ -48,7 +49,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
   );
 
   function handleNavigation() {
-    navigation.navigate('RestaurantProfile', {restaurantId: data.id});
+    if (data) navigation.navigate('RestaurantProfile', {restaurantId: data.id});
   }
 
   return (
@@ -60,13 +61,13 @@ const RestaurantCard: React.FC<RestaurantProps> = ({data, navigation}) => {
         {imagePath && <BackGroundImage source={imagePath} resizeMode="cover" />}
         <InfoContainer>
           <TitleContainer>
-            <Title style={{fontSize: fontSize}}>{data.name}</Title>
+            <Title style={{fontSize: fontSize}}>{data?.name}</Title>
           </TitleContainer>
           <InfoFooter>
-            <Category>{data.foodType?.name}</Category>
+            <Category>{data?.foodType?.name}</Category>
             <RatingContainer>
               <Icon name="star" size={15} color={colors.red} />
-              <RatingText>5.0</RatingText>
+              <RatingText>{rating}</RatingText>
             </RatingContainer>
           </InfoFooter>
         </InfoContainer>
