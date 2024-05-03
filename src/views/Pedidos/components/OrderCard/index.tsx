@@ -46,7 +46,7 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
 
   useEffect(() => {
     if (status.length > 0) setLoading(false);
-    if (data.stateService === 'PEDIDO_FINALIZADO') handleFinished(data);
+    if (data.status === 'PEDIDO_FINALIZADO') handleFinished(data);
   }, [status]);
 
   async function callData() {

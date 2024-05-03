@@ -1,19 +1,18 @@
 import {api, getToken} from './api';
 
 export async function sendAvaliation(
-  grade: number,
-  comment: string,
-  requestId: string,
+  notaRestaurante: number,
+  observacao: string,
+  restauranteId: string,
 ) {
   try {
     const header = await getToken();
     const avaliation = {
-      requestId,
-      grade,
-      comment,
+      restauranteId: restauranteId,
+      notaRestaurante: notaRestaurante,
+      observacao: observacao,
     };
     console.log(avaliation);
-    console.log(header);
     const response = await api.post(
       '/avalicacao/restaurante',
       avaliation,

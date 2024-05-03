@@ -90,7 +90,7 @@ const ModalAvaliacao = () => {
       setLoading(true);
       if (restaurantId) {
         if (requestId) {
-          const result = await sendAvaliation(score, comment, requestId);
+          const result = await sendAvaliation(score, comment, restaurantId);
           if (result) clearModal();
         }
       }
