@@ -33,8 +33,8 @@ const Pedidos: React.FC = ({navigation}: any) => {
   function formatDate(date: string) {
     const dateAbreviation = new Date(date.substring(0, 10));
     const weekDay = dateAbreviation.getDay();
-    const day = dateAbreviation.getDate();
-    const month = dateAbreviation.getMonth();
+    const day = date.substring(8, 10);
+    const month = date.substring(5, 7);
     const year = dateAbreviation.getFullYear();
     const newDate =
       weekDays[weekDay] + ' ' + day + ' ' + months[month] + ' ' + year;
