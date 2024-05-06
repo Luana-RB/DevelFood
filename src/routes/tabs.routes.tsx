@@ -1,5 +1,4 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Perfil from '../views/Perfil';
 import {colors, screenHeight} from '../globalStyles';
 import {Text} from 'react-native';
 import {HomeStack} from './home.routes';
@@ -8,6 +7,7 @@ import {CartProvider} from '../services/context/cartContext';
 import {FavoritesStack} from './favorites.routes';
 import {PedidosStack} from './pedidos.routes';
 import {UserProvider} from '../services/context/userContext';
+import {PerfilStack} from './perfil.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -82,14 +82,9 @@ function HomeTabs() {
           />
           <Tab.Screen
             name="Perfil"
-            component={Perfil}
+            component={PerfilStack}
             options={{
-              title: 'Configurações',
-              headerTitleAlign: 'center',
-              headerTitleStyle: {
-                color: colors.black,
-                fontSize: 16,
-              },
+              headerShown: false,
             }}
           />
         </Tab.Navigator>

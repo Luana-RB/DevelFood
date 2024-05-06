@@ -5,7 +5,6 @@ import {api, getToken} from './api';
 export async function postCadastro(user: any) {
   try {
     // const result = users.push(user);
-    console.log(user);
     const result = await api.post('/api/auth/cliente/cadastro', user);
     const status = result.status;
     return true;
@@ -17,15 +16,15 @@ export async function postCadastro(user: any) {
 
 export async function postLogin(email: string, password: string) {
   try {
-    const credentials = {
-      email,
-      password,
-    };
-    const result = await api.post('/api/auth/login', credentials);
-    const token = JSON.stringify(result.data.token).replace(/"/g, '');
-    return token;
-    // const user = users.find(user => user.email === email);
-    // if (user?.password === password) return 'user.credentials.id';
+    // const credentials = {
+    //   email,
+    //   password,
+    // };
+    // const result = await api.post('/api/auth/login', credentials);
+    // const token = JSON.stringify(result.data.token).replace(/"/g, '');
+    // return token;
+    const user = users.find(user => user.email === email);
+    if (user?.password === password) return 'user.credentials.id';
   } catch (e) {
     console.log('login', e);
     return undefined;
@@ -99,10 +98,21 @@ export function sendNumberCode() {
 
 export async function getUserData() {
   try {
-    const header = await getToken();
-    const user = await api.get(`/api/cliente/`, header);
-    return user.data;
-    // return users[0];
+    // const header = await getToken();
+    // const user = await api.get(`/api/cliente/`, header);
+    // return user.data;
+    return users[0];
+  } catch (e) {
+    console.log('user data ', e);
+  }
+}
+export async function removeUserData(id: string) {
+  try {
+    // const header = await getToken();
+    // const user = await api.get(`/api/cliente/`, header);
+    // return user.data;
+    users.splice(Number(id) - 1, 1);
+    console.log(users);
   } catch (e) {
     console.log('user data ', e);
   }
