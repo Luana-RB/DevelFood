@@ -38,7 +38,7 @@ import {monthText, statusIcon, statusText} from '../../types/enums';
 import {useFocusEffect} from '@react-navigation/native';
 import {useModal} from '../../services/context/modalContext';
 import ModalController from '../../components/ModalAvaliacao/controller';
-const DELAY = 50000;
+const DELAY = 10000;
 
 const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
   const [plates, setPlates] = useState<any[]>();
@@ -61,6 +61,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
     React.useCallback(() => {
       if (fetch) loadData();
       setInterval(() => {
+        if (status === 'PEDIDO_FINALIZADO') return;
         setFetch(true);
       }, DELAY);
     }, [fetch]),
@@ -68,7 +69,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
 
   useEffect(() => {
     checkLoading();
-    if (status === 'PEDIDO_REALIZADO') handleFinished();
+    if (status === 'PEDIDO_FINALIZADO') handleFinished();
   }, [status]);
 
   function checkLoading() {

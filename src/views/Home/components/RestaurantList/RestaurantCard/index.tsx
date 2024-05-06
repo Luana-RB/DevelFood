@@ -67,7 +67,7 @@ const RestaurantCard: React.FC<RestaurantProps> = ({list, navigation}) => {
             <Category>{data?.foodType?.name}</Category>
             <RatingContainer>
               <Icon name="star" size={15} color={colors.red} />
-              <RatingText>{rating}</RatingText>
+              <RatingText>{rating.toFixed(1)}</RatingText>
             </RatingContainer>
           </InfoFooter>
         </InfoContainer>

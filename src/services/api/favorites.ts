@@ -1,5 +1,6 @@
 import {users} from '../../mocks/users';
 import {PlateData, RestaurantData} from '../../types/restaurantData';
+import {api, getToken} from './api';
 import {getPlateDataById} from './plates';
 
 export function getFavoritePlates(page: number) {
@@ -42,11 +43,14 @@ export function getFavoritesRestaurants() {
   }
 }
 
-export function addFavoritePlate(plate: PlateData) {
+export async function addFavoritePlate(plate: PlateData) {
   try {
     const user = users[0];
     if (!user.favoritePlates) user.favoritePlates = [{id: plate.id}];
     else user.favoritePlates.push({id: plate.id});
+    // const header = await getToken();
+    // const id = plate.id;
+    // const favorite = await api.post('/favorito/prato', id, header);
   } catch (e) {
     console.log(e);
   }

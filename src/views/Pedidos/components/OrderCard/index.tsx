@@ -37,6 +37,7 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   const {setRequestId, setRestaurantId, setRestaurantName} = useModal();
 
   useEffect(() => {
+    console.log(data);
     callData();
     const formatedPlateNames = formatPlateNames();
     setPlateNames(formatedPlateNames);

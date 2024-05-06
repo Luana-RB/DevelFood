@@ -11,12 +11,7 @@ const AddressBanner: React.FC = () => {
   useEffect(() => {
     if (userAddress) {
       const addressText =
-        'rua ' +
-        userAddress.street +
-        ' ' +
-        userAddress.number +
-        ', ' +
-        userAddress.neighbourhood;
+        'rua ' + userAddress.street + ' ' + userAddress.number;
       setText(addressText);
     }
   }, [userAddress]);

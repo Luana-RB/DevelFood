@@ -9,7 +9,7 @@ import {getRequests} from '../../services/api/requests';
 import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 import {useFocusEffect} from '@react-navigation/native';
 import {months, weekDays} from '../../types/enums';
-const DELAY = 20000;
+const DELAY = 5000;
 
 const Pedidos: React.FC = ({navigation}: any) => {
   const [dataSorted, setDataSorted] = useState<RequestDateData[]>([]);
