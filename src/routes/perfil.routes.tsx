@@ -1,11 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {CartProvider} from '../services/context/cartContext';
 import {RootStackParamList} from '../types/routeTypes';
 import {colors} from '../globalStyles';
-import {CustomCloseButton} from '../components/CustomCloseButton';
-import RequestDetail from '../views/RequestDetail';
-import Pedidos from '../views/Pedidos';
 import Perfil from '../views/Perfil';
 import Home from '../views/Home';
 
@@ -13,29 +9,27 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 export function PerfilStack() {
   return (
-    <CartProvider>
-      <Stack.Navigator initialRouteName="Profile">
-        <Stack.Screen
-          name="Profile"
-          component={Perfil}
-          options={{
-            title: 'Configurações',
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              color: colors.black,
-              fontSize: 16,
-            },
-            headerStyle: {
-              backgroundColor: colors.white,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="EditarPerfil"
-          component={Home}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </CartProvider>
+    <Stack.Navigator initialRouteName="Profile">
+      <Stack.Screen
+        name="Profile"
+        component={Perfil}
+        options={{
+          title: 'Configurações',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            color: colors.black,
+            fontSize: 16,
+          },
+          headerStyle: {
+            backgroundColor: colors.white,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="EditarPerfil"
+        component={Home}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
   );
 }

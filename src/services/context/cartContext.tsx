@@ -9,7 +9,7 @@ type CartContextType = {
   addItem: (newItem: PlateData) => boolean;
   removeItem: (newItem: PlateData, quantity: number) => void;
   removeQuantity: (newItem: PlateData) => void;
-  resetContext: () => void;
+  resetCart: () => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -105,7 +105,7 @@ export const CartProvider = ({children}: any) => {
         getQuantity,
         addItem,
         removeItem,
-        resetContext,
+        resetCart: resetContext,
         removeQuantity,
       }}>
       {children}

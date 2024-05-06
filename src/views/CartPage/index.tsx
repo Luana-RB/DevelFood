@@ -42,7 +42,7 @@ import {months, weekDays} from '../../types/enums';
 import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const CartPage: React.FC = ({navigation}: any) => {
-  const {items, price, resetContext} = useCart();
+  const {items, price, resetCart: resetContext} = useCart();
   const {userAddress} = useUser();
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);

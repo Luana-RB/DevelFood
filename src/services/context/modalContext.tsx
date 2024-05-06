@@ -3,10 +3,8 @@ import React, {
   SetStateAction,
   createContext,
   useContext,
-  useEffect,
   useState,
 } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type ModalContextType = {
   isModal: boolean | undefined;
@@ -15,7 +13,7 @@ type ModalContextType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;
   setRestaurantId: Dispatch<SetStateAction<string>>;
   setRestaurantName: Dispatch<SetStateAction<string>>;
-  reset: () => void;
+  resetModal: () => void;
 };
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -48,7 +46,7 @@ export const ModalProvider = ({children}: any) => {
         setIsModal,
         setRestaurantId,
         setRestaurantName,
-        reset,
+        resetModal: reset,
       }}>
       {children}
     </ModalContext.Provider>

@@ -1,6 +1,4 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import RestaurantProfile from '../views/RestaurantProfile';
-import Home from '../views/Home';
 import React from 'react';
 import PlateDetail from '../views/PlateDetail';
 import {CustomHeartButton} from '../components/CustomHeartButton';
