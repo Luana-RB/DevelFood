@@ -17,8 +17,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useUser} from '../../services/context/userContext';
 import {Alert, Linking} from 'react-native';
 import {removeUserData} from '../../services/api/users';
+interface PerfilProps {
+  navigation: any;
+}
 
-const Perfil: React.FC = (navigation: any) => {
+const Perfil: React.FC<PerfilProps> = ({navigation}) => {
   const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
   const {userData} = useUser();
   const [imagePath, setImagePath] = useState(
@@ -31,9 +34,6 @@ const Perfil: React.FC = (navigation: any) => {
     else setImagePath(require('../../../assets/images/notFound.png'));
   }, [userData]);
 
-  function handleEditar() {
-    // navigation.navigate('EditarPerfil');
-  }
   function handleAjuda() {
     Linking.openURL('https://www.develcode.com.br/');
   }
@@ -72,7 +72,10 @@ const Perfil: React.FC = (navigation: any) => {
         <Photo source={imagePath} />
         <HeaderTextContainer>
           <Title>Seja bem-vindo, {userData?.firstName}!</Title>
-          <EditButton onPress={handleEditar}>
+          <EditButton
+            onPress={() => {
+              navigation.navigate('EditarPerfil');
+            }}>
             <EditText>Editar perfil</EditText>
             <Icon name="pencil" size={15} color={colors.red} />
           </EditButton>

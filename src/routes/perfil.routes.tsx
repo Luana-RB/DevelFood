@@ -4,6 +4,7 @@ import {RootStackParamList} from '../types/routeTypes';
 import {colors} from '../globalStyles';
 import Perfil from '../views/Perfil';
 import Home from '../views/Home';
+import EditarPerfil from '../views/EditarPerfil';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -27,7 +28,7 @@ export function PerfilStack() {
       />
       <Stack.Screen
         name="EditarPerfil"
-        component={Home}
+        component={EditarPerfil}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

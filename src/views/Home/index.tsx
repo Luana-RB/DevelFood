@@ -30,9 +30,9 @@ const Home: React.FC = ({navigation}: any) => {
   async function getUser() {
     if (!userData) {
       const fetchedUserData = await getUserData();
-      storeData(fetchedUserData);
+      storeData(fetchedUserData!);
       const fetchedUserAddress = await getAddressById();
-      storeAddress(fetchedUserAddress);
+      storeAddress(fetchedUserAddress!);
     }
   }
   return (
