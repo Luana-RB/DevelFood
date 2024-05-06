@@ -1,11 +1,12 @@
 import styled from 'styled-components/native';
 import {colors, fonts} from '../../../../globalStyles';
 
-export const DataContainer = styled.View`
-  margin-top: 10px;
-`;
-export const DataText = styled.Text`
-  font-size: ${fonts.XS}px;
+export const InputText = styled.Text`
+  flex: 1;
+  font-size: ${fonts.S}px;
   color: ${colors.black};
-  margin-left: 5px;
+`;
+
+export const DataContainer = styled.TouchableOpacity`
+  margin-top: 6px;
 `;

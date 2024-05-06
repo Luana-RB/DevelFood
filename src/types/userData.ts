@@ -8,8 +8,8 @@ export interface UserData {
   cpf: string;
   phone: string;
   address: UserAddress[];
-  favoritePlates: Favorites[];
-  favoriteRestaurants: Favorites[];
+  favoritePlates?: Favorites[];
+  favoriteRestaurants?: Favorites[];
 }
 export interface UserStoreData {
   credentials: UserCredentials;

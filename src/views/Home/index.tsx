@@ -10,17 +10,18 @@ import CartBar from '../../components/CartBar';
 import {getUserData} from '../../services/api/users';
 import {useUser} from '../../services/context/userContext';
 import {getAddressById} from '../../services/api/address';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Home: React.FC = ({navigation}: any) => {
-  const signOut = React.useContext(AuthContext)?.signOut ?? (() => {});
-
-  const {userData, storeData, storeAddress, userAddress} = useUser();
+  const {storeData, storeAddress} = useUser();
   const [cart, setCart] = useState(false);
   const {numOfItems} = useCart();
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getUser();
+    }, []),
+  );
 
   useEffect(() => {
     if (numOfItems > 0) setCart(true);
@@ -28,12 +29,10 @@ const Home: React.FC = ({navigation}: any) => {
   }, [numOfItems]);
 
   async function getUser() {
-    if (!userData) {
-      const fetchedUserData = await getUserData();
-      storeData(fetchedUserData!);
-      const fetchedUserAddress = await getAddressById();
-      storeAddress(fetchedUserAddress!);
-    }
+    const fetchedUserData = await getUserData();
+    storeData(fetchedUserData!);
+    const fetchedUserAddress = await getAddressById();
+    storeAddress(fetchedUserAddress!);
   }
   return (
     <SafeAreaView style={styles.container}>

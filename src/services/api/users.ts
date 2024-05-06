@@ -117,3 +117,40 @@ export async function removeUserData(id: string) {
     console.log('user data ', e);
   }
 }
+
+export async function patchUser(newUserData: UserData) {
+  try {
+    const newUser = {
+      phone: newUserData.phone,
+    };
+    const header = await getToken();
+    const response = await api.put('/api/cliente', newUser, header);
+    if (response.status === 200) return true;
+    // users[0] = newUserData;
+    // return true;
+  } catch (e) {
+    console.log('patch user ', e);
+  }
+}
+export async function patchUserAddress(newUserData: UserData) {
+  try {
+    const newAddress = {
+      street: newUserData.address[0].street,
+      number: newUserData.address[0].number,
+      neighbourhood: newUserData.address[0].neighbourhood,
+      city: newUserData.address[0].city,
+      zipcode: newUserData.address[0].cep,
+    };
+    const header = await getToken();
+    const response = await api.put(
+      `/api/cliente/enderecos/${newUserData.address[0].addressId}`,
+      newAddress,
+      header,
+    );
+    if (response.status === 200) return true;
+    // users[0] = newUserData;
+    // return true;
+  } catch (e) {
+    console.log('patch user ', e);
+  }
+}
