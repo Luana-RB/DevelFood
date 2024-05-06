@@ -1,11 +1,11 @@
 import {Platform} from 'react-native';
 import styled from 'styled-components/native';
-import {colors, fonts} from '../../../../globalStyles';
+import {colors, fonts, screenHeight} from '../../../../globalStyles';
 
 export const Container = styled.TouchableOpacity`
   margin-top: 30px;
   width: 100%;
-  height: 60px;
+  height: ${screenHeight * 0.08}px;
   background-color: ${colors.white};
   flex-direction: row;
   ${Platform.OS === 'ios'
@@ -20,11 +20,11 @@ export const Container = styled.TouchableOpacity`
  `}
   align-items: center;
   justify-content: flex-start;
-  padding: 12px;
+  padding: ${screenHeight * 0.015}px;
 `;
 
 export const Text = styled.Text`
   color: ${colors.gray};
   font-size: ${fonts.M}px;
-  margin-left: 25px;
+  margin-left: ${screenHeight * 0.03}px;
 `;

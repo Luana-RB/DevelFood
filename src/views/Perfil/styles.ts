@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, fonts} from '../../globalStyles';
+import {colors, fonts, screenHeight} from '../../globalStyles';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
@@ -11,21 +11,21 @@ export const HeaderContainer = styled.View`
   align-items: center;
   justify-content: flex-start;
   background-color: ${colors.white};
-  padding: 20px;
+  padding: ${screenHeight * 0.03}px;
 `;
 
 export const Photo = styled.Image`
-  width: 70px;
-  height: 70px;
+  width: ${screenHeight * 0.09}px;
+  height: ${screenHeight * 0.09}px;
   border-radius: 10px;
   border-width: 1px;
   border-color: ${colors.lightGray};
 `;
 export const HeaderTextContainer = styled.View`
-  margin-left: 24px;
+  margin-left: ${screenHeight * 0.03}px;
   align-items: flex-start;
   justify-content: center;
-  gap: 12px;
+  gap: ${screenHeight * 0.013}px;
 `;
 
 export const Title = styled.Text`
@@ -47,13 +47,4 @@ export const EditText = styled.Text`
 export const BodyContainer = styled.View`
   flex: 8;
   background-color: ${colors.white};
-`;
-
-export const Line = styled.View`
-  background-color: ${colors.lightGray};
-  width: 90%;
-  height: 0.5%;
-  align-self: center;
-  border-radius: 6px;
-  margin: 10px 0px 40px 0px;
 `;
