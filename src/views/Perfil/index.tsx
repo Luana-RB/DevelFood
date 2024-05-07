@@ -16,7 +16,6 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useUser} from '../../services/context/userContext';
 import {Alert, Linking} from 'react-native';
-import {removeUserData} from '../../services/api/users';
 interface PerfilProps {
   navigation: any;
 }
@@ -55,7 +54,6 @@ const Perfil: React.FC<PerfilProps> = ({navigation}) => {
       {
         text: 'Sim',
         onPress: () => {
-          removeUserData(userData?.id ?? '1');
           signOut();
         },
       },

@@ -10,25 +10,26 @@ import Button from '../../components/Button';
 import DataCell from './components/DataCell';
 import {UserData} from '../../types/userData';
 import {patchUser} from '../../services/api/users';
+import {patchUserAddress} from '../../services/api/address';
 
 const EditarPerfil: React.FC = () => {
-  const {userData} = useUser();
+  const {userData, userAddress} = useUser();
   const firstName = userData?.firstName ?? '';
   const lastName = userData?.lastName ?? '';
   const cpf = userData?.cpf ?? '';
   const email = userData?.email ?? '';
   const [phone, setPhone] = useState(userData?.phone ?? '');
   const [addressName, setAddressName] = useState(
-    userData?.address[0].addressName ?? '',
+    userAddress?.addressName ?? '',
   );
-  const [cep, setCep] = useState(userData?.address[0].cep ?? '');
-  const [street, setStreet] = useState(userData?.address[0].street ?? '');
-  const [city, setCity] = useState(userData?.address[0].city ?? '');
+  const [cep, setCep] = useState(userAddress?.cep ?? '');
+  const [street, setStreet] = useState(userAddress?.street ?? '');
+  const [city, setCity] = useState(userAddress?.city ?? '');
   const [neighbourhood, setNeighbourhood] = useState(
-    userData?.address[0].neighbourhood ?? '',
+    userAddress?.neighbourhood ?? '',
   );
-  const [state, setState] = useState(userData?.address[0].state ?? '');
-  const [number, setNumber] = useState(userData?.address[0].number ?? '');
+  const [state, setState] = useState(userAddress?.state ?? '');
+  const [number, setNumber] = useState(String(userAddress?.number ?? ''));
   const [imagePath, setImagePath] = useState(
     require('../../../assets/images/notFound.png'),
   );
@@ -51,19 +52,20 @@ const EditarPerfil: React.FC = () => {
       phone,
       address: [
         {
-          addressName,
-          addressId: userData?.address[0].addressId,
-          cep,
-          street,
-          state,
-          city,
-          neighbourhood,
-          number,
+          addressName: addressName,
+          addressId: userAddress?.id,
+          cep: cep,
+          street: street,
+          state: state,
+          city: city,
+          neighbourhood: neighbourhood,
+          number: number,
         },
       ],
     };
-    const response = await patchUser(newUser);
-    if (response) Alert.alert('Salvo com sucesso');
+    const userResponse = await patchUser(newUser);
+    const addressResponse = await patchUserAddress(newUser);
+    if (userResponse && addressResponse) Alert.alert('Salvo com sucesso');
     else Alert.alert('Falha ao salvar');
   }
 

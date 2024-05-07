@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {AuthContext} from '../../services/context/authContext';
-import {useToken} from '../../services/context/tokenContext';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {colors, screenHeight} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';

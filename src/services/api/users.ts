@@ -5,7 +5,7 @@ import {api, getToken} from './api';
 export async function postCadastro(user: any) {
   try {
     // const result = users.push(user);
-    const result = await api.post('/api/auth/cliente/cadastro', user);
+    const result = await api.post('/cliente/registrar/cliente', user);
     const status = result.status;
     return true;
   } catch (e) {
@@ -16,15 +16,15 @@ export async function postCadastro(user: any) {
 
 export async function postLogin(email: string, password: string) {
   try {
-    // const credentials = {
-    //   email,
-    //   password,
-    // };
-    // const result = await api.post('/api/auth/login', credentials);
-    // const token = JSON.stringify(result.data.token).replace(/"/g, '');
-    // return token;
-    const user = users.find(user => user.email === email);
-    if (user?.password === password) return 'user.credentials.id';
+    const credentials = {
+      email,
+      password,
+    };
+    const result = await api.post('/login/efetuar', credentials);
+    const token = JSON.stringify(result.data.token).replace(/"/g, '');
+    return token;
+    // const user = users.find(user => user.email === email);
+    // if (user?.password === password) return 'user.credentials.id';
   } catch (e) {
     console.log('login', e);
     return undefined;
@@ -98,21 +98,10 @@ export function sendNumberCode() {
 
 export async function getUserData() {
   try {
-    // const header = await getToken();
-    // const user = await api.get(`/api/cliente/`, header);
-    // return user.data;
-    return users[0];
-  } catch (e) {
-    console.log('user data ', e);
-  }
-}
-export async function removeUserData(id: string) {
-  try {
-    // const header = await getToken();
-    // const user = await api.get(`/api/cliente/`, header);
-    // return user.data;
-    users.splice(Number(id) - 1, 1);
-    console.log(users);
+    const header = await getToken();
+    const user = await api.get(`/cliente/visualizar`, header);
+    return user.data;
+    // return users[0];
   } catch (e) {
     console.log('user data ', e);
   }
@@ -122,31 +111,10 @@ export async function patchUser(newUserData: UserData) {
   try {
     const newUser = {
       phone: newUserData.phone,
+      photo: newUserData.image,
     };
     const header = await getToken();
-    const response = await api.put('/api/cliente', newUser, header);
-    if (response.status === 200) return true;
-    // users[0] = newUserData;
-    // return true;
-  } catch (e) {
-    console.log('patch user ', e);
-  }
-}
-export async function patchUserAddress(newUserData: UserData) {
-  try {
-    const newAddress = {
-      street: newUserData.address[0].street,
-      number: newUserData.address[0].number,
-      neighbourhood: newUserData.address[0].neighbourhood,
-      city: newUserData.address[0].city,
-      zipcode: newUserData.address[0].cep,
-    };
-    const header = await getToken();
-    const response = await api.put(
-      `/api/cliente/enderecos/${newUserData.address[0].addressId}`,
-      newAddress,
-      header,
-    );
+    const response = await api.put('/cliente/atualizar', newUser, header);
     if (response.status === 200) return true;
     // users[0] = newUserData;
     // return true;
