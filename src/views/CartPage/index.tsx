@@ -42,7 +42,8 @@ import {months, weekDays} from '../../types/enums';
 import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const CartPage: React.FC = ({navigation}: any) => {
-  const {items, price, resetContext, restaurantId} = useCart();
+  const {items, price, resetCart, restaurantId} = useCart();
+
   const {userAddress} = useUser();
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -97,7 +98,7 @@ const CartPage: React.FC = ({navigation}: any) => {
     const request = handleRequest();
     const requestId = await postRequest(request);
     if (requestId) {
-      resetContext();
+      resetCart();
       setLoading(false);
       handleNavigation(requestId);
     } else {

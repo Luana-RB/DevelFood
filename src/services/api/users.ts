@@ -5,7 +5,6 @@ import {api, getToken} from './api';
 export async function postCadastro(user: any) {
   try {
     // const result = users.push(user);
-    console.log(user);
     const result = await api.post('/cliente/registrar/cliente', user);
     const status = result.status;
     return true;
@@ -100,10 +99,26 @@ export function sendNumberCode() {
 export async function getUserData() {
   try {
     const header = await getToken();
-    const userData = await api.get(`/cliente/visualizar`, header);
-    return userData.data;
+    const user = await api.get(`/cliente/visualizar`, header);
+    return user.data;
     // return users[0];
   } catch (e) {
     console.log('user data ', e);
+  }
+}
+
+export async function patchUser(newUserData: UserData) {
+  try {
+    const newUser = {
+      phone: newUserData.phone,
+      photo: newUserData.image,
+    };
+    const header = await getToken();
+    const response = await api.put('/cliente/atualizar', newUser, header);
+    if (response.status === 200) return true;
+    // users[0] = newUserData;
+    // return true;
+  } catch (e) {
+    console.log('patch user ', e);
   }
 }

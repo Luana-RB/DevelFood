@@ -1,5 +1,6 @@
 export interface UserData {
   id?: string;
+  image?: string;
   email: string;
   password: string;
   firstName: string;
@@ -7,8 +8,8 @@ export interface UserData {
   cpf: string;
   phone: string;
   address: UserAddress[];
-  favoritePlates: Favorites[];
-  favoriteRestaurants: Favorites[];
+  favoritePlates?: Favorites[];
+  favoriteRestaurants?: Favorites[];
 }
 export interface UserStoreData {
   credentials: UserCredentials;

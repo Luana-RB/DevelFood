@@ -15,7 +15,7 @@ type ModalContextType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;
   setRestaurantId: Dispatch<SetStateAction<string>>;
   setRestaurantName: Dispatch<SetStateAction<string>>;
-  reset: () => void;
+  resetModal: () => void;
 };
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -52,7 +52,7 @@ export const ModalProvider = ({children}: any) => {
         setRequestId,
         setRestaurantId,
         setRestaurantName,
-        reset,
+        resetModal: reset,
       }}>
       {children}
     </ModalContext.Provider>

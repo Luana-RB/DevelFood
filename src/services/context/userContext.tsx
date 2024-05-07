@@ -6,7 +6,7 @@ type UserContextType = {
   userAddress: UserAddress | undefined;
   storeData: (data: UserData) => Promise<unknown>;
   storeAddress: (data: UserAddress[]) => Promise<unknown>;
-  removeData: () => Promise<void>;
+  removeUserData: () => Promise<void>;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -44,7 +44,13 @@ export const UserProvider = ({children}: any) => {
 
   return (
     <UserContext.Provider
-      value={{userData, userAddress, storeData, storeAddress, removeData}}>
+      value={{
+        userData,
+        userAddress,
+        storeData,
+        storeAddress,
+        removeUserData: removeData,
+      }}>
       {children}
     </UserContext.Provider>
   );

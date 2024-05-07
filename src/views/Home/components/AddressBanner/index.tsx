@@ -3,18 +3,25 @@ import {AddressText, Container} from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../../../globalStyles';
 import {useUser} from '../../../../services/context/userContext';
+import {useFocusEffect} from '@react-navigation/native';
 
 const AddressBanner: React.FC = () => {
   const [text, setText] = useState('');
   const {userAddress} = useUser();
 
-  useEffect(() => {
+  useFocusEffect(
+    React.useCallback(() => {
+      handleAddress();
+    }, [userAddress]),
+  );
+
+  function handleAddress() {
     if (userAddress) {
       const addressText =
         'rua ' + userAddress.street + ' ' + userAddress.number;
       setText(addressText);
     }
-  }, [userAddress]);
+  }
 
   return (
     <Container>

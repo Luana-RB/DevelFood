@@ -35,7 +35,13 @@ const ModalAvaliacao = () => {
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const {requestId, restaurantId, restaurantName, reset} = useModal();
+
+  const {
+    requestId,
+    restaurantId,
+    restaurantName,
+    resetModal: reset,
+  } = useModal();
 
   const modalRef = useRef<CustomModalRef>();
 

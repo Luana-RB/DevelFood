@@ -11,6 +11,8 @@ export type RootStackParamList = {
   CheckoutRequest: {requestId: string};
   RequestDetail: {requestId: string};
   Modal: any;
+  Profile: any;
+  EditarPerfil: any;
 };
 
 export type PlateDetailsScreenProps = StackScreenProps<

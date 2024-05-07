@@ -9,11 +9,19 @@ import {AuthContext} from '../services/context/authContext';
 import Cadastro from '../views/Cadastro';
 import ForgotPasswordStack from './newPassword.routes';
 import HomeTabs from './tabs.routes';
-import {CartProvider} from '../services/context/cartContext';
+import {useCart} from '../services/context/cartContext';
+import {useModal} from '../services/context/modalContext';
+import {useToken} from '../services/context/tokenContext';
+import {useUser} from '../services/context/userContext';
 
 const MainStack = createStackNavigator();
 
 export function MyStack() {
+  const {resetCart} = useCart();
+  const {resetModal} = useModal();
+  const {removeStoredToken} = useToken();
+  const {removeUserData} = useUser();
+
   const initialLoginState = {
     isLoading: true,
     userToken: null,
@@ -70,7 +78,10 @@ export function MyStack() {
 
       signOut: async () => {
         try {
-          await AsyncStorage.removeItem('userToken');
+          resetCart();
+          resetModal();
+          removeStoredToken();
+          removeUserData();
         } catch (e) {
           console.log(e);
         }
@@ -121,39 +132,37 @@ export function MyStack() {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <CartProvider>
-          <MainStack.Navigator>
-            {loginState.userToken !== null ? (
+        <MainStack.Navigator>
+          {loginState.userToken !== null ? (
+            <MainStack.Screen
+              name="Home"
+              component={HomeTabs}
+              options={{headerShown: false}}
+            />
+          ) : (
+            <>
               <MainStack.Screen
-                name="Home"
-                component={HomeTabs}
+                name="Login"
+                component={Login}
                 options={{headerShown: false}}
               />
-            ) : (
-              <>
-                <MainStack.Screen
-                  name="Login"
-                  component={Login}
-                  options={{headerShown: false}}
-                />
-                <MainStack.Screen
-                  name="Cadastro"
-                  component={Cadastro}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <MainStack.Screen
-                  name="Recuperar Senha"
-                  component={ForgotPasswordStack}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-              </>
-            )}
-          </MainStack.Navigator>
-        </CartProvider>
+              <MainStack.Screen
+                name="Cadastro"
+                component={Cadastro}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <MainStack.Screen
+                name="Recuperar Senha"
+                component={ForgotPasswordStack}
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </>
+          )}
+        </MainStack.Navigator>
       </NavigationContainer>
     </AuthContext.Provider>
   );

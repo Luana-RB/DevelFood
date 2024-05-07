@@ -6,6 +6,8 @@ import {MyStack} from './src/routes/stack.routes';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {ModalProvider} from './src/services/context/modalContext';
 import ModalAvaliacao from './src/components/ModalAvaliacao';
+import {CartProvider} from './src/services/context/cartContext';
+import {UserProvider} from './src/services/context/userContext';
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -14,12 +16,16 @@ function App(): React.JSX.Element {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <TokenProvider>
-        <ModalProvider>
-          <MyStack />
-          <ModalAvaliacao />
-        </ModalProvider>
-      </TokenProvider>
+      <UserProvider>
+        <TokenProvider>
+          <ModalProvider>
+            <CartProvider>
+              <MyStack />
+              <ModalAvaliacao />
+            </CartProvider>
+          </ModalProvider>
+        </TokenProvider>
+      </UserProvider>
     </GestureHandlerRootView>
   );
 }
