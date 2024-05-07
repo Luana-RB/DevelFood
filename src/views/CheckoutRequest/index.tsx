@@ -1,15 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {colors} from '../../globalStyles';
 import Button from '../../components/Button';
 import {Container, Image, Text, Title} from './styles';
 import {CheckoutRequestScreenProps} from '../../types/routeTypes';
+import {useCart} from '../../services/context/cartContext';
 
 const CheckoutRequest: React.FC<CheckoutRequestScreenProps> = ({
   navigation,
   route,
 }: any) => {
   const {requestId} = route.params;
+  const {resetCart} = useCart();
+
+  useEffect(() => {
+    resetCart();
+  }, []);
 
   function handleSubmit() {
     navigation.replace('RequestDetail', {requestId: requestId});

@@ -5,40 +5,29 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../../globalStyles';
 import {
   addFavoritePlate,
-  addFavoriteRestaurant,
   compareFavoritePlates,
-  compareFavoriteRestaurant,
   removeFavoritePlate,
-  removeFavoriteRestaurant,
 } from '../../services/api/favorites';
-import {getRestaurantById} from '../../services/api/restaurants';
 
 export function CustomHeartButton({route}: any) {
-  const [heart, setHeart] = useState<boolean | undefined>(true);
+  const [heart, setHeart] = useState<boolean | undefined>(false);
   const [imagePath, setImagePath] = useState<string>('heart-outline');
 
   useFocusEffect(
     React.useCallback(() => {
-      if (route.name === 'PlateDetails') {
-        const {plate} = route.params;
-        const isFavoriteResult = compareFavoritePlates(plate);
-        setHeart(isFavoriteResult);
-      } else if (route.name === 'RestaurantProfile') {
-        const {restaurantId} = route.params;
-        checkIfRestaurantIsFavorited(restaurantId);
-      }
-
-      async function checkIfRestaurantIsFavorited(restaurantId: string) {
-        const restaurantData = await getRestaurantById(restaurantId);
-        if (restaurantData) {
-          const isFavoriteResult = await compareFavoriteRestaurant(
-            restaurantData,
-          );
-          setHeart(isFavoriteResult);
-        }
-      }
+      handleFavorite();
     }, []),
   );
+
+  async function handleFavorite() {
+    if (route.name === 'PlateDetails') {
+      const {plate} = route.params;
+      const isFavoriteResult = await compareFavoritePlates(plate.id);
+      setHeart(isFavoriteResult);
+    } else if (route.name === 'RestaurantProfile') {
+      const {restaurantId} = route.params;
+    }
+  }
 
   useEffect(() => {
     handleImagePath();
@@ -55,15 +44,6 @@ export function CustomHeartButton({route}: any) {
       const {plate} = route.params;
       if (heart) removeFavoritePlate(plate);
       else addFavoritePlate(plate);
-    }
-    if (route.name === 'RestaurantProfile') {
-      setHeart(!heart);
-      const {restaurantId} = route.params;
-      const restaurantData = await getRestaurantById(restaurantId);
-      if (restaurantData) {
-        if (heart) removeFavoriteRestaurant(restaurantData);
-        else addFavoriteRestaurant(restaurantData);
-      }
     }
   }
 

@@ -67,7 +67,7 @@ export async function checkCpf(cpf: string) {
 export async function checkPhone(phone: string) {
   try {
     const body = {
-      numeroCelular: phone,
+      phone,
     };
     const result = await api.post('/cliente/telefone', body);
     if (result.status === 200) return true;

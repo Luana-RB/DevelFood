@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {PlateData} from '../../types/restaurantData';
+import {Alert, ImageSourcePropType} from 'react-native';
+import {colors, screenWidth} from '../../globalStyles';
+import {useFocusEffect} from '@react-navigation/native';
+import {useCart} from '../../services/context/cartContext';
+import {compareFavoritePlates} from '../../services/api/favorites';
 import {
   BodyContainer,
   Container,
@@ -14,7 +19,6 @@ import {
   TitleContainer,
   styles,
 } from './styles';
-import {Alert, ImageSourcePropType} from 'react-native';
 import {
   AddButton,
   AddText,
@@ -23,10 +27,6 @@ import {
   QuantityContainer,
   QuantityText,
 } from '../AddButton/styles';
-import {colors, screenWidth} from '../../globalStyles';
-import {useFocusEffect} from '@react-navigation/native';
-import {useCart} from '../../services/context/cartContext';
-import {compareFavoritePlates} from '../../services/api/favorites';
 
 interface PlateCardProps {
   data: PlateData;
@@ -49,16 +49,9 @@ const PlateCard: React.FC<PlateCardProps> = ({
     require('../../../assets/images/notFound.png'),
   );
   const [thisPrice, setThisPrice] = useState('0,00');
-  const [heart, setHeart] = useState('heart-outline');
+  const [heart, setHeart] = useState('house');
   const [size, setSize] = useState(screenWidth * 0.9);
-  const {
-    addItem,
-    removeItem,
-    removeQuantity,
-    getQuantity,
-    price,
-    setRestaurantId,
-  } = useCart();
+  const {addItem, removeItem, removeQuantity, getQuantity, price} = useCart();
   let maxLength = 20;
 
   useEffect(() => {
@@ -85,14 +78,18 @@ const PlateCard: React.FC<PlateCardProps> = ({
 
   useFocusEffect(
     React.useCallback(() => {
-      const isFavorite = compareFavoritePlates(data);
-      if (isFavorite) setHeart('heart');
-      else setHeart('heart-outline');
-
+      handleFavorite();
       const newQuantity = getQuantity(data);
       setQuantity(newQuantity);
     }, [price]),
   );
+
+  async function handleFavorite() {
+    const isFavorite = await compareFavoritePlates(data.id);
+    if (isFavorite) {
+      setHeart('heart');
+    } else setHeart('heart-outline');
+  }
 
   function handleAdd() {
     const response = addItem(data, restaurantId);
@@ -105,6 +102,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
     else if (quantity > 1) removeQuantity(data);
     setQuantity(quantity - 1);
   }
+  if (heart === 'house') return;
 
   return (
     <Container style={{width: size}}>

@@ -16,7 +16,6 @@ export async function getRestaurants({page}: GetProps) {
       `/restaurante/listar?page=${page}`,
       header,
     );
-
     return restaurants.data.content;
     // const restaurants = restaurantsMock.slice(page, page + 7);
     // return restaurants;

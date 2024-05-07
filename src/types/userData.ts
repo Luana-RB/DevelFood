@@ -1,3 +1,5 @@
+import {PlateData, Restaurant} from './restaurantData';
+
 export interface UserData {
   id?: string;
   image?: string;
@@ -19,7 +21,13 @@ export interface UserStoreData {
 }
 
 export interface Favorites {
+  pratoFavorito: PratoFavorito;
+  restaurante: Restaurant;
+}
+export interface PratoFavorito {
   id: string;
+  ativo: boolean;
+  plate: PlateData;
 }
 export interface UserCredentials {
   id?: string;

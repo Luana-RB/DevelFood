@@ -33,13 +33,13 @@ import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {useCart} from '../../services/context/cartContext';
 import {useFocusEffect} from '@react-navigation/native';
 import {PlateDetailsScreenProps} from '../../types/routeTypes';
-import {RestaurantData} from '../../types/restaurantData';
+import {Restaurant, RestaurantData} from '../../types/restaurantData';
 import {getRestaurantById} from '../../services/api/restaurants';
 
 const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
   const {plate, restaurantId} = route.params;
   const [quantity, setQuantity] = useState(0);
-  const [restaurant, setRestaurant] = useState<RestaurantData>();
+  const [restaurant, setRestaurant] = useState<Restaurant>();
   const [description, setDescription] = useState('');
   const [thisPrice, setThisPrice] = useState('0,00');
   const [sizeFont, setSize] = useState(fonts.XS);

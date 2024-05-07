@@ -98,7 +98,6 @@ const CartPage: React.FC = ({navigation}: any) => {
     const request = handleRequest();
     const requestId = await postRequest(request);
     if (requestId) {
-      resetCart();
       setLoading(false);
       handleNavigation(requestId);
     } else {

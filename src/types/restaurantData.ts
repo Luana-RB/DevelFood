@@ -1,4 +1,9 @@
 export interface RestaurantData {
+  rating: number;
+  restaurant: Restaurant;
+}
+
+export interface Restaurant {
   id: string;
   name: string;
   cnpj?: string;
@@ -23,7 +28,6 @@ export interface RestaurantData {
     name: string;
   };
 }
-
 export interface RestaurantCredentials {
   id: string;
 }
