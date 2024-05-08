@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import Button from '../../../components/Button';
 import {postPassword} from '../../../services/api/users';
 import {useForgotPassword} from '../../../services/context/newPasswordContext';
@@ -14,11 +21,13 @@ import {
   BarContainer,
   BarImage,
   Container,
+  Inner,
   LockImage,
   SubTitle,
   TextContainer,
   Title,
 } from './styles';
+import {colors} from '../../../globalStyles';
 
 const Tela4: React.FC = ({navigation}: any) => {
   const [olhoIconeSenha, setOlhoIconeSenha] = useState(true);
@@ -76,69 +85,79 @@ const Tela4: React.FC = ({navigation}: any) => {
   }
 
   return (
-    <Container>
-      <BarContainer>
-        <BarImage source={require('../assets/bar_full.png')} />
-        <BarImage source={require('../assets/bar_full.png')} />
-        <BarImage source={require('../assets/bar_full.png')} />
-      </BarContainer>
-      <LockImage source={require('../assets/lock.png')} />
-      <TextContainer>
-        <Title>Redefinir senha</Title>
-        <SubTitle>Sua nova senha deve ter no mínimo 6 caracteres</SubTitle>
-      </TextContainer>
-      <View>
-        <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/password.png')}
-          />
-          <InputText
-            placeholder="senha"
-            secureTextEntry={olhoIconeSenha}
-            value={password}
-            onChangeText={setPassword}
-          />
-          <TouchableOpacity onPress={handleSecureSenha}>
-            {olhoIconeSenha ? (
-              <InputIcon
-                source={require('../../../../assets/images/eye-slashed.png')}
-              />
-            ) : (
-              <InputIcon
-                source={require('../../../../assets/images/eye.png')}
-              />
-            )}
-          </TouchableOpacity>
-        </InputContainer>
-        <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/password.png')}
-          />
-          <InputText
-            placeholder="confirmar senha"
-            secureTextEntry={olhoIconeConfirma}
-            value={passwordConfirm}
-            onChangeText={setPasswordConfirm}
-          />
-          <TouchableOpacity onPress={handleSecureConfirma}>
-            {olhoIconeConfirma ? (
-              <InputIcon
-                source={require('../../../../assets/images/eye-slashed.png')}
-              />
-            ) : (
-              <InputIcon
-                source={require('../../../../assets/images/eye.png')}
-              />
-            )}
-          </TouchableOpacity>
-        </InputContainer>
-        {errors.password && <ErrorText>{errors.password}</ErrorText>}
-        {errors.passwordConfirm && (
-          <ErrorText>{errors.passwordConfirm}</ErrorText>
-        )}
-        <Button text="Concluir" handleSubmit={handleSubmit} />
-      </View>
-    </Container>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1, backgroundColor: colors.white}}>
+      <Container>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Inner>
+            <BarContainer>
+              <BarImage source={require('../assets/bar_full.png')} />
+              <BarImage source={require('../assets/bar_full.png')} />
+              <BarImage source={require('../assets/bar_full.png')} />
+            </BarContainer>
+            <LockImage source={require('../assets/lock.png')} />
+            <TextContainer>
+              <Title>Redefinir senha</Title>
+              <SubTitle>
+                Sua nova senha deve ter no mínimo 6 caracteres
+              </SubTitle>
+            </TextContainer>
+            <View>
+              <InputContainer>
+                <InputIcon
+                  source={require('../../../../assets/images/password.png')}
+                />
+                <InputText
+                  placeholder="senha"
+                  secureTextEntry={olhoIconeSenha}
+                  value={password}
+                  onChangeText={setPassword}
+                />
+                <TouchableOpacity onPress={handleSecureSenha}>
+                  {olhoIconeSenha ? (
+                    <InputIcon
+                      source={require('../../../../assets/images/eye-slashed.png')}
+                    />
+                  ) : (
+                    <InputIcon
+                      source={require('../../../../assets/images/eye.png')}
+                    />
+                  )}
+                </TouchableOpacity>
+              </InputContainer>
+              <InputContainer>
+                <InputIcon
+                  source={require('../../../../assets/images/password.png')}
+                />
+                <InputText
+                  placeholder="confirmar senha"
+                  secureTextEntry={olhoIconeConfirma}
+                  value={passwordConfirm}
+                  onChangeText={setPasswordConfirm}
+                />
+                <TouchableOpacity onPress={handleSecureConfirma}>
+                  {olhoIconeConfirma ? (
+                    <InputIcon
+                      source={require('../../../../assets/images/eye-slashed.png')}
+                    />
+                  ) : (
+                    <InputIcon
+                      source={require('../../../../assets/images/eye.png')}
+                    />
+                  )}
+                </TouchableOpacity>
+              </InputContainer>
+              {errors.password && <ErrorText>{errors.password}</ErrorText>}
+              {errors.passwordConfirm && (
+                <ErrorText>{errors.passwordConfirm}</ErrorText>
+              )}
+              <Button text="Concluir" handleSubmit={handleSubmit} />
+            </View>
+          </Inner>
+        </TouchableWithoutFeedback>
+      </Container>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -5,7 +5,13 @@ import {StyleSheet} from 'react-native';
 export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.white};
+`;
+export const Inner = styled.View`
+  flex: 1;
   align-items: center;
+  justify-content: center;
+  margin-top: -${screenHeight * 0.24}px;
+  background-color: ${colors.white};
 `;
 
 export const BarContainer = styled.View`

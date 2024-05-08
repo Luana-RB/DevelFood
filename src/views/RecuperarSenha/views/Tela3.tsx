@@ -1,5 +1,12 @@
 import React, {useRef, useState} from 'react';
-import {TextInput, View} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import Button from '../../../components/Button';
 import {ErrorText} from '../../../components/Input/styles';
 import {
@@ -7,6 +14,7 @@ import {
   BarImage,
   Container,
   DigitsContainer,
+  Inner,
   MailImage,
   SubTitle,
   TextContainer,
@@ -55,39 +63,48 @@ const Tela3: React.FC = ({navigation}: any) => {
   }
 
   return (
-    <Container>
-      <BarContainer>
-        <BarImage source={require('../assets/bar_full.png')} />
-        <BarImage source={require('../assets/bar_full.png')} />
-        <BarImage source={require('../assets/bar_empty.png')} />
-      </BarContainer>
-      <MailImage source={require('../assets/mail.png')} />
-      <TextContainer>
-        <Title>Verifique seu e-mail</Title>
-        <SubTitle>
-          Enviamos um código de verificação para o seu e-mail. Digite-o abaixo
-          para redefinir sua senha
-        </SubTitle>
-      </TextContainer>
-      <DigitsContainer>
-        {code.map((num, index) => (
-          <TextInput
-            placeholderTextColor={colors.black}
-            key={index}
-            style={styles.digitsBox}
-            maxLength={1}
-            value={num}
-            onChangeText={value => handleChangeText(index, value)}
-            returnKeyType={index < code.length ? 'next' : 'done'}
-            ref={refs.current[index]}
-          />
-        ))}
-      </DigitsContainer>
-      {errors && <ErrorText>{errors}</ErrorText>}
-      <View>
-        <Button text="Confirmar" handleSubmit={handleSubmit} />
-      </View>
-    </Container>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1, backgroundColor: colors.white}}>
+      <Container>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Inner>
+            <BarContainer>
+              <BarImage source={require('../assets/bar_full.png')} />
+              <BarImage source={require('../assets/bar_full.png')} />
+              <BarImage source={require('../assets/bar_empty.png')} />
+            </BarContainer>
+            <MailImage source={require('../assets/mail.png')} />
+            <TextContainer>
+              <Title>Verifique seu e-mail</Title>
+              <SubTitle>
+                Enviamos um código de verificação para o seu e-mail. Digite-o
+                abaixo para redefinir sua senha
+              </SubTitle>
+            </TextContainer>
+            <DigitsContainer>
+              {code.map((num, index) => (
+                <TextInput
+                  placeholderTextColor={colors.black}
+                  key={index}
+                  style={styles.digitsBox}
+                  maxLength={1}
+                  value={num}
+                  keyboardType="number-pad"
+                  onChangeText={value => handleChangeText(index, value)}
+                  returnKeyType={index < code.length ? 'next' : 'done'}
+                  ref={refs.current[index]}
+                />
+              ))}
+            </DigitsContainer>
+            {errors && <ErrorText>{errors}</ErrorText>}
+            <View>
+              <Button text="Confirmar" handleSubmit={handleSubmit} />
+            </View>
+          </Inner>
+        </TouchableWithoutFeedback>
+      </Container>
+    </KeyboardAvoidingView>
   );
 };
 

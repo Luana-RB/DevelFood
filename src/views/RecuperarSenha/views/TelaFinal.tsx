@@ -11,7 +11,7 @@ import {
 
 const TelaFinal: React.FC = ({navigation}: any) => {
   return (
-    <Container>
+    <Container style={{alignItems: 'center', justifyContent: 'flex-start'}}>
       <LockCheckedImage source={require('../assets/lock_checked.png')} />
       <TextContainer>
         <Title>Senha redefinida!</Title>
