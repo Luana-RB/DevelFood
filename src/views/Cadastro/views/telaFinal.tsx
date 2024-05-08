@@ -10,7 +10,7 @@ import {
   CadastroTitle,
   Container,
 } from './styles';
-import {UserData, UserStoreData} from '../../../types/userData';
+import {UserStoreData} from '../../../types/userData';
 import {useToken} from '../../../services/context/tokenContext';
 import {Alert, View} from 'react-native';
 

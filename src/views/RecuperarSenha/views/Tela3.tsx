@@ -1,8 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {TextInput, View} from 'react-native';
 import Button from '../../../components/Button';
 import {ErrorText} from '../../../components/Input/styles';
-import {sendNumberCode} from '../../../services/api/users';
 import {
   BarContainer,
   BarImage,
@@ -14,21 +13,14 @@ import {
   Title,
   styles,
 } from './styles';
+import {useForgotPassword} from '../../../services/context/newPasswordContext';
+import {verifyCode} from '../../../services/api/users';
+import {colors} from '../../../globalStyles';
 
 const Tela3: React.FC = ({navigation}: any) => {
   const [errors, setErrors] = useState('');
-  const [nums, setNums] = useState(['', '', '', '']);
-  const [code, setCode] = useState('');
-
-  useEffect(() => {
-    function getCode() {
-      const newCode = sendNumberCode();
-      if (newCode) {
-        setCode(newCode);
-      }
-    }
-    getCode();
-  }, []);
+  const [code, setCode] = useState(['', '', '', '']);
+  const {email} = useForgotPassword();
 
   const refs = useRef([
     React.createRef<TextInput>(),
@@ -38,25 +30,24 @@ const Tela3: React.FC = ({navigation}: any) => {
   ]);
 
   const handleChangeText = (index: number, value: string) => {
-    const newNums = [...nums];
+    const newNums = [...code];
     newNums[index] = value;
-    setNums(newNums);
+    setCode(newNums);
 
     if (value.length === 1 && index < refs.current.length - 1) {
       refs.current[index + 1].current?.focus();
     }
   };
-  function validateCode() {
-    const numCode = nums[0] + nums[1] + nums[2] + nums[3];
-    if (code === numCode) {
-      return false;
-    }
-    return true;
+
+  async function validateCode() {
+    const numCode = code[0] + code[1] + code[2] + code[3];
+    const response = await verifyCode(email, numCode);
+    return response;
   }
 
-  function handleSubmit() {
-    const validate = validateCode();
-    if (validate) {
+  async function handleSubmit() {
+    const validate = await validateCode();
+    if (!validate) {
       setErrors('Código inválido');
     } else {
       navigation.navigate('Redefinir');
@@ -79,14 +70,15 @@ const Tela3: React.FC = ({navigation}: any) => {
         </SubTitle>
       </TextContainer>
       <DigitsContainer>
-        {nums.map((num, index) => (
+        {code.map((num, index) => (
           <TextInput
+            placeholderTextColor={colors.black}
             key={index}
             style={styles.digitsBox}
             maxLength={1}
             value={num}
             onChangeText={value => handleChangeText(index, value)}
-            returnKeyType={index < nums.length ? 'next' : 'done'}
+            returnKeyType={index < code.length ? 'next' : 'done'}
             ref={refs.current[index]}
           />
         ))}

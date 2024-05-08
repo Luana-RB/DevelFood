@@ -31,7 +31,7 @@ import PlateCard from '../../components/PlateCard';
 import {RequestDetailScreenProps} from '../../types/routeTypes';
 import {getRequestById} from '../../services/api/requests';
 import {getAddressById} from '../../services/api/address';
-import {RestaurantData} from '../../types/restaurantData';
+import {Restaurant} from '../../types/restaurantData';
 import {getRestaurantById} from '../../services/api/restaurants';
 import {UserAddress} from '../../types/userData';
 import {monthText, statusIcon, statusText} from '../../types/enums';
@@ -42,7 +42,7 @@ const DELAY = 10000;
 
 const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
   const [plates, setPlates] = useState<any[]>();
-  const [restaurant, setRestaurant] = useState<RestaurantData>();
+  const [restaurant, setRestaurant] = useState<Restaurant>();
   const [restaurantId, setThisRestaurantId] = useState('');
   const [address, setAddress] = useState<UserAddress>();
   const [day, setDay] = useState<String>('');

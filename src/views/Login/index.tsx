@@ -51,7 +51,7 @@ const Login: React.FC = ({navigation}: any) => {
   async function handleSubmit() {
     const token = await postLogin(email, password);
     if (token) {
-      const isTokenStored = await storeToken(token);
+      await storeToken(token);
       signIn(token);
     } else validateForm();
   }

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import Button from '../../../components/Button';
-import {patchPassword} from '../../../services/api/users';
+import {postPassword} from '../../../services/api/users';
 import {useForgotPassword} from '../../../services/context/newPasswordContext';
 import {Errors} from '../../../types/errors';
 import {
@@ -21,19 +21,14 @@ import {
 } from './styles';
 
 const Tela4: React.FC = ({navigation}: any) => {
-  const [olhoIconeToken, setOlhoIconeToken] = useState(true);
   const [olhoIconeSenha, setOlhoIconeSenha] = useState(true);
   const [olhoIconeConfirma, setOlhoIconeConfirma] = useState(true);
   const [errors, setErrors] = useState<Errors>({});
-  const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  const {returnsUser, token} = useForgotPassword();
+  const {email} = useForgotPassword();
 
-  function handleSecure() {
-    setOlhoIconeToken(!olhoIconeToken);
-  }
   function handleSecureSenha() {
     setOlhoIconeSenha(!olhoIconeSenha);
   }
@@ -44,28 +39,16 @@ const Tela4: React.FC = ({navigation}: any) => {
   function validateForm() {
     let errors: Errors = {};
 
-    const codeError = validateCode();
-    if (codeError) {
-      errors.password = codeError;
+    const passwordError = validatePassword();
+    if (passwordError) {
+      errors.password = passwordError;
     } else {
-      const passwordError = validatePassword();
-      if (passwordError) {
-        errors.password = passwordError;
-      } else {
-        const passwordConfirmError = validatePasswordConfirm();
-        if (passwordConfirmError) {
-          errors.passwordConfirm = passwordConfirmError;
-        }
+      const passwordConfirmError = validatePasswordConfirm();
+      if (passwordConfirmError) {
+        errors.passwordConfirm = passwordConfirmError;
       }
     }
     return errors;
-  }
-
-  function validateCode() {
-    if (token === code) {
-      return undefined;
-    }
-    return 'Código incorreto';
   }
 
   function validatePassword() {
@@ -80,17 +63,14 @@ const Tela4: React.FC = ({navigation}: any) => {
     }
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const newErrors = validateForm();
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      const user = returnsUser();
-      if (user) {
-        const sucess = patchPassword(user, password);
-        if (true) {
-          navigation.navigate('Final');
-        }
+      const patched = await postPassword(email, password);
+      if (patched) {
+        navigation.navigate('Final');
       }
     }
   }
@@ -108,28 +88,6 @@ const Tela4: React.FC = ({navigation}: any) => {
         <SubTitle>Sua nova senha deve ter no mínimo 6 caracteres</SubTitle>
       </TextContainer>
       <View>
-        <InputContainer>
-          <InputIcon
-            source={require('../../../../assets/images/password.png')}
-          />
-          <InputText
-            placeholder="código"
-            secureTextEntry={olhoIconeToken}
-            value={code}
-            onChangeText={setCode}
-          />
-          <TouchableOpacity onPress={handleSecure}>
-            {olhoIconeToken ? (
-              <InputIcon
-                source={require('../../../../assets/images/eye-slashed.png')}
-              />
-            ) : (
-              <InputIcon
-                source={require('../../../../assets/images/eye.png')}
-              />
-            )}
-          </TouchableOpacity>
-        </InputContainer>
         <InputContainer>
           <InputIcon
             source={require('../../../../assets/images/password.png')}

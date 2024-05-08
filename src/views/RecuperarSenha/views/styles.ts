@@ -79,6 +79,7 @@ export const DigitsContainer = styled.View`
 
 export const styles = StyleSheet.create({
   digitsBox: {
+    color: colors.black,
     width: screenHeight * 0.068,
     height: screenHeight * 0.068,
     borderRadius: 10,

@@ -1,12 +1,9 @@
-import {users} from '../../mocks/users';
-import {UserData, UserStoreData} from '../../types/userData';
+import {UserData} from '../../types/userData';
 import {api, getToken} from './api';
 
 export async function postCadastro(user: any) {
   try {
-    // const result = users.push(user);
     const result = await api.post('/cliente/registrar/cliente', user);
-    const status = result.status;
     return true;
   } catch (e) {
     console.log('cadastro: ', e);
@@ -23,17 +20,43 @@ export async function postLogin(email: string, password: string) {
     const result = await api.post('/login/efetuar', credentials);
     const token = JSON.stringify(result.data.token).replace(/"/g, '');
     return token;
-    // const user = users.find(user => user.email === email);
-    // if (user?.password === password) return 'user.credentials.id';
   } catch (e) {
     console.log('login', e);
     return undefined;
   }
 }
 
-export function patchPassword(user: UserStoreData, password: string) {
+export async function postPassword(email: string, password: string) {
   try {
-  } catch (e) {}
+    const senhaNova = {
+      senhaNova: password,
+    };
+    const newPassword = await api.post(`/redefinir?email=${email}`, senhaNova);
+    return newPassword;
+  } catch (e) {
+    console.log('put password', e);
+  }
+}
+
+export async function sendEmail(email: string) {
+  try {
+    const body = {
+      email,
+    };
+    const send = await api.post(`/esqueci`, body);
+    return send;
+  } catch (e) {
+    console.log('send email', e);
+  }
+}
+
+export async function verifyCode(email: string, code: string) {
+  try {
+    const verify = await api.get(`/verificar?email=${email}&codigo=${code}`);
+    return verify.data;
+  } catch (e) {
+    console.log('verificar code', e);
+  }
 }
 
 export async function checkEmail(email: string) {
@@ -78,36 +101,17 @@ export async function checkPhone(phone: string) {
   }
 }
 
-export function sendToken() {
-  try {
-    const code = 'codigu';
-    return code;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-export function sendNumberCode() {
-  try {
-    const code = '1111';
-    return code;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 export async function getUserData() {
   try {
     const header = await getToken();
     const user = await api.get(`/cliente/visualizar`, header);
     return user.data;
-    // return users[0];
   } catch (e) {
     console.log('user data ', e);
   }
 }
 
-export async function patchUser(newUserData: UserData) {
+export async function putUser(newUserData: UserData) {
   try {
     const newUser = {
       phone: newUserData.phone,
@@ -116,9 +120,7 @@ export async function patchUser(newUserData: UserData) {
     const header = await getToken();
     const response = await api.put('/cliente/atualizar', newUser, header);
     if (response.status === 200) return true;
-    // users[0] = newUserData;
-    // return true;
   } catch (e) {
-    console.log('patch user ', e);
+    console.log('put user ', e);
   }
 }

@@ -6,7 +6,7 @@ import {
   SearchBarContainer,
   SearchInput,
 } from '../../../../components/SearchBar/styles';
-import {colors, fonts} from '../../../../globalStyles';
+import {colors} from '../../../../globalStyles';
 import RestaurantCard from './RestaurantCard';
 import {getRestaurantsFiltered} from '../../../../services/api/restaurants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -42,7 +42,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
 
   async function loadSearch(filter: string) {
     const newData = await getRestaurantsFiltered({page: filterPage, filter});
-    //setFilterPage(filterPage + 1);
+    setFilterPage(filterPage + 1);
     if (newData) {
       if (newData.length === 0) {
         return [];

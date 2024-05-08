@@ -1,4 +1,3 @@
-import {users} from '../../mocks/users';
 import {UserData} from '../../types/userData';
 import {api, getToken} from './api';
 
@@ -7,8 +6,6 @@ export async function getAddressById() {
     const header = await getToken();
     const address = await api.get(`/endereco/cliente`, header);
     return address.data.content[0].address;
-    // const address = users.find(item => item.address[0].addressId === '1');
-    // return address?.address;
   } catch (e) {
     console.log('endereço', e);
   }
@@ -32,8 +29,6 @@ export async function patchUserAddress(newUserData: UserData) {
       header,
     );
     if (response.status === 200) return true;
-    // users[0] = newUserData;
-    // return true;
   } catch (e) {
     console.log('patch address ', e);
   }

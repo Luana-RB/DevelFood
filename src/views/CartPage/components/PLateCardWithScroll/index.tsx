@@ -63,7 +63,11 @@ const PLateCardWithScroll: React.FC<PlateCardWithSCrollProps> = ({item}) => {
       </DeleteContainer>
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[animatedStyle]}>
-          <PlateCard data={item} small={true} />
+          <PlateCard
+            data={item}
+            small={true}
+            restaurantId={item.restaurantId}
+          />
         </Animated.View>
       </GestureDetector>
     </View>

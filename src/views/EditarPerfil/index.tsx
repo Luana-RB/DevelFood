@@ -9,7 +9,7 @@ import {Container, IconContainer, Photo} from './styles';
 import Button from '../../components/Button';
 import DataCell from './components/DataCell';
 import {UserData} from '../../types/userData';
-import {patchUser} from '../../services/api/users';
+import {putUser} from '../../services/api/users';
 import {patchUserAddress} from '../../services/api/address';
 
 const EditarPerfil: React.FC = () => {
@@ -63,7 +63,7 @@ const EditarPerfil: React.FC = () => {
         },
       ],
     };
-    const userResponse = await patchUser(newUser);
+    const userResponse = await putUser(newUser);
     const addressResponse = await patchUserAddress(newUser);
     if (userResponse && addressResponse) Alert.alert('Salvo com sucesso');
     else Alert.alert('Falha ao salvar');

@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
-import {colors, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, screenHeight} from '../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   AddressContainer,
@@ -38,11 +38,10 @@ import PLateCardWithScroll from './components/PLateCardWithScroll';
 import {useFocusEffect} from '@react-navigation/native';
 import {postRequest} from '../../services/api/requests';
 import {RequestPlatesData, RequestSendData} from '../../types/requestData';
-import {months, weekDays} from '../../types/enums';
 import {ListEmptyComponent} from '../../components/ListEmptyComponent';
 
 const CartPage: React.FC = ({navigation}: any) => {
-  const {items, price, resetCart, restaurantId} = useCart();
+  const {items, price, restaurantId} = useCart();
 
   const {userAddress} = useUser();
   const [name, setName] = useState('');

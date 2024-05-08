@@ -14,7 +14,6 @@ import {
 import {ImageSourcePropType, TouchableOpacity} from 'react-native';
 import {colors, screenHeight} from '../../../../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useFocusEffect} from '@react-navigation/native';
 
 interface RestaurantProps {
   list: any;

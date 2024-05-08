@@ -1,4 +1,4 @@
-import {PlateData, RestaurantData} from './restaurantData';
+import {PlateData, Restaurant} from './restaurantData';
 
 export interface RequestDateData {
   id: string;
@@ -8,7 +8,7 @@ export interface RequestDateData {
 
 export interface RequestData {
   restaurantId?: string;
-  restaurant?: RestaurantData;
+  restaurant?: Restaurant;
   plates: PlateData[];
   date: string;
   paymentType: string;

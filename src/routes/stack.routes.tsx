@@ -154,7 +154,7 @@ export function MyStack() {
                 }}
               />
               <MainStack.Screen
-                name="Recuperar Senha"
+                name="Recuperar_Senha"
                 component={ForgotPasswordStack}
                 options={{
                   headerShown: false,

@@ -28,12 +28,12 @@ import {
   QuantityContainer,
   QuantityText,
 } from '../../components/AddButton/styles';
-import {colors, fonts, screenWidth} from '../../globalStyles';
+import {colors, fonts} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {useCart} from '../../services/context/cartContext';
 import {useFocusEffect} from '@react-navigation/native';
 import {PlateDetailsScreenProps} from '../../types/routeTypes';
-import {Restaurant, RestaurantData} from '../../types/restaurantData';
+import {Restaurant} from '../../types/restaurantData';
 import {getRestaurantById} from '../../services/api/restaurants';
 
 const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {

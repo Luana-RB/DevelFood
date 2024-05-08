@@ -10,7 +10,7 @@ import SearchBar from '../../components/SearchBar';
 import PlateCard from '../../components/PlateCard';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import {colors} from '../../globalStyles';
-import {PlateData, RestaurantData} from '../../types/restaurantData';
+import {PlateData, Restaurant} from '../../types/restaurantData';
 import CartBar from '../../components/CartBar';
 import {
   BodyContainer,
@@ -31,14 +31,13 @@ import {
 import {useCart} from '../../services/context/cartContext';
 import {getRestaurantById} from '../../services/api/restaurants';
 import {RestaurantProfileScreenProps} from '../../types/routeTypes';
-import ModalAvaliacao from '../../components/ModalAvaliacao';
 
 const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   route,
   navigation,
 }) => {
   const [cart, setCart] = useState(false);
-  const [data, setData] = useState<RestaurantData>();
+  const [data, setData] = useState<Restaurant>();
   const [notFound, setNotFound] = useState(true);
   const [loading, setLoading] = useState(false);
   const [plateData, setPlateData] = useState<PlateData[]>([]);
@@ -49,7 +48,6 @@ const RestaurantProfile: React.FC<RestaurantProfileScreenProps> = ({
   );
   const {numOfItems} = useCart();
   const {restaurantId} = route.params;
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
 
   useEffect(() => {
     getData();

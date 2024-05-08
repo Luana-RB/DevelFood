@@ -18,17 +18,17 @@ import {
   TextContainer,
   Title,
 } from './styles';
+import {sendEmail} from '../../../services/api/users';
 
 const Tela1: React.FC = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState<Errors>({});
 
-  const {storeUser} = useForgotPassword();
+  const {setEmail: storeEmail} = useForgotPassword();
 
   async function validateForm() {
     let errors: Errors = {};
 
-  
     return errors;
   }
 
@@ -37,7 +37,10 @@ const Tela1: React.FC = ({navigation}: any) => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      navigation.navigate('Código');
+      storeEmail(email);
+      const result = await sendEmail(email);
+      if (result) navigation.navigate('Verifique');
+      else console.log('erro');
     }
   }
 

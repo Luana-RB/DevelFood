@@ -5,7 +5,6 @@ import {
 } from '@react-navigation/stack';
 import React from 'react';
 import Tela1 from '../views/RecuperarSenha/views/Tela1';
-import Tela2 from '../views/RecuperarSenha/views/Tela2';
 import Tela3 from '../views/RecuperarSenha/views/Tela3';
 import Tela4 from '../views/RecuperarSenha/views/Tela4';
 import TelaFinal from '../views/RecuperarSenha/views/TelaFinal';
@@ -42,15 +41,6 @@ const ForgotPasswordStack: React.FC = () => {
           component={Tela1}
           options={{
             title: 'Recuperação de Senha',
-            headerTitleAlign: 'center',
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-        <Stack.Screen
-          name="Código"
-          component={Tela2}
-          options={{
-            title: '',
             headerTitleAlign: 'center',
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
