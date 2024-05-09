@@ -14,7 +14,6 @@ import FooterList from './FooterList';
 import {ListEmptyComponent} from '../../../../components/ListEmptyComponent';
 import AddressBanner from '../AddressBanner';
 import BannerCarrossel from '../BannerCarrossel';
-import {sales} from '../../../../mocks/sales';
 import CategoryList, {CategoryText} from '../../../../components/CategoryList';
 const DELAY = 1500;
 
@@ -104,7 +103,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
         ListHeaderComponent={
           <View>
             <AddressBanner />
-            <BannerCarrossel data={sales} navigation={navigation} />
+            <BannerCarrossel navigation={navigation} />
             <CategoryText>Categorias</CategoryText>
             <CategoryList />
             <SearchBarContainer>

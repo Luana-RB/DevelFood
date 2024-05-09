@@ -11,7 +11,7 @@ interface CarrosselMarkerProps {
 const CarrosselMarker: React.FC<CarrosselMarkerProps> = ({data, scrollX}) => {
   return (
     <View style={styles.container}>
-      {data.map((_: any, i: any) => {
+      {data?.map((_: any, i: any) => {
         const inputRange = [
           (i - 1) * screenWidth,
           i * screenWidth,

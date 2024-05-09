@@ -1,7 +1,7 @@
-import {ImageSourcePropType} from 'react-native';
+import {Restaurant} from './restaurantData';
 
 export interface SalesData {
   id: string;
-  imagePath: ImageSourcePropType;
-  restaurantId: string;
+  imagem: string;
+  restaurante: Restaurant;
 }

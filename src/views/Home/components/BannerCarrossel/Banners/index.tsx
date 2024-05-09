@@ -11,17 +11,18 @@ interface BannerProps {
 
 const Banners: React.FC<BannerProps> = ({data, index, navigation}) => {
   const margin = index === sales.length - 1 ? 12 : 8;
+  const image = {uri: data.imagem};
 
   return (
     <Container
       onPress={() =>
         navigation.navigate('RestaurantProfile', {
-          restaurantId: data.restaurantId,
+          restaurantId: data.restaurante.id,
         })
       }
       style={{marginRight: margin}}>
       <Banner>
-        <Image source={data.imagePath} resizeMode="cover" />
+        <Image source={image} resizeMode="cover" />
       </Banner>
     </Container>
   );

@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import {colors, screenHeight, screenWidth} from '../../../../../globalStyles';
 
 export const Container = styled.TouchableOpacity`
-  width: ${screenWidth * 0.92}px;
+  width: ${screenWidth * 0.9}px;
   height: ${screenHeight * 0.23}px;
   background-color: ${colors.white};
   margin-right: 8px;

@@ -37,7 +37,6 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   const {setRequestId, setRestaurantId, setRestaurantName} = useModal();
 
   useEffect(() => {
-    console.log(data);
     callData();
     const formatedPlateNames = formatPlateNames();
     setPlateNames(formatedPlateNames);
@@ -47,7 +46,6 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
 
   useEffect(() => {
     if (status.length > 0) setLoading(false);
-    if (data.status === 'PEDIDO_FINALIZADO') handleFinished(data);
   }, [status]);
 
   async function callData() {
@@ -86,14 +84,6 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
     if (data.status) {
       setStatus(statusText[data.status]);
     } else setStatus('Aguardando');
-  }
-  function handleFinished(order: RequestData) {
-    if (order.restaurant && order.id) {
-      setRestaurantId(order.restaurant.id);
-      setRestaurantName(order.restaurant.name);
-      setRequestId(order.id);
-    }
-    ModalController.showModal();
   }
 
   if (loading)

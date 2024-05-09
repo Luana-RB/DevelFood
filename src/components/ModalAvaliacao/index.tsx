@@ -94,12 +94,16 @@ const ModalAvaliacao = () => {
     if (score === 0) Alert.alert('Responda o formulário');
     else {
       setLoading(true);
-      if (restaurantId) {
-        if (requestId) {
-          const result = await sendAvaliation(score, comment, restaurantId);
-          if (result) clearModal();
-        }
+      if (restaurantId && requestId) {
+        const result = await sendAvaliation(
+          requestId,
+          score,
+          comment,
+          restaurantId,
+        );
+        if (!result) Alert.alert('Falha ao enviar avaliação');
       }
+      clearModal();
     }
   }
 
