@@ -1,15 +1,20 @@
 import styled from 'styled-components/native';
-import {colors, fonts, screenWidth} from '../../../globalStyles';
+import {colors, fonts, screenHeight, screenWidth} from '../../../globalStyles';
 
-export const Container = styled.ScrollView`
+export const Container = styled.SafeAreaView`
   flex: 1;
+  background-color: ${colors.white};
+`;
+
+export const Inner = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
   background-color: ${colors.white};
 `;
 
 export const CheckContainer = styled.View`
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
   gap: 70px;
   margin-top: 22px;
 `;
@@ -20,10 +25,9 @@ export const CheckImage = styled.Image`
 `;
 
 export const LadyImage = styled.Image`
-  align-self: center;
   width: 80px;
   height: 180px;
-  margin-top: 6px;
+  margin-top: 10px;
   margin-bottom: 26px;
 `;
 export const BigLadyImage = styled.Image`
@@ -34,18 +38,12 @@ export const BigLadyImage = styled.Image`
   margin-bottom: 35px;
 `;
 
-export const FormContainer = styled.View`
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-`;
+export const FormContainer = styled.View``;
 
 export const RowContainer = styled.View`
   flex-direction: row;
   gap: 15px;
   width: ${screenWidth * 0.75}px;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const CadastroContainer = styled.View`

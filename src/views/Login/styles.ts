@@ -50,7 +50,6 @@ export const LogoText = styled.Text`
 
 export const ForgotPassContainer = styled.TouchableOpacity`
   align-self: flex-end;
-  margin-right: 60px;
 `;
 
 export const ForgotPassText = styled.Text`
@@ -64,14 +63,14 @@ export const Pepper = styled.ImageBackground`
   width: ${screenWidth * 1.3}px;
   height: ${screenHeight * 0.4}px;
   margin-top: -${screenHeight * 0.02}px;
-  margin-left: -${screenWidth * 0.18}px;
 `;
 
 export const SignInContainer = styled.View`
   flex-direction: row;
   justify-content: center;
+  width: 60%;
   margin-top: ${screenHeight * 0.01}px;
-  margin-left: ${screenWidth * 0.1}px;
+  margin-left: ${screenHeight * 0.13}px;
 `;
 
 export const SignInText = styled.Text`

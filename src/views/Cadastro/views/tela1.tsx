@@ -1,12 +1,19 @@
 import React, {useState} from 'react';
-import {StatusBar, TouchableOpacity} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {
   ErrorText,
   InputContainer,
   InputText,
 } from '../../../components/Input/styles';
 import Button from '../../../components/Button';
-import {colors} from '../../../globalStyles';
+import {colors, screenHeight} from '../../../globalStyles';
 import validator from 'validator';
 import {useCadastro} from '../../../services/context/cadastroContext';
 import {
@@ -14,6 +21,7 @@ import {
   CheckImage,
   Container,
   FormContainer,
+  Inner,
   LadyImage,
 } from './styles';
 import {Errors} from '../../../types/errors';
@@ -86,101 +94,109 @@ const Tela1: React.FC = ({navigation}: any) => {
   }
 
   return (
-    <Container>
-      <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
-      <CheckContainer>
-        <CheckImage source={require('./assets/checkEmpty.png')} />
-        <CheckImage source={require('./assets/checkEmpty.png')} />
-        <CheckImage source={require('./assets/checkEmpty.png')} />
-      </CheckContainer>
-      <LadyImage source={require('./assets/cadastro1.png')} />
-      <FormContainer>
-        <InputContainer>
-          <Icon
-            name="email-outline"
-            size={25}
-            color={colors.gray}
-            style={{marginHorizontal: 8}}
-          />
-          <InputText
-            placeholder="exemplo@email.com"
-            placeholderTextColor={colors.gray}
-            value={email}
-            onChangeText={setEmail}
-          />
-        </InputContainer>
-        {errors.email && <ErrorText>{errors.email}</ErrorText>}
-        <InputContainer>
-          <Icon
-            name="lock-outline"
-            size={25}
-            color={colors.gray}
-            style={{marginHorizontal: 8}}
-          />
-          <InputText
-            placeholder="senha"
-            placeholderTextColor={colors.gray}
-            secureTextEntry={olhoIcone}
-            value={senha}
-            onChangeText={setSenha}
-          />
-          <TouchableOpacity onPress={handleSecureSenha}>
-            {olhoIcone ? (
-              <Icon
-                name="eye-off-outline"
-                size={25}
-                color={colors.gray}
-                style={{marginHorizontal: 10}}
-              />
-            ) : (
-              <Icon
-                name="eye-outline"
-                size={25}
-                color={colors.gray}
-                style={{marginHorizontal: 10}}
-              />
-            )}
-          </TouchableOpacity>
-        </InputContainer>
-        {errors.password && <ErrorText>{errors.password}</ErrorText>}
-        <InputContainer>
-          <Icon
-            name="lock-outline"
-            size={25}
-            color={colors.gray}
-            style={{marginHorizontal: 8}}
-          />
-          <InputText
-            placeholder="confirmar senha"
-            placeholderTextColor={colors.gray}
-            secureTextEntry={olhoIconeConfirma}
-            value={senhaConfirma}
-            onChangeText={setSenhaConfirma}
-          />
-          <TouchableOpacity onPress={handleSecureSenhaConfirma}>
-            {olhoIconeConfirma ? (
-              <Icon
-                name="eye-off-outline"
-                size={25}
-                color={colors.gray}
-                style={{marginHorizontal: 10}}
-              />
-            ) : (
-              <Icon
-                name="eye-outline"
-                size={25}
-                color={colors.gray}
-                style={{marginHorizontal: 10}}
-              />
-            )}
-          </TouchableOpacity>
-        </InputContainer>
-        {errors.passwordConfirm && (
-          <ErrorText>{errors.passwordConfirm}</ErrorText>
-        )}
-      </FormContainer>
-      <Button text="Continuar" handleSubmit={handleSubmit} />
-    </Container>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1, backgroundColor: colors.white}}>
+      <Container>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Inner style={{marginTop: -screenHeight * 0.29}}>
+            <CheckContainer>
+              <CheckImage source={require('./assets/checkEmpty.png')} />
+              <CheckImage source={require('./assets/checkEmpty.png')} />
+              <CheckImage source={require('./assets/checkEmpty.png')} />
+            </CheckContainer>
+            <LadyImage source={require('./assets/cadastro1.png')} />
+            <FormContainer>
+              <InputContainer>
+                <Icon
+                  name="email-outline"
+                  size={25}
+                  color={colors.gray}
+                  style={{marginHorizontal: 8}}
+                />
+                <InputText
+                  placeholder="exemplo@email.com"
+                  placeholderTextColor={colors.gray}
+                  value={email}
+                  onChangeText={setEmail}
+                />
+              </InputContainer>
+              {errors.email && <ErrorText>{errors.email}</ErrorText>}
+              <InputContainer>
+                <Icon
+                  name="lock-outline"
+                  size={25}
+                  color={colors.gray}
+                  style={{marginHorizontal: 8}}
+                />
+                <InputText
+                  placeholder="senha"
+                  placeholderTextColor={colors.gray}
+                  secureTextEntry={olhoIcone}
+                  value={senha}
+                  onChangeText={setSenha}
+                />
+                <TouchableOpacity onPress={handleSecureSenha}>
+                  {olhoIcone ? (
+                    <Icon
+                      name="eye-off-outline"
+                      size={25}
+                      color={colors.gray}
+                      style={{marginHorizontal: 10}}
+                    />
+                  ) : (
+                    <Icon
+                      name="eye-outline"
+                      size={25}
+                      color={colors.gray}
+                      style={{marginHorizontal: 10}}
+                    />
+                  )}
+                </TouchableOpacity>
+              </InputContainer>
+              {errors.password && <ErrorText>{errors.password}</ErrorText>}
+              <InputContainer>
+                <Icon
+                  name="lock-outline"
+                  size={25}
+                  color={colors.gray}
+                  style={{marginHorizontal: 8}}
+                />
+                <InputText
+                  placeholder="confirmar senha"
+                  placeholderTextColor={colors.gray}
+                  secureTextEntry={olhoIconeConfirma}
+                  value={senhaConfirma}
+                  onChangeText={setSenhaConfirma}
+                />
+                <TouchableOpacity onPress={handleSecureSenhaConfirma}>
+                  {olhoIconeConfirma ? (
+                    <Icon
+                      name="eye-off-outline"
+                      size={25}
+                      color={colors.gray}
+                      style={{marginHorizontal: 10}}
+                    />
+                  ) : (
+                    <Icon
+                      name="eye-outline"
+                      size={25}
+                      color={colors.gray}
+                      style={{marginHorizontal: 10}}
+                    />
+                  )}
+                </TouchableOpacity>
+              </InputContainer>
+              {errors.passwordConfirm && (
+                <ErrorText>{errors.passwordConfirm}</ErrorText>
+              )}
+            </FormContainer>
+
+            <Button text="Continuar" handleSubmit={handleSubmit} />
+          </Inner>
+        </TouchableWithoutFeedback>
+      </Container>
+    </KeyboardAvoidingView>
   );
 };
 

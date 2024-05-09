@@ -1,24 +1,31 @@
 import React, {useState} from 'react';
-import {StatusBar} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {
   ErrorText,
   InputContainer,
   InputText,
 } from '../../../components/Input/styles';
 import Button from '../../../components/Button';
-import {colors} from '../../../globalStyles';
+import {colors, screenHeight} from '../../../globalStyles';
 import {useCadastro} from '../../../services/context/cadastroContext';
 import {
   CheckContainer,
   CheckImage,
   Container,
   FormContainer,
+  Inner,
   LadyImage,
 } from './styles';
 import {MaskedTextInput} from 'react-native-mask-text';
 import {Errors} from '../../../types/errors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {checkCpf, checkPhone} from '../../../services/api/users';
+import {Keyboard} from 'react-native';
 
 const Tela2: React.FC = ({navigation}: any) => {
   const [nome, setNome] = useState('');
@@ -80,88 +87,99 @@ const Tela2: React.FC = ({navigation}: any) => {
   }
 
   return (
-    <Container automaticallyAdjustKeyboardInsets={true}>
-      <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
-      <CheckContainer>
-        <CheckImage source={require('./assets/checkFull.png')} />
-        <CheckImage source={require('./assets/checkEmpty.png')} />
-        <CheckImage source={require('./assets/checkEmpty.png')} />
-      </CheckContainer>
-      <LadyImage source={require('./assets/cadastro2.png')} />
-      <FormContainer>
-        <InputContainer>
-          <Icon
-            name="account-circle-outline"
-            size={25}
-            color={colors.gray}
-            style={{marginHorizontal: 8}}
-          />
-          <InputText
-            placeholderTextColor={colors.gray}
-            placeholder="Nome"
-            value={nome}
-            onChangeText={setNome}
-          />
-        </InputContainer>
-        {errors.name && <ErrorText>{errors.name}</ErrorText>}
-        <InputContainer>
-          <Icon
-            name="account-circle-outline"
-            size={25}
-            color={colors.gray}
-            style={{marginHorizontal: 8}}
-          />
-          <InputText
-            placeholder="Sobrenome"
-            placeholderTextColor={colors.gray}
-            value={sobrenome}
-            onChangeText={setSobrenome}
-          />
-        </InputContainer>
-        {errors.surname && <ErrorText>{errors.surname}</ErrorText>}
-        <InputContainer>
-          <Icon
-            name="card-account-details-outline"
-            size={25}
-            color={colors.gray}
-            style={{marginHorizontal: 8}}
-          />
-          <MaskedTextInput
-            style={{color: colors.black, width: '90%'}}
-            placeholder="CPF"
-            placeholderTextColor={colors.gray}
-            value={cpf}
-            onChangeText={formatted => {
-              setCpf(formatted as string);
-            }}
-            mask={'999.999.999-99'}
-            keyboardType="numeric"
-          />
-        </InputContainer>
-        {errors.cpf && <ErrorText>{errors.cpf}</ErrorText>}
-        <InputContainer>
-          <Icon
-            name="cellphone"
-            size={25}
-            color={colors.gray}
-            style={{marginHorizontal: 8}}
-          />
-          <MaskedTextInput
-            style={{color: colors.black}}
-            placeholder="Telefone"
-            placeholderTextColor={colors.gray}
-            value={telefone}
-            onChangeText={formatted => {
-              setTelefone(formatted as string);
-            }}
-            mask={'+99 99999-9999'}
-            keyboardType="numeric"
-          />
-        </InputContainer>
-        {errors.cellphone && <ErrorText>{errors.cellphone}</ErrorText>}
-      </FormContainer>
-      <Button text="Continuar" handleSubmit={handleSubmit} />
-    </Container>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1, backgroundColor: colors.white}}>
+      <Container>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Inner style={{marginTop: -screenHeight * 0.23}}>
+            <StatusBar
+              backgroundColor={colors.white}
+              barStyle={'dark-content'}
+            />
+            <CheckContainer>
+              <CheckImage source={require('./assets/checkFull.png')} />
+              <CheckImage source={require('./assets/checkEmpty.png')} />
+              <CheckImage source={require('./assets/checkEmpty.png')} />
+            </CheckContainer>
+            <LadyImage source={require('./assets/cadastro2.png')} />
+            <FormContainer>
+              <InputContainer>
+                <Icon
+                  name="account-circle-outline"
+                  size={25}
+                  color={colors.gray}
+                  style={{marginHorizontal: 8}}
+                />
+                <InputText
+                  placeholderTextColor={colors.gray}
+                  placeholder="Nome"
+                  value={nome}
+                  onChangeText={setNome}
+                />
+              </InputContainer>
+              {errors.name && <ErrorText>{errors.name}</ErrorText>}
+              <InputContainer>
+                <Icon
+                  name="account-circle-outline"
+                  size={25}
+                  color={colors.gray}
+                  style={{marginHorizontal: 8}}
+                />
+                <InputText
+                  placeholder="Sobrenome"
+                  placeholderTextColor={colors.gray}
+                  value={sobrenome}
+                  onChangeText={setSobrenome}
+                />
+              </InputContainer>
+              {errors.surname && <ErrorText>{errors.surname}</ErrorText>}
+              <InputContainer>
+                <Icon
+                  name="card-account-details-outline"
+                  size={25}
+                  color={colors.gray}
+                  style={{marginHorizontal: 8}}
+                />
+                <MaskedTextInput
+                  style={{color: colors.black, width: '90%'}}
+                  placeholder="CPF"
+                  placeholderTextColor={colors.gray}
+                  value={cpf}
+                  onChangeText={formatted => {
+                    setCpf(formatted as string);
+                  }}
+                  mask={'999.999.999-99'}
+                  keyboardType="numeric"
+                />
+              </InputContainer>
+              {errors.cpf && <ErrorText>{errors.cpf}</ErrorText>}
+              <InputContainer>
+                <Icon
+                  name="cellphone"
+                  size={25}
+                  color={colors.gray}
+                  style={{marginHorizontal: 8}}
+                />
+                <MaskedTextInput
+                  style={{color: colors.black, flex: 1}}
+                  placeholder="Telefone"
+                  placeholderTextColor={colors.gray}
+                  value={telefone}
+                  onChangeText={formatted => {
+                    setTelefone(formatted as string);
+                  }}
+                  mask={'+99 99999-9999'}
+                  keyboardType="numeric"
+                />
+              </InputContainer>
+              {errors.cellphone && <ErrorText>{errors.cellphone}</ErrorText>}
+            </FormContainer>
+            <Button text="Continuar" handleSubmit={handleSubmit} />
+          </Inner>
+        </TouchableWithoutFeedback>
+      </Container>
+    </KeyboardAvoidingView>
   );
 };
 
