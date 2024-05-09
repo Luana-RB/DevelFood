@@ -27,33 +27,21 @@ import {
   Title,
 } from './styles';
 import {sendEmail} from '../../../services/api/users';
-import {colors, screenHeight} from '../../../globalStyles';
-import {StyleSheet} from 'react-native';
-import {Text} from 'react-native';
+import {colors} from '../../../globalStyles';
 import Button from '../../../components/Button';
 
 const Tela1: React.FC = ({navigation}: any) => {
   const [email, setEmail] = useState('');
-  const [errors, setErrors] = useState<Errors>({});
+  const [errors, setErrors] = useState<string>('');
 
   const {setEmail: storeEmail} = useForgotPassword();
 
-  async function validateForm() {
-    let errors: Errors = {};
-
-    return errors;
-  }
-
   async function handleSubmit() {
-    const newErrors = await validateForm();
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
+    const result = await sendEmail(email);
+    if (result) {
       storeEmail(email);
-      const result = await sendEmail(email);
-      if (result) navigation.navigate('Verifique');
-      else console.log('erro');
-    }
+      navigation.navigate('Verifique');
+    } else setErrors('Email não localizado');
   }
 
   return (
@@ -88,7 +76,7 @@ const Tela1: React.FC = ({navigation}: any) => {
                 onChangeText={setEmail}
               />
             </InputContainer>
-            {errors.email && <ErrorText>{errors.email}</ErrorText>}
+            {errors && <ErrorText>{errors}</ErrorText>}
             <Button text="Continuar" handleSubmit={handleSubmit} />
           </Inner>
         </TouchableWithoutFeedback>
