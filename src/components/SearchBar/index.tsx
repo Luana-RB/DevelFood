@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {SearchBarContainer, SearchInput} from './styles';
 import {colors} from '../../globalStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';

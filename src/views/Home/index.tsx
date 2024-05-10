@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
-import {colors, screenHeight} from '../../globalStyles';
+import {SafeAreaView, View} from 'react-native';
+import {colors} from '../../globalStyles';
 import {FocusAwareStatusBar} from '../../components/FocusAwareStatusBar';
 import RestaurantList from './components/RestaurantList';
 import {useCart} from '../../services/context/cartContext';
@@ -9,6 +9,7 @@ import {getUserData} from '../../services/api/users';
 import {useUser} from '../../services/context/userContext';
 import {getAddressById} from '../../services/api/address';
 import {useFocusEffect} from '@react-navigation/native';
+import {styles} from './styles';
 
 const Home: React.FC = ({navigation}: any) => {
   const {storeData, storeAddress} = useUser();
@@ -49,13 +50,3 @@ const Home: React.FC = ({navigation}: any) => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  container: {backgroundColor: colors.white, flex: 1},
-  cartContainer: {
-    backgroundColor: colors.white,
-    height: screenHeight * 0.1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-});

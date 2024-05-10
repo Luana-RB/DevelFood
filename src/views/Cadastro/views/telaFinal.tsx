@@ -36,7 +36,7 @@ const TelaFinal: React.FC = ({navigation}: any) => {
     );
 
     if (token) {
-      const isTokenStored = await storeToken(token);
+      await storeToken(token);
       signIn(token);
     }
   }
@@ -56,20 +56,6 @@ const TelaFinal: React.FC = ({navigation}: any) => {
       neighbourhood: user.address[0].neighbourhood,
       state: user.address[0].state,
       number: user.address[0].number,
-
-      //     const newUser = {
-      //       firstName: 'Teste',
-      //       lastName: 'Luana',
-      //       cpf: '81131652749',
-      //       phone: '29836447391',
-      //       email: 'client84@msn.com',
-      //       street: 'Rua do Palácio',
-      //       number: '12',
-      //       neighbourhood: 'Parque Shalom',
-      //       zipcode: 12345678,
-      //       city: 'Sorocaba',
-      //       password: '123456789',
-      // >>>>>>> Stashed changes
     };
     return newUser;
   }

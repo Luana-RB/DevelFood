@@ -14,7 +14,8 @@ import FooterList from './FooterList';
 import {ListEmptyComponent} from '../../../../components/ListEmptyComponent';
 import AddressBanner from '../AddressBanner';
 import BannerCarrossel from '../BannerCarrossel';
-import CategoryList, {CategoryText} from '../../../../components/CategoryList';
+import CategoryList from '../../../../components/CategoryList';
+import {CategoryText} from './styles';
 const DELAY = 1500;
 
 interface RestaurantListProps {
@@ -34,13 +35,13 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
   }, []);
 
   async function loadAPI() {
-    const restaurantes = await getRestaurants({page});
+    const restaurantes = await getRestaurants(page);
     setPage(page + 1);
     return restaurantes;
   }
 
   async function loadSearch(filter: string) {
-    const newData = await getRestaurantsFiltered({page: filterPage, filter});
+    const newData = await getRestaurantsFiltered(filterPage, filter);
     setFilterPage(filterPage + 1);
     if (newData) {
       if (newData.length === 0) {
@@ -71,10 +72,6 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
       setShownData(restaurantList);
     }
     setLoading(false);
-  }
-
-  function onEnd() {
-    handleAll(filter);
   }
 
   const debounce = (
@@ -128,7 +125,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
         data={shownData}
         keyExtractor={(item, index) => index.toString()}
         numColumns={2}
-        onEndReached={onEnd}
+        onEndReached={() => handleAll(filter)}
         onEndReachedThreshold={0.2}
         ListEmptyComponent={
           <ListEmptyComponent

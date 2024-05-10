@@ -19,19 +19,17 @@ export function CustomHeartButton({route}: any) {
     }, []),
   );
 
+  useEffect(() => {
+    handleImagePath();
+  }, [heart]);
+
   async function handleFavorite() {
     if (route.name === 'PlateDetails') {
       const {plate} = route.params;
       const isFavoriteResult = await compareFavoritePlates(plate.id);
       setHeart(isFavoriteResult);
-    } else if (route.name === 'RestaurantProfile') {
-      const {restaurantId} = route.params;
     }
   }
-
-  useEffect(() => {
-    handleImagePath();
-  }, [heart]);
 
   function handleImagePath() {
     if (heart) setImagePath('heart');

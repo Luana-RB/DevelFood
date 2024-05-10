@@ -1,13 +1,6 @@
 import {api, getToken} from './api';
-interface GetProps {
-  page: number;
-}
-interface GetFilterProps {
-  page: number;
-  filter: string;
-}
 
-export async function getRestaurants({page}: GetProps) {
+export async function getRestaurants(page: number) {
   try {
     const header = await getToken();
     const restaurants = await api.get(
@@ -19,7 +12,7 @@ export async function getRestaurants({page}: GetProps) {
     console.log('getAllRestaurants:', e);
   }
 }
-export async function getRestaurantsFiltered({page, filter}: GetFilterProps) {
+export async function getRestaurantsFiltered(page: number, filter: string) {
   try {
     const header = await getToken();
     const restaurants = await api.get(

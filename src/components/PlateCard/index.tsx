@@ -102,6 +102,7 @@ const PlateCard: React.FC<PlateCardProps> = ({
     else if (quantity > 1) removeQuantity(data);
     setQuantity(quantity - 1);
   }
+
   if (heart === 'house') return;
 
   return (

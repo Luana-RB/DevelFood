@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, fonts, screenHeight, screenWidth} from '../../globalStyles';
+import {colors, fonts, screenHeight} from '../../globalStyles';
 
 export const Container = styled.View`
   flex-direction: row;

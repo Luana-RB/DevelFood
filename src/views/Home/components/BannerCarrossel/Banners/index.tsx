@@ -1,16 +1,16 @@
 import React from 'react';
 import {Banner, Container, Image} from './styles';
 import {SalesData} from '../../../../../types/salesData';
-import {sales} from '../../../../../mocks/sales';
 
 interface BannerProps {
   data: SalesData;
   index: number;
+  length: number;
   navigation: any;
 }
 
-const Banners: React.FC<BannerProps> = ({data, index, navigation}) => {
-  const margin = index === sales.length - 1 ? 12 : 8;
+const Banners: React.FC<BannerProps> = ({data, index, length, navigation}) => {
+  const margin = index === length - 1 ? 12 : 8;
   const image = {uri: data.imagem};
 
   return (

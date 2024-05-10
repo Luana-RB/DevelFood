@@ -58,19 +58,19 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
     if (plate.price) formatPrice(plate.price);
   }, []);
 
-  async function loadRestaurantData() {
-    const restaurantData = await getRestaurantById(restaurantId);
-    if (restaurantData) setRestaurant(restaurantData);
-    if (restaurantData.name.length > 15) setSize(fonts.XXS);
-    else setSize(fonts.XS);
-  }
-
   useFocusEffect(
     React.useCallback(() => {
       const newQuantity = getQuantity(plate);
       setQuantity(newQuantity);
     }, []),
   );
+
+  async function loadRestaurantData() {
+    const restaurantData = await getRestaurantById(restaurantId);
+    if (restaurantData) setRestaurant(restaurantData);
+    if (restaurantData.name.length > 15) setSize(fonts.XXS);
+    else setSize(fonts.XS);
+  }
 
   function formatDescription(description: string) {
     const text = description;
@@ -97,7 +97,6 @@ const PlateDetail: React.FC<PlateDetailsScreenProps> = ({route}) => {
       const quantityInCart = getQuantity(plate);
       removeItem(plate, quantityInCart);
     } else if (quantity > 1) removeQuantity(plate);
-
     setQuantity(quantity - 1);
   }
 

@@ -94,10 +94,6 @@ const Favoritos: React.FC = ({navigation}: any) => {
     setLoading(false);
   }
 
-  function onEnd() {
-    handleAll(filter);
-  }
-
   const debounce = (
     func: {(filter: string): void; apply?: any},
     wait: number | undefined,
@@ -147,7 +143,7 @@ const Favoritos: React.FC = ({navigation}: any) => {
         <FlatList
           style={{marginTop: 20}}
           data={shownData}
-          onEndReached={onEnd}
+          onEndReached={()=>handleAll(filter)}
           onEndReachedThreshold={0.2}
           keyExtractor={item => item.plate.id}
           renderItem={({item}) => (

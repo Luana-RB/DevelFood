@@ -100,6 +100,10 @@ const Tela1: React.FC = ({navigation}: any) => {
       <Container>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Inner style={{marginTop: -screenHeight * 0.29}}>
+            <StatusBar
+              backgroundColor={colors.white}
+              barStyle={'dark-content'}
+            />
             <CheckContainer>
               <CheckImage source={require('./assets/checkEmpty.png')} />
               <CheckImage source={require('./assets/checkEmpty.png')} />

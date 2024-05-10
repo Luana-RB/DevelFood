@@ -15,8 +15,6 @@ import {RequestData} from '../../../../types/requestData';
 import {getRestaurantById} from '../../../../services/api/restaurants';
 import {statusIcon, statusText} from '../../../../types/enums';
 import {ActivityIndicator} from 'react-native';
-import {useModal} from '../../../../services/context/modalContext';
-import ModalController from '../../../../components/ModalAvaliacao/controller';
 import {PlateData} from '../../../../types/restaurantData';
 const MAX_LENGTH_ORDER = 60;
 
@@ -34,7 +32,6 @@ const OrderCard: React.FC<OrderCardProps> = ({data, navigation}) => {
   const [imagePath, setImagePath] = useState(
     require('../../../../../assets/images/notFound.png'),
   );
-  const {setRequestId, setRestaurantId, setRestaurantName} = useModal();
 
   useEffect(() => {
     callData();

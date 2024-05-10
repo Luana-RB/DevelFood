@@ -124,6 +124,10 @@ const Tela3: React.FC = ({navigation}: any) => {
             style={{
               marginTop: -screenHeight * 0.15,
             }}>
+            <StatusBar
+              backgroundColor={colors.white}
+              barStyle={'dark-content'}
+            />
             <CheckContainer>
               <CheckImage source={require('./assets/checkFull.png')} />
               <CheckImage source={require('./assets/checkFull.png')} />

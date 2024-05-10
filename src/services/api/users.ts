@@ -4,7 +4,8 @@ import {api, getToken} from './api';
 export async function postCadastro(user: any) {
   try {
     const result = await api.post('/cliente/registrar/cliente', user);
-    return true;
+    if (result.status === 201) return true;
+    return false;
   } catch (e) {
     console.log('cadastro: ', e);
     return false;
@@ -13,11 +14,11 @@ export async function postCadastro(user: any) {
 
 export async function postLogin(email: string, password: string) {
   try {
-    const credentials = {
+    const body = {
       email,
       password,
     };
-    const result = await api.post('/login/efetuar', credentials);
+    const result = await api.post('/login/efetuar', body);
     const token = JSON.stringify(result.data.token).replace(/"/g, '');
     return token;
   } catch (e) {
@@ -28,10 +29,10 @@ export async function postLogin(email: string, password: string) {
 
 export async function postPassword(email: string, password: string) {
   try {
-    const senhaNova = {
+    const body = {
       senhaNova: password,
     };
-    const newPassword = await api.post(`/redefinir?email=${email}`, senhaNova);
+    const newPassword = await api.post(`/redefinir?email=${email}`, body);
     return newPassword;
   } catch (e) {
     console.log('put password', e);
@@ -66,7 +67,7 @@ export async function checkEmail(email: string) {
     };
     const result = await api.post('/cliente/email', body);
     if (result.status === 200) return true;
-    else return false;
+    return false;
   } catch (e) {
     console.log(e);
     return false;
@@ -80,7 +81,7 @@ export async function checkCpf(cpf: string) {
     };
     const result = await api.post('/cliente/cpf', body);
     if (result.status === 200) return true;
-    else return false;
+    return false;
   } catch (e) {
     console.log(e);
     return false;
@@ -94,7 +95,7 @@ export async function checkPhone(phone: string) {
     };
     const result = await api.post('/cliente/telefone', body);
     if (result.status === 200) return true;
-    else return false;
+    return false;
   } catch (e) {
     console.log(e);
     return false;
@@ -113,12 +114,12 @@ export async function getUserData() {
 
 export async function putUser(newUserData: UserData) {
   try {
-    const newUser = {
+    const body = {
       phone: newUserData.phone,
       photo: newUserData.image,
     };
     const header = await getToken();
-    const response = await api.put('/cliente/atualizar', newUser, header);
+    const response = await api.put('/cliente/atualizar', body, header);
     if (response.status === 200) return true;
   } catch (e) {
     console.log('put user ', e);

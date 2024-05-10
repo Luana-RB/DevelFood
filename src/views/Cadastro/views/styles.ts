@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors, fonts, screenHeight, screenWidth} from '../../../globalStyles';
+import {colors, fonts, screenWidth} from '../../../globalStyles';
 
 export const Container = styled.SafeAreaView`
   flex: 1;

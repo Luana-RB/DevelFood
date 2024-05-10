@@ -68,7 +68,12 @@ const BannerCarrossel: React.FC<BannerCarrosselProps> = ({navigation}) => {
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item, index}) => (
-          <Banners data={item} index={index} navigation={navigation} />
+          <Banners
+            data={item}
+            index={index}
+            length={data.length}
+            navigation={navigation}
+          />
         )}
         ref={carrosselRef}
         onScroll={handleOnScroll}

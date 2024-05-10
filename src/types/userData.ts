@@ -11,7 +11,6 @@ export interface UserData {
   phone: string;
   address: UserAddress[];
   favoritePlates?: Favorites[];
-  favoriteRestaurants?: Favorites[];
 }
 export interface UserStoreData {
   credentials: UserCredentials;

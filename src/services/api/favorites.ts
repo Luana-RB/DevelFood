@@ -5,7 +5,6 @@ export async function getFavoritePlates(page: number) {
   try {
     const header = await getToken();
     const favorite = await api.get(`/favorito/pratos?page=${page}`, header);
-    console.log(favorite.data.content[0]);
     return favorite.data.content;
   } catch (e) {
     console.log('get favorites ', e);

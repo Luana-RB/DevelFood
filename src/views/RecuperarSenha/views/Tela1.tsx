@@ -3,13 +3,9 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   TouchableWithoutFeedback,
-  View,
 } from 'react-native';
 import {useForgotPassword} from '../../../services/context/newPasswordContext';
-import {Errors} from '../../../types/errors';
-
 import {
   ErrorText,
   InputContainer,
@@ -33,7 +29,6 @@ import Button from '../../../components/Button';
 const Tela1: React.FC = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState<string>('');
-
   const {setEmail: storeEmail} = useForgotPassword();
 
   async function handleSubmit() {

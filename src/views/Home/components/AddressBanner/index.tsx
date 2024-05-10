@@ -18,7 +18,7 @@ const AddressBanner: React.FC = () => {
   function handleAddress() {
     if (userAddress) {
       const addressText =
-        'rua ' + userAddress.street + ' ' + userAddress.number;
+        'Rua ' + userAddress.street + ' ' + userAddress.number;
       setText(addressText);
     }
   }
