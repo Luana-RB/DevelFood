@@ -33,7 +33,7 @@ const BannerCarrossel: React.FC<BannerCarrosselProps> = ({navigation}) => {
 
   async function getData() {
     const newData = await getSales();
-    if (newData) setData(newData);
+    if (newData) setData(newData.splice(0, 5));
   }
 
   function goToNext() {
