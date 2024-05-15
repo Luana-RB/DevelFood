@@ -41,8 +41,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({navigation}) => {
   }
 
   async function loadSearch(filter: string) {
-    const newData = await getRestaurantsFiltered(filterPage, filter);
-    setFilterPage(filterPage + 1);
+    const newData = await getRestaurantsFiltered(0, filter);
     if (newData) {
       if (newData.length === 0) {
         return [];

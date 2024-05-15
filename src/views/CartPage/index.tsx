@@ -198,7 +198,6 @@ const CartPage: React.FC = ({navigation}: any) => {
               <EndOrderText>Finalizar pedido</EndOrderText>
             </TouchableOpacity>
           )}
-
           <Price>R$ {shownPrice}</Price>
         </EndOrderBar>
       </EndOrderBarContainer>

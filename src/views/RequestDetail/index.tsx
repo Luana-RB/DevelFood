@@ -148,7 +148,7 @@ const RequestDetail: React.FC<RequestDetailScreenProps> = ({route}) => {
           <AddressTextContainer>
             <Subtitle>Entregar em:</Subtitle>
             <AddressTitle>
-              Rua {address?.street} {address?.number}
+              Rua {address?.street} {address?.number}, {address?.neighbourhood}
             </AddressTitle>
             <AddressSubtitle>{address?.neighbourhood}</AddressSubtitle>
           </AddressTextContainer>

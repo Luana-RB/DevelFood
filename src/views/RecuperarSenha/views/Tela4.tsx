@@ -110,6 +110,7 @@ const Tela4: React.FC = ({navigation}: any) => {
                 />
                 <InputText
                   placeholder="senha"
+                  placeholderTextColor={colors.gray}
                   secureTextEntry={olhoIconeSenha}
                   value={password}
                   onChangeText={setPassword}
@@ -132,6 +133,7 @@ const Tela4: React.FC = ({navigation}: any) => {
                 />
                 <InputText
                   placeholder="confirmar senha"
+                  placeholderTextColor={colors.gray}
                   secureTextEntry={olhoIconeConfirma}
                   value={passwordConfirm}
                   onChangeText={setPasswordConfirm}

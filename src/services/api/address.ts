@@ -5,6 +5,7 @@ export async function getAddressById() {
   try {
     const header = await getToken();
     const address = await api.get(`/endereco/cliente`, header);
+    console.log('chamada', address.data.content[0].address);
     return address.data.content[0].address;
   } catch (e) {
     console.log('endereço', e);
@@ -16,8 +17,9 @@ export async function patchUserAddress(newUserData: UserData) {
     const newAddress = {
       addressName: newUserData.address[0].addressName,
       street: newUserData.address[0].street,
+      state: newUserData.address[0].state,
       number: newUserData.address[0].number,
-      neigbourhood: newUserData.address[0].neighbourhood,
+      neighbourhood: newUserData.address[0].neighbourhood,
       city: newUserData.address[0].city,
       cep: newUserData.address[0].cep,
     };

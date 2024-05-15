@@ -31,7 +31,7 @@ const Home: React.FC = ({navigation}: any) => {
     const fetchedUserData = await getUserData();
     storeData(fetchedUserData!);
     const fetchedUserAddress = await getAddressById();
-    storeAddress(fetchedUserAddress!);
+    storeAddress(fetchedUserAddress);
   }
   return (
     <SafeAreaView style={styles.container}>

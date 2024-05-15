@@ -62,8 +62,8 @@ const Tela1: React.FC = ({navigation}: any) => {
   }
 
   function validateSenha() {
-    if (senha.length > 5) return undefined;
-    return 'A senha deve ter mais que 5 caracteres';
+    if (senha.length > 7) return undefined;
+    return 'A senha deve ter mais que 7 caracteres';
   }
 
   function validateSenhaConfirma() {

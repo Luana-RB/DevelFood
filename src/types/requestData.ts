@@ -8,7 +8,6 @@ export interface RequestDateData {
 
 export interface RequestData {
   restaurantId?: string;
-  restaurant?: Restaurant;
   plates: PlateData[];
   date: string;
   paymentType: string;

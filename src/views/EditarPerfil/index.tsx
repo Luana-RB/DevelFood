@@ -9,11 +9,11 @@ import {Container, IconContainer, Photo} from './styles';
 import Button from '../../components/Button';
 import DataCell from './components/DataCell';
 import {UserData} from '../../types/userData';
-import {putUser} from '../../services/api/users';
-import {patchUserAddress} from '../../services/api/address';
+import {getUserData, putUser} from '../../services/api/users';
+import {getAddressById, patchUserAddress} from '../../services/api/address';
 
 const EditarPerfil: React.FC = () => {
-  const {userData, userAddress} = useUser();
+  const {userData, userAddress, storeAddress, storeData} = useUser();
   const firstName = userData?.firstName ?? '';
   const lastName = userData?.lastName ?? '';
   const cpf = userData?.cpf ?? '';
@@ -65,8 +65,13 @@ const EditarPerfil: React.FC = () => {
     };
     const userResponse = await putUser(newUser);
     const addressResponse = await patchUserAddress(newUser);
-    if (userResponse && addressResponse) Alert.alert('Salvo com sucesso');
-    else Alert.alert('Falha ao salvar');
+    if (userResponse && addressResponse) {
+      Alert.alert('Salvo com sucesso');
+      const fetchedUserData = await getUserData();
+      storeData(fetchedUserData);
+      const fetchedUserAddress = await getAddressById();
+      storeAddress(fetchedUserAddress);
+    } else Alert.alert('Falha ao salvar');
   }
 
   return (

@@ -29,6 +29,7 @@ export const UserProvider = ({children}: any) => {
       return e;
     }
   };
+
   const storeAddress = async (data: UserAddress[]) => {
     try {
       setUserAddress(data[0]);
@@ -40,6 +41,7 @@ export const UserProvider = ({children}: any) => {
 
   const removeData = async () => {
     setUserData(undefined);
+    setUserAddress(undefined);
   };
 
   return (
